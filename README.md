@@ -31,8 +31,12 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 
 ## Conventions
 
-- **One file per piece.** External requests are limited to web fonts. If a piece
-  needs to survive offline in perpetuity, inline the fonts as data URIs.
+- **One file per piece, and no network at all.** Fonts are embedded as base64
+  `woff2`; see [FONT-LICENSES.md](FONT-LICENSES.md). Save a page to disk and it
+  renders exactly the same with the network off.
+- **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
+  EB Garamond does. Set any transliterated name in `var(--f-display)` so the
+  whole phrase comes from one font.
 - **Dark palette**, shared across the shelf and the pieces:
   `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`
 - **No build tooling.** If a piece ever needs a build, it belongs in its own repo.

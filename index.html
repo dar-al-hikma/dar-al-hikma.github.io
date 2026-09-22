@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dār al-Ḥikma</title>
+<meta name="description" content="Small self-contained pieces — each one a single page, made to be opened and used.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans+Condensed:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme:dark;
+    --void:#070A12;
+    --panel:#0D1220;
+    --panel-2:#151B2B;
+    --line:#242E47;
+    --line-soft:#1A2236;
+    --vellum:#EAE3D2;
+    --muted:#8B91A6;
+    --muted-2:#666D82;
+    --brass:#E3AA3E;
+    --steel:#7FB6E0;
+    --f-display:"EB Garamond",Georgia,"Times New Roman",serif;
+    --f-ui:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #101827 0%, #080B14 55%, #05070D 100%)
+      var(--void);
+    color:var(--vellum);
+    font-family:var(--f-display);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  ::selection{background:rgba(227,170,62,.3)}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+  a{color:inherit}
+
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(3rem,9vw,6.5rem) clamp(1.25rem,5vw,2rem) 4rem}
+
+  header{margin-bottom:clamp(2.5rem,6vw,4rem)}
+  .mark{
+    font-family:var(--f-ui);
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 .9rem;
+  }
+  h1{
+    font-size:clamp(2.4rem,7vw,3.4rem);
+    font-weight:500;
+    line-height:1.1;
+    margin:0 0 .15rem;
+    letter-spacing:.01em;
+  }
+  .arabic{
+    font-size:clamp(1.5rem,4.5vw,2rem);
+    color:var(--muted);
+    margin:0 0 1.3rem;
+    line-height:1.4;
+  }
+  .lede{
+    font-size:1.12rem;
+    color:var(--muted);
+    max-width:46ch;
+    margin:0;
+  }
+  .lede em{color:var(--vellum);font-style:italic}
+
+  .rule{
+    height:1px;
+    background:linear-gradient(90deg,var(--line) 0%,var(--line-soft) 60%,transparent 100%);
+    margin:clamp(2.5rem,6vw,3.5rem) 0;
+  }
+
+  h2{
+    font-family:var(--f-ui);
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin:0 0 1.4rem;
+  }
+
+  .shelf{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
+
+  .piece{
+    display:block;
+    text-decoration:none;
+    background:linear-gradient(180deg,var(--panel) 0%,#0A0F1B 100%);
+    border:1px solid var(--line-soft);
+    border-radius:10px;
+    padding:1.5rem 1.6rem;
+    transition:border-color .18s ease,transform .18s ease,background .18s ease;
+  }
+  .piece:hover,.piece:focus-visible{
+    border-color:var(--line);
+    background:linear-gradient(180deg,var(--panel-2) 0%,#0C121F 100%);
+    transform:translateY(-1px);
+  }
+  .piece-head{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin-bottom:.35rem}
+  .piece h3{
+    font-size:1.45rem;
+    font-weight:500;
+    margin:0;
+    letter-spacing:.01em;
+  }
+  .piece:hover h3{color:var(--brass)}
+  .piece .sub{
+    font-style:italic;
+    color:var(--steel);
+    font-size:1rem;
+    margin:0 0 .7rem;
+  }
+  .piece p.desc{
+    color:var(--muted);
+    font-size:1rem;
+    margin:0 0 1rem;
+    max-width:54ch;
+  }
+  .tags{
+    display:flex;
+    gap:.5rem;
+    flex-wrap:wrap;
+    font-family:var(--f-ui);
+    font-size:.68rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+  }
+  .tag{
+    border:1px solid var(--line);
+    border-radius:99px;
+    padding:.26rem .62rem;
+    color:var(--muted-2);
+  }
+
+  footer{
+    margin-top:clamp(3rem,8vw,5rem);
+    padding-top:1.6rem;
+    border-top:1px solid var(--line-soft);
+    font-family:var(--f-ui);
+    font-size:.82rem;
+    color:var(--muted-2);
+    line-height:1.7;
+  }
+  footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}
+  footer a:hover{color:var(--brass);border-bottom-color:var(--brass)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="mark">Dār al-Ḥikma</p>
+    <h1>The House of Wisdom</h1>
+    <p class="arabic" lang="ar" dir="rtl">دار الحكمة</p>
+    <p class="lede">Small self-contained pieces. Each one is a <em>single page</em> — open it, use it, save it if you like. Nothing to install, nothing phoning home.</p>
+  </header>
+
+  <div class="rule"></div>
+
+  <h2>The shelf</h2>
+
+  <ul class="shelf">
+    <li>
+      <a class="piece" href="sayyids-sphere/">
+        <div class="piece-head"><h3>Sayyid's Sphere</h3></div>
+        <p class="sub">Three reference frames, one turning sky.</p>
+        <p class="desc">An interactive celestial sphere that holds the horizonal, equatorial and ecliptical frames together at once, so a single point can be named three ways as the sky turns. Includes an eleven-step walkthrough, a latitude and sidereal-time drive, and the quadrant problem laid out in full.</p>
+        <div class="tags">
+          <span class="tag">Astronomy</span>
+          <span class="tag">Interactive</span>
+          <span class="tag">7 languages</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <footer>
+    Built in the open · <a href="https://github.com/dar-al-hikma/dar-al-hikma.github.io">Source on GitHub</a><br>
+    Every piece here is one HTML file. Right-click, save, and it still works.
+  </footer>
+
+</div>
+</body>
+</html>

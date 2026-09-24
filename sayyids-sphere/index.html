@@ -398,7 +398,7 @@
         </select>
       </div>
       <div class="masthead">
-        <h1>Sayyid's Sphere</h1>
+        <h1 data-i18n="ui.title">Sayyid's Sphere</h1>
         <p data-i18n="ui.subtitle">Three reference frames, one turning sky</p>
       </div>
       <div class="plate" id="plate">
@@ -544,6 +544,7 @@
   var LANG = "en";
   var TX = {
     en: {
+      "ui.title":"Sayyid's Sphere",
       "ui.boot":"Raising the sphere…",
       "ui.subtitle":"Three reference frames, one turning sky",
       "ui.probe":"Probe","ui.azalt":"Az / Alt","ui.radec":"RA / Dec","ui.longlat":"Long / Lat",
@@ -1818,6 +1819,7 @@
     try { localStorage.setItem("dah.lang", LANG); } catch(e){}
     document.documentElement.setAttribute("lang", LANG_TAGS[LANG] || "en");
     document.body.classList.toggle("cjk", LANG === "zh" || LANG === "ja");
+    document.title = T("ui.title");
 
     Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"), function(el){
       el.textContent = T(el.getAttribute("data-i18n"));

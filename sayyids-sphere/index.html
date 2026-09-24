@@ -496,10 +496,10 @@
     <div class="pane" id="paneChart" role="tabpanel" aria-labelledby="tabChart" hidden>
       <div class="wheelwrap"><canvas id="wheel" width="720" height="720"></canvas></div>
       <div class="axials">
-        <div><b>ASC</b><span id="axAsc">—</span></div>
-        <div><b>DESC</b><span id="axDesc">—</span></div>
-        <div><b>MC</b><span id="axMc">—</span></div>
-        <div><b>IC</b><span id="axIc">—</span></div>
+        <div><b data-i18n="chart.asc">ASC</b><span id="axAsc">—</span></div>
+        <div><b data-i18n="chart.desc">DESC</b><span id="axDesc">—</span></div>
+        <div><b data-i18n="chart.mc">MC</b><span id="axMc">—</span></div>
+        <div><b data-i18n="chart.ic">IC</b><span id="axIc">—</span></div>
       </div>
       <div class="measure">
         <b data-i18n="chart.qtitle">The quadrant problem</b>
@@ -508,8 +508,8 @@
       <div class="axials" style="margin-top:16px">
         <div><b data-i18n="chart.poleAlt">Pole alt.</b><span id="axPole">—</span></div>
         <div><b data-i18n="chart.eqAlt">Equator alt.</b><span id="axEq">—</span></div>
-        <div><b>RAMC</b><span id="axRamc">—</span></div>
-        <div><b>OA · OD</b><span id="axOaod">—</span></div>
+        <div><b data-i18n="chart.ramc">RAMC</b><span id="axRamc">—</span></div>
+        <div><b data-i18n="chart.oaod">OA · OD</b><span id="axOaod">—</span></div>
       </div>
       <div class="foot">
         <p id="chartFoot"></p>
@@ -576,6 +576,7 @@
       "lbl.zenith":"Zenith","lbl.nadir":"Nadir","lbl.meridian":"Meridian","lbl.pv":"Prime vertical",
       "lbl.equator":"Celestial equator","lbl.npole":"North pole","lbl.spole":"South pole","lbl.sun":"Sun",
       "lbl.qe":"Eastern quadrant","lbl.qs":"Southern quadrant","lbl.qw":"Western quadrant","lbl.qn":"Northern quadrant",
+      "chart.asc":"ASC","chart.desc":"DESC","chart.mc":"MC","chart.ic":"IC","chart.ramc":"RAMC","chart.oaod":"OA · OD",
       "ui.menorca":"Menorca 40°","ui.london":"London","ui.reykjavik":"Reykjavík",
       "star.Sirius":"Sirius","star.Canopus":"Canopus","star.Arcturus":"Arcturus","star.Vega":"Vega",
       "star.Capella":"Capella","star.Rigel":"Rigel","star.Procyon":"Procyon","star.Achernar":"Achernar",
@@ -912,7 +913,10 @@
     if(min===60){ min=0; deg+=1; }
     return pad(deg,2)+"° "+GLYPH[s%12]+" "+pad(min,2)+"′";
   }
-  function fmtDeg(x, dp){ return (x>=0?"":"−")+Math.abs(x).toFixed(dp==null?1:dp)+"°"; }
+  // decimal comma where the language writes one
+  var DEC = { nb:",", es:",", fr:",", de:"," };
+  function dec(s){ return DEC[LANG] ? String(s).replace(".", DEC[LANG]) : String(s); }
+  function fmtDeg(x, dp){ return (x>=0?"":"−")+dec(Math.abs(x).toFixed(dp==null?1:dp))+"°"; }
   function fmtDM(x){
     var neg = x<0; x = Math.abs(x);
     var d = Math.floor(x), m = Math.round((x-d)*60);
@@ -1224,7 +1228,7 @@
 
     // readouts
     txt("rdHor", pad(hor.az,3)+"°  /  "+fmtDeg(hor.alt,1));
-    txt("rdEqu", rd.ra.toFixed(1)+"°  /  "+fmtDeg(rd.dec,1));
+    txt("rdEqu", dec(rd.ra.toFixed(1))+"°  /  "+fmtDeg(rd.dec,1));
     txt("rdEcl", fmtZod(ec.lon)+"  /  "+fmtDeg(ec.lat,1));
     txt("probeName", probeLabel(S.probe));
     txt("plateNote", hor.alt >= 0
@@ -1260,8 +1264,8 @@
     txt("axEq", fmtDM(90 - Math.abs(S.lat)));
     txt("axRamc", fmtHours(S.lst));
     txt("axOaod", Math.round(norm360(S.lst+90))+"° · "+Math.round(norm360(S.lst-90))+"°");
-    txt("qAscMc", norm360(asc - mc).toFixed(1)+"°");
-    txt("qAscIc", norm360(ic - asc).toFixed(1)+"°");
+    txt("qAscMc", dec(norm360(asc - mc).toFixed(1))+"°");
+    txt("qAscIc", dec(norm360(ic - asc).toFixed(1))+"°");
   }
   function drawWheel(){
     var asc = axial.asc, mc = axial.mc, desc = norm360(asc+180), ic = norm360(mc+180);
@@ -1305,8 +1309,8 @@
       ctx.fillStyle = color; ctx.font = '600 22px "IBM Plex Sans Condensed", sans-serif';
       ctx.fillText(name, lp[0], lp[1]);
     }
-    axis(asc, "#E3AA3E", "ASC"); axis(desc, "#8A6A2A", "DESC");
-    axis(mc, "#7FB6E0", "MC");   axis(ic, "#3F5E7C", "IC");
+    axis(asc, "#E3AA3E", T("chart.asc")); axis(desc, "#8A6A2A", T("chart.desc"));
+    axis(mc, "#7FB6E0", T("chart.mc"));   axis(ic, "#3F5E7C", T("chart.ic"));
     ctx.beginPath(); ctx.arc(cx,cy,4,0,TAU); ctx.fillStyle="#8B91A6"; ctx.fill();
   }
 
@@ -1796,7 +1800,7 @@
     cam.phi += (cam.tph - cam.phi)*0.08;
     placeCamera();
 
-    latOut.textContent = Math.abs(S.lat).toFixed(1)+"° "+(S.lat<0?"S":"N");
+    latOut.textContent = dec(Math.abs(S.lat).toFixed(1))+"° "+(S.lat<0?"S":"N");
     document.getElementById("lstOut").textContent = fmtHours(S.lst);
     document.getElementById("oblOut").textContent = fmtDM(S.obl);
     document.getElementById("sunOut").textContent = fmtZod(S.sunLon);

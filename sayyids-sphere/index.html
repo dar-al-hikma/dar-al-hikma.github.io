@@ -120,6 +120,9 @@
     position:absolute;width:1px;height:1px;overflow:hidden;
     clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
   }
+  /* English course terms kept beside a translation: muted, never part of the sentence */
+  .gloss{font-family:var(--f-display);font-style:italic;font-weight:400;color:var(--muted);letter-spacing:0;font-size:.95em}
+  body.cjk .gloss{font-style:normal}
   /* CJK sets need more leading and no faux-italic */
   body.cjk .prose p,body.cjk .tryit p,body.cjk .measure p,body.cjk .foot{line-height:1.85}
   body.cjk .plate .note,body.cjk .prose em,body.cjk .group p{font-style:normal}

@@ -501,6 +501,918 @@ I18N.en = {
   ]
 };
 
+I18N.nb = {
+  dec: ',',
+  lead0: true,
+  names: { sun:'Solen', moon:'Månen', mercury:'Merkur', venus:'Venus', mars:'Mars', jupiter:'Jupiter', saturn:'Saturn' },
+  stars: { Aldebaran:'Aldebaran', Regulus:'Regulus', Antares:'Antares', Fomalhaut:'Fomalhaut' },
+  ui: {
+    title: 'Sayyids planetarium',
+    subtitle: 'Ptolemaios’ modeller, sett fra ekliptikkens pol',
+    language: 'Språk',
+    cardTitle: 'Vis eller skjul lesekortet',
+    scene: 'Scene', sceneSun: 'Solen', scenePlanet: 'Planet', sceneConj: 'Konjunksjon', sceneMoon: 'Månen',
+    planet: 'Planet', speed: 'Fart', date: 'Dato', today: 'I dag',
+    tabWalk: 'Akter', tabLayers: 'Lag', tabNotes: 'Notater',
+    tryit: 'Prøv dette', back: 'Tilbake', next: 'Neste',
+    again: 'Begynn på nytt', againTitle: 'Sett dette steget tilbake slik det begynte',
+    grpModel: 'Modell', offCentre: 'Forskyvning', grpMotion: 'Bevegelse', traceSpan: 'Spor', grpSky: 'Himmelen',
+    layersFoot: `Posisjonene kommer fra Ptolemaios’ geometri med de moderne parameterne i leksjonens figur 27 og middellengder for J2000. De følger den virkelige himmelen med en grad eller to — nok til å kjenne igjen Mars i kveld, ikke nok til å sette opp et horoskop etter.`,
+    paramsT: 'Parametere (figur 27)',
+    paramsNote: `Eksentrisiteten er avstanden fra jorden til deferentens sentrum, som en brøkdel av deferentens radius; ekvanten ligger dobbelt så langt ute. Episykelen er en brøkdel av den samme radien. Apogeene gjelder for 2020 og flytter seg omtrent 1° på 72 år.`,
+    periodsT: 'Perioder (figur 28)',
+    notT: 'Hva modellen ikke er',
+    not1: `Den er ingen efemeride. De fullstendige ptolemeiske mekanismene for Merkur og Månen er utelatt (Ben beskriver dem med diagrammer i sin utgave av Leopold av Østerrike); Månen beveger seg her med sin middelhastighet. Ekliptisk bredde er ikke tatt med, så alt ligger flatt i planet du ser ned på.`,
+    not2: `Likevel blir Mars retrograd innen et døgn fra når det virkelig skjer, og årstidene stemmer på en tidel av et døgn. Det var Ptolemaios’ poeng: noen få sirkler og en tabell med korreksjoner er nok til å forutsi himmelen i hundrevis av år.`,
+    dedic: `<b>Til Fomalhaut-kullet</b>Fomalhaut, Vokteren i sør, er tegnet inn på kanten i hver scene på sin nåværende lengde, med de tre andre kongestjernene som selskap. Munnen på den sørlige fisken er dit jevndøgnspunktet langsomt er på vei.`,
+    foot1: `Følger leksjon 5, §4–5 i Ben Dykes' <em>Traditional Natal Astrology Course</em>, og simulatoren for planetmodeller som han anbefaler; figurene (16–28) er hans. Videre lesning: James Evans, <em>The History and Practice of Ancient Astronomy</em>.`,
+    foot2: 'Én fil, ingen nettverkstilgang. Skrifter: EB Garamond, IBM Plex Mono og IBM Plex Sans Condensed, SIL Open Font License. En del av <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.'
+  },
+  stepOf: (i, n) => `Steg ${i} av ${n}`,
+  stepN: (i, title) => `Steg ${i}: ${title}`,
+
+  play: 'Spill av', pause: 'Pause',
+  card: 'Kort', hideCard: 'Skjul kort',
+  days: n => `${n} d`,
+  perSec: v => `${v} d/s`,
+
+  params: { planet:'Planet', epicycle:'Episykel', ecc:'Eksentrisitet', rate:'Fart °/døgn', apogee:'Apogeum' },
+  periods: { planet:'Planet', trop:'Tropisk periode', lesser:'Mindre år' },
+  years: v => `${v} år`, daysShort: v => `${v} d`,
+
+  fig: {
+    sayyid: 'O · Sayyid', apogee: 'apogeum', perigee: 'perigeum', mean: 'middel', equant: 'ekvant',
+    meeting: 'møte', prevention: 'preventio', tropReturn: 'tropisk retur'
+  },
+
+  plate: {
+    sunT: 'Solen', eccentric: 'eksentrisk', meanSun: 'Middelsol', trueSun: 'Sann sol', equation: 'Jevning',
+    concentricNote: 'Konsentrisk: den sanne solen står på middelsolen, og jevningen er null.',
+    tableNote: 'Jevningstabellen gir denne korreksjonen for hver middelposisjon.',
+    retrograde: 'retrograd', direct: 'direkte', mean: 'Middel', true: 'Sann', daily: 'Daglig bev.', sun: 'Solen',
+    inferiorNote: 'K følger middelsolen; Venus går rundt K på episykelen.',
+    superiorNote: 'Episykelens radius peker alltid mot middelsolen.',
+    conjunction: 'konjunksjon', trueOf: glyph => `${glyph} sann`, trueSep: 'Sann avst.', meanSep: 'Middelavst.',
+    conjNote: 'Middelkonjunksjon: begge peker mot samme grad målt på ekvantene sine. Sann: slik vi ser dem.',
+    moonT: 'Månen', conjunctional: 'konjunksjonsfødsel', preventional: 'preventiofødsel', moon: 'Månen',
+    elongation: 'Elongasjon', sinceMeeting: (deg, d) => `${deg}° · ${d} d siden møtet`,
+    meeting: 'Møte', prevention: 'Preventio',
+    conjNativity: 'Født etter møtet og før preventio: en konjunksjonsfødsel.',
+    prevNativity: 'Født etter preventio og før neste møte: en preventiofødsel.',
+    seasonsT: 'Årstidene', fromModel: 'etter modellen',
+    spring: 'Vår', summer: 'Sommer', autumn: 'Høst', winter: 'Vinter', nDays: v => `${v} døgn`,
+    seasonsNote: v => `Lengst mot apogeum i Krepsen, kortest mot perigeum i Steinbukken. Med konsentrisk sirkel ville alle fire vært ${v}.`
+  },
+
+  layers: {
+    deferent: ['Deferent', 'den eksentriske sirkelen'], apsidal: ['Apsidelinje', 'apogeum · perigeum'],
+    epicycle: ['Episykel', 'for planetene'], equant: ['Ekvant', 'E, på dobbel eksentrisitet'],
+    mean: ['Konsentrisk sirkel', 'middelbevegelsen'],
+    body: ['Sann posisjon', 'selve himmellegemet'], meanBody: ['Middelposisjon', 'grått legeme'],
+    ray: ['Stråler mot dyrekretsen', 'det Sayyid ser'], loop: ['Bane i planet', 'løkkene'],
+    trace: ['Spor på kanten', 'rødt når retrograd'],
+    signs: ['Tegn', ''], stars: ['Kongestjerner', 'med Fomalhaut'], labels: ['Merkelapper', '']
+  },
+
+  actions: {
+    seasons: 'Mål årstidene', station: 'Hopp til neste stasjon',
+    meanconj: 'Neste middelkonjunksjon', trueconj: 'Neste sanne konjunksjon', today: 'Sett datoen til i dag'
+  },
+
+  acts: ['Akt I · Solen', 'Akt II · Mars', 'Akt III · Jupiter og Saturn', 'Akt IV · Månen'],
+
+  walk: [
+    {title:'Et tomt univers',
+     body:`<p>Vi er ute i verdensrommet og svever ved ekliptikkens pol <span class="gloss" lang="en">(pole of the ecliptic)</span>, med blikket ned mot jorden. Sayyid står i O i sentrum og kan observere i alle retninger. Dyrekretsen er den ytre kanten, med 0° Væren til høyre og lengdene regnet mot klokken.</p>
+         <p>De fire kongestjernene holder vakt på kanten på sine nåværende lengder — Aldebaran, Regulus, Antares og, for dette kullet, Fomalhaut.</p>
+         <p>Ingenting annet finnes ennå. Ut fra dette skal vi bygge modellen for Solen.</p>`,
+     try:`Finn Fomalhaut på kanten, et lite stykke inn i Fiskene. Trykk <em>Spill av</em> under himmelen og se datoen løpe; ingenting beveger seg ennå, for det finnes ingenting som kan bevege seg.`},
+    {title:'En konsentrisk middelsol',
+     body:`<p>Legg inn Solens sirkelbane som om den hadde samme sentrum som jorden. Denne store sfæren er <span class="term">deferenten</span>: det er sfæren som dreier, og Solen blir båret med på den. (Vi later som om det er Solen selv som beveger seg.)</p>
+         <p>Hvis dette stemte, ville den bevege seg med jevn fart rundt oss og nå hver kvadrant etter 91,31 døgn. Den farten er dens <span class="term g">middelbevegelse</span> <span class="gloss" lang="en">(mean motion)</span>, 0° 59′ 08″ i døgnet, og stedet den står på en gitt dag, er dens <span class="term g">middelposisjon</span> <span class="gloss" lang="en">(mean position)</span>.</p>
+         <p>Den grå skiven er middelsolen. Akkurat nå er den også den sanne solen, fordi sirkelen er konsentrisk <span class="gloss" lang="en">(concentric)</span>, med sentrum i oss.</p>`,
+     try:`Se den grå strålen feie over kanten i jevnt tempo. Platen viser jevningen — avstanden mellom middel og sann — som nøyaktig null.`},
+    {title:'Ut av sentrum: den eksentriske',
+     body:`<p>Men den sanne solen beveger seg ikke med den farten. I noen deler av dyrekretsen ser den ut til å gå fortere, i andre saktere: en <span class="term">zodiakal anomali</span> <span class="gloss" lang="en">(zodiacal anomaly)</span>. Noe som beveger seg nær oss, ser ut til å gå fortere; noe som er lenger unna, saktere.</p>
+         <p>Flytt derfor sirkelen ut av sentrum, bort fra Sayyid, i den retningen Solen ser ut til å gå saktest: mot midten av Krepsen. Sirkelen er nå <span class="term">eksentrisk</span> <span class="gloss" lang="en">(eccentric)</span>, med sentrum C forskjøvet 0,0335 av radien — det er eksentrisiteten <span class="gloss" lang="en">(eccentricity)</span>.</p>
+         <p>Linjen gjennom O og C er <span class="term g">apsidelinjen</span> <span class="gloss" lang="en">(apsidal line)</span>. Der den møter sirkelen lengst fra oss, ligger <span class="term g">apogeum</span> <span class="gloss" lang="en">(apogee)</span>, på 13° 16′ Krepsen i 2000; rett overfor, i Steinbukken, ligger <span class="term g">perigeum</span> <span class="gloss" lang="en">(perigee)</span>.</p>`,
+     try:`Sirkelen gled nettopp utover. I fanen <em>Lag</em> flytter glidebryteren <em>Forskyvning</em> C mellom den konsentriske og den eksentriske stillingen; dra i den og se den gylne solen gli bort fra den grå.`},
+    {title:'Middel og sann, og jevningen',
+     body:`<p>Nå er det to soler. Den grå står der vi ville ventet den hvis sfæren var konsentrisk: middelposisjonen. Den gylne står der vi faktisk ser den: den sanne posisjonen <span class="gloss" lang="en">(true position)</span>, på den eksentriske sirkelen.</p>
+         <p>Nær apogeum henger den sanne solen etter middelsolen, fordi den delen av sirkelen ligger langt fra oss og solen ser ut til å somle; nær perigeum løper den foran. Bare i apogeum og perigeum faller de to sammen.</p>
+         <p>Vinkelen mellom de to strålene er <span class="term v">jevningen</span> <span class="gloss" lang="en">(equation)</span>. En tabell over middelbevegelse <span class="gloss" lang="en">(table of mean motion)</span> gir den grå solen for en hvilken som helst dag; en jevningstabell <span class="gloss" lang="en">(table of equations)</span> gir denne korreksjonen; legg den til, og du har den sanne solen på under et minutt. Det er hele Ptolemaios’ knep.</p>`,
+     try:`Følg jevningen på platen: den er null rundt 13° Krepsen og 13° Steinbukken og når nesten 2° imellom. Trykk <em>−30 d</em> noen ganger for å kjøre den baklengs.`},
+    {title:'Hvorfor sommeren er den lengste årstiden',
+     body:`<p>En større del av den eksentriske sirkelen ligger mot apogeum enn mot perigeum. Mellom 0° Krepsen og 0° Vekten må Solen tilbakelegge den lange, fjerne siden, så sommeren varer lengst; mellom Steinbukken og Væren krysser den den korte, nære siden, og vinteren går fortest.</p>
+         <p>Gratulerer — vi har laget en modell av Solens bevegelse. Modellen gir våren 92,8 døgn, sommeren 93,7, høsten 89,9 og vinteren 89,0: de virkelige verdiene på en tidel av et døgn.</p>`,
+     try:`Trykk <em>Mål årstidene</em> ovenfor: platen viser de fire lengdene modellen forutsier. Trykk så <em>Spill av</em> og tell selv døgnene fra 0° Krepsen til 0° Vekten.`},
+    {title:'En deferent for Mars',
+     body:`<p>Tøm universet igjen og legg inn den eksentriske deferenten for Mars. Vi trenger ikke vite hvor Solen er for å bygge den, og vi trenger ingen virkelige avstander: bare forhold og hastigheter.</p>
+         <p>Apogeum for Mars ligger tilfeldigvis på 150,5°, nær begynnelsen av Jomfruen, og deferenten dreier én gang i løpet av den tropiske perioden <span class="gloss" lang="en">(tropical period)</span>, 1,88 år. Dette tar seg av den zodiakale anomalien, akkurat som for Solen.</p>
+         <p>Men Mars har en anomali til, som Solen ikke har: en <span class="term r">retningsanomali</span> <span class="gloss" lang="en">(directional anomaly)</span>. Noen ganger går den baklengs.</p>`,
+     try:`Denne deferenten alene kan aldri gjøre Mars retrograd: se at den røde strålen bare kryper forover langs kanten.`},
+    {title:'Episykelen',
+     body:`<p>Sett en liten sirkel, <span class="term">episykelen</span> <span class="gloss" lang="en">(epicycle)</span>, på deferenten der Mars var, med sentrum i K. Mars går rundt episykelen én gang for hver retrogradasjon <span class="gloss" lang="en">(retrogradation)</span>, mens hele episykelen føres rundt på deferenten.</p>
+         <p>I den øvre halvdelen av episykelen, lengst fra oss, går Mars direkte <span class="gloss" lang="en">(direct)</span>. I den nedre halvdelen, nærmest oss, ser den ut til å gå baklengs. Nær sidene ser den ut til å sakke farten, stoppe og bli stasjonær <span class="gloss" lang="en">(station)</span>.</p>
+         <p>Den bleke linjen er banen i planet — de berømte løkkene. Strekene på kanten er det Sayyid ser: gylne mens planeten er direkte, røde mens den er retrograd.</p>`,
+     try:`Trykk <em>Spill av</em> og vent til den røde strålen nøler, stopper og svinger tilbake. Mars er i den nedre halvdelen. Den daglige bevegelsen på platen blir negativ.`},
+    {title:'Retrograd, slik Sayyid ser det',
+     body:`<p>Følg Mars rundt episykelen som i figur 25. I den øvre halvdelen ser vi den gå direkte. På vei ned langs siden sakker den farten og blir stasjonær. Så blir den retrograd og går tilbake over de samme gradene, til den blir stasjonær igjen lavt på den andre siden og går direkte.</p>
+         <p>Hele tiden fortsetter episykelen langs deferenten, så bevegelsen går likevel forover totalt sett: to skritt fram, ett tilbake.</p>
+         <p>Fordi geometrien er kjent, kan en jevningstabell gjøre om middelposisjonene til sanne posisjoner — én korreksjon for deferenten og en ekstra for episykelen.</p>`,
+     try:`Trykk <em>Hopp til neste stasjon</em>: datoen hopper til dagen da Mars står stille, og den daglige bevegelsen på platen er nesten null. Trykk igjen for den neste stasjonen.`},
+    {title:'Ekvanten',
+     body:`<p>Det var et problem. Når K beveget seg jevnt langs deferenten, havnet retrogradasjonene på feil steder og varte feil lengde. Modellen passet bare med de babylonske dataene hvis K <em>ikke</em> beveget seg jevnt — og for det finnes det ingen enkel tabell.</p>
+         <p>Så la Ptolemaios merke til noe: sett fra et punkt på apsidelinjen, nesten nøyaktig dobbelt så langt fra jorden som C, <em>ser</em> K ut til å bevege seg jevnt. Det punktet er <span class="term s">ekvanten</span> <span class="gloss" lang="en">(equant)</span>, E. Mål middelbevegelsen på ekvantens sirkel, juster geometrien, og tabellene virker.</p>
+         <p>Ikke alle likte det; det var et regneredskap, ikke noe «virkelig». Og likevel ligger ekvanten nesten nøyaktig i det tomme brennpunktet i planetens ellipse — et virkelig punkt, funnet seksten hundre år for tidlig.</p>`,
+     try:`Se den prikkede blå linjen fra E til K: den dreier i helt jevnt tempo. Fjern så haken for <em>Ekvant</em> i fanen <em>Lag</em>: nå beveger K seg jevnt sett fra C i stedet, og stasjonene glir bort fra de virkelige datoene.`},
+    {title:'De andre planetene',
+     body:`<p>Den samme maskinen tjener Jupiter og Saturn, med mindre episykler og langsommere deferenter: jo lenger unna planeten er, desto mindre er løkkene, og desto flere blir det av dem på én runde. Legg merke til hvor store eksentrisiteten og episykelen til Mars er til sammenligning — derfor var systemet for Mars så synlig feil uten ekvanten, og de andre mindre.</p>
+         <p>Venus er annerledes. Den er en indre planet <span class="gloss" lang="en">(inferior planet)</span>: sentrum K i episykelen følger middelsolen, og Venus går rundt K på en episykel som er nesten tre fjerdedeler så stor som deferenten. Den kan aldri ses langt fra Solen.</p>`,
+     try:`Bruk planetvelgeren under himmelen til å besøke Saturn (bitteliten episykel, tretti år på én runde) og Venus (den enorme episykelen lenket til Solen). Merkur og Månen er enda mer kompliserte, og overlates til Leopold av Østerrike.`},
+    {title:'Middelkonjunksjoner og sanne',
+     body:`<p>I persisk mundan astrologi <span class="gloss" lang="en">(mundane astrology)</span> markerer konjunksjonene mellom Saturn og Jupiter, omtrent hvert tjuende år, epokene i historien. I århundrer brukte astrologene <span class="term g">middelkonjunksjonene</span> <span class="gloss" lang="en">(mean conjunction)</span>: øyeblikket da hver av dem, i sin egen sfære, peker mot samme grad målt i middelbevegelse på ekvanten.</p>
+         <p>Det er noe annet enn en <span class="term">sann konjunksjon</span> <span class="gloss" lang="en">(true conjunction)</span>, når vi ser dem sammen fra jorden — de to grå markørene faller sammen måneder før eller etter at de to fargede strålene gjør det.</p>
+         <p>Den store konjunksjonen i 2020 falt på 21. desember i første grad av Vannmannen; modellen legger middelkonjunksjonen til september året før.</p>`,
+     try:`Trykk <em>Neste middelkonjunksjon</em> og se de to grå markørene lande på samme grad mens de sanne planetene fortsatt står fra hverandre. Trykk så <em>Neste sanne konjunksjon</em>.`},
+    {title:'Den tropiske måneden',
+     body:`<p>To måneder dukker opp i tradisjonell astrologi. Den <span class="term">tropiske måneden</span> <span class="gloss" lang="en">(tropical month)</span> er tiden Månen bruker på å gå rundt dyrekretsen og komme tilbake til samme grad: 27 døgn, 7 timer og 43 minutter.</p>
+         <p>Begynn ved et møte <span class="gloss" lang="en">(meeting)</span> mellom Sol og Måne, altså en konjunksjon. Månen skiller seg fra Solen og løper hele veien rundt; den gylne buen er strekningen den har tilbakelagt siden møtet. Når den kommer tilbake til graden for møtet, har det gått én tropisk måned — men Solen har ikke stått stille.</p>
+         <p>Astrologisk medisin bruker denne måneden: horoskoper for når en sykdom bryter ut, følger Månen fra graden den har i det horoskopet.</p>`,
+     try:`Trykk <em>Spill av</em> med ett døgn per sekund. Se Månen nå merket «tropisk retur» etter omtrent 27 døgn, og legg merke til at Solen har flyttet seg omtrent 27° videre.`},
+    {title:'Den synodiske måneden og preventio',
+     body:`<p>Den <span class="term">synodiske måneden</span> <span class="gloss" lang="en">(synodic month)</span> er tiden mellom to møter mellom Sol og Måne: omtrent to døgn mer, 29,5 døgn i gjennomsnitt, fordi Månen må ta igjen en sol som har flyttet seg videre.</p>
+         <p>Halvveis mellom møtene står Månen i opposisjon til Solen: <span class="term r">preventio</span> <span class="gloss" lang="en">(prevention)</span>, av latin for «å gå ut foran», den nøyaktige oversettelsen av det arabiske ordet for opposisjonen mellom Sol og Måne — fullmånen. Fordi Solen fortsetter å bevege seg, faller preventio ikke 180°, men omtrent 194° fra møtet.</p>
+         <p>I begge tilfeller ser vi på Månens grad: graden for møtet er den Månen deler med Solen; graden for preventio er Månens egen, rett overfor Solen.</p>`,
+     try:`Se Månen passere det røde merket «preventio» på den andre siden av Solen, og så ta igjen Solen ved et nytt møte lenger rundt kanten. Platen gir begge datoene.`},
+    {title:'Konjunksjonsfødsel eller preventiofødsel?',
+     body:`<p>Enhver fødsel er enten en <span class="term">konjunksjonsfødsel</span> <span class="gloss" lang="en">(conjunctional)</span> — født i de to ukene etter et møte, før preventio — eller en <span class="term r">preventiofødsel</span> <span class="gloss" lang="en">(preventional)</span>, født etter preventio og før neste møte. Det gjelder den siste lunasjonen <span class="gloss" lang="en">(lunation)</span>, og det brukes blant annet i beregninger av livslengde.</p>
+         <p>Platen leser det av for datoen under himmelen: graden og datoen for siste møte og for preventio, og dommen.</p>
+         <p>Dermed er leksjonens astronomi ferdig. Herfra er det tabeller og regningen som trengs for å slå opp i dem — og det er de to andre sidene på hyllen til.</p>`,
+     try:`Skriv inn din egen fødselsdato i datofeltet under himmelen. Hvilken er du? Sett så datoen til i dag og se hvor denne månedens møte falt.`}
+  ]
+};
+
+I18N.es = {
+  dec: ',',
+  lead0: true,
+  names: { sun:'Sol', moon:'Luna', mercury:'Mercurio', venus:'Venus', mars:'Marte', jupiter:'Júpiter', saturn:'Saturno' },
+  stars: { Aldebaran:'Aldebarán', Regulus:'Régulo', Antares:'Antares', Fomalhaut:'Fomalhaut' },
+  ui: {
+    title: 'El planetario de Sayyid',
+    subtitle: 'Los modelos de Ptolomeo, vistos desde el polo de la eclíptica',
+    language: 'Idioma',
+    cardTitle: 'Mostrar u ocultar la ficha de lectura',
+    scene: 'Escena', sceneSun: 'Sol', scenePlanet: 'Planeta', sceneConj: 'Conjunción', sceneMoon: 'Luna',
+    planet: 'Planeta', speed: 'Velocidad', date: 'Fecha', today: 'Hoy',
+    tabWalk: 'Actos', tabLayers: 'Capas', tabNotes: 'Notas',
+    tryit: 'Pruebe esto', back: 'Atrás', next: 'Siguiente',
+    again: 'Empezar de nuevo', againTitle: 'Devolver este paso a su estado inicial',
+    grpModel: 'Modelo', offCentre: 'Descentrado', grpMotion: 'Movimiento', traceSpan: 'Traza', grpSky: 'Cielo',
+    layersFoot: `Las posiciones salen de la geometría de Ptolomeo, con los parámetros modernos de la figura 27 de la lección y longitudes medias J2000. Siguen al cielo real con uno o dos grados de error: bastan para reconocer el Marte de esta noche, no para levantar una carta.`,
+    paramsT: 'Parámetros (figura 27)',
+    paramsNote: `La excentricidad es la distancia de la tierra al centro del deferente, como fracción del radio del deferente; el ecuante está al doble. El epiciclo es una fracción del mismo radio. Los apogeos son los de 2020 y se desplazan cerca de 1° cada 72 años.`,
+    periodsT: 'Períodos (figura 28)',
+    notT: 'Lo que el modelo no es',
+    not1: `No es unas efemérides. Se dejan fuera los mecanismos ptolemaicos completos de Mercurio y de la Luna (Ben los describe con diagramas en su traducción de Leopoldo de Austria); aquí la Luna se mueve a su ritmo medio. Se ignora la latitud eclíptica, así que todo queda en el plano que usted mira desde arriba.`,
+    not2: `Y aun así, Marte se vuelve retrógrado con un día de diferencia respecto de cuando lo hace de verdad, y las estaciones del año salen con una décima de día de precisión. Esa era la idea de Ptolomeo: unos pocos círculos y una tabla de correcciones bastan para predecir el cielo durante siglos.`,
+    dedic: `<b>Para el grupo Fomalhaut</b>Fomalhaut, el Guardián del Sur, aparece en el borde de cada escena en su longitud actual, acompañada de las otras tres estrellas reales. La boca del pez austral es hacia donde se dirige, despacio, el equinoccio.`,
+    foot1: `Sigue la lección 5, §4–5, del <em>Traditional Natal Astrology Course</em> de Ben Dykes, y el simulador de modelos planetarios que él recomienda; las figuras (16–28) son suyas. Lectura complementaria: James Evans, <em>The History and Practice of Ancient Astronomy</em>.`,
+    foot2: 'Un solo archivo, sin conexión. Fuentes: EB Garamond, IBM Plex Mono e IBM Plex Sans Condensed, con licencia SIL Open Font License. Forma parte de <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.'
+  },
+  stepOf: (i, n) => `Paso ${i} de ${n}`,
+  stepN: (i, title) => `Paso ${i}: ${title}`,
+
+  play: 'Reproducir', pause: 'Pausa',
+  card: 'Ficha', hideCard: 'Ocultar ficha',
+  days: n => `${n} d`,
+  perSec: v => `${v} d/s`,
+
+  params: { planet:'Planeta', epicycle:'Epiciclo', ecc:'Excentricidad', rate:'Velocidad °/día', apogee:'Apogeo' },
+  periods: { planet:'Planeta', trop:'Período trópico', lesser:'Años menores' },
+  years: v => `${v} años`, daysShort: v => `${v} d`,
+
+  fig: {
+    sayyid: 'O · Sayyid', apogee: 'apogeo', perigee: 'perigeo', mean: 'medio', equant: 'ecuante',
+    meeting: 'encuentro', prevention: 'prevención', tropReturn: 'retorno trópico'
+  },
+
+  plate: {
+    sunT: 'El Sol', eccentric: 'excéntrico', meanSun: 'Sol medio', trueSun: 'Sol verdadero', equation: 'Ecuación',
+    concentricNote: 'Concéntrico: el Sol verdadero coincide con el Sol medio y la ecuación es cero.',
+    tableNote: 'La tabla de ecuaciones recoge esta corrección para cada posición media.',
+    retrograde: 'retrógrado', direct: 'directo', mean: 'Medio', true: 'Verdadero', daily: 'Mov. diario', sun: 'Sol',
+    inferiorNote: 'K acompaña al Sol medio; Venus gira en torno a K sobre el epiciclo.',
+    superiorNote: 'El radio del epiciclo apunta siempre hacia el Sol medio.',
+    conjunction: 'conjunción', trueOf: glyph => `${glyph} verdadero`, trueSep: 'Sep. verdadera', meanSep: 'Sep. media',
+    conjNote: 'Conjunción media: ambos apuntan al mismo grado medido en sus ecuantes. Verdadera: tal como los vemos.',
+    moonT: 'La Luna', conjunctional: 'conjuncional', preventional: 'prevencional', moon: 'Luna',
+    elongation: 'Elongación', sinceMeeting: (deg, d) => `${deg}° · ${d} d desde el encuentro`,
+    meeting: 'Encuentro', prevention: 'Prevención',
+    conjNativity: 'Nacimiento tras el encuentro y antes de la prevención: natividad conjuncional.',
+    prevNativity: 'Nacimiento tras la prevención y antes del siguiente encuentro: natividad prevencional.',
+    seasonsT: 'Las estaciones', fromModel: 'según el modelo',
+    spring: 'Primavera', summer: 'Verano', autumn: 'Otoño', winter: 'Invierno', nDays: v => `${v} días`,
+    seasonsNote: v => `La más larga, hacia el apogeo en Cáncer; la más corta, hacia el perigeo en Capricornio. Con el círculo concéntrico, las cuatro durarían ${v}.`
+  },
+
+  layers: {
+    deferent: ['Círculo deferente', 'el excéntrico'], apsidal: ['Línea de los ápsides', 'apogeo · perigeo'],
+    epicycle: ['Epiciclo', 'para los planetas'], equant: ['Ecuante', 'E, al doble de la excentricidad'],
+    mean: ['Círculo concéntrico', 'el movimiento medio'],
+    body: ['Posición verdadera', 'el propio astro'], meanBody: ['Posición media', 'el astro gris'],
+    ray: ['Rayos al zodíaco', 'lo que ve Sayyid'], loop: ['Trayectoria en el plano', 'los bucles'],
+    trace: ['Traza en el borde', 'en rojo si es retrógrado'],
+    signs: ['Signos', ''], stars: ['Estrellas reales', 'con Fomalhaut'], labels: ['Rótulos', '']
+  },
+
+  actions: {
+    seasons: 'Medir las estaciones', station: 'Saltar a la próxima estación',
+    meanconj: 'Próxima conjunción media', trueconj: 'Próxima conjunción verdadera', today: 'Poner la fecha de hoy'
+  },
+
+  acts: ['Acto I · El Sol', 'Acto II · Marte', 'Acto III · Júpiter y Saturno', 'Acto IV · La Luna'],
+
+  walk: [
+    {title:'Un universo vacío',
+     body:`<p>Estamos en el espacio exterior, flotando en el polo de la eclíptica <span class="gloss" lang="en">(pole of the ecliptic)</span> y mirando la tierra desde arriba. Sayyid está en O, en el centro, y puede observar en todas direcciones. El zodíaco es el borde exterior, con 0° de Aries a la derecha y las longitudes corriendo en sentido contrario a las agujas del reloj.</p>
+         <p>Las cuatro estrellas reales montan guardia en el borde, en sus longitudes actuales: Aldebarán, Régulo, Antares y, para este grupo, Fomalhaut.</p>
+         <p>Todavía no existe nada más. A partir de aquí construiremos el modelo del Sol.</p>`,
+     try:`Busque Fomalhaut en el borde, un poco dentro de Piscis. Pulse <em>Reproducir</em> bajo el cielo y vea correr la fecha; aún no se mueve nada, porque no hay nada que mover.`},
+    {title:'Un Sol medio y concéntrico',
+     body:`<p>Añada la trayectoria circular del Sol como si compartiera centro con la tierra. Esta gran esfera es el <span class="term">deferente</span>: es la esfera la que gira, y el Sol va montado en ella. (Haremos como si fuera el propio Sol el que se mueve.)</p>
+         <p>Si esto fuera correcto, se movería a un ritmo uniforme a nuestro alrededor y llegaría a cada cuarto del círculo al cabo de 91,31 días. Ese ritmo es su <span class="term g">movimiento medio</span> <span class="gloss" lang="en">(mean motion)</span>, 0° 59′ 08″ al día, y su lugar en un día cualquiera es su <span class="term g">posición media</span> <span class="gloss" lang="en">(mean position)</span>.</p>
+         <p>El disco gris es el Sol medio. Ahora mismo es también el Sol verdadero, porque el círculo está centrado en nosotros.</p>`,
+     try:`Vea cómo el rayo gris barre el borde a paso regular. El panel muestra la ecuación —la diferencia entre el medio y el verdadero— exactamente en cero.`},
+    {title:'Descentrado: el excéntrico',
+     body:`<p>Pero el Sol verdadero no se mueve a ese ritmo. En unas partes del zodíaco parece más rápido y en otras más lento: una <span class="term">anomalía zodiacal</span> <span class="gloss" lang="en">(zodiacal anomaly)</span>. Lo que se mueve cerca de nosotros parece ir más deprisa; lo que está más lejos, más despacio.</p>
+         <p>Así que saque su círculo del centro, alejándolo de Sayyid, en la dirección en que parece más lento: hacia la mitad de Cáncer. El círculo es ahora <span class="term">excéntrico</span>, y su centro C queda desplazado 0,0335 veces el radio: esa es su excentricidad <span class="gloss" lang="en">(eccentricity)</span>.</p>
+         <p>La recta que pasa por O y C es la <span class="term g">línea de los ápsides</span> <span class="gloss" lang="en">(apsidal line)</span>. Donde corta al círculo en el punto más alejado de nosotros está el <span class="term g">apogeo</span>, en 13° 16′ de Cáncer en el año 2000; en el lado opuesto, en Capricornio, el <span class="term g">perigeo</span>.</p>`,
+     try:`El círculo acaba de deslizarse hacia fuera. En la pestaña <em>Capas</em>, el control <em>Descentrado</em> lleva C de la posición concéntrica a la excéntrica; arrástrelo y vea cómo el Sol dorado se aleja del gris.`},
+    {title:'Medio y verdadero, y la ecuación',
+     body:`<p>Ahora hay dos Soles. El gris está donde lo esperaríamos si su esfera fuera concéntrica: la posición media. El dorado está donde realmente lo vemos: la posición verdadera <span class="gloss" lang="en">(true position)</span>, sobre el excéntrico.</p>
+         <p>Cerca del apogeo el Sol verdadero va por detrás del medio, porque esa parte del círculo está lejos de nosotros y parece entretenerse; cerca del perigeo se adelanta. Solo en el apogeo y en el perigeo coinciden los dos.</p>
+         <p>El ángulo entre los dos rayos es la <span class="term v">ecuación</span> <span class="gloss" lang="en">(equation)</span>. Una tabla de movimiento medio <span class="gloss" lang="en">(table of mean motion)</span> da el Sol gris para cualquier día; una tabla de ecuaciones <span class="gloss" lang="en">(table of equations)</span> da esta corrección; súmela y tendrá el Sol verdadero en menos de un minuto. Ese es todo el truco de Ptolomeo.</p>`,
+     try:`Observe la ecuación en el panel: es cero hacia 13° de Cáncer y 13° de Capricornio, y llega a casi 2° entre medias. Pulse <em>−30 d</em> unas cuantas veces para hacerla correr hacia atrás.`},
+    {title:'Por qué el verano es la estación más larga',
+     body:`<p>Hay más círculo excéntrico del lado del apogeo que del lado del perigeo. Entre 0° de Cáncer y 0° de Libra el Sol tiene que recorrer el lado largo y lejano, así que el verano es la estación más larga; entre Capricornio y Aries cruza el lado corto y cercano, y el invierno es la más breve.</p>
+         <p>Enhorabuena: hemos modelizado el movimiento del Sol. El modelo da 92,8 días a la primavera, 93,7 al verano, 89,9 al otoño y 89,0 al invierno: los valores reales, con una décima de día de precisión.</p>`,
+     try:`Pulse <em>Medir las estaciones</em>, arriba: el panel da las cuatro duraciones que predice el modelo. Luego pulse <em>Reproducir</em> y cuente usted mismo los días de 0° de Cáncer a 0° de Libra.`},
+    {title:'Un deferente para Marte',
+     body:`<p>Vacíe de nuevo el universo y ponga el deferente excéntrico de Marte. Para construirlo no necesitamos saber dónde está el Sol, ni tampoco distancias reales: solo proporciones y velocidades.</p>
+         <p>Su apogeo cae en 150,5°, cerca del comienzo de Virgo, y su deferente da una vuelta en su período trópico <span class="gloss" lang="en">(tropical period)</span> de 1,88 años. Esto resuelve su anomalía zodiacal, igual que en el caso del Sol.</p>
+         <p>Pero Marte tiene una segunda anomalía que el Sol no tiene: una anomalía <span class="term r">direccional</span> <span class="gloss" lang="en">(directional anomaly)</span>. A veces va hacia atrás.</p>`,
+     try:`Este deferente, por sí solo, nunca puede hacer que Marte vaya retrógrado <span class="gloss" lang="en">(retrograde)</span>: observe cómo el rayo rojo solo avanza, poco a poco, por el borde.`},
+    {title:'El epiciclo',
+     body:`<p>Ponga un círculo pequeño, el <span class="term">epiciclo</span> <span class="gloss" lang="en">(epicycle)</span>, sobre el deferente, donde estaba Marte, con su centro en K. Marte recorre el epiciclo una vez por cada ciclo de retrogradación <span class="gloss" lang="en">(retrogradation)</span>, mientras el epiciclo entero es arrastrado alrededor del deferente.</p>
+         <p>En la mitad superior del epiciclo, la más alejada de nosotros, avanza en movimiento directo. En la mitad inferior, la más cercana, parece ir hacia atrás. Cerca de los lados parece frenar, detenerse y hacer estación <span class="gloss" lang="en">(station)</span>.</p>
+         <p>La línea pálida es su trayectoria en el plano: los famosos bucles. Las marcas del borde son lo que ve Sayyid: doradas mientras va directo, rojas mientras va retrógrado.</p>`,
+     try:`Pulse <em>Reproducir</em> y espere a que el rayo rojo titubee, se detenga y retroceda. Marte está en su mitad inferior. El movimiento diario del panel se vuelve negativo.`},
+    {title:'La retrogradación, tal como la ve Sayyid',
+     body:`<p>Siga a Marte alrededor de su epiciclo como en la figura 25. En la mitad superior se le ve en movimiento directo. Al bajar por el lado se frena y hace estación. Entonces se vuelve retrógrado y repasa los mismos grados, hasta que vuelve a hacer estación, abajo, en el otro lado, y retoma el movimiento directo.</p>
+         <p>Mientras tanto, el epiciclo sigue avanzando por el deferente, así que su movimiento de conjunto sigue siendo hacia delante: dos pasos adelante, uno atrás.</p>
+         <p>Como la geometría es conocida, una tabla de ecuaciones convierte las posiciones medias en verdaderas: una corrección para el deferente y otra más para el epiciclo.</p>`,
+     try:`Pulse <em>Saltar a la próxima estación</em>: la fecha salta al día en que Marte se detiene, y el movimiento diario del panel marca casi cero. Púlselo de nuevo para la estación siguiente.`},
+    {title:'El ecuante',
+     body:`<p>Había un problema. Con K moviéndose uniformemente por el deferente, las retrogradaciones salían en los lugares equivocados y no duraban lo que debían. El modelo solo encajaba con los datos babilonios si K <em>no</em> se movía uniformemente, y para eso no hay una tabla sencilla.</p>
+         <p>Entonces Ptolomeo se dio cuenta: visto desde un punto de la línea de los ápsides situado casi exactamente al doble de distancia de la tierra que C, K <em>sí</em> parece moverse uniformemente. Ese punto es el <span class="term s">ecuante</span> <span class="gloss" lang="en">(equant)</span>, E. Mida el movimiento medio sobre el círculo del ecuante, ajuste la geometría, y las tablas funcionan.</p>
+         <p>No a todo el mundo le gustó: era un recurso de cálculo, no algo «real». Y sin embargo el ecuante está casi exactamente en el foco vacío de la elipse del planeta: un punto real, hallado con dieciséis siglos de antelación.</p>`,
+     try:`Observe la línea azul de puntos que va de E a K: gira a un ritmo perfectamente regular. Luego, en la pestaña <em>Capas</em>, desmarque <em>Ecuante</em>: ahora K se mueve de forma regular visto desde C, y las estaciones se alejan de sus fechas reales.`},
+    {title:'Los demás planetas',
+     body:`<p>La misma máquina sirve para Júpiter y Saturno, con epiciclos más pequeños y deferentes más lentos: cuanto más lejos está el planeta, más pequeños son sus bucles y más bucles hace en una vuelta. Fíjese en lo grandes que son, en comparación, la excentricidad y el epiciclo de Marte: por eso su sistema fallaba tan a la vista sin el ecuante, y los demás no tanto.</p>
+         <p>Venus es distinta. Es un planeta inferior <span class="gloss" lang="en">(inferior planet)</span>: el centro K de su epiciclo acompaña al Sol medio, y ella gira alrededor de K sobre un epiciclo de casi tres cuartas partes del tamaño del deferente. Nunca puede verse lejos del Sol.</p>`,
+     try:`Use el selector de planeta bajo el cielo para visitar Saturno (epiciclo diminuto, treinta años por vuelta) y Venus (el enorme epiciclo encadenado al Sol). Mercurio y la Luna son aún más complicados, y se dejan para Leopoldo de Austria.`},
+    {title:'Conjunciones medias y verdaderas',
+     body:`<p>En la astrología mundana <span class="gloss" lang="en">(mundane astrology)</span> persa, las conjunciones de Saturno y Júpiter, cada veinte años más o menos, marcan las etapas de la historia. Durante siglos los astrólogos usaron sus conjunciones <span class="term g">medias</span> <span class="gloss" lang="en">(mean conjunctions)</span>: el momento en que cada uno, en su propia esfera, apunta al mismo grado medido en movimiento medio sobre el ecuante.</p>
+         <p>Eso no es lo mismo que una conjunción <span class="term">verdadera</span> <span class="gloss" lang="en">(true conjunction)</span>, cuando los vemos juntos desde la tierra: los dos marcadores grises coinciden meses antes o después que los dos rayos de color.</p>
+         <p>La gran conjunción de 2020 cayó el 21 de diciembre, en el primer grado de Acuario; el modelo sitúa su conjunción media tres meses antes, en septiembre.</p>`,
+     try:`Pulse <em>Próxima conjunción media</em> y vea cómo los dos marcadores grises caen en un mismo grado mientras los planetas verdaderos siguen separados. Luego, <em>Próxima conjunción verdadera</em>.`},
+    {title:'El mes trópico',
+     body:`<p>En la astrología tradicional aparecen dos meses. El <span class="term">mes trópico</span> <span class="gloss" lang="en">(tropical month)</span> es el tiempo que tarda la Luna en recorrer el zodíaco y volver al mismo grado: 27 días, 7 horas y 43 minutos.</p>
+         <p>Empiece en un encuentro <span class="gloss" lang="en">(meeting)</span> del Sol y la Luna. Ella se separa de él y da toda la vuelta; el arco dorado es lo que ha recorrido desde el encuentro. Cuando vuelve al grado del encuentro, ha pasado un mes trópico, pero el Sol no se ha quedado quieto.</p>
+         <p>La medicina astrológica usa este mes: las cartas del comienzo de una enfermedad siguen a la Luna desde su grado en esa carta.</p>`,
+     try:`Pulse <em>Reproducir</em> a un día por segundo. Vea cómo la Luna alcanza la marca «retorno trópico» al cabo de unos 27 días, y fíjese en que el Sol ha avanzado unos 27°.`},
+    {title:'El mes sinódico y la prevención',
+     body:`<p>El <span class="term">mes sinódico</span> <span class="gloss" lang="en">(synodic month)</span> es el tiempo entre dos encuentros sucesivos del Sol y la Luna: unos dos días más, 29,5 días de media, porque ella tiene que alcanzar a un Sol que ha seguido avanzando.</p>
+         <p>A mitad de camino entre dos encuentros, la Luna está frente a él, en oposición <span class="gloss" lang="en">(opposition)</span>: es la <span class="term r">prevención</span> <span class="gloss" lang="en">(prevention)</span>, del latín «salir por delante», traducción exacta de la palabra árabe para la oposición Sol–Luna, la Luna llena. Como el Sol sigue moviéndose, la prevención no cae a 180° del encuentro, sino a unos 194°.</p>
+         <p>En ambos casos nos fijamos en el grado de la Luna: el del encuentro es el que comparte con el Sol; el de la prevención es el suyo propio, opuesto a él.</p>`,
+     try:`Vea cómo la Luna pasa la marca roja «prevención», al otro lado del Sol, y luego lo alcanza en un nuevo encuentro, más adelante en el borde. El panel da las dos fechas.`},
+    {title:'¿Conjuncional o prevencional?',
+     body:`<p>Toda natividad es o bien <span class="term">conjuncional</span> <span class="gloss" lang="en">(conjunctional)</span> —nacida en las dos semanas siguientes a un encuentro, antes de la prevención— o bien <span class="term r">prevencional</span> <span class="gloss" lang="en">(preventional)</span>, nacida tras la prevención y antes del siguiente encuentro. Se refiere a la lunación <span class="gloss" lang="en">(lunation)</span> más reciente, y se usa en los cálculos de longevidad, entre otras cosas.</p>
+         <p>El panel lo lee para la fecha que hay bajo el cielo: el grado y la fecha del último encuentro, los de la prevención, y el veredicto.</p>
+         <p>Con esto se cierra la astronomía de la lección. A partir de aquí todo son tablas y la aritmética para entrar en ellas, y para eso están las otras dos páginas de la estantería.</p>`,
+     try:`Escriba su propia fecha de nacimiento en la casilla de fecha bajo el cielo. ¿Cuál es su caso? Luego ponga la fecha de hoy y vea dónde cayó el encuentro de este mes.`}
+  ]
+};
+
+I18N.fr = {
+  dec: ',',
+  lead0: true,
+  names: { sun:'Soleil', moon:'Lune', mercury:'Mercure', venus:'Vénus', mars:'Mars', jupiter:'Jupiter', saturn:'Saturne' },
+  stars: { Aldebaran:'Aldébaran', Regulus:'Régulus', Antares:'Antarès', Fomalhaut:'Fomalhaut' },
+  ui: {
+    title: 'Le Planétaire de Sayyid',
+    subtitle: "Les modèles de Ptolémée, vus depuis le pôle de l'écliptique",
+    language: 'Langue',
+    cardTitle: 'Afficher ou masquer la fiche de lecture',
+    scene: 'Scène', sceneSun: 'Soleil', scenePlanet: 'Planète', sceneConj: 'Conjonction', sceneMoon: 'Lune',
+    planet: 'Planète', speed: 'Vitesse', date: 'Date', today: "Aujourd'hui",
+    tabWalk: 'Actes', tabLayers: 'Calques', tabNotes: 'Notes',
+    tryit: 'À essayer', back: 'Retour', next: 'Suivant',
+    again: 'Recommencer', againTitle: "Remettre cette étape dans son état de départ",
+    grpModel: 'Modèle', offCentre: 'Décentrage', grpMotion: 'Mouvement', traceSpan: 'Trace', grpSky: 'Ciel',
+    layersFoot: `Les positions sont tirées de la géométrie de Ptolémée, avec les paramètres modernes de la figure 27 de la leçon et les longitudes moyennes J2000. Elles suivent le ciel réel à un degré ou deux près — assez pour reconnaître le Mars de ce soir, pas assez pour dresser un thème.`,
+    paramsT: 'Paramètres (figure 27)',
+    paramsNote: `L'excentricité est la distance de la terre au centre du déférent, en fraction du rayon du déférent ; l'équant se trouve au double de cette distance. L'épicycle est une fraction du même rayon. Les apogées sont ceux de 2020 et avancent d'environ 1° en 72 ans.`,
+    periodsT: 'Périodes (figure 28)',
+    notT: "Ce que le modèle n'est pas",
+    not1: `Ce ne sont pas des éphémérides. Les mécanismes ptoléméens complets de Mercure et de la Lune sont laissés de côté (Ben les décrit, figures à l'appui, dans son Léopold d'Autriche) ; la Lune se meut ici à son mouvement moyen. La latitude écliptique est ignorée : tout est à plat dans le plan que vous regardez d'en haut.`,
+    not2: `Et pourtant, Mars devient rétrograde à un jour près de la date réelle, et les saisons tombent juste au dixième de jour. C'était tout le propos de Ptolémée : quelques cercles et une table de corrections suffisent à prédire le ciel pour des siècles.`,
+    dedic: `<b>Pour la cohorte Fomalhaut</b>Fomalhaut, le Gardien du Sud, figure sur le pourtour de chaque scène à sa longitude actuelle, en compagnie des trois autres étoiles royales. La bouche du Poisson austral est le lieu vers lequel l'équinoxe s'achemine lentement.`,
+    foot1: `D'après la leçon 5, §4–5, du <em>Traditional Natal Astrology Course</em> de Ben Dykes, et le simulateur de modèles planétaires qu'il recommande ; les figures (16–28) sont les siennes. Pour aller plus loin : James Evans, <em>The History and Practice of Ancient Astronomy</em>.`,
+    foot2: 'Un seul fichier, aucun réseau. Polices : EB Garamond, IBM Plex Mono et IBM Plex Sans Condensed, SIL Open Font License. Fait partie de <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.'
+  },
+  stepOf: (i, n) => `Étape ${i} sur ${n}`,
+  stepN: (i, title) => `Étape ${i} : ${title}`,
+
+  play: 'Lecture', pause: 'Pause',
+  card: 'Fiche', hideCard: 'Masquer la fiche',
+  days: n => `${n} j`,
+  perSec: v => `${v} j/s`,
+
+  params: { planet:'Planète', epicycle:'Épicycle', ecc:'Excentricité', rate:'Vitesse °/jour', apogee:'Apogée' },
+  periods: { planet:'Planète', trop:'Période tropique', lesser:'Petites années' },
+  years: v => `${v} an${parseFloat(String(v).replace(',','.'))<2?'':'s'}`, daysShort: v => `${v} j`,
+
+  fig: {
+    sayyid: 'O · Sayyid', apogee: 'apogée', perigee: 'périgée', mean: 'moyen', equant: 'équant',
+    meeting: 'rencontre', prevention: 'prévention', tropReturn: 'retour tropique'
+  },
+
+  plate: {
+    sunT: 'Le Soleil', eccentric: 'excentrique', meanSun: 'Soleil moyen', trueSun: 'Soleil vrai', equation: 'Équation',
+    concentricNote: "Concentrique : le Soleil vrai se confond avec le Soleil moyen et l'équation est nulle.",
+    tableNote: 'La table des équations donne cette correction pour chaque position moyenne.',
+    retrograde: 'rétrograde', direct: 'direct', mean: 'Moyen', true: 'Vrai', daily: 'Mvt/jour', sun: 'Soleil',
+    inferiorNote: "K accompagne le Soleil moyen ; Vénus tourne autour de lui sur l'épicycle.",
+    superiorNote: "Le rayon de l'épicycle pointe toujours vers le Soleil moyen.",
+    conjunction: 'conjonction', trueOf: glyph => `${glyph} vrai`, trueSep: 'Écart vrai', meanSep: 'Écart moyen',
+    conjNote: 'Conjonction moyenne : tous deux pointent vers le même degré, mesuré depuis leurs équants. Vraie : telle que nous les voyons.',
+    moonT: 'La Lune', conjunctional: 'conjonctionnelle', preventional: 'préventionnelle', moon: 'Lune',
+    elongation: 'Élongation', sinceMeeting: (deg, d) => `${deg}° · ${d} j depuis la rencontre`,
+    meeting: 'Rencontre', prevention: 'Prévention',
+    conjNativity: 'Naissance après la rencontre et avant la prévention : nativité conjonctionnelle.',
+    prevNativity: 'Naissance après la prévention et avant la rencontre suivante : nativité préventionnelle.',
+    seasonsT: 'Les saisons', fromModel: "d'après le modèle",
+    spring: 'Printemps', summer: 'Été', autumn: 'Automne', winter: 'Hiver', nDays: v => `${v} jours`,
+    seasonsNote: v => `Plus longues vers l'apogée, dans le Cancer ; plus courtes vers le périgée, dans le Capricorne. Avec un cercle concentrique, toutes quatre dureraient ${v} jours.`
+  },
+
+  layers: {
+    deferent: ['Cercle déférent', "l'excentrique"], apsidal: ['Ligne des apsides', 'apogée · périgée'],
+    epicycle: ['Épicycle', 'pour les planètes'], equant: ['Équant', "E, au double de l'excentricité"],
+    mean: ['Cercle concentrique', 'le mouvement moyen'],
+    body: ['Position vraie', "l'astre lui-même"], meanBody: ['Position moyenne', 'astre gris'],
+    ray: ['Rayons vers le zodiaque', 'ce que voit Sayyid'], loop: ['Trajet dans le plan', 'les boucles'],
+    trace: ['Trace sur le pourtour', 'rouge si rétrograde'],
+    signs: ['Signes', ''], stars: ['Étoiles royales', 'avec Fomalhaut'], labels: ['Étiquettes', '']
+  },
+
+  actions: {
+    seasons: 'Mesurer les saisons', station: 'Aller à la station suivante',
+    meanconj: 'Conjonction moyenne suivante', trueconj: 'Conjonction vraie suivante', today: "Régler la date sur aujourd'hui"
+  },
+
+  acts: ['Acte I · Le Soleil', 'Acte II · Mars', 'Acte III · Jupiter et Saturne', 'Acte IV · La Lune'],
+
+  walk: [
+    {title:'Un univers vide',
+     body:`<p>Nous sommes dans l'espace, en suspens au pôle de l'écliptique <span class="gloss" lang="en">(pole of the ecliptic)</span>, et nous regardons la terre d'en haut. Sayyid se tient en O, au centre, et peut observer dans toutes les directions. Le zodiaque est le pourtour extérieur : 0° du Bélier à droite, et les longitudes qui courent dans le sens inverse des aiguilles d'une montre.</p>
+         <p>Les quatre étoiles royales veillent sur le pourtour, à leurs longitudes actuelles — Aldébaran, Régulus, Antarès et, pour cette cohorte, Fomalhaut.</p>
+         <p>Rien d'autre n'existe encore. C'est à partir de là que nous allons construire le modèle du Soleil.</p>`,
+     try:`Trouvez Fomalhaut sur le pourtour, un peu après le début des Poissons. Appuyez sur <em>Lecture</em> sous le ciel et regardez la date défiler ; rien ne bouge encore, car il n'y a rien à faire bouger.`},
+    {title:'Un Soleil concentrique et moyen',
+     body:`<p>Ajoutez la trajectoire circulaire du Soleil comme si elle avait le même centre que la terre. Cette grande sphère est le <span class="term">déférent</span> : c'est la sphère qui tourne, et le Soleil est emporté sur elle. (Nous ferons comme si le Soleil se mouvait lui-même.)</p>
+         <p>Si c'était juste, il tournerait autour de nous à vitesse uniforme et atteindrait chaque quart du cercle au bout de 91,31 jours. Cette vitesse est son <span class="term g">mouvement moyen</span> <span class="gloss" lang="en">(mean motion)</span>, 0° 59′ 08″ par jour, et sa place à un jour donné est sa <span class="term g">position moyenne</span> <span class="gloss" lang="en">(mean position)</span>.</p>
+         <p>Le disque gris est le Soleil moyen. Pour l'instant c'est aussi le Soleil vrai, car le cercle, concentrique <span class="gloss" lang="en">(concentric)</span>, est centré sur nous.</p>`,
+     try:`Regardez le rayon gris balayer le pourtour à une allure régulière. La plaque affiche l'équation — l'écart entre moyen et vrai — exactement nulle.`},
+    {title:"Décentré : l'excentrique",
+     body:`<p>Mais le Soleil vrai ne se meut pas à cette vitesse. Dans certaines parties du zodiaque il paraît plus rapide, dans d'autres plus lent : c'est une <span class="term">anomalie zodiacale</span> <span class="gloss" lang="en">(zodiacal anomaly)</span>. Ce qui se meut près de nous semble aller plus vite ; ce qui est plus loin, plus lentement.</p>
+         <p>Décentrez donc son cercle, en l'éloignant de Sayyid, dans la direction où il semble le plus lent : vers le milieu du Cancer. Le cercle est maintenant <span class="term">excentrique</span> <span class="gloss" lang="en">(eccentric)</span>, son centre C déplacé de 0,0335 de son rayon : c'est son excentricité <span class="gloss" lang="en">(eccentricity)</span>.</p>
+         <p>La droite qui passe par O et C est la <span class="term g">ligne des apsides</span> <span class="gloss" lang="en">(apsidal line)</span>. Son point de rencontre avec le cercle le plus éloigné de nous est l'<span class="term g">apogée</span>, à 13° 16′ du Cancer en 2000 ; à l'opposé, dans le Capricorne, le <span class="term g">périgée</span>.</p>`,
+     try:`Le cercle vient de glisser vers l'extérieur. Dans l'onglet <em>Calques</em>, le curseur <em>Décentrage</em> déplace C entre la position concentrique et la position excentrique ; faites-le glisser et regardez le Soleil doré s'écarter du gris.`},
+    {title:"Moyen et vrai, et l'équation",
+     body:`<p>Il y a maintenant deux Soleils. Le gris est là où nous l'attendrions si sa sphère était concentrique : la position moyenne. Le doré est là où nous le voyons réellement : la position vraie <span class="gloss" lang="en">(true position)</span>, sur l'excentrique.</p>
+         <p>Près de l'apogée, le Soleil vrai est en retard sur le moyen, parce que cette partie du cercle est loin de nous et qu'il semble traîner ; près du périgée, il prend de l'avance. Ce n'est qu'à l'apogée et au périgée que les deux coïncident.</p>
+         <p>L'angle entre les deux rayons est l'<span class="term v">équation</span>. Une table du mouvement moyen <span class="gloss" lang="en">(table of mean motion)</span> donne le Soleil gris pour n'importe quel jour ; une table des équations <span class="gloss" lang="en">(table of equations)</span> donne cette correction ; ajoutez-la, et vous avez le Soleil vrai en moins d'une minute. Tout le secret de Ptolémée est là.</p>`,
+     try:`Suivez l'équation sur la plaque : elle est nulle vers 13° du Cancer et 13° du Capricorne, et atteint près de 2° entre les deux. Appuyez plusieurs fois sur <em>−30 j</em> pour la faire tourner à rebours.`},
+    {title:"Pourquoi l'été est la plus longue saison",
+     body:`<p>Une plus grande part du cercle excentrique se trouve du côté de l'apogée que du côté du périgée. Entre 0° du Cancer et 0° de la Balance, le Soleil doit parcourir le côté long et lointain, et l'été est donc la saison la plus longue ; entre le Capricorne et le Bélier, il traverse le côté court et proche, et l'hiver passe le plus vite.</p>
+         <p>Félicitations — nous avons modélisé le mouvement du Soleil. Le modèle donne au printemps 92,8 jours, à l'été 93,7, à l'automne 89,9 et à l'hiver 89,0 : les valeurs réelles au dixième de jour près.</p>`,
+     try:`Appuyez sur <em>Mesurer les saisons</em> ci-dessus : la plaque donne les quatre durées que prévoit le modèle. Puis appuyez sur <em>Lecture</em> et comptez vous-même les jours de 0° du Cancer à 0° de la Balance.`},
+    {title:'Un déférent pour Mars',
+     body:`<p>Videz de nouveau l'univers et placez-y le déférent excentrique de Mars. Pour le construire, nul besoin de savoir où est le Soleil, ni de connaître les distances réelles : seules comptent les proportions et les vitesses.</p>
+         <p>Son apogée se trouve à 150,5°, près du début de la Vierge, et son déférent fait un tour en une période tropique <span class="gloss" lang="en">(tropical period)</span> de 1,88 an. Voilà qui règle son anomalie zodiacale, comme pour le Soleil.</p>
+         <p>Mais Mars a une seconde anomalie que le Soleil n'a pas : une anomalie <span class="term r">directionnelle</span> <span class="gloss" lang="en">(directional anomaly)</span>. Parfois, il recule.</p>`,
+     try:`Ce déférent, à lui seul, ne peut jamais rendre Mars rétrograde : regardez le rayon rouge ne faire qu'avancer lentement le long du pourtour.`},
+    {title:"L'épicycle",
+     body:`<p>Placez un petit cercle, l'<span class="term">épicycle</span>, sur le déférent là où se trouvait Mars, avec son centre en K. Mars fait le tour de l'épicycle une fois par cycle de rétrogradation, tandis que l'épicycle entier est emporté le long du déférent.</p>
+         <p>Dans la moitié supérieure de l'épicycle, la plus éloignée de nous, il est direct. Dans la moitié inférieure, la plus proche, il semble reculer. Vers les côtés, il paraît ralentir, s'arrêter et faire station.</p>
+         <p>La ligne pâle est son trajet dans le plan — les fameuses boucles. Les traits sur le pourtour sont ce que voit Sayyid : dorés quand il est direct, rouges quand il est rétrograde.</p>`,
+     try:`Appuyez sur <em>Lecture</em> et attendez que le rayon rouge hésite, s'arrête et reparte en arrière. Mars est dans sa moitié inférieure. Le mouvement journalier affiché sur la plaque devient négatif.`},
+    {title:'La rétrogradation, telle que Sayyid la voit',
+     body:`<p>Suivez Mars autour de son épicycle, comme sur la figure 25. Dans la moitié supérieure, on l'observe direct. En descendant le côté, il ralentit et fait station. Le voici rétrograde : il repasse sur les mêmes degrés, jusqu'à faire de nouveau station en bas de l'autre côté et redevenir direct.</p>
+         <p>Pendant tout ce temps, l'épicycle continue d'avancer le long du déférent, si bien que le mouvement d'ensemble reste vers l'avant : deux pas en avant, un en arrière.</p>
+         <p>Comme la géométrie est connue, une table des équations convertit les positions moyennes en positions vraies — une correction pour le déférent, et une de plus pour l'épicycle.</p>`,
+     try:`Appuyez sur <em>Aller à la station suivante</em> : la date saute au jour où Mars s'arrête, et le mouvement journalier sur la plaque est presque nul. Appuyez encore pour la station d'après.`},
+    {title:"L'équant",
+     body:`<p>Il y avait un problème. Avec K se déplaçant uniformément sur le déférent, les rétrogradations tombaient aux mauvais endroits et duraient trop ou trop peu. Le modèle ne collait aux données babyloniennes que si K ne se déplaçait <em>pas</em> uniformément — et cela ne se met pas facilement en table.</p>
+         <p>Ptolémée a alors remarqué que, vu d'un point de la ligne des apsides presque exactement deux fois plus éloigné de la terre que C, K se déplace <em>bel et bien</em> uniformément. Ce point est l'<span class="term s">équant</span>, E. Mesurez le mouvement moyen sur le cercle de l'équant, ajustez la géométrie, et les tables fonctionnent.</p>
+         <p>Tout le monde ne l'a pas apprécié : c'était un artifice de calcul, pas quelque chose de « réel ». Et pourtant, l'équant se trouve presque exactement au foyer vide de l'ellipse de la planète — un point réel, découvert avec seize siècles d'avance.</p>`,
+     try:`Regardez la ligne bleue pointillée de E à K : elle tourne à une vitesse parfaitement régulière. Puis, dans l'onglet <em>Calques</em>, décochez <em>Équant</em> : K se déplace alors uniformément vu depuis C, et les stations s'écartent de leurs dates réelles.`},
+    {title:'Les autres planètes',
+     body:`<p>La même machine sert pour Jupiter et Saturne, avec des épicycles plus petits et des déférents plus lents : plus la planète est lointaine, plus ses boucles sont petites et nombreuses sur un circuit. Voyez, par comparaison, combien l'excentricité et l'épicycle de Mars sont grands — c'est pourquoi son système était si visiblement faux sans l'équant, et les autres moins.</p>
+         <p>Vénus est différente. C'est une planète inférieure <span class="gloss" lang="en">(inferior planet)</span> : le centre K de son épicycle accompagne le Soleil moyen, et elle tourne autour de K sur un épicycle qui fait près des trois quarts du déférent. On ne la voit jamais loin du Soleil.</p>`,
+     try:`Avec le sélecteur de planète sous le ciel, allez voir Saturne (minuscule épicycle, trente ans pour un tour) et Vénus (l'énorme épicycle enchaîné au Soleil). Mercure et la Lune sont plus compliqués encore, et laissés à Léopold d'Autriche.`},
+    {title:'Conjonctions moyennes et vraies',
+     body:`<p>Dans l'astrologie mondiale <span class="gloss" lang="en">(mundane astrology)</span> persane, les conjonctions de Saturne et de Jupiter, tous les vingt ans environ, jalonnent les étapes de l'histoire. Pendant des siècles, les astrologues ont utilisé leurs conjonctions <span class="term g">moyennes</span> <span class="gloss" lang="en">(mean conjunction)</span> : l'instant où chacun, dans sa propre sphère, pointe vers le même degré, mesuré en mouvement moyen depuis l'équant.</p>
+         <p>C'est autre chose qu'une conjonction <span class="term">vraie</span> <span class="gloss" lang="en">(true conjunction)</span>, quand nous les voyons ensemble depuis la terre — les deux repères gris coïncident des mois avant ou après les deux rayons colorés.</p>
+         <p>La grande conjonction de 2020 a eu lieu le 21 décembre, dans le premier degré du Verseau ; le modèle place sa conjonction moyenne au mois de septembre précédent.</p>`,
+     try:`Appuyez sur <em>Conjonction moyenne suivante</em> et regardez les deux repères gris se poser sur un même degré tandis que les planètes vraies sont encore séparées. Puis sur <em>Conjonction vraie suivante</em>.`},
+    {title:'Le mois tropique',
+     body:`<p>L'astrologie traditionnelle connaît deux mois. Le <span class="term">mois tropique</span> <span class="gloss" lang="en">(tropical month)</span> est le temps que met la Lune pour faire le tour du zodiaque et revenir au même degré : 27 jours, 7 heures, 43 minutes.</p>
+         <p>Partez d'une rencontre <span class="gloss" lang="en">(meeting)</span> du Soleil et de la Lune, c'est-à-dire de leur conjonction. Elle se sépare de lui et fait tout le tour ; l'arc doré est son trajet depuis la rencontre. Quand elle revient au degré de la rencontre, un mois tropique s'est écoulé — mais le Soleil, lui, ne s'est pas arrêté.</p>
+         <p>La médecine astrologique se sert de ce mois : les thèmes dressés pour le début d'une maladie suivent la Lune à partir de son degré dans ce thème.</p>`,
+     try:`Appuyez sur <em>Lecture</em> à un jour par seconde. Regardez la Lune atteindre le repère « retour tropique » au bout d'environ 27 jours, et remarquez que le Soleil a avancé d'environ 27°.`},
+    {title:'Le mois synodique et la prévention',
+     body:`<p>Le <span class="term">mois synodique</span> <span class="gloss" lang="en">(synodic month)</span> est le temps entre deux rencontres successives du Soleil et de la Lune : environ deux jours de plus, 29,5 jours en moyenne, car elle doit rattraper un Soleil qui a avancé.</p>
+         <p>À mi-chemin entre deux rencontres, elle lui fait face : c'est la <span class="term r">prévention</span>, du latin pour « aller au-devant », traduction exacte du mot arabe désignant l'opposition du Soleil et de la Lune — la pleine lune. Comme le Soleil continue d'avancer, la prévention tombe non pas à 180° mais à environ 194° de la rencontre.</p>
+         <p>Dans les deux cas, on s'attache au degré de la Lune : celui de la rencontre est celui qu'elle partage avec le Soleil ; celui de la prévention est le sien, à l'opposé de lui.</p>`,
+     try:`Regardez la Lune passer le repère rouge « prévention », de l'autre côté du Soleil, puis le rattraper à une nouvelle rencontre plus loin sur le pourtour. La plaque donne les deux dates.`},
+    {title:'Conjonctionnelle ou préventionnelle ?',
+     body:`<p>Toute nativité est soit <span class="term">conjonctionnelle</span> <span class="gloss" lang="en">(conjunctional)</span> — née dans les deux semaines qui suivent une rencontre, avant la prévention —, soit <span class="term r">préventionnelle</span> <span class="gloss" lang="en">(preventional)</span>, née après la prévention et avant la rencontre suivante. Cela se rapporte à la lunaison <span class="gloss" lang="en">(lunation)</span> la plus récente, et sert dans les calculs de longévité, entre autres.</p>
+         <p>La plaque l'indique pour la date affichée sous le ciel : le degré et la date de la dernière rencontre, ceux de la prévention, et le verdict.</p>
+         <p>Voilà qui clôt l'astronomie de la leçon. La suite, ce sont les tables et l'arithmétique qu'il faut pour les consulter — l'objet des deux autres pages de l'étagère.</p>`,
+     try:`Saisissez votre propre date de naissance dans la case de date sous le ciel. Laquelle est la vôtre ? Puis réglez la date sur aujourd'hui et voyez où est tombée la rencontre de ce mois-ci.`}
+  ]
+};
+
+I18N.de = {
+  dec: ',',
+  lead0: true,
+  names: { sun:'Sonne', moon:'Mond', mercury:'Merkur', venus:'Venus', mars:'Mars', jupiter:'Jupiter', saturn:'Saturn' },
+  stars: { Aldebaran:'Aldebaran', Regulus:'Regulus', Antares:'Antares', Fomalhaut:'Fomalhaut' },
+  ui: {
+    title: 'Sayyids Planetarium',
+    subtitle: 'Ptolemäus’ Modelle, vom Pol der Ekliptik aus gesehen',
+    language: 'Sprache',
+    cardTitle: 'Lesekarte ein- oder ausblenden',
+    scene: 'Szene', sceneSun: 'Sonne', scenePlanet: 'Planet', sceneConj: 'Konjunktion', sceneMoon: 'Mond',
+    planet: 'Planet', speed: 'Tempo', date: 'Datum', today: 'Heute',
+    tabWalk: 'Akte', tabLayers: 'Ebenen', tabNotes: 'Notizen',
+    tryit: 'Probieren Sie es aus', back: 'Zurück', next: 'Weiter',
+    again: 'Von vorn', againTitle: 'Diesen Schritt in seinen Ausgangszustand zurücksetzen',
+    grpModel: 'Modell', offCentre: 'Außermittig', grpMotion: 'Bewegung', traceSpan: 'Spur', grpSky: 'Himmel',
+    layersFoot: `Die Positionen folgen aus Ptolemäus’ Geometrie mit den modernen Parametern aus Abbildung 27 der Lektion und mittleren Längen für J2000. Sie treffen den wirklichen Himmel auf ein, zwei Grad — genug, um den Mars von heute Nacht zu erkennen, nicht genug, um ein Horoskop daraus zu stellen.`,
+    paramsT: 'Parameter (Abbildung 27)',
+    paramsNote: `Die Exzentrizität ist der Abstand der Erde vom Mittelpunkt des Deferenten, als Bruchteil seines Radius; der Äquant liegt beim Doppelten. Der Epizykel ist ein Bruchteil desselben Radius. Die Apogäen gelten für 2020 und wandern etwa 1° in 72 Jahren.`,
+    periodsT: 'Umlaufzeiten (Abbildung 28)',
+    notT: 'Was das Modell nicht ist',
+    not1: `Es ist keine Ephemeride. Die vollständigen ptolemäischen Mechanismen für Merkur und Mond fehlen (Ben beschreibt sie mit Diagrammen in seinem Leopold von Österreich); der Mond läuft hier mit seiner mittleren Geschwindigkeit. Die ekliptikale Breite wird vernachlässigt, sodass alles flach in der Ebene liegt, auf die Sie hinabblicken.`,
+    not2: `Und doch wird Mars bis auf einen Tag genau dann rückläufig, wenn er es wirklich wird, und die Jahreszeiten stimmen auf ein Zehntel Tag. Das war Ptolemäus’ Pointe: Ein paar Kreise und eine Korrekturtafel genügen, um den Himmel für Jahrhunderte vorherzusagen.`,
+    dedic: `<b>Für den Jahrgang Fomalhaut</b>Fomalhaut, der Wächter des Südens, steht in jeder Szene am Rand, an seiner heutigen Länge, und die drei anderen Königssterne leisten ihm Gesellschaft. Auf das Maul des Südlichen Fisches bewegt sich der Frühlingspunkt langsam zu.`,
+    foot1: `Nach Lektion 5, §4–5 von Ben Dykes’ <em>Traditional Natal Astrology Course</em> und dem Planetenmodell-Simulator, den er empfiehlt; die Abbildungen (16–28) stammen von ihm. Weiterführend: James Evans, <em>The History and Practice of Ancient Astronomy</em>.`,
+    foot2: 'Eine Datei, kein Netzwerk. Schriften: EB Garamond, IBM Plex Mono und IBM Plex Sans Condensed, SIL Open Font License. Teil von <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.'
+  },
+  stepOf: (i, n) => `Schritt ${i} von ${n}`,
+  stepN: (i, title) => `Schritt ${i}: ${title}`,
+
+  play: 'Abspielen', pause: 'Pause',
+  card: 'Karte', hideCard: 'Karte ausblenden',
+  days: n => `${n} Tg.`,
+  perSec: v => `${v} Tg./s`,
+
+  params: { planet:'Planet', epicycle:'Epizykel', ecc:'Exzentrizität', rate:'Bewegung °/Tag', apogee:'Apogäum' },
+  periods: { planet:'Planet', trop:'Tropische Umlaufzeit', lesser:'Kleine Jahre' },
+  years: v => `${v} J.`, daysShort: v => `${v} Tg.`,
+
+  fig: {
+    sayyid: 'O · Sayyid', apogee: 'Apogäum', perigee: 'Perigäum', mean: 'mittel', equant: 'Äquant',
+    meeting: 'Konjunktion', prevention: 'Prävention', tropReturn: 'tropische Rückkehr'
+  },
+
+  plate: {
+    sunT: 'Die Sonne', eccentric: 'exzentrisch', meanSun: 'Mittlere Sonne', trueSun: 'Wahre Sonne', equation: 'Gleichung',
+    concentricNote: 'Konzentrisch: Die wahre Sonne steht auf der mittleren, und die Gleichung ist null.',
+    tableNote: 'Die Gleichungstafel enthält diese Korrektur für jeden mittleren Ort.',
+    retrograde: 'rückläufig', direct: 'direktläufig', mean: 'Mittel', true: 'Wahr', daily: 'Tagesbew.', sun: 'Sonne',
+    inferiorNote: 'K läuft mit der mittleren Sonne; die Venus umkreist K auf dem Epizykel.',
+    superiorNote: 'Der Epizykelradius zeigt stets zur mittleren Sonne.',
+    conjunction: 'Konjunktion', trueOf: glyph => `${glyph} wahr`, trueSep: 'Wahrer Abst.', meanSep: 'Mittl. Abst.',
+    conjNote: 'Mittlere Konjunktion: Beide zeigen auf denselben Grad, gemessen auf ihren Äquanten. Wahre: so, wie wir sie sehen.',
+    moonT: 'Der Mond', conjunctional: 'konjunktional', preventional: 'präventional', moon: 'Mond',
+    elongation: 'Elongation', sinceMeeting: (deg, d) => `${deg}° · ${d} Tg. seit Konj.`,
+    meeting: 'Konjunktion', prevention: 'Prävention',
+    conjNativity: 'Geboren nach der Konjunktion und vor der Prävention: eine konjunktionale Geburt.',
+    prevNativity: 'Geboren nach der Prävention und vor der nächsten Konjunktion: eine präventionale Geburt.',
+    seasonsT: 'Die Jahreszeiten', fromModel: 'aus dem Modell',
+    spring: 'Frühling', summer: 'Sommer', autumn: 'Herbst', winter: 'Winter', nDays: v => `${v} Tage`,
+    seasonsNote: v => `Am längsten zum Apogäum im Krebs hin, am kürzesten zum Perigäum im Steinbock hin. Wäre der Kreis konzentrisch, dauerten alle vier je ${v} Tage.`
+  },
+
+  layers: {
+    deferent: ['Deferent', 'der Exzenter'], apsidal: ['Apsidenlinie', 'Apogäum · Perigäum'],
+    epicycle: ['Epizykel', 'für die Planeten'], equant: ['Äquant', 'E, bei doppelter Exzentrizität'],
+    mean: ['Konzentrischer Kreis', 'die mittlere Bewegung'],
+    body: ['Wahrer Ort', 'der Körper selbst'], meanBody: ['Mittlerer Ort', 'grauer Körper'],
+    ray: ['Strahlen zum Tierkreis', 'was Sayyid sieht'], loop: ['Bahn in der Ebene', 'die Schleifen'],
+    trace: ['Spur am Rand', 'rot, wenn rückläufig'],
+    signs: ['Zeichen', ''], stars: ['Königssterne', 'mit Fomalhaut'], labels: ['Beschriftungen', '']
+  },
+
+  actions: {
+    seasons: 'Jahreszeiten messen', station: 'Zum nächsten Stillstand',
+    meanconj: 'Nächste mittlere Konjunktion', trueconj: 'Nächste wahre Konjunktion', today: 'Datum auf heute setzen'
+  },
+
+  acts: ['Akt I · Die Sonne', 'Akt II · Mars', 'Akt III · Jupiter und Saturn', 'Akt IV · Der Mond'],
+
+  walk: [
+    {title:'Ein leeres Weltall',
+     body:`<p>Wir befinden uns im Weltraum, schweben am Pol der Ekliptik <span class="gloss" lang="en">(pole of the ecliptic)</span> und blicken auf die Erde hinab. Sayyid steht bei O in der Mitte und kann in alle Richtungen beobachten. Der Tierkreis ist der äußere Rand, 0° Widder rechts, und die Längen laufen gegen den Uhrzeigersinn.</p>
+         <p>Die vier Königssterne halten am Rand Wache, an ihren heutigen Längen — Aldebaran, Regulus, Antares und, für diesen Jahrgang, Fomalhaut.</p>
+         <p>Sonst gibt es noch nichts. Daraus bauen wir das Modell der Sonne.</p>`,
+     try:`Suchen Sie Fomalhaut am Rand, ein Stück weit in den Fischen. Drücken Sie <em>Abspielen</em> unter dem Himmel und sehen Sie das Datum laufen; noch bewegt sich nichts, denn es gibt nichts, was sich bewegen könnte.`},
+    {title:'Eine konzentrische, mittlere Sonne',
+     body:`<p>Fügen Sie die Kreisbahn der Sonne hinzu, als hätte sie denselben Mittelpunkt wie die Erde. Diese große Sphäre ist der <span class="term">Deferent</span>: die Sphäre, die sich dreht und auf der die Sonne mitgetragen wird. (Wir tun so, als bewege sich die Sonne selbst.)</p>
+         <p>Wäre das richtig, bewegte sie sich gleichförmig um uns und erreichte jeden Viertelkreis nach 91,31 Tagen. Diese Geschwindigkeit ist ihre <span class="term g">mittlere Bewegung</span> <span class="gloss" lang="en">(mean motion)</span>, 0° 59′ 08″ pro Tag, und ihr Ort an einem beliebigen Tag ist ihr <span class="term g">mittlerer Ort</span> <span class="gloss" lang="en">(mean position)</span>.</p>
+         <p>Die graue Scheibe ist die mittlere Sonne. Im Moment ist sie auch die wahre Sonne, weil der Kreis konzentrisch <span class="gloss" lang="en">(concentric)</span> um uns liegt.</p>`,
+     try:`Sehen Sie, wie der graue Strahl in gleichmäßigem Tempo über den Rand streicht. Die Tafel zeigt die Gleichung — die Lücke zwischen mittlerem und wahrem Ort — als genau null.`},
+    {title:'Aus der Mitte: der Exzenter',
+     body:`<p>Doch die wahre Sonne bewegt sich nicht in diesem Tempo. In manchen Teilen des Tierkreises erscheint sie schneller, in anderen langsamer: eine <span class="term">Anomalie im Tierkreis</span> <span class="gloss" lang="en">(zodiacal anomaly)</span>. Was sich nahe bei uns bewegt, scheint schneller zu sein; was weiter entfernt ist, langsamer.</p>
+         <p>Verschieben Sie ihren Kreis also aus der Mitte, weg von Sayyid, in die Richtung, in der sie am langsamsten scheint: zur Mitte des Krebses. Der Kreis ist nun <span class="term">exzentrisch</span> <span class="gloss" lang="en">(eccentric)</span>, sein Mittelpunkt C um 0,0335 seines Radius verschoben: die Exzentrizität <span class="gloss" lang="en">(eccentricity)</span>.</p>
+         <p>Die Linie durch O und C ist die <span class="term g">Apsidenlinie</span> <span class="gloss" lang="en">(apsidal line)</span>. Wo sie den Kreis am weitesten von uns entfernt trifft, liegt das <span class="term g">Apogäum</span> <span class="gloss" lang="en">(apogee)</span>, im Jahr 2000 bei 13° 16′ Krebs; gegenüber, im Steinbock, das <span class="term g">Perigäum</span> <span class="gloss" lang="en">(perigee)</span>.</p>`,
+     try:`Der Kreis ist eben nach außen geglitten. Im Reiter <em>Ebenen</em> verschiebt der Regler <em>Außermittig</em> den Punkt C zwischen konzentrischer und exzentrischer Lage; ziehen Sie daran und sehen Sie, wie die goldene Sonne von der grauen wegdriftet.`},
+    {title:'Mittlerer und wahrer Ort, und die Gleichung',
+     body:`<p>Jetzt gibt es zwei Sonnen. Die graue steht dort, wo wir sie erwarten würden, wäre ihre Sphäre konzentrisch: der mittlere Ort. Die goldene steht dort, wo wir sie tatsächlich sehen: der wahre Ort <span class="gloss" lang="en">(true position)</span>, auf dem Exzenter.</p>
+         <p>Nahe dem Apogäum bleibt die wahre Sonne hinter der mittleren zurück, weil dieser Teil des Kreises weit von uns entfernt ist und sie zu trödeln scheint; nahe dem Perigäum eilt sie voraus. Nur im Apogäum und im Perigäum fallen beide zusammen.</p>
+         <p>Der Winkel zwischen den beiden Strahlen ist die <span class="term v">Gleichung</span> <span class="gloss" lang="en">(equation)</span>. Eine Tafel der mittleren Bewegung <span class="gloss" lang="en">(table of mean motion)</span> liefert die graue Sonne für jeden Tag, eine Gleichungstafel <span class="gloss" lang="en">(table of equations)</span> diese Korrektur; addieren Sie sie, und Sie haben die wahre Sonne in weniger als einer Minute. Das ist Ptolemäus’ ganzer Trick.</p>`,
+     try:`Achten Sie auf die Gleichung auf der Tafel: Sie ist null um 13° Krebs und 13° Steinbock und erreicht dazwischen fast 2°. Drücken Sie einige Male <em>−30 Tg.</em>, um sie rückwärts laufen zu lassen.`},
+    {title:'Warum der Sommer die längste Jahreszeit ist',
+     body:`<p>Ein größerer Teil des exzentrischen Kreises liegt zum Apogäum hin als zum Perigäum. Zwischen 0° Krebs und 0° Waage muss die Sonne die lange, ferne Seite durchlaufen, also dauert der Sommer am längsten; zwischen Steinbock und Widder quert sie die kurze, nahe Seite, und der Winter vergeht am schnellsten.</p>
+         <p>Glückwunsch — wir haben die Bewegung der Sonne modelliert. Das Modell ergibt für den Frühling 92,8 Tage, den Sommer 93,7, den Herbst 89,9, den Winter 89,0: die wirklichen Werte auf ein Zehntel Tag genau.</p>`,
+     try:`Drücken Sie oben <em>Jahreszeiten messen</em>: Die Tafel zeigt, wie lange die vier Jahreszeiten laut Modell dauern. Drücken Sie dann <em>Abspielen</em> und zählen Sie selbst die Tage von 0° Krebs bis 0° Waage.`},
+    {title:'Ein Deferent für Mars',
+     body:`<p>Leeren Sie das Weltall wieder und setzen Sie den exzentrischen Deferenten des Mars ein. Um ihn zu bauen, müssen wir nicht wissen, wo die Sonne steht, und wir brauchen keine tatsächlichen Entfernungen: nur Proportionen und Geschwindigkeiten.</p>
+         <p>Sein Apogäum liegt bei 150,5°, nahe dem Beginn der Jungfrau, und sein Deferent dreht sich einmal in seiner tropischen Umlaufzeit <span class="gloss" lang="en">(tropical period)</span> von 1,88 Jahren. Das erledigt seine Anomalie im Tierkreis, genau wie bei der Sonne.</p>
+         <p>Doch Mars hat eine zweite Anomalie, die die Sonne nicht hat: eine <span class="term r">Richtungsanomalie</span> <span class="gloss" lang="en">(directional anomaly)</span>. Manchmal läuft er rückwärts.</p>`,
+     try:`Dieser Deferent allein kann Mars nie rückläufig <span class="gloss" lang="en">(retrograde)</span> machen: Der rote Strahl kriecht immer nur vorwärts um den Rand.`},
+    {title:'Der Epizykel',
+     body:`<p>Setzen Sie einen kleinen Kreis, den <span class="term">Epizykel</span> <span class="gloss" lang="en">(epicycle)</span>, auf den Deferenten, dorthin, wo Mars war, mit seinem Mittelpunkt bei K. Mars läuft einmal pro Zyklus seiner Rückläufigkeit <span class="gloss" lang="en">(retrogradation)</span> um den Epizykel, während der ganze Epizykel um den Deferenten getragen wird.</p>
+         <p>In der oberen Hälfte des Epizykels, am weitesten von uns entfernt, ist er direktläufig <span class="gloss" lang="en">(direct)</span>. In der unteren Hälfte, uns am nächsten, scheint er rückwärts zu laufen. Nahe den Seiten scheint er langsamer zu werden, anzuhalten und stillzustehen: Er wird stationär <span class="gloss" lang="en">(station)</span>.</p>
+         <p>Die blasse Linie ist seine Bahn in der Ebene — die berühmten Schleifen. Die Striche am Rand zeigen, was Sayyid sieht: gold, solange er direktläufig ist, rot, solange er rückläufig ist.</p>`,
+     try:`Drücken Sie <em>Abspielen</em> und warten Sie, bis der rote Strahl zögert, anhält und zurückschwingt. Mars ist in seiner unteren Hälfte. Die Tagesbewegung auf der Tafel wird negativ.`},
+    {title:'Rückläufig, wie Sayyid es sieht',
+     body:`<p>Folgen Sie Mars um seinen Epizykel wie in Abbildung 25. In der oberen Hälfte sieht man ihn direktläufig. Auf dem Weg die Seite hinab wird er langsamer und stationär. Nun wird er rückläufig und läuft über dieselben Grade zurück, bis er tief auf der anderen Seite wieder stationär wird und direktläufig weiterzieht.</p>
+         <p>Die ganze Zeit wandert der Epizykel weiter den Deferenten entlang, sodass seine Gesamtbewegung dennoch vorwärts geht: zwei Schritte vor, einer zurück.</p>
+         <p>Da die Geometrie bekannt ist, rechnet eine Gleichungstafel die mittleren Orte in wahre um — eine Korrektur für den Deferenten und eine zusätzliche für den Epizykel.</p>`,
+     try:`Drücken Sie <em>Zum nächsten Stillstand</em>: Das Datum springt auf den Tag, an dem Mars stillsteht, und die Tagesbewegung auf der Tafel zeigt fast null. Drücken Sie noch einmal für den folgenden Stillstand.`},
+    {title:'Der Äquant',
+     body:`<p>Es gab ein Problem. Bewegte sich K gleichförmig den Deferenten entlang, lagen die Rückläufigkeiten an den falschen Stellen und dauerten falsch lange. Das Modell passte nur dann zu den babylonischen Daten, wenn sich K <em>nicht</em> gleichförmig bewegte — und dafür gibt es keine einfache Tafel.</p>
+         <p>Dann bemerkte Ptolemäus: Von einem Punkt auf der Apsidenlinie aus gesehen, der fast genau doppelt so weit von der Erde entfernt ist wie C, bewegt sich K <em>doch</em> gleichförmig. Dieser Punkt ist der <span class="term s">Äquant</span> <span class="gloss" lang="en">(equant)</span>, E. Messen Sie die mittlere Bewegung auf dem Kreis des Äquanten, passen Sie die Geometrie an, und die Tafeln funktionieren.</p>
+         <p>Nicht allen gefiel das; es war ein Rechenbehelf, nichts „Wirkliches“. Und doch sitzt der Äquant fast genau im leeren Brennpunkt der Planetenellipse — ein wirklicher Punkt, sechzehn Jahrhunderte zu früh gefunden.</p>`,
+     try:`Beobachten Sie die gepunktete blaue Linie von E nach K: Sie dreht sich vollkommen gleichmäßig. Entfernen Sie dann im Reiter <em>Ebenen</em> das Häkchen bei <em>Äquant</em>: K bewegt sich nun von C aus gesehen gleichmäßig, und die Stillstände rücken von ihren wirklichen Daten ab.`},
+    {title:'Die anderen Planeten',
+     body:`<p>Dieselbe Maschine dient Jupiter und Saturn, mit kleineren Epizykeln und langsameren Deferenten: Je ferner der Planet, desto kleiner seine Schleifen und desto mehr davon in einem Umlauf. Beachten Sie, wie groß Exzentrizität und Epizykel des Mars im Vergleich sind — deshalb lag sein System ohne den Äquanten so sichtbar daneben, die anderen weniger.</p>
+         <p>Die Venus ist anders. Sie ist ein unterer Planet <span class="gloss" lang="en">(inferior planet)</span>: Der Mittelpunkt K ihres Epizykels läuft mit der mittleren Sonne, und sie umkreist K auf einem Epizykel, der fast drei Viertel so groß ist wie der Deferent. Man sieht sie nie weit von der Sonne entfernt.</p>`,
+     try:`Besuchen Sie mit der Planetenauswahl unter dem Himmel den Saturn (winziger Epizykel, dreißig Jahre für einen Umlauf) und die Venus (der riesige Epizykel, an die Sonne gekettet). Merkur und Mond sind noch verwickelter und bleiben Leopold von Österreich überlassen.`},
+    {title:'Mittlere und wahre Konjunktionen',
+     body:`<p>In der persischen Mundanastrologie <span class="gloss" lang="en">(mundane astrology)</span> markieren die Konjunktionen von Saturn und Jupiter, etwa alle zwanzig Jahre, Abschnitte der Geschichte. Jahrhundertelang verwendeten die Astrologen ihre <span class="term g">mittleren</span> Konjunktionen <span class="gloss" lang="en">(mean conjunction)</span>: den Moment, in dem jeder in seiner eigenen Sphäre auf denselben Grad zeigt, gemessen in mittlerer Bewegung auf dem Äquanten.</p>
+         <p>Das ist etwas anderes als eine <span class="term">wahre</span> Konjunktion <span class="gloss" lang="en">(true conjunction)</span>, bei der wir beide von der Erde aus beisammen sehen — die beiden grauen Marken fallen Monate vor oder nach den beiden farbigen Strahlen zusammen.</p>
+         <p>Die große Konjunktion von 2020 fiel auf den 21. Dezember, in den ersten Grad des Wassermanns; das Modell legt ihre mittlere Konjunktion in den September davor.</p>`,
+     try:`Drücken Sie <em>Nächste mittlere Konjunktion</em> und sehen Sie, wie die beiden grauen Marken auf einem Grad landen, während die wahren Planeten noch auseinanderstehen. Dann <em>Nächste wahre Konjunktion</em>.`},
+    {title:'Der tropische Monat',
+     body:`<p>In der traditionellen Astrologie gibt es zwei Monate. Der <span class="term">tropische Monat</span> <span class="gloss" lang="en">(tropical month)</span> ist die Zeit, die der Mond braucht, um den Tierkreis zu umrunden und zum selben Grad zurückzukehren: 27 Tage, 7 Stunden, 43 Minuten.</p>
+         <p>Beginnen Sie bei einer Konjunktion <span class="gloss" lang="en">(meeting)</span> von Sonne und Mond. Er trennt sich von ihr und läuft ganz herum; der goldene Bogen ist sein Weg seit der Konjunktion. Kehrt er zum Grad der Konjunktion zurück, ist ein tropischer Monat vergangen — doch die Sonne ist nicht stehen geblieben.</p>
+         <p>Die astrologische Medizin verwendet diesen Monat: Horoskope für den Beginn einer Krankheit verfolgen den Mond ab seinem Grad in diesem Horoskop.</p>`,
+     try:`Drücken Sie <em>Abspielen</em> bei einem Tag pro Sekunde. Sehen Sie, wie der Mond nach etwa 27 Tagen die Marke „tropische Rückkehr“ erreicht, und bemerken Sie, dass die Sonne um etwa 27° weitergewandert ist.`},
+    {title:'Der synodische Monat und die Prävention',
+     body:`<p>Der <span class="term">synodische Monat</span> <span class="gloss" lang="en">(synodic month)</span> ist die Zeit zwischen zwei aufeinanderfolgenden Konjunktionen von Sonne und Mond: etwa zwei Tage mehr, im Mittel 29,5 Tage, weil der Mond eine Sonne einholen muss, die weitergezogen ist.</p>
+         <p>Auf halbem Weg zwischen den Konjunktionen steht er ihr gegenüber: die <span class="term r">Prävention</span> <span class="gloss" lang="en">(prevention)</span>, vom lateinischen Wort für „nach vorn hinausgehen“, der genauen Übersetzung des arabischen Worts für die Opposition von Sonne und Mond — den Vollmond. Weil die Sonne weiterläuft, liegt die Prävention nicht 180°, sondern etwa 194° von der Konjunktion entfernt.</p>
+         <p>In beiden Fällen kommt es auf den Grad des Mondes an: Der Grad der Konjunktion ist der, den er mit der Sonne teilt; der der Prävention ist sein eigener, ihr gegenüber.</p>`,
+     try:`Sehen Sie, wie der Mond die rote Marke „Prävention“ auf der anderen Seite der Sonne passiert und sie dann weiter am Rand bei einer neuen Konjunktion einholt. Die Tafel nennt beide Daten.`},
+    {title:'Konjunktional oder präventional?',
+     body:`<p>Jede Geburt ist entweder <span class="term">konjunktional</span> <span class="gloss" lang="en">(conjunctional)</span> — in den zwei Wochen nach einer Konjunktion, vor der Prävention — oder <span class="term r">präventional</span> <span class="gloss" lang="en">(preventional)</span>, nach der Prävention und vor der nächsten Konjunktion. Maßgeblich ist die jüngste Lunation; man braucht das bei der Berechnung der Lebensdauer und anderswo.</p>
+         <p>Die Tafel liest es für das Datum unter dem Himmel ab: Grad und Datum der letzten Konjunktion, der Prävention und das Urteil.</p>
+         <p>Damit endet die Astronomie der Lektion. Von hier an geht es um Tabellen und die Arithmetik, um sie aufzuschlagen — dafür sind die beiden anderen Seiten im Regal da.</p>`,
+     try:`Geben Sie Ihr eigenes Geburtsdatum in das Datumsfeld unter dem Himmel ein. Was trifft auf Sie zu? Setzen Sie dann das Datum auf heute und sehen Sie nach, wo die Konjunktion dieses Monats lag.`}
+  ]
+};
+
+I18N.zh = {
+  dec: '.',
+  lead0: true,
+  names: { sun:'太阳', moon:'月亮', mercury:'水星', venus:'金星', mars:'火星', jupiter:'木星', saturn:'土星' },
+  stars: { Aldebaran:'毕宿五', Regulus:'轩辕十四', Antares:'心宿二', Fomalhaut:'北落师门' },
+  ui: {
+    title: '赛义德的行星仪',
+    subtitle: '托勒密的模型，从黄极俯瞰',
+    language: '语言',
+    cardTitle: '显示或隐藏读数卡',
+    scene: '场景', sceneSun: '太阳', scenePlanet: '行星', sceneConj: '合相', sceneMoon: '月亮',
+    planet: '行星', speed: '速度', date: '日期', today: '今天',
+    tabWalk: '分幕', tabLayers: '图层', tabNotes: '说明',
+    tryit: '动手试试', back: '上一页', next: '下一页',
+    again: '从头开始', againTitle: '把这一步恢复到开始时的样子',
+    grpModel: '模型', offCentre: '偏心', grpMotion: '运动', traceSpan: '轨迹', grpSky: '星空',
+    layersFoot: `位置由托勒密的几何模型算出，参数取课中图 27 的现代值，并采用 J2000 平黄经。它们与真实天空相差一两度——足以认出今晚的火星，却不足以据此起盘。`,
+    paramsT: '参数（图 27）',
+    paramsNote: `偏心率是地球到均轮圆心的距离，以均轮半径的分数表示；匀速点位于它的两倍处。本轮也以同一半径的分数表示。远地点取 2020 年的值，大约每 72 年移动 1°。`,
+    periodsT: '周期（图 28）',
+    notT: '这个模型不是什么',
+    not1: `它不是星历表。水星和月亮完整的托勒密机制没有收入（Ben 在他的《奥地利的利奥波德》中配图讲解了它们）；这里的月亮按平均速率运行。黄纬忽略不计，所以一切都平铺在你俯视的这个平面上。`,
+    not2: `然而火星转入逆行的时刻，与真实情况相差不到一天；四季的长度也准确到十分之一天。这正是托勒密的用意：几个圆，加一张更正表，就足以预测几百年的天象。`,
+    dedic: `<b>献给北落师门班</b>北落师门，“南方守望者”，按它现在的黄经画在每个场景的边缘，另外三颗皇家恒星与它作伴。南鱼的嘴，正是春分点缓缓前往的方向。`,
+    foot1: `依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §4–5，以及他推荐的行星模型模拟器；图（16–28）均出自该书。延伸阅读：James Evans，《<em>The History and Practice of Ancient Astronomy</em>》。`,
+    foot2: '单一文件，无需联网。字体：EB Garamond、IBM Plex Mono 与 IBM Plex Sans Condensed，采用 SIL Open Font License。属于 <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a> 的一部分。'
+  },
+  stepOf: (i, n) => `第 ${i} 步，共 ${n} 步`,
+  stepN: (i, title) => `第 ${i} 步：${title}`,
+
+  play: '播放', pause: '暂停',
+  card: '读数卡', hideCard: '隐藏读数卡',
+  days: n => `${n} 天`,
+  perSec: v => `${v} 天/秒`,
+
+  params: { planet:'行星', epicycle:'本轮', ecc:'偏心率', rate:'速率 °/天', apogee:'远地点' },
+  periods: { planet:'行星', trop:'回归周期', lesser:'小年' },
+  years: v => `${v} 年`, daysShort: v => `${v} 天`,
+
+  fig: {
+    sayyid: 'O · 赛义德', apogee: '远地点', perigee: '近地点', mean: '平', equant: '匀速点',
+    meeting: '朔', prevention: '望', tropReturn: '回归'
+  },
+
+  plate: {
+    sunT: '太阳', eccentric: '偏心圆', meanSun: '平太阳', trueSun: '真太阳', equation: '均差',
+    concentricNote: '同心：真太阳与平太阳重合，均差为零。',
+    tableNote: '均差表列出每个平位置对应的这一更正值。',
+    retrograde: '逆行', direct: '顺行', mean: '平', true: '真', daily: '日行', sun: '太阳',
+    inferiorNote: 'K 随平太阳而行；金星在本轮上绕 K 运转。',
+    superiorNote: '本轮半径始终指向平太阳。',
+    conjunction: '合', trueOf: glyph => `${glyph} 真`, trueSep: '真距', meanSep: '平距',
+    conjNote: '平合：两者在各自匀速点上量得的度数相同。真合：我们眼中看到的相合。',
+    moonT: '月亮', conjunctional: '朔生', preventional: '望生', moon: '月亮',
+    elongation: '距角', sinceMeeting: (deg, d) => `${deg}° · 朔后 ${d} 天`,
+    meeting: '朔', prevention: '望',
+    conjNativity: '生于朔之后、望之前：朔生盘。',
+    prevNativity: '生于望之后、下一次朔之前：望生盘。',
+    seasonsT: '四季', fromModel: '模型给出',
+    spring: '春', summer: '夏', autumn: '秋', winter: '冬', nDays: v => `${v} 天`,
+    seasonsNote: v => `靠近巨蟹座远地点的季节最长，靠近摩羯座近地点的最短。若圆是同心的，四季都将是 ${v} 天。`
+  },
+
+  layers: {
+    deferent: ['均轮', '即偏心圆'], apsidal: ['拱线', '远地点 · 近地点'],
+    epicycle: ['本轮', '用于行星'], equant: ['匀速点', 'E，位于两倍偏心率处'],
+    mean: ['同心圆', '平均运动'],
+    body: ['真位置', '天体本身'], meanBody: ['平位置', '灰色天体'],
+    ray: ['射向黄道的视线', '赛义德所见'], loop: ['平面上的路径', '逆行圈'],
+    trace: ['边缘上的轨迹', '逆行时为红色'],
+    signs: ['星座', ''], stars: ['皇家恒星', '含北落师门'], labels: ['标注', '']
+  },
+
+  actions: {
+    seasons: '测量四季', station: '跳到下一个留',
+    meanconj: '下一次平合', trueconj: '下一次真合', today: '把日期设为今天'
+  },
+
+  acts: ['第一幕 · 太阳', '第二幕 · 火星', '第三幕 · 木星与土星', '第四幕 · 月亮'],
+
+  walk: [
+    {title:'空无一物的宇宙',
+     body:`<p>我们身在外太空，悬浮于黄极<span class="gloss" lang="en">（pole of the ecliptic）</span>，俯视地球。赛义德站在中心的 O 点，可以向四面八方观测。黄道是外圈的边缘，白羊座 0° 在右侧，黄经沿逆时针方向增加。</p>
+         <p>四颗皇家恒星按它们现在的黄经守在边缘上——毕宿五、轩辕十四、心宿二，还有特意为这个班标出的北落师门。</p>
+         <p>此外别无他物。我们将从这里搭起太阳的模型。</p>`,
+     try:`在边缘上找到北落师门，就在双鱼座开头不远处。按星空下方的<em>播放</em>，看日期流逝；什么都还没动，因为还没有东西可动。`},
+    {title:'同心的平太阳',
+     body:`<p>加上太阳的圆形路径，仿佛它与地球同心<span class="gloss" lang="en">（concentric）</span>。这个大球就是<span class="term">均轮</span><span class="gloss" lang="en">（deferent）</span>：转动的是这个球，太阳由它载着走。（我们权且当作太阳自己在动。）</p>
+         <p>假如这是对的，太阳就会以均匀的速率绕我们运行，每 91.31 天走完四分之一圈。这个速率就是它的<span class="term g">平均运动</span><span class="gloss" lang="en">（mean motion）</span>，每天 0° 59′ 08″；它在任何一天所处的位置，就是它的<span class="term g">平位置</span><span class="gloss" lang="en">（mean position）</span>。</p>
+         <p>灰色圆盘是平太阳。此刻它同时也是真太阳，因为圆心就在我们这里。</p>`,
+     try:`看灰色射线以均匀的步子扫过边缘。读数板上的均差——平与真之间的差距——恰好为零。`},
+    {title:'偏离中心：偏心圆',
+     body:`<p>但真太阳并不以那个速率运行。它在黄道的某些部分显得快些，在另一些部分显得慢些：这就是<span class="term">黄道不等</span><span class="gloss" lang="en">（zodiacal anomaly）</span>。离我们近的东西看起来动得快；离得远的，看起来动得慢。</p>
+         <p>所以把它的圆移离中心，远离赛义德，朝它显得最慢的方向移：朝巨蟹座中段。这个圆现在是<span class="term">偏心圆</span><span class="gloss" lang="en">（eccentric）</span>，圆心 C 偏离了半径的 0.0335，这就是它的偏心率<span class="gloss" lang="en">（eccentricity）</span>。</p>
+         <p>穿过 O 与 C 的直线是<span class="term g">拱线</span><span class="gloss" lang="en">（apsidal line）</span>。它与圆相交、离我们最远的那一点是<span class="term g">远地点</span><span class="gloss" lang="en">（apogee）</span>，2000 年时在巨蟹座 13° 16′；对面，在摩羯座，是<span class="term g">近地点</span><span class="gloss" lang="en">（perigee）</span>。</p>`,
+     try:`圆刚刚向外滑了出去。在<em>图层</em>页上，<em>偏心</em>滑块让 C 在同心与偏心的位置之间移动；拖动它，看金色的太阳渐渐离开灰色的那个。`},
+    {title:'平与真，以及均差',
+     body:`<p>现在有两个太阳了。灰色的是假如它的球同心时我们预期它所在的地方：平位置。金色的是我们实际看到它的地方：真位置<span class="gloss" lang="en">（true position）</span>，在偏心圆上。</p>
+         <p>靠近远地点时，真太阳落后于平太阳，因为圆的那一段离我们远，它显得磨磨蹭蹭；靠近近地点时，它跑到了前面。只有在远地点和近地点，两者才重合。</p>
+         <p>两条射线之间的夹角就是<span class="term v">均差</span><span class="gloss" lang="en">（equation）</span>。平均运动表<span class="gloss" lang="en">（table of mean motion）</span>给出任何一天的灰色太阳；均差表<span class="gloss" lang="en">（table of equations）</span>给出这个更正值；加上它，不到一分钟就得到真太阳。托勒密的全部诀窍就在于此。</p>`,
+     try:`盯住读数板上的均差：它在巨蟹座 13° 和摩羯座 13° 附近为零，在两者之间接近 2°。按几次 <em>−30 天</em>，让它倒着走。`},
+    {title:'为什么夏季最长',
+     body:`<p>偏心圆朝远地点一侧的部分比朝近地点一侧的多。从巨蟹座 0° 到天秤座 0°，太阳必须走过又长又远的那一侧，所以夏季最长；从摩羯座到白羊座，它走过又短又近的那一侧，所以冬季最快。</p>
+         <p>恭喜——我们已经为太阳的运动建好了模型。模型给出：春季 92.8 天，夏季 93.7 天，秋季 89.9 天，冬季 89.0 天——与真实值相差不到十分之一天。</p>`,
+     try:`按上面的<em>测量四季</em>：读数板列出模型预测的四季长度。然后按<em>播放</em>，自己数一数从巨蟹座 0° 到天秤座 0° 有多少天。`},
+    {title:'火星的均轮',
+     body:`<p>再把宇宙清空，放进火星的偏心均轮。搭建它不需要知道太阳在哪里，也不需要实际距离：只需要比例和速度。</p>
+         <p>它的远地点恰好在 150.5°，靠近处女座开头；它的均轮在它的回归周期<span class="gloss" lang="en">（tropical period）</span>1.88 年内转一圈。这处理了它的黄道不等，与太阳的情形一样。</p>
+         <p>但火星还有太阳所没有的第二种不等：<span class="term r">方向</span>上的不等<span class="gloss" lang="en">（directional anomaly）</span>。有时它会倒退。</p>`,
+     try:`单靠这个均轮，永远不能让火星逆行<span class="gloss" lang="en">（retrograde）</span>：看红色射线只会沿着边缘一点点向前爬。`},
+    {title:'本轮',
+     body:`<p>在均轮上火星原来所在的地方放一个小圆，即<span class="term">本轮</span><span class="gloss" lang="en">（epicycle）</span>，圆心为 K。整个本轮被载着沿均轮运行，同时火星在每个逆行周期<span class="gloss" lang="en">（retrogradation）</span>里绕本轮转一圈。</p>
+         <p>在本轮的上半部，离我们最远处，它顺行<span class="gloss" lang="en">（direct）</span>。在下半部，离我们最近处，它看起来在倒退。靠近两侧时，它似乎放慢、停下，成为留<span class="gloss" lang="en">（station）</span>。</p>
+         <p>那条淡色的线是它在平面上的路径——著名的逆行圈。边缘上的刻痕是赛义德看到的：顺行时为金色，逆行时为红色。</p>`,
+     try:`按<em>播放</em>，等红色射线迟疑、停住、再往回摆。这时火星在它的下半部。读数板上的日行变成负值。`},
+    {title:'赛义德眼中的逆行',
+     body:`<p>像图 25 那样，跟着火星绕它的本轮走。在上半部，观测到它顺行。沿侧边下来时，它放慢并留。然后它转入逆行，倒退着经过同样的度数，直到在另一侧低处再次留，然后顺行。</p>
+         <p>这期间本轮一直沿着均轮前进，所以它的总体运动仍是向前的：进两步，退一步。</p>
+         <p>因为几何关系已知，均差表可以把平位置换算成真位置——一项更正针对均轮，另一项额外的更正针对本轮。</p>`,
+     try:`按<em>跳到下一个留</em>：日期跳到火星静止的那一天，读数板上的日行几乎为零。再按一次，跳到下一个留。`},
+    {title:'匀速点',
+     body:`<p>问题出现了。若 K 沿均轮匀速运动，算出的逆行出现的位置不对，持续的时间也不对。只有当 K <em>不</em>匀速运动时，模型才与巴比伦的数据相符——而这没有简便的表可查。</p>
+         <p>后来托勒密发现：从拱线上某一点看去——它到地球的距离几乎恰好是 C 的两倍——K <em>确实</em>显得在匀速运动。这一点就是<span class="term s">匀速点</span><span class="gloss" lang="en">（equant）</span>，E。在匀速点的圆上量平均运动，调整几何关系，表就管用了。</p>
+         <p>并非人人都喜欢它；它是一个计算工具，不是“真实的”。然而匀速点几乎恰好位于行星椭圆轨道的空焦点上——一个真实的点，早在十六个世纪之前就被找到了。</p>`,
+     try:`看从 E 到 K 的蓝色虚线：它以完全均匀的速率转动。然后在<em>图层</em>页上取消勾选<em>匀速点</em>：K 改为从 C 看去匀速运动，各个留便偏离了它们真实的日期。`},
+    {title:'其他行星',
+     body:`<p>同一套机器也适用于木星和土星，只是本轮更小，均轮更慢：行星越远，它的逆行圈越小，绕一周的圈数也越多。对比之下，注意火星的偏心率和本轮有多大——正因为如此，没有匀速点时它的体系错得如此明显，其他行星则没那么明显。</p>
+         <p>金星不同。它是内行星<span class="gloss" lang="en">（inferior planet）</span>：它本轮的圆心 K 随平太阳而行，它在一个大小将近均轮四分之三的本轮上绕 K 运转。人们永远不会看到它离太阳很远。</p>`,
+     try:`用星空下方的行星选择器去看看土星（本轮很小，三十年绕一周）和金星（巨大的本轮拴在太阳上）。水星和月亮还要复杂，留给《奥地利的利奥波德》去讲。`},
+    {title:'平合与真合',
+     body:`<p>在波斯的世俗占星<span class="gloss" lang="en">（mundane astrology）</span>中，土星与木星大约每二十年一次的会合，标志着历史的各个阶段。几百年来，占星师用的是它们的<span class="term g">平</span>合<span class="gloss" lang="en">（mean conjunction）</span>：两者各在自己的球上，按在匀速点上量得的平均运动，指向同一度数的那一刻。</p>
+         <p>这与<span class="term">真</span>合<span class="gloss" lang="en">（true conjunction）</span>不同，真合是我们从地球上看到两者相聚之时——两个灰色标记重合的时间，比两条彩色射线重合要早或晚几个月。</p>
+         <p>2020 年的大合落在 12 月 21 日，在水瓶座第一度；模型把它的平合放在前一年的 9 月。</p>`,
+     try:`按<em>下一次平合</em>，看两个灰色标记落在同一度上，而真实的行星仍然分开。然后按<em>下一次真合</em>。`},
+    {title:'回归月',
+     body:`<p>传统占星中有两种月。<span class="term">回归月</span><span class="gloss" lang="en">（tropical month）</span>是月亮绕黄道一周、回到同一度数所需的时间：27 天 7 小时 43 分。</p>
+         <p>从日月的一次合朔<span class="gloss" lang="en">（meeting）</span>开始。月亮离开太阳，一路绕行一整圈；金色弧线就是它自合朔以来走过的路程。当它回到合朔的那一度时，一个回归月就过去了——但太阳并没有站着不动。</p>
+         <p>医疗占星用的就是这种月：为发病时刻所起的星盘，从月亮在该盘中的度数起一路跟随月亮。</p>`,
+     try:`以每秒一天的速度按<em>播放</em>。看月亮在大约 27 天后到达标着“回归”的记号，并注意太阳已经向前走了约 27°。`},
+    {title:'朔望月与望',
+     body:`<p><span class="term">朔望月</span><span class="gloss" lang="en">（synodic month）</span>是日月两次相继合朔之间的时间：多出大约两天，平均 29.5 天，因为月亮必须追上已经向前走了的太阳。</p>
+         <p>两次合朔的中途，月亮与太阳相对：这就是<span class="term r">望</span><span class="gloss" lang="en">（prevention）</span>。这个词源自拉丁语，意为“走到前面”，正是阿拉伯语中日月相冲<span class="gloss" lang="en">（opposition）</span>一词的直译——也就是满月。由于太阳一直在动，望并不落在距合朔 180° 处，而是约 194° 处。</p>
+         <p>两种情形我们关注的都是月亮的度数：合朔的度数是月亮与太阳共处的那一度；望的度数是月亮自己所在、与太阳相对的那一度。</p>`,
+     try:`看月亮经过太阳另一侧那个红色的“望”记号，然后沿边缘再往前，在新的一次合朔时追上太阳。读数板给出两个日期。`},
+    {title:'朔生还是望生？',
+     body:`<p>每个本命盘不是<span class="term">朔生</span><span class="gloss" lang="en">（conjunctional）</span>——生于合朔之后的两周内、望之前——就是<span class="term r">望生</span><span class="gloss" lang="en">（preventional）</span>，生于望之后、下一次合朔之前。这指的是最近的一次朔望<span class="gloss" lang="en">（lunation）</span>，用于寿命计算等处。</p>
+         <p>读数板会针对星空下方的日期读出结果：上一次合朔和望的度数与日期，以及结论。</p>
+         <p>本课的天文学到此结束。接下来就是查表，以及查表所需的算术——书架上另外两页正是为此而设。</p>`,
+     try:`在星空下方的日期框中输入你自己的出生日期。你是哪一种？然后把日期设为今天，看看这个月的合朔落在哪里。`}
+  ]
+};
+
+I18N.ja = {
+  dec: '.',
+  lead0: true,
+  names: { sun:'太陽', moon:'月', mercury:'水星', venus:'金星', mars:'火星', jupiter:'木星', saturn:'土星' },
+  stars: { Aldebaran:'アルデバラン', Regulus:'レグルス', Antares:'アンタレス', Fomalhaut:'フォーマルハウト' },
+  ui: {
+    title: 'サイイドのオーラリー',
+    subtitle: 'プトレマイオスのモデルを、黄道の極から見る',
+    language: '言語',
+    cardTitle: '解説カードの表示／非表示',
+    scene: 'シーン', sceneSun: '太陽', scenePlanet: '惑星', sceneConj: '合', sceneMoon: '月',
+    planet: '惑星', speed: '速度', date: '日付', today: '今日',
+    tabWalk: '解説', tabLayers: 'レイヤー', tabNotes: '補足',
+    tryit: '試してみる', back: '戻る', next: '次へ',
+    again: '最初から', againTitle: 'このステップを始めの状態に戻す',
+    grpModel: 'モデル', offCentre: '離心', grpMotion: '運動', traceSpan: '軌跡', grpSky: '星空',
+    layersFoot: `位置は、教本の図 27 にある現代のパラメータと J2000 の平均黄経を使って、プトレマイオスの幾何学から求めています。実際の空とは 1〜2° の範囲で一致します——今夜の火星を見分けるには十分ですが、これでチャートを立てるには足りません。`,
+    paramsT: 'パラメータ（図 27）',
+    paramsNote: `離心率は、地球から従円の中心までの距離を、従円の半径に対する比で表したものです。エカントはその 2 倍の位置にあります。周転円も同じ半径に対する比です。遠地点は 2020 年のもので、72 年におよそ 1° 動きます。`,
+    periodsT: '周期（図 28）',
+    notT: 'このモデルが何でないか',
+    not1: `これは天文暦ではありません。水星と月については、プトレマイオスの機構の全体を省いてあります（Ben はオーストリアのレオポルドの翻訳で、図を使ってそれを説明しています）。ここでの月は平均の速さで動きます。黄緯は無視しているので、すべてはあなたが見下ろしている平面の上に平らに並びます。`,
+    not2: `それでも火星は、実際に逆行に転じる日から 1 日以内に逆行し、季節の長さは 0.1 日の精度で出てきます。それこそがプトレマイオスの眼目でした。いくつかの円と補正の表があれば、何世紀にもわたって空を予測できるのです。`,
+    dedic: `<b>フォーマルハウト組のみなさんへ</b>南の番人フォーマルハウトは、ほかの三つの王家の星を連れて、どのシーンでも現在の黄経の位置で縁に描かれています。春分点がゆっくりと向かっているのは、南の魚の口です。`,
+    foot1: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §4–5 と、Dykes が推奨する惑星モデル・シミュレーターに準拠しています。図（16–28）は Dykes によるものです。参考文献：James Evans, <em>The History and Practice of Ancient Astronomy</em>。`,
+    foot2: 'ネットワーク不要の単一ファイル。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed（SIL Open Font License）。<a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a> の一部です。'
+  },
+  stepOf: (i, n) => `ステップ ${i} / ${n}`,
+  stepN: (i, title) => `ステップ ${i}：${title}`,
+
+  play: '再生', pause: '一時停止',
+  card: 'カード', hideCard: 'カードを隠す',
+  days: n => `${n} 日`,
+  perSec: v => `${v} 日/秒`,
+
+  params: { planet:'惑星', epicycle:'周転円', ecc:'離心率', rate:'速度 °/日', apogee:'遠地点' },
+  periods: { planet:'惑星', trop:'回帰周期', lesser:'小年' },
+  years: v => `${v} 年`, daysShort: v => `${v} 日`,
+
+  fig: {
+    sayyid: 'O · サイイド', apogee: '遠地点', perigee: '近地点', mean: '平均', equant: 'エカント',
+    meeting: '朔', prevention: '望', tropReturn: '回帰'
+  },
+
+  plate: {
+    sunT: '太陽', eccentric: '離心円', meanSun: '平均太陽', trueSun: '真太陽', equation: '均差',
+    concentricNote: '同心円：真太陽は平均太陽に重なり、均差はゼロです。',
+    tableNote: '均差表は、あらゆる平均位置に対するこの補正を収めています。',
+    retrograde: '逆行', direct: '順行', mean: '平均', true: '真', daily: '1 日の運行', sun: '太陽',
+    inferiorNote: 'K は平均太陽とともに動き、金星は周転円に乗って K のまわりを回ります。',
+    superiorNote: '周転円の半径は、つねに平均太陽の方向を指します。',
+    conjunction: '合', trueOf: glyph => `真の ${glyph}`, trueSep: '真の離角', meanSep: '平均の離角',
+    conjNote: '平均の合：両者がそれぞれのエカント上で測って同じ度数を指すとき。真の合：私たちに見えるとおりの合。',
+    moonT: '月', conjunctional: '朔の出生', preventional: '望の出生', moon: '月',
+    elongation: '離角', sinceMeeting: (deg, d) => `${deg}° · 朔から ${d} 日`,
+    meeting: '朔', prevention: '望',
+    conjNativity: '朔のあと、望の前に生まれています。朔の出生です。',
+    prevNativity: '望のあと、次の朔の前に生まれています。望の出生です。',
+    seasonsT: '季節', fromModel: 'モデルによる値',
+    spring: '春', summer: '夏', autumn: '秋', winter: '冬', nDays: v => `${v} 日`,
+    seasonsNote: v => `遠地点のある蟹座の側で最も長く、近地点のある山羊座の側で最も短くなります。円が同心なら、四つとも ${v} 日になるはずです。`
+  },
+
+  layers: {
+    deferent: ['従円', '離心円'], apsidal: ['アプシス線', '遠地点 · 近地点'],
+    epicycle: ['周転円', '惑星用'], equant: ['エカント', 'E、離心率の 2 倍の位置'],
+    mean: ['同心円', '平均運動'],
+    body: ['真位置', '天体そのもの'], meanBody: ['平均位置', '灰色の天体'],
+    ray: ['獣帯への光線', 'サイイドに見えるもの'], loop: ['平面上の経路', 'ループ'],
+    trace: ['縁の軌跡', '逆行中は赤'],
+    signs: ['サイン', ''], stars: ['王家の星', 'フォーマルハウトとともに'], labels: ['ラベル', '']
+  },
+
+  actions: {
+    seasons: '季節を測る', station: '次の留へ',
+    meanconj: '次の平均の合', trueconj: '次の真の合', today: '日付を今日にする'
+  },
+
+  acts: ['第一幕 · 太陽', '第二幕 · 火星', '第三幕 · 木星と土星', '第四幕 · 月'],
+
+  walk: [
+    {title:'空っぽの宇宙',
+     body:`<p>私たちは宇宙空間にいて、黄道の極<span class="gloss" lang="en">（pole of the ecliptic）</span>に浮かび、地球を見下ろしています。サイイドは中心の O に立ち、あらゆる方向を観測できます。獣帯は外側の縁で、牡羊座 0° が右にあり、黄経は反時計回りに進みます。</p>
+         <p>四つの王家の星が、現在の黄経の位置で縁から見張っています——アルデバラン、レグルス、アンタレス、そしてこのクラスのためにフォーマルハウト。</p>
+         <p>ほかにはまだ何もありません。ここから太陽のモデルを組み立てます。</p>`,
+     try:`縁の上、魚座に少し入ったところにフォーマルハウトを探してください。空の下の「<em>再生</em>」を押して、日付が進むのを見てください。まだ何も動きません。動かすものが何もないからです。`},
+    {title:'同心の平均太陽',
+     body:`<p>太陽の円軌道を、地球と中心を同じくする同心円<span class="gloss" lang="en">（concentric）</span>として加えます。この大きな天球が<span class="term">従円</span><span class="gloss" lang="en">（deferent）</span>です。回転するのはこの天球で、太陽はそれに乗って運ばれます。（ここでは太陽そのものが動くことにしておきます。）</p>
+         <p>これが正しければ、太陽は私たちのまわりを一様な速さで動き、91.31 日ごとに四分の一周するはずです。その速さが太陽の<span class="term g">平均運動</span><span class="gloss" lang="en">（mean motion）</span>で、1 日に 0° 59′ 08″。任意の日の位置が<span class="term g">平均位置</span><span class="gloss" lang="en">（mean position）</span>です。</p>
+         <p>灰色の円盤が平均太陽です。いまはそれが真太陽でもあります。円の中心が私たちにあるからです。</p>`,
+     try:`灰色の光線が一定の速さで縁を掃いていくのを見てください。パネルには均差——平均と真の差——がちょうどゼロと表示されています。`},
+    {title:'中心をずらす：離心円',
+     body:`<p>しかし真の太陽はその速さでは動きません。獣帯のある部分では速く、別の部分では遅く見えます。これが<span class="term">獣帯上の不等</span><span class="gloss" lang="en">（zodiacal anomaly）</span>です。近くを動くものは速く、遠くのものは遅く見えるものです。</p>
+         <p>そこで円をサイイドから離れる向きに、太陽が最も遅く見える方向——蟹座の中ほど——へずらします。円はいまや<span class="term">離心円</span><span class="gloss" lang="en">（eccentric）</span>となり、その中心 C は半径の 0.0335 だけずれています。この比が離心率<span class="gloss" lang="en">（eccentricity）</span>です。</p>
+         <p>O と C を通る線が<span class="term g">アプシス線</span><span class="gloss" lang="en">（apsidal line）</span>です。それが円と交わる点のうち、私たちから最も遠いのが<span class="term g">遠地点</span><span class="gloss" lang="en">（apogee）</span>で、2000 年には蟹座 13° 16′ にありました。その反対側、山羊座にあるのが<span class="term g">近地点</span><span class="gloss" lang="en">（perigee）</span>です。</p>`,
+     try:`円がいま外へ滑りました。「<em>レイヤー</em>」タブの「<em>離心</em>」スライダーで、C を同心と離心の位置の間で動かせます。動かして、金色の太陽が灰色の太陽から離れていくのを見てください。`},
+    {title:'平均と真、そして均差',
+     body:`<p>太陽が二つになりました。灰色のほうは、天球が同心だったら太陽があるはずの場所、つまり平均位置です。金色のほうは実際に見える場所、つまり離心円上の真位置<span class="gloss" lang="en">（true position）</span>です。</p>
+         <p>遠地点の近くでは、真太陽は平均太陽より遅れます。円のその部分は私たちから遠く、太陽はぐずぐずしているように見えるからです。近地点の近くでは先へ走ります。二つが一致するのは遠地点と近地点だけです。</p>
+         <p>二本の光線のなす角が<span class="term v">均差</span><span class="gloss" lang="en">（equation）</span>です。平均運動表<span class="gloss" lang="en">（table of mean motion）</span>で任意の日の灰色の太陽がわかり、均差表<span class="gloss" lang="en">（table of equations）</span>でこの補正がわかります。これを加えれば、1 分もかからずに真太陽が出ます。プトレマイオスの仕掛けは、これですべてです。</p>`,
+     try:`パネルの均差を見てください。蟹座 13° と山羊座 13° のあたりでゼロになり、その間ではほぼ 2° に達します。「<em>−30 日</em>」を何度か押して、逆向きに動かしてみましょう。`},
+    {title:'なぜ夏がいちばん長いのか',
+     body:`<p>離心円は、近地点側より遠地点側のほうに多く広がっています。蟹座 0° から天秤座 0° までは、太陽は長くて遠い側を通らねばならないので、夏がいちばん長くなります。山羊座から牡羊座までは短くて近い側を横切るので、冬がいちばん短くなります。</p>
+         <p>おめでとうございます——太陽の運動をモデル化できました。モデルによれば春 92.8 日、夏 93.7 日、秋 89.9 日、冬 89.0 日。実際の値と 0.1 日の精度で一致します。</p>`,
+     try:`上の「<em>季節を測る</em>」を押してください。モデルが予測する四つの長さがパネルに並びます。次に「<em>再生</em>」を押し、蟹座 0° から天秤座 0° までの日数を自分で数えてみましょう。`},
+    {title:'火星の従円',
+     body:`<p>宇宙をもう一度空にして、火星の離心した従円を置きます。これを組み立てるのに太陽の位置を知る必要はなく、実際の距離も要りません。必要なのは比率と速さだけです。</p>
+         <p>火星の遠地点はたまたま 150.5°、乙女座の初めの近くにあり、従円は火星の回帰周期<span class="gloss" lang="en">（tropical period）</span>である 1.88 年で一回転します。これで、太陽のときと同じように、獣帯上の不等が処理できます。</p>
+         <p>しかし火星には、太陽にはない第二の不等があります。<span class="term r">方向の不等</span><span class="gloss" lang="en">（directional anomaly）</span>です。ときどき後ろへ進むのです。</p>`,
+     try:`この従円だけでは、火星を逆行<span class="gloss" lang="en">（retrograde）</span>させることは決してできません。赤い光線が縁に沿って前へ這い進むだけなのを見てください。`},
+    {title:'周転円',
+     body:`<p>火星があった位置の従円上に小さな円、<span class="term">周転円</span><span class="gloss" lang="en">（epicycle）</span>を置き、その中心を K とします。周転円全体が従円に沿って運ばれるあいだに、火星は逆行<span class="gloss" lang="en">（retrogradation）</span>の周期ごとに一度、周転円を一周します。</p>
+         <p>周転円の上半分、私たちから最も遠いところでは、火星は順行<span class="gloss" lang="en">（direct）</span>します。下半分、最も近いところでは、後ろへ動くように見えます。両脇の近くでは遅くなり、止まり、留<span class="gloss" lang="en">（station）</span>となるように見えます。</p>
+         <p>淡い線は平面上の経路——有名なループです。縁の目盛りはサイイドに見えるもので、順行中は金色、逆行中は赤です。</p>`,
+     try:`「<em>再生</em>」を押し、赤い光線がためらい、止まり、引き返すのを待ってください。火星は下半分にいます。パネルの 1 日の運行はマイナスになります。`},
+    {title:'サイイドの見る逆行',
+     body:`<p>図 25 のように、火星を周転円に沿って追っていきます。上半分では順行が観測されます。脇を下ってくると遅くなり、留になります。ここで逆行に転じて同じ度数を引き返し、反対側の低いところで再び留となって、順行に戻ります。</p>
+         <p>そのあいだも周転円は従円に沿って進み続けるので、全体としての動きはやはり前向きです。二歩進んで一歩下がる、というわけです。</p>
+         <p>幾何学がわかっているので、均差表で平均位置を真位置に変換できます。従円のための補正がひとつ、周転円のための補正がもうひとつです。</p>`,
+     try:`「<em>次の留へ</em>」を押してください。日付は火星が静止する日へ跳び、パネルの 1 日の運行はほぼゼロを示します。もう一度押すと、その次の留へ進みます。`},
+    {title:'エカント',
+     body:`<p>問題がありました。K が従円に沿って一様に動くとすると、逆行の起こる場所も長さも合わないのです。モデルがバビロニアのデータに合うのは K が一様に<em>動かない</em>場合だけでした——そして、それを表にする簡単な方法はありません。</p>
+         <p>そこでプトレマイオスは気づきました。アプシス線上の、地球から C のほぼちょうど 2 倍の距離にある点から見ると、K は一様に動いて<em>いる</em>ように見えるのです。その点が<span class="term s">エカント</span><span class="gloss" lang="en">（equant）</span>、E です。平均運動をエカントの円で測り、幾何学を調整すれば、表はうまく働きます。</p>
+         <p>誰もが気に入ったわけではありません。計算のための装置であって、「本物」ではなかったからです。それでもエカントは、惑星の楕円の空いているほうの焦点にほぼぴったりと位置しています。16 世紀も早く見つかった、本物の点です。</p>`,
+     try:`E から K への青い点線を見てください。完全に一定の速さで回ります。次に「<em>レイヤー</em>」タブで「<em>エカント</em>」のチェックを外してください。K は代わりに C から見て一様に動くようになり、留の日付が実際の日からずれていきます。`},
+    {title:'ほかの惑星',
+     body:`<p>同じ仕掛けが木星と土星にも使えます。周転円はより小さく、従円はより遅く回ります。惑星が遠いほどループは小さく、一周のうちのループの数は多くなります。比べてみると、火星の離心率と周転円がいかに大きいかがわかります——だからこそ火星の体系はエカントなしでは目に見えて狂い、ほかの惑星はそれほどでもなかったのです。</p>
+         <p>金星は違います。金星は内惑星<span class="gloss" lang="en">（inferior planet）</span>です。周転円の中心 K は平均太陽とともに動き、金星は従円のほぼ 4 分の 3 もの大きさの周転円に乗って K のまわりを回ります。金星が太陽から遠く離れて見えることは決してありません。</p>`,
+     try:`空の下の惑星セレクターで、土星（ごく小さな周転円、一周 30 年）と金星（太陽につながれた巨大な周転円）を見てみてください。水星と月はさらに複雑なので、オーストリアのレオポルドに任せます。`},
+    {title:'平均の合と真の合',
+     body:`<p>ペルシアのマンデーン占星術<span class="gloss" lang="en">（mundane astrology）</span>では、およそ 20 年ごとに起こる土星と木星の合が、歴史の段階を区切ります。何世紀ものあいだ、占星術師たちはその<span class="term g">平均の</span>合<span class="gloss" lang="en">（mean conjunction）</span>を使いました。それぞれが自分の天球の中で、エカント上の平均運動で測って同じ度数を指す瞬間です。</p>
+         <p>これは<span class="term">真の</span>合<span class="gloss" lang="en">（true conjunction）</span>、つまり地球から二つが並んで見えるときとは異なります。二つの灰色の印が重なるのは、二本の色つきの光線が重なる何か月も前か後です。</p>
+         <p>2020 年のグレート・コンジャンクションは 12 月 21 日、水瓶座の最初の度数で起こりました。モデルでは、その平均の合はその前の 9 月です。</p>`,
+     try:`「<em>次の平均の合</em>」を押し、真の惑星がまだ離れているのに、二つの灰色の印が同じ度数に降り立つのを見てください。次に「<em>次の真の合</em>」を押してください。`},
+    {title:'回帰月',
+     body:`<p>伝統的な占星術には二つの月が出てきます。<span class="term">回帰月</span><span class="gloss" lang="en">（tropical month）</span>は、月が獣帯を一周して同じ度数に戻るまでの時間で、27 日 7 時間 43 分です。</p>
+         <p>太陽と月の朔<span class="gloss" lang="en">（meeting）</span>、つまり合から始めます。月は太陽から離れ、ぐるりと一周します。金色の弧は朔からの月の移動です。月が朔の度数に戻ったとき、回帰月がひとつ経過したことになります——ただし太陽はじっとしてはいません。</p>
+         <p>医療占星術はこの月を使います。病気の始まりのチャートでは、そのチャートにおける月の度数から月を追っていきます。</p>`,
+     try:`1 秒に 1 日の速さで「<em>再生</em>」を押してください。約 27 日後に月が「回帰」と記された印に達し、太陽が約 27° 先へ進んでいることに注目してください。`},
+    {title:'朔望月と望',
+     body:`<p><span class="term">朔望月</span><span class="gloss" lang="en">（synodic month）</span>は、太陽と月の朔から次の朔までの時間です。回帰月より約 2 日長く、平均 29.5 日。月は先へ進んだ太陽に追いつかねばならないからです。</p>
+         <p>朔と朔の中間で、月は太陽の正反対に立ちます。これが<span class="term r">望</span><span class="gloss" lang="en">（prevention）</span>、つまり満月です。prevention はラテン語の「前に出ていくこと」に由来し、太陽と月の衝<span class="gloss" lang="en">（opposition）</span>を表すアラビア語の正確な訳語です。太陽が動き続けるので、望は朔から 180° ではなく、約 194° のところに来ます。</p>
+         <p>どちらの場合も注目するのは月の度数です。朔の度数は月が太陽と共有する度数、望の度数は太陽の反対側にある月自身の度数です。</p>`,
+     try:`月が太陽の向こう側で赤い「望」の印を通り過ぎ、縁をさらに回ったところで新たな朔となって太陽に追いつくのを見てください。パネルには両方の日付が表示されます。`},
+    {title:'朔の出生か、望の出生か',
+     body:`<p>どの出生も、<span class="term">朔の出生</span><span class="gloss" lang="en">（conjunctional）</span>——朔のあと、望の前の 2 週間に生まれた——か、<span class="term r">望の出生</span><span class="gloss" lang="en">（preventional）</span>——望のあと、次の朔の前に生まれた——かのどちらかです。これは直前の朔望<span class="gloss" lang="en">（lunation）</span>を指し、寿命の計算などで使われます。</p>
+         <p>パネルは空の下の日付についてこれを読み取ります。直前の朔と望の度数と日付、そして判定です。</p>
+         <p>これでこの課の天文学は終わりです。ここから先は表と、それを引くための算術です——それは棚にあるほかの二つのページの役目です。</p>`,
+     try:`空の下の日付欄に自分の生年月日を入力してください。あなたはどちらでしょう？ 次に日付を今日にして、今月の朔がどこで起きたかを見てみましょう。`}
+  ]
+};
+
 // ==== more languages ====
 
 // ---------- language ----------

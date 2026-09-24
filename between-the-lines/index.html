@@ -712,7 +712,7 @@ I18N.nb = {
     tabWalk: 'Gjennomgang', tabWs: 'Arbeidsark', tabNotes: 'Notater',
     tryit: 'Prøv dette', back: 'Tilbake', next: 'Neste', toWs: 'Åpne arbeidsarket',
     native: 'Den fødte', presetLesson: 'Leksjonens eksempel', presetSouth: 'Sørlig eksempel',
-    lst: 'LST', latitude: 'Breddegrad', obliquity: 'Skråstilling', oblNote: 'bare for den direkte beregningen',
+    lst: 'LST', latitude: 'Breddegrad', obliquity: 'Skjevhet', oblNote: 'bare for den direkte beregningen',
     hours: 'timer', minutes: 'minutter', seconds: 'sekunder',
     degrees: 'grader', arcMinutes: 'bueminutter', arcSeconds: 'buesekunder',
     hemisphere: 'halvkule', sign: 'tegn',
@@ -738,7 +738,7 @@ I18N.nb = {
     why1: 'Interpolasjon forutsetter at verdien vokser jevnt mellom to celler. På kulen gjør den ikke det: storsirklene krummer, og ascendanten endrer seg raskere i noen tegn enn i andre. Derfor går tabellene i trinn på 4′ ST — grovere trinn ville gitt helt gale verdier — og derfor avviker et interpolert resultat alltid litt fra den direkte beregningen. Innenfor 1′ er det helt greit.',
     why2: 'Den andre kilden er avrunding: et program tar med brøkdeler av et sekund i stjernetiden, og når de ganges med 15 for RAMC, blir de til hele buesekunder. Den siste raden i hvert arbeidsark viser den direkte verdien, så du kan se avviket.',
     directT: 'Direkte beregning',
-    direct: `Midthimmel: <span class="mono">MC = arctan(tan RAMC ÷ cos ε)</span>, med 180° lagt til hvis resultatet havner langt fra RAMC. Ascendant: <span class="mono">AC = arctan( −cos RAMC ÷ (sin RAMC · cos ε + tan φ · sin ε) )</span>, plassert i riktig kvadrant. Her er ε ekliptikkens skråstilling og φ breddegraden. Tabellen på denne siden er beregnet med disse formlene og ε = 23° 26′, og den gjengir leksjonens trykte tabell på sekundet.`,
+    direct: `Midthimmel: <span class="mono">MC = arctan(tan RAMC ÷ cos ε)</span>, med 180° lagt til hvis resultatet havner langt fra RAMC. Ascendant: <span class="mono">AC = arctan( −cos RAMC ÷ (sin RAMC · cos ε + tan φ · sin ε) )</span>, plassert i riktig kvadrant. Her er ε ekliptikkens skjevhet og φ breddegraden. Tabellen på denne siden er beregnet med disse formlene og ε = 23° 26′, og den gjengir leksjonens trykte tabell på sekundet.`,
     controlsT: 'Betjening',
     controls: `Glidebryterne under diagrammet flytter den fødte <em>innenfor</em> den gjeldende ruten: stjernetiden over de 4′ mellom to kolonner, breddegraden mellom to rader. Knappene ◀ ▶ og ▼ ▲ flytter til nabokolonnen eller naboraden. Nøyaktige verdier kan skrives inn i Arbeidsark-fanen. <kbd>Mellomrom</kbd> er <em>Neste steg</em>; <kbd>←</kbd> <kbd>→</kbd> blar i gjennomgangen.`,
     foot1: `Følger leksjon 5, §6.2–6.3 i Ben Dykes' <em>Traditional Natal Astrology Course</em>; eksempelhoroskopet, det sørlige eksempelet, Solen og Saturn er hans.`,
@@ -793,7 +793,7 @@ I18N.nb = {
     nativeMc: 'Den fødtes MC <small>interpolert = 21 + 23</small>',
     mcSouth: 'MC, opprinnelig tegn beholdt',
     ramc: 'RAMC <small>= LST × 15</small>',
-    obl: 'Ekliptikkens skråstilling',
+    obl: 'Ekliptikkens skjevhet',
     arctan: 'Arctan(tan RAMC ÷ cos OE)',
     mcDirect: 'Den fødtes MC <small>direkte</small>',
     laterAsc: 'Senere AC', earlierAsc: 'Tidligere AC',
@@ -804,7 +804,7 @@ I18N.nb = {
     diffLat: 'Differanse <small>= 36 − 30, eller 30 − 36</small>',
     natalAsc: f => `AC ved fødselen <small>= ${f}</small>`,
     ascSouth: 'AC, motsatt tegn',
-    ascDirect: 'Den fødtes AC <small>fra LST, breddegrad og skråstilling</small>'
+    ascDirect: 'Den fødtes AC <small>fra LST, breddegrad og skjevhet</small>'
   },
 
   say: {
@@ -830,7 +830,7 @@ I18N.nb = {
     nativeMc: (sum, sign, south) => `Legg den til den tidligere MC-verdien: ${sum}, altså ${sign}.${south ? ' Motsatt tegn, som ventet for den omregnede tiden.' : ''}`,
     mcSouth: sign => `Gi den tilbake tegnet den hadde ved hennes egen LST: ${sign}.`,
     ramc: sum => `For å kontrollere med kalkulator gjør du LST om til bue: ${sum} i rektascensjon.`,
-    obl: v => `Ekliptikkens skråstilling fra programmet ditt, eller 23° 26′: her ${v}.`,
+    obl: v => `Ekliptikkens skjevhet fra programmet ditt, eller 23° 26′: her ${v}.`,
     arctan: (v, far) => `arctan(tan RAMC ÷ cos OE) = ${v}.${far ? ' Det er langt fra RAMC, så legg til 180°.' : ' Nær RAMC, så ingen korreksjon.'}`,
     mcDirect: (sign, gap) => `Direkte beregning: ${sign} — ${gap}″ fra den interpolerte verdien. Tabellen bruker nøyaktig 23° 26′, og en rett linje er ikke det samme som ekliptikkens krumning.`,
     ascLowerLater: (lo, t, v) => `Rutens nederste kant, breddegrad ${lo}°. Fra tabellen: AC ved ${t} er ${v}.`,
@@ -869,9 +869,9 @@ I18N.nb = {
          <p>Differanse ganger forhold, lagt til den tidligere verdien. Det mønsteret er hele interpolasjonen; ascendanten gjør bare det samme tre ganger.</p>`,
      try:`Trykk <em>Neste steg</em> fem ganger. Hvert trykk flytter feltet under diagrammet én rad ned i arbeidsarket; ved det femte kommer svaret opp på linjalen.`},
     {title:'Kontroller det direkte',
-     body:`<p>MC kan også finnes ved direkte beregning <span class="gloss" lang="en">(direct calculation)</span>: <span class="mono">arctan(tan RAMC ÷ cos OE)</span>, der RAMC er LST × 15 og OE er ekliptikkens skråstilling <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Ligger resultatet ikke nær RAMC, legger du til eller trekker fra 180°.</p>
+     body:`<p>MC kan også finnes ved direkte beregning <span class="gloss" lang="en">(direct calculation)</span>: <span class="mono">arctan(tan RAMC ÷ cos OE)</span>, der RAMC er LST × 15 og OE er ekliptikkens skjevhet <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Ligger resultatet ikke nær RAMC, legger du til eller trekker fra 180°.</p>
          <p>For henne gir RAMC 264° 56′ 45″ og OE 23° 26′ 54″ resultatet 85° 21′ 41″; det er langt fra 264°, så legg til 180°: 265° 21′ 41″.</p>
-         <p>Bare 2″ fra den interpolerte verdien. Avviket har to årsaker: tabellen er beregnet for en skråstilling på nøyaktig 23° 26′, og interpolasjonen trekker en rett linje der ekliptikken krummer. Begge er små her.</p>`,
+         <p>Bare 2″ fra den interpolerte verdien. Avviket har to årsaker: tabellen er beregnet for en skjevhet på nøyaktig 23° 26′, og interpolasjonen trekker en rett linje der ekliptikken krummer. Begge er små her.</p>`,
      try:`Trykk <em>Neste steg</em> fire ganger til for å gå gjennom den direkte beregningen. Trykk så <em>Åpne arbeidsarket</em> for å se alle de tretten radene samlet.`},
     {title:'Ascendanten trenger to forhold',
      body:`<p>MC avhenger bare av ST; ascendanten avhenger også av breddegraden. Og breddegraden hennes, 44° 58′ 48″, er heller ikke en hel grad. Hun ligger altså mellom to kolonner <em>og</em> mellom to rader: fire ascendantverdier rammer henne inn.</p>

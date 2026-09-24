@@ -10,6 +10,8 @@ tracking. Save one to disk and it still works.
 | Piece | | |
 |---|---|---|
 | [Sayyid's Sphere](https://dar-al-hikma.github.io/sayyids-sphere/) | Three reference frames, one turning sky | 7 languages |
+| [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties, every carry and borrow shown | 7 languages |
+| [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses, and an ephemeris | 7 languages |
 
 ## Layout
 
@@ -37,6 +39,9 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.
+- **Seven languages, one file.** Every string a piece shows lives in its language
+  table (`TX` in Sayyid's Sphere, `I18N` in the others); a missing key falls back
+  to English. The choice is shared across the shelf under `localStorage["dah.lang"]`.
 - **Dark palette**, shared across the shelf and the pieces:
   `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`
 - **No build tooling.** If a piece ever needs a build, it belongs in its own repo.

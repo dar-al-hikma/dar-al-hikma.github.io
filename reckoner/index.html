@@ -1099,9 +1099,9 @@ I18N.nb = {
 
   walk: [
     {title:'Å telle i seksti',
-     body:`<p>En sirkel har 360°, en grad har 60 minutter (60′), et minutt har 60 sekunder (60″). Vi kunne gått videre til tredjedeler, men det er tungvint og nesten alltid unødvendig.</p>
+     body:`<p>En sirkel har 360°, en grad har 60 minutter <span class="gloss" lang="en">(minutes)</span>, skrevet 60′, og et minutt har 60 sekunder <span class="gloss" lang="en">(seconds)</span>, skrevet 60″. Vi kunne gått videre til tredjedeler <span class="gloss" lang="en">(thirds)</span>, men det er tungvint og nesten alltid unødvendig.</p>
          <p>Fordi enhetene går i seksti, gjelder de vanlige reglene for oppstilling fortsatt — du må bare huske at en kolonne er full ved <em>seksti</em>, ikke ti. Det ene faktumet er alt denne siden handler om.</p>
-         <p>Tavlen regner én kolonne om gangen og sier hva den gjør. Sifrene i <span class="term">messing</span> over en kolonne er mentene; overstrekte sifre er lån.</p>`,
+         <p>Tavlen regner én kolonne om gangen og sier hva den gjør. Sifrene i <span class="term">messing</span> over en kolonne er mentene <span class="gloss" lang="en">(carries)</span>; overstrekte sifre er lån <span class="gloss" lang="en">(borrows)</span>.</p>`,
      try:`Trykk <em>Neste steg</em> under tavlen tre ganger og se kolonnene fylles fra høyre.`},
     {title:'Addisjon: seksti i mente som én',
      body:`<p>Dette er eksempelet fra leksjonen. I sekundkolonnen blir 12″ og 56″ til sammen 68″. Det er flere sekunder enn det går på et minutt, så vi beholder bare 8″ og fører de andre 60″ over til minuttkolonnen som 1′.</p>
@@ -1134,22 +1134,22 @@ I18N.nb = {
          <p>Avrundingen til slutt er grunnen til at en omregnet verdi kan avvike med et sekund fra programmet ditt. Det er ingen feil.</p>`,
      try:`Vis alle. Ta så svaret, gjør det om til desimal igjen i modusen <em>Til desimal</em>, og se at sirkelen sluttes.`},
     {title:'Tegn og absolutt lengde',
-     body:`<p>Et horoskop sier 25° 21′ 41″ Skytten. En hustabell, og mye av regningen i denne leksjonen, vil ha det som én telling fra 0° Væren: den <span class="term">absolutte lengden</span>.</p>
+     body:`<p>Et horoskop sier 25° 21′ 41″ Skytten. En hustabell, og mye av regningen i denne leksjonen, vil ha det som én telling fra 0° Væren: den <span class="term">absolutte lengden</span> <span class="gloss" lang="en">(absolute longitude)</span>.</p>
          <p>Hvert tegn er 30° langt, og Skytten er det niende tegnet, så åtte hele tegn — 240° — kommer før det. Legg til gradene innenfor tegnet: 240° + 25° 21′ 41″ = 265° 21′ 41″. Dette er leksjonens midthimmel.</p>
          <p>For å gå tilbake deler du gradene på 30: kvotienten teller de hele tegnene som er passert, resten er graden innenfor det neste. Ringen på tavlen viser hvor punktet ligger.</p>`,
      try:`Vis alle. Gjør så fem slike oppgaver i Øving, på nivået <em>Lett</em>, til tegnenes startgrader sitter uten at du må tenke.`},
     {title:'Avstand over 0° Væren',
-     body:`<p>Noen ganger trenger du den nøyaktige avstanden mellom to punkter i dyrekretsen, og alt du vet, er posisjonene deres innenfor tegnene. Gjør begge om til absolutt lengde og trekk fra. Lodd regnes ut på denne måten.</p>
+     body:`<p>Noen ganger trenger du den nøyaktige avstanden mellom to punkter i dyrekretsen, og alt du vet, er posisjonene deres innenfor tegnene. Gjør begge om til absolutt lengde og trekk fra. Lodd <span class="gloss" lang="en">(Lots)</span> regnes ut på denne måten.</p>
          <p>Men måler du fra en posisjon sent i dyrekretsen til en som ligger tidlig — her fra sent i Vannmannen forover til en grad i Væren — krysser du 0° Væren. Legg da først 360° til sluttpunktet, og trekk så fra som vanlig.</p>
          <p>Er du usikker, kan du telle forover i trinn på 5° på et horoskophjul for å komme i nærheten. Bommer du med 30°, har du gjort noe feil.</p>`,
      try:`Gå gjennom stegene og se messingbuen på ringen krysse den røde Væren-linjen. Subtraksjonen under er det samme kolonnearbeidet som før.`},
     {title:'Tid til bue',
-     body:`<p>Stjernetid er en 24-timersklokke som forteller hvilken grad av rektascensjonen som står på meridianen. Himmelen dreier 360° på 24 timer, så én time er 15° bue — og tid gjøres om til bue ved å gange med 15.</p>
+     body:`<p>Stjernetid <span class="gloss" lang="en">(sidereal time)</span> er en 24-timersklokke som forteller hvilken grad av rektascensjonen <span class="gloss" lang="en">(right ascension)</span> som står på meridianen. Himmelen dreier 360° på 24 timer, så én time er 15° bue — og tid gjøres om til bue ved å gange med 15.</p>
          <p>Gang hver enhet for seg, og legg så sammen kolonnene: 17h × 15 = 255°, 39m × 15 = 585′ = 9° 45′, og 47s × 15 = 705″ = 11′ 45″. Til sammen 264° 56′ 45″.</p>
          <p>Dette er personen fra leksjonen: den lokale stjernetiden hennes, 17:39:47, gir en RAMC på 264° 56′ 45″, og ut fra den beregnes midthimmelen.</p>`,
      try:`Vis alle. Finn så stjernetiden for et av dine egne horoskoper og gjør den om til RAMC her; sammenlign med programmet ditt.`},
     {title:'Bue til tid',
-     body:`<p>Den omvendte regningen trengs til lengdekorreksjonen: fødestedets geografiske lengde, delt på 15, er forskjellen mellom stjernetiden i Greenwich og den lokale stjernetiden.</p>
+     body:`<p>Den omvendte regningen trengs til lengdekorreksjonen <span class="gloss" lang="en">(longitude correction)</span>: fødestedets geografiske lengde, delt på 15, er forskjellen mellom stjernetiden i Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> og den lokale stjernetiden <span class="gloss" lang="en">(local sidereal time)</span>.</p>
          <p>Minneapolis ligger på 93° 15′ 48″ V. 93° ÷ 15 = 6h med 3° til overs; 3° er 180′, pluss 15′ blir 195′, og 195′ ÷ 15 = nøyaktig 13m; 48″ ÷ 15 = 3,2s. Korreksjonen er altså 6h 13m 03s, og den trekkes fra fordi byen ligger vest for Greenwich.</p>
          <p>Det er alle beregningene i §2 og det første arbeidsarket i §6. Resten av leksjonen er å slå opp i tabeller — og denne regningen, gjort nøye.</p>`,
      try:`Vis alle. Gå så til Øving og regn hver modus på nivået <em>Vanlig</em> til du klarer fem på rad uten en eneste feil.`}
@@ -1331,9 +1331,9 @@ I18N.es = {
 
   walk: [
     {title:'Contar de sesenta en sesenta',
-     body:`<p>Un círculo tiene 360°; un grado, 60 minutos (60′); un minuto, 60 segundos (60″). Podríamos seguir hasta los terceros, pero resulta engorroso y casi nunca hace falta.</p>
+     body:`<p>Un círculo tiene 360°; un grado, 60 minutos <span class="gloss" lang="en">(minutes)</span> o 60′; un minuto, 60 segundos <span class="gloss" lang="en">(seconds)</span> o 60″. Podríamos seguir hasta los terceros <span class="gloss" lang="en">(thirds)</span>, pero resulta engorroso y casi nunca hace falta.</p>
          <p>Como las unidades van de sesenta en sesenta, siguen valiendo las reglas de siempre de la aritmética por columnas: solo hay que recordar que una columna se llena al llegar a <em>sesenta</em>, no a diez. Ese único hecho es todo lo que enseña esta página.</p>
-         <p>La pizarra trabaja columna a columna y dice lo que está haciendo. Las cifras de color <span class="term">latón</span> sobre una columna son los acarreos; las cifras tachadas, los préstamos.</p>`,
+         <p>La pizarra trabaja columna a columna y dice lo que está haciendo. Las cifras de color <span class="term">latón</span> sobre una columna son los acarreos <span class="gloss" lang="en">(carries)</span>; las cifras tachadas, los préstamos <span class="gloss" lang="en">(borrows)</span>.</p>`,
      try:`Pulse tres veces <em>Paso siguiente</em>, bajo la pizarra, y vea cómo se llenan las columnas desde la derecha.`},
     {title:'Sumar: sesenta se lleva como uno',
      body:`<p>Este es el ejemplo de la lección. En la columna de los segundos, 12″ y 56″ suman 68″. Son más segundos de los que tiene un minuto, así que nos quedamos solo con 8″ y llevamos los otros 60″ a la columna de los minutos, como 1′.</p>
@@ -1366,22 +1366,22 @@ I18N.es = {
          <p>El redondeo final es la razón de que un valor convertido pueda diferir en un segundo del de su programa. No es un error.</p>`,
      try:`Muéstrelo todo. Luego tome la respuesta, conviértala de nuevo a decimal en el modo <em>A decimal</em> y compruebe que el círculo se cierra.`},
     {title:'Signos y longitud absoluta',
-     body:`<p>Una carta dice 25° 21′ 41″ de Sagitario. Una tabla de casas, y buena parte de la aritmética de esta lección, lo quiere como una sola cuenta desde 0° de Aries: su <span class="term">longitud absoluta</span>.</p>
+     body:`<p>Una carta dice 25° 21′ 41″ de Sagitario. Una tabla de casas, y buena parte de la aritmética de esta lección, lo quiere como una sola cuenta desde 0° de Aries: su <span class="term">longitud absoluta</span> <span class="gloss" lang="en">(absolute longitude)</span>.</p>
          <p>Cada signo mide 30°, y Sagitario es el noveno signo, así que lo preceden ocho signos completos: 240°. Sume los grados dentro del signo: 240° + 25° 21′ 41″ = 265° 21′ 41″. Es el Medio Cielo de la lección.</p>
          <p>Para volver, divida los grados entre 30: el cociente cuenta los signos completos que han pasado; el resto es el grado dentro del siguiente. El anillo de la pizarra muestra dónde está el punto.</p>`,
      try:`Muéstrelo todo. Luego, en Práctica, en el nivel <em>Fácil</em>, haga cinco de estos hasta que los grados iniciales de los signos le salgan sin pensar.`},
     {title:'Distancias a través de 0° de Aries',
-     body:`<p>A veces hace falta la distancia exacta entre dos puntos del zodíaco, y solo se conocen sus posiciones dentro de sus signos. Convierta ambas a longitud absoluta y reste. Así se calculan las Partes.</p>
+     body:`<p>A veces hace falta la distancia exacta entre dos puntos del zodíaco, y solo se conocen sus posiciones dentro de sus signos. Convierta ambas a longitud absoluta y reste. Así se calculan las Partes <span class="gloss" lang="en">(Lots)</span>.</p>
          <p>Pero si mide desde una posición avanzada del zodíaco hasta una temprana —aquí, desde el final de Acuario hacia delante hasta un grado de Aries—, cruza la línea de 0° de Aries. Sume primero 360° al punto final y luego reste como siempre.</p>
          <p>Si tiene dudas, cuente hacia delante de 5° en 5° sobre una rueda zodiacal para acercarse. Si el resultado difiere en 30°, algo ha hecho mal.</p>`,
      try:`Recórralo y vea cómo el arco de latón del anillo cruza la línea roja de Aries. La resta de debajo es el mismo trabajo por columnas de antes.`},
     {title:'Del tiempo al arco',
-     body:`<p>El tiempo sidéreo es un reloj de 24 horas que indica qué grado de ascensión recta está en el meridiano. El cielo gira 360° en 24 horas, así que una hora son 15° de arco, y el tiempo se convierte en arco multiplicando por 15.</p>
+     body:`<p>El tiempo sidéreo <span class="gloss" lang="en">(sidereal time)</span> es un reloj de 24 horas que indica qué grado de ascensión recta <span class="gloss" lang="en">(right ascension)</span> está en el meridiano. El cielo gira 360° en 24 horas, así que una hora son 15° de arco, y el tiempo se convierte en arco multiplicando por 15.</p>
          <p>Multiplique cada unidad por separado y sume las columnas: 17h × 15 = 255°, 39m × 15 = 585′ = 9° 45′, y 47s × 15 = 705″ = 11′ 45″. En total, 264° 56′ 45″.</p>
-         <p>Es la nativa de la lección: su tiempo sidéreo local de 17:39:47 da una ARMC de 264° 56′ 45″, a partir de la cual se calcula el Medio Cielo.</p>`,
+         <p>Es la nativa de la lección: su tiempo sidéreo local <span class="gloss" lang="en">(local sidereal time)</span> de 17:39:47 da una ARMC <span class="gloss" lang="en">(RAMC)</span> de 264° 56′ 45″, a partir de la cual se calcula el Medio Cielo.</p>`,
      try:`Muéstrelo todo. Luego busque el tiempo sidéreo de una de sus propias cartas y conviértalo aquí en ARMC; compárelo con su programa.`},
     {title:'Del arco al tiempo',
-     body:`<p>El camino inverso hace falta para la corrección por longitud: la longitud del lugar de nacimiento, dividida entre 15, es la diferencia entre el tiempo sidéreo de Greenwich y el tiempo sidéreo local.</p>
+     body:`<p>El camino inverso hace falta para la corrección por longitud <span class="gloss" lang="en">(longitude correction)</span>: la longitud del lugar de nacimiento, dividida entre 15, es la diferencia entre el tiempo sidéreo de Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> y el tiempo sidéreo local.</p>
          <p>Minneapolis está a 93° 15′ 48″ O. 93° ÷ 15 = 6h y sobran 3°; 3° son 180′, más 15′ son 195′, y 195′ ÷ 15 = 13m exactos; 48″ ÷ 15 = 3,2s. Así que la corrección es de 6h 13m 03s, y se resta porque la ciudad está al oeste de Greenwich.</p>
          <p>Esos son todos los cálculos del §2 y de la primera hoja de trabajo del §6. El resto de la lección consiste en buscar valores en tablas, y en esta aritmética, hecha con cuidado.</p>`,
      try:`Muéstrelo todo. Luego vaya a Práctica y trabaje cada modo en el nivel <em>Normal</em> hasta que pueda hacer cinco seguidos sin un desliz.`}
@@ -1563,9 +1563,9 @@ I18N.fr = {
 
   walk: [
     {title:'Compter par soixante',
-     body:`<p>Un cercle a 360°, un degré 60 minutes (60′), une minute 60 secondes (60″). On pourrait descendre jusqu'aux tierces, mais c'est malcommode et presque toujours inutile.</p>
+     body:`<p>Un cercle a 360°, un degré 60 minutes (60′), une minute 60 secondes <span class="gloss" lang="en">(seconds)</span> (60″). On pourrait descendre jusqu'aux tierces <span class="gloss" lang="en">(thirds)</span>, mais c'est malcommode et presque toujours inutile.</p>
          <p>Comme les unités vont par soixante, les règles ordinaires du calcul posé s'appliquent toujours — il suffit de se rappeler qu'une colonne est pleine à <em>soixante</em>, et non à dix. Ce seul fait résume toute cette page.</p>
-         <p>L'ardoise travaille une colonne à la fois et dit ce qu'elle fait. Les chiffres couleur <span class="term">laiton</span> au-dessus d'une colonne sont les retenues ; les chiffres barrés, les emprunts.</p>`,
+         <p>L'ardoise travaille une colonne à la fois et dit ce qu'elle fait. Les chiffres couleur <span class="term">laiton</span> au-dessus d'une colonne sont les retenues <span class="gloss" lang="en">(carries)</span> ; les chiffres barrés, les emprunts <span class="gloss" lang="en">(borrows)</span>.</p>`,
      try:`Appuyez trois fois sur <em>Étape suivante</em> sous l'ardoise et regardez les colonnes se remplir à partir de la droite.`},
     {title:'Addition : soixante se reportent comme un',
      body:`<p>Voici l'exemple de la leçon. Dans la colonne des secondes, 12″ et 56″ font 68″. C'est plus de secondes qu'il n'y en a dans une minute ; on ne garde donc que 8″ et on reporte les 60″ restantes dans la colonne des minutes, sous forme de 1′.</p>
@@ -1598,22 +1598,22 @@ I18N.fr = {
          <p>C'est l'arrondi final qui fait qu'une valeur convertie peut différer d'une seconde de celle de votre logiciel. Ce n'est pas une erreur.</p>`,
      try:`Affichez tout. Prenez ensuite la réponse, reconvertissez-la en décimal avec le mode <em>En décimal</em>, et constatez que la boucle se referme.`},
     {title:'Signes et longitude absolue',
-     body:`<p>Un thème indique 25° 21′ 41″ du Sagittaire. Une table des maisons, et une bonne part des calculs de cette leçon, veulent ce point sous la forme d'un seul compte depuis 0° du Bélier : sa <span class="term">longitude absolue</span>.</p>
-         <p>Chaque signe mesure 30°, et le Sagittaire est le neuvième signe ; huit signes complets — 240° — le précèdent donc. Ajoutez les degrés dans le signe : 240° + 25° 21′ 41″ = 265° 21′ 41″. C'est le Milieu du Ciel de la leçon.</p>
+     body:`<p>Un thème indique 25° 21′ 41″ du Sagittaire. Une table des maisons, et une bonne part des calculs de cette leçon, veulent ce point sous la forme d'un seul compte depuis 0° du Bélier : sa <span class="term">longitude absolue</span> <span class="gloss" lang="en">(absolute longitude)</span>.</p>
+         <p>Chaque signe mesure 30°, et le Sagittaire est le neuvième signe ; huit signes complets — 240° — le précèdent donc. Ajoutez les degrés dans le signe : 240° + 25° 21′ 41″ = 265° 21′ 41″. C'est le Milieu du Ciel <span class="gloss" lang="en">(Midheaven)</span> de la leçon.</p>
          <p>Pour le chemin inverse, divisez les degrés par 30 : le quotient compte les signes complets passés, le reste est le degré dans le signe suivant. L'anneau sur l'ardoise montre où se trouve le point.</p>`,
      try:`Affichez tout. Puis, dans Exercices, au niveau <em>Facile</em>, faites-en cinq, jusqu'à ce que les degrés de début des signes vous viennent sans réfléchir.`},
     {title:'Distance à travers 0° du Bélier',
-     body:`<p>Il faut parfois la distance exacte entre deux points du zodiaque, alors qu'on ne connaît que leurs positions dans leurs signes. Convertissez les deux en longitude absolue et soustrayez. C'est ainsi qu'on calcule les Parts.</p>
+     body:`<p>Il faut parfois la distance exacte entre deux points du zodiaque, alors qu'on ne connaît que leurs positions dans leurs signes. Convertissez les deux en longitude absolue et soustrayez. C'est ainsi qu'on calcule les Parts <span class="gloss" lang="en">(Lots)</span>.</p>
          <p>Mais si vous mesurez d'une position tardive dans le zodiaque vers une position précoce — ici de la fin du Verseau jusqu'à un degré du Bélier, en avançant —, vous franchissez la ligne de 0° du Bélier. Ajoutez d'abord 360° au point d'arrivée, puis soustrayez normalement.</p>
          <p>En cas de doute, comptez de 5° en 5° sur une roue du thème pour approcher du résultat. Si vous trouvez 30° d'écart, vous vous êtes trompé quelque part.</p>`,
      try:`Parcourez les étapes et regardez l'arc de laiton franchir sur l'anneau la ligne rouge du Bélier. La soustraction en dessous, c'est le même travail par colonnes que précédemment.`},
     {title:"Du temps à l'arc",
-     body:`<p>Le temps sidéral est une horloge de 24 heures qui indique quel degré d'ascension droite est au méridien. Le ciel tourne de 360° en 24 heures, donc une heure vaut 15° d'arc — et l'on convertit le temps en arc en multipliant par 15.</p>
+     body:`<p>Le temps sidéral <span class="gloss" lang="en">(sidereal time)</span> est une horloge de 24 heures qui indique quel degré d'ascension droite <span class="gloss" lang="en">(right ascension)</span> est au méridien. Le ciel tourne de 360° en 24 heures, donc une heure vaut 15° d'arc — et l'on convertit le temps en arc en multipliant par 15.</p>
          <p>Multipliez chaque unité séparément, puis additionnez les colonnes : 17h × 15 = 255°, 39m × 15 = 585′ = 9° 45′, et 47s × 15 = 705″ = 11′ 45″. Au total, 264° 56′ 45″.</p>
-         <p>C'est la native de la leçon : son temps sidéral local de 17:39:47 donne une ARMC de 264° 56′ 45″, d'où l'on calcule le Milieu du Ciel.</p>`,
+         <p>C'est la native de la leçon : son temps sidéral local <span class="gloss" lang="en">(local sidereal time)</span> de 17:39:47 donne une ARMC <span class="gloss" lang="en">(RAMC)</span> de 264° 56′ 45″, d'où l'on calcule le Milieu du Ciel.</p>`,
      try:`Affichez tout. Cherchez ensuite le temps sidéral d'un de vos thèmes et convertissez-le ici en ARMC ; comparez avec votre logiciel.`},
     {title:"De l'arc au temps",
-     body:`<p>Le calcul inverse sert à la correction de longitude : la longitude du lieu de naissance, divisée par 15, est la différence entre le temps sidéral de Greenwich et le temps sidéral local.</p>
+     body:`<p>Le calcul inverse sert à la correction de longitude <span class="gloss" lang="en">(longitude correction)</span> : la longitude du lieu de naissance, divisée par 15, est la différence entre le temps sidéral de Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> et le temps sidéral local.</p>
          <p>Minneapolis est à 93° 15′ 48″ O. 93° ÷ 15 = 6h, reste 3° ; 3° font 180′, plus 15′, 195′, et 195′ ÷ 15 = 13m tout juste ; 48″ ÷ 15 = 3,2s. La correction est donc de 6h 13m 03s, à retrancher puisque la ville est à l'ouest de Greenwich.</p>
          <p>Voilà tous les calculs du §2 et de la première feuille de calcul du §6. Le reste de la leçon consiste à chercher des valeurs dans des tables — et à faire ces calculs, avec soin.</p>`,
      try:`Affichez tout. Allez ensuite dans Exercices et travaillez chaque mode au niveau <em>Moyen</em> jusqu'à enchaîner cinq réponses sans faute.`}
@@ -1795,9 +1795,9 @@ I18N.de = {
 
   walk: [
     {title:'Zählen in Sechzigern',
-     body:`<p>Ein Kreis hat 360°, ein Grad hat 60 Minuten (60′), eine Minute hat 60 Sekunden (60″). Man könnte weiter in Terzen gehen, aber das ist umständlich und fast nie nötig.</p>
+     body:`<p>Ein Kreis hat 360°, ein Grad hat 60′ oder 60 Minuten, eine Minute hat 60″ oder 60 Sekunden <span class="gloss" lang="en">(seconds)</span>. Man könnte weiter in Terzen <span class="gloss" lang="en">(thirds)</span> gehen, aber das ist umständlich und fast nie nötig.</p>
          <p>Weil die Einheiten in Sechzigern laufen, gelten die gewohnten Regeln des schriftlichen Rechnens weiter — Sie müssen nur daran denken, dass eine Spalte bei <em>sechzig</em> voll ist, nicht bei zehn. Diese eine Tatsache ist der ganze Inhalt dieser Seite.</p>
-         <p>Die Tafel arbeitet Spalte für Spalte und sagt, was sie tut. Die <span class="term">messingfarbenen</span> Ziffern über einer Spalte sind die Überträge; durchgestrichene Ziffern zeigen, wo geborgt wurde.</p>`,
+         <p>Die Tafel arbeitet Spalte für Spalte und sagt, was sie tut. Die <span class="term">messingfarbenen</span> Ziffern über einer Spalte sind die Überträge <span class="gloss" lang="en">(carries)</span>; durchgestrichene Ziffern zeigen, wo geborgt wurde <span class="gloss" lang="en">(borrows)</span>.</p>`,
      try:`Drücken Sie dreimal <em>Nächster Schritt</em> unter der Tafel und sehen Sie zu, wie sich die Spalten von rechts füllen.`},
     {title:'Addieren: sechzig als eins übertragen',
      body:`<p>Das ist das Beispiel aus der Lektion. In der Sekundenspalte ergeben 12″ und 56″ zusammen 68″. Das sind mehr Sekunden, als eine Minute hat, also behalten wir nur 8″ und übertragen die anderen 60″ als 1′ in die Minutenspalte.</p>
@@ -1830,22 +1830,22 @@ I18N.de = {
          <p>Das Runden am Ende ist der Grund, warum ein umgerechneter Wert um eine Sekunde von Ihrem Programm abweichen kann. Das ist kein Fehler.</p>`,
      try:`Decken Sie alles auf. Nehmen Sie dann das Ergebnis, wandeln Sie es im Modus <em>Dezimal</em> zurück und sehen Sie, wie sich der Kreis schließt.`},
     {title:'Zeichen und absolute Länge',
-     body:`<p>Ein Horoskop sagt 25° 21′ 41″ Schütze. Eine Häusertabelle und ein Großteil der Rechnungen in dieser Lektion wollen das als eine einzige Zählung ab 0° Widder: als <span class="term">absolute Länge</span>.</p>
+     body:`<p>Ein Horoskop sagt 25° 21′ 41″ Schütze. Eine Häusertabelle und ein Großteil der Rechnungen in dieser Lektion wollen das als eine einzige Zählung ab 0° Widder: als <span class="term">absolute Länge</span> <span class="gloss" lang="en">(absolute longitude)</span>.</p>
          <p>Jedes Zeichen ist 30° lang, und der Schütze ist das neunte Zeichen, also gehen ihm acht volle Zeichen — 240° — voraus. Addieren Sie die Grade im Zeichen: 240° + 25° 21′ 41″ = 265° 21′ 41″. Das ist das MC der Lektion.</p>
          <p>Für den Rückweg teilen Sie die Grade durch 30: Der Quotient zählt die vergangenen vollen Zeichen, der Rest ist der Grad im nächsten. Der Ring auf der Tafel zeigt, wo der Punkt liegt.</p>`,
      try:`Decken Sie alles auf. Rechnen Sie dann in der Übung auf der Stufe <em>Leicht</em> fünf solche Aufgaben, bis Ihnen die Anfangsgrade der Zeichen ohne Nachdenken einfallen.`},
     {title:'Abstand über 0° Widder hinweg',
-     body:`<p>Manchmal brauchen Sie den genauen Abstand zwischen zwei Punkten im Tierkreis und kennen nur ihre Positionen in ihren Zeichen. Wandeln Sie beide in absolute Länge um und subtrahieren Sie. So werden Lose berechnet.</p>
+     body:`<p>Manchmal brauchen Sie den genauen Abstand zwischen zwei Punkten im Tierkreis und kennen nur ihre Positionen in ihren Zeichen. Wandeln Sie beide in absolute Länge um und subtrahieren Sie. So werden Lose <span class="gloss" lang="en">(Lots)</span> berechnet.</p>
          <p>Messen Sie aber von einer Position spät im Tierkreis zu einer frühen — hier vom späten Wassermann vorwärts zu einem Grad im Widder —, überqueren Sie die Linie von 0° Widder. Addieren Sie zuerst 360° zum Endpunkt und subtrahieren Sie dann wie gewohnt.</p>
          <p>Wenn Sie unsicher sind, zählen Sie an einem Horoskoprad in Schritten von 5° vorwärts, um in die Nähe zu kommen. Liegen Sie um 30° daneben, ist etwas schiefgegangen.</p>`,
      try:`Gehen Sie die Schritte durch und sehen Sie, wie der Messingbogen auf dem Ring die rote Widderlinie überquert. Die Subtraktion darunter ist dieselbe Spaltenarbeit wie zuvor.`},
     {title:'Zeit in Bogen',
-     body:`<p>Die Sternzeit ist eine 24-Stunden-Uhr, die angibt, welcher Grad der Rektaszension am Meridian steht. Der Himmel dreht sich in 24 Stunden um 360°, also ist eine Stunde 15° Bogen — und Zeit wird in Bogen umgewandelt, indem man sie mit 15 multipliziert.</p>
+     body:`<p>Die Sternzeit <span class="gloss" lang="en">(sidereal time)</span> ist eine 24-Stunden-Uhr, die angibt, welcher Grad der Rektaszension <span class="gloss" lang="en">(right ascension)</span> am Meridian steht. Der Himmel dreht sich in 24 Stunden um 360°, also ist eine Stunde 15° Bogen — und Zeit wird in Bogen umgewandelt, indem man sie mit 15 multipliziert.</p>
          <p>Multiplizieren Sie jede Einheit einzeln und addieren Sie dann die Spalten: 17h × 15 = 255°, 39m × 15 = 585′ = 9° 45′ und 47s × 15 = 705″ = 11′ 45″. Zusammen 264° 56′ 45″.</p>
-         <p>Das ist die Geborene der Lektion: Ihre Ortssternzeit von 17:39:47 ergibt eine RAMC von 264° 56′ 45″, aus der das MC berechnet wird.</p>`,
+         <p>Das ist die Geborene der Lektion: Ihre Ortssternzeit <span class="gloss" lang="en">(local sidereal time)</span> von 17:39:47 ergibt eine RAMC von 264° 56′ 45″, aus der das MC berechnet wird.</p>`,
      try:`Decken Sie alles auf. Suchen Sie dann die Sternzeit eines Ihrer eigenen Horoskope heraus und wandeln Sie sie hier in die RAMC um; vergleichen Sie mit Ihrem Programm.`},
     {title:'Bogen in Zeit',
-     body:`<p>Die Umkehrung braucht man für die Längenkorrektur: Die geographische Länge eines Geburtsorts, durch 15 geteilt, ist der Unterschied zwischen Greenwicher Sternzeit und Ortssternzeit.</p>
+     body:`<p>Die Umkehrung braucht man für die Längenkorrektur <span class="gloss" lang="en">(longitude correction)</span>: Die geographische Länge eines Geburtsorts, durch 15 geteilt, ist der Unterschied zwischen Greenwicher Sternzeit <span class="gloss" lang="en">(Greenwich sidereal time)</span> und Ortssternzeit.</p>
          <p>Minneapolis liegt auf 93° 15′ 48″ W. 93° ÷ 15 = 6h, Rest 3°; 3° sind 180′, plus 15′ sind 195′, und 195′ ÷ 15 = genau 13m; 48″ ÷ 15 = 3,2s. Die Korrektur beträgt also 6h 13m 03s und wird abgezogen, weil die Stadt westlich von Greenwich liegt.</p>
          <p>Das sind alle Rechnungen aus §2 und dem ersten Arbeitsblatt von §6. Der Rest der Lektion ist Nachschlagen in Tabellen — und diese Arithmetik, sorgfältig ausgeführt.</p>`,
      try:`Decken Sie alles auf. Gehen Sie dann zur Übung und rechnen Sie jeden Modus auf der Stufe <em>Normal</em>, bis Ihnen fünf in Folge ohne Fehler gelingen.`}
@@ -2027,9 +2027,9 @@ I18N.zh = {
 
   walk: [
     {title:'以六十计数',
-     body:`<p>圆周有 360°，一度有 60 分（60′），一分有 60 秒（60″）。再往下还可以分出“微”，但那很别扭，而且几乎总是用不着。</p>
+     body:`<p>圆周有 360°，一度有 60′，即 60 分<span class="gloss" lang="en">（minutes）</span>；一分有 60″，即 60 秒<span class="gloss" lang="en">（seconds）</span>。再往下还可以分出“微”<span class="gloss" lang="en">（thirds）</span>，但那很别扭，而且几乎总是用不着。</p>
          <p>因为单位都是六十进位，普通的列竖式算术照样适用——只需记住：一列满<em>六十</em>才算满，而不是满十。这一个事实，就是本页的全部内容。</p>
-         <p>算板一次算一列，并说明它在做什么。一列上方的<span class="term">黄铜色</span>数字是进位；划掉的数字是借位。</p>`,
+         <p>算板一次算一列，并说明它在做什么。一列上方的<span class="term">黄铜色</span>数字是进位<span class="gloss" lang="en">（carries）</span>；划掉的数字是借位<span class="gloss" lang="en">（borrows）</span>。</p>`,
      try:`按算板下方的<em>下一步</em>三次，看各列从右向左填满。`},
     {title:'加法：满六十进一',
      body:`<p>这是课中的例题。秒那一列，12″ 加 56″ 得 68″。这比一分钟里的秒还多，所以只留下 8″，把另外的 60″ 化作 1′ 进到分那一列。</p>
@@ -2062,22 +2062,22 @@ I18N.zh = {
          <p>正是最后这一步取整，使换算出的值可能和你的软件差一秒。这不是错误。</p>`,
      try:`显示全部。然后把答案用<em>化小数</em>模式化回小数，看这个循环能否闭合。`},
     {title:'星座与绝对黄经',
-     body:`<p>星盘上写着射手座 25° 21′ 41″。宫位表，以及本课中的许多算术，要的是从白羊座 0° 起的单一计数：它的<span class="term">绝对黄经</span>。</p>
+     body:`<p>星盘上写着射手座 25° 21′ 41″。宫位表，以及本课中的许多算术，要的是从白羊座 0° 起的单一计数：它的<span class="term">绝对黄经</span><span class="gloss" lang="en">（absolute longitude）</span>。</p>
          <p>每个星座长 30°，射手座是第九个星座，所以它前面有八个完整的星座——240°。加上星座内的度数：240° + 25° 21′ 41″ = 265° 21′ 41″。这就是课中的中天。</p>
          <p>要换回来，就把度数除以 30：商是已经过去的完整星座数，余数是在下一个星座内的度数。算板上的圆环显示这个点的位置。</p>`,
      try:`显示全部。然后在“练习”页选<em>入门</em>难度，做五道这样的题，直到各星座的起始度数不假思索就能说出。`},
     {title:'跨过白羊座 0° 的距离',
-     body:`<p>有时你需要黄道上两点之间的确切距离，而你只知道它们在各自星座内的位置。把两者都化为绝对黄经再相减。特殊点就是这样算的。</p>
+     body:`<p>有时你需要黄道上两点之间的确切距离，而你只知道它们在各自星座内的位置。把两者都化为绝对黄经再相减。特殊点<span class="gloss" lang="en">（Lots）</span>就是这样算的。</p>
          <p>但如果你是从黄道上靠后的位置量到靠前的位置——这里是从水瓶座末尾向前量到白羊座的某一度——就会跨过白羊座 0° 线。先给终点加上 360°，再照常相减。</p>
          <p>拿不准时，在星盘上以 5° 为一档向前数，就能得出个大概。如果差了 30°，那就是哪里算错了。</p>`,
      try:`一步步走完，看圆环上的黄铜色弧线跨过红色的白羊座线。下面的减法还是和前面一样的列竖式计算。`},
     {title:'时间化为角度',
-     body:`<p>恒星时是一个 24 小时的时钟，告诉你子午圈上是赤经几度。诸天 24 小时转 360°，所以一小时合 15°——时间乘以 15 就化为角度。</p>
+     body:`<p>恒星时<span class="gloss" lang="en">（sidereal time）</span>是一个 24 小时的时钟，告诉你子午圈上是赤经<span class="gloss" lang="en">（right ascension）</span>几度。诸天 24 小时转 360°，所以一小时合 15°——时间乘以 15 就化为角度。</p>
          <p>每个单位分别相乘，再把各列相加：17h × 15 = 255°，39m × 15 = 585′ = 9° 45′，47s × 15 = 705″ = 11′ 45″。合起来是 264° 56′ 45″。</p>
-         <p>这就是课中的命主：她的地方恒星时 17:39:47 得出 RAMC 264° 56′ 45″，中天就由此算出。</p>`,
+         <p>这就是课中的命主：她的地方恒星时<span class="gloss" lang="en">（local sidereal time）</span>17:39:47 得出 RAMC 264° 56′ 45″，中天就由此算出。</p>`,
      try:`显示全部。然后找出你自己某张星盘的恒星时，在这里把它化为 RAMC，再与你的软件比较。`},
     {title:'角度化为时间',
-     body:`<p>经度更正需要反过来算：出生地的经度除以 15，就是格林尼治恒星时与地方恒星时之差。</p>
+     body:`<p>经度更正<span class="gloss" lang="en">（longitude correction）</span>需要反过来算：出生地的经度除以 15，就是格林尼治恒星时<span class="gloss" lang="en">（Greenwich sidereal time）</span>与地方恒星时之差。</p>
          <p>明尼阿波利斯位于西经 93° 15′ 48″。93° ÷ 15 = 6h，余 3°；3° 是 180′，加上 15′ 是 195′，195′ ÷ 15 = 13m 整；48″ ÷ 15 = 3.2s。所以更正值是 6h 13m 03s，因为该城在格林尼治以西，所以要减去。</p>
          <p>这就是 §2 以及 §6 第一张计算表中的全部计算。本课其余部分就是查表——再加上这些仔细做好的算术。</p>`,
      try:`显示全部。然后到“练习”页，每种模式都在<em>常规</em>难度下练习，直到能连做五道而不出错。`}
@@ -2259,9 +2259,9 @@ I18N.ja = {
 
   walk: [
     {title:'六十で数える',
-     body:`<p>円は 360°、1 度は 60 分（60′）、1 分は 60 秒（60″）です。秒のさらに下の単位まで進むこともできますが、扱いにくく、ほとんど必要ありません。</p>
+     body:`<p>円は 360°、1 度は 60 分<span class="gloss" lang="en">（minutes）</span>、つまり 60′、1 分は 60 秒<span class="gloss" lang="en">（seconds）</span>、つまり 60″ です。秒のさらに下の単位<span class="gloss" lang="en">（thirds）</span>まで進むこともできますが、扱いにくく、ほとんど必要ありません。</p>
          <p>単位が六十ずつで進むので、ふつうの筆算の規則がそのまま使えます——ただ、桁がいっぱいになるのは十ではなく<em>六十</em>だ、ということだけ覚えておけばよいのです。このページの中身は、その一点に尽きます。</p>
-         <p>石板は一度にひとつの桁を計算し、何をしているかを説明します。桁の上の<span class="term">真鍮色</span>の数字が繰り上がり、取り消し線の入った数字が繰り下がりです。</p>`,
+         <p>石板は一度にひとつの桁を計算し、何をしているかを説明します。桁の上の<span class="term">真鍮色</span>の数字が繰り上がり<span class="gloss" lang="en">（carry）</span>、取り消し線の入った数字が繰り下がり<span class="gloss" lang="en">（borrow）</span>です。</p>`,
      try:`石板の下の「<em>次のステップ</em>」を 3 回押し、桁が右から埋まっていくのを見てください。`},
     {title:'足し算：六十を一として繰り上げる',
      body:`<p>教本の例です。秒の桁では 12″ と 56″ で 68″。1 分にある秒より多いので、8″ だけを残し、残りの 60″ を 1′ として分の桁へ繰り上げます。</p>
@@ -2294,22 +2294,22 @@ I18N.ja = {
          <p>最後の四捨五入のせいで、変換した値がソフトと 1 秒ずれることがあります。誤りではありません。</p>`,
      try:`すべて表示してください。それから答えを「<em>小数へ</em>」モードで小数に戻し、ひと回りして元に戻ることを確かめましょう。`},
     {title:'サインと絶対黄経',
-     body:`<p>チャートには射手座 25° 21′ 41″ とあります。ハウス表も、この課の計算の多くも、これを牡羊座 0° から通しで数えたひとつの数として求めます。それが<span class="term">絶対黄経</span>です。</p>
+     body:`<p>チャートには射手座 25° 21′ 41″ とあります。ハウス表も、この課の計算の多くも、これを牡羊座 0° から通しで数えたひとつの数として求めます。それが<span class="term">絶対黄経</span><span class="gloss" lang="en">（absolute longitude）</span>です。</p>
          <p>各サインは 30° で、射手座は 9 番目のサインなので、その前にまるごと 8 サイン——240°——があります。サイン内の度数を加えます。240° + 25° 21′ 41″ = 265° 21′ 41″。これが教本の MC です。</p>
          <p>戻すには度数を 30 で割ります。商が経過したサインの数、余りが次のサインの中の度数です。石板の円が、その点の位置を示します。</p>`,
      try:`すべて表示してください。それから「練習」の「<em>初級</em>」レベルで、サインの始まりの度数が考えずに出てくるまで、これを 5 問解いてみましょう。`},
     {title:'牡羊座 0° をまたぐ距離',
-     body:`<p>獣帯の二点間の正確な距離が必要なのに、わかっているのはそれぞれのサイン内の位置だけ、ということがあります。両方を絶対黄経に直して引きます。ロットはこうして計算します。</p>
+     body:`<p>獣帯の二点間の正確な距離が必要なのに、わかっているのはそれぞれのサイン内の位置だけ、ということがあります。両方を絶対黄経に直して引きます。ロット<span class="gloss" lang="en">（Lots）</span>はこうして計算します。</p>
          <p>ただし、獣帯の後ろのほうの位置から前のほうの位置へ測るとき——ここでは水瓶座の終わりから順方向に牡羊座のある度数まで——は、牡羊座 0° の線をまたぎます。先に終点に 360° を加え、それから通常どおり引きます。</p>
          <p>自信がなければ、チャートの円で 5° ずつ順方向に数えて見当をつけてください。30° ずれていたら、どこかで間違えています。</p>`,
      try:`ステップを進め、円の上の真鍮色の弧が赤い牡羊座の線を越えるのを見てください。その下の引き算は、これまでと同じ桁ごとの計算です。`},
     {title:'時間を角度に',
-     body:`<p>恒星時は、子午圏にある赤経の度数を教える 24 時間の時計です。天は 24 時間で 360° 回るので、1 時間は角度で 15°——時間を角度にするには 15 を掛けます。</p>
+     body:`<p>恒星時<span class="gloss" lang="en">（sidereal time）</span>は、子午圏にある赤経<span class="gloss" lang="en">（right ascension）</span>の度数を教える 24 時間の時計です。天は 24 時間で 360° 回るので、1 時間は角度で 15°——時間を角度にするには 15 を掛けます。</p>
          <p>単位ごとに掛けてから、桁を足し合わせます。17h × 15 = 255°、39m × 15 = 585′ = 9° 45′、47s × 15 = 705″ = 11′ 45″。合わせて 264° 56′ 45″。</p>
-         <p>これが教本の出生者です。彼女の地方恒星時 17:39:47 から RAMC 264° 56′ 45″ が得られ、そこから MC を計算します。</p>`,
+         <p>これが教本の出生者です。彼女の地方恒星時<span class="gloss" lang="en">（local sidereal time）</span>17:39:47 から RAMC 264° 56′ 45″ が得られ、そこから MC を計算します。</p>`,
      try:`すべて表示してください。それから自分のチャートのどれかで恒星時を調べ、ここで RAMC に直して、ソフトと比べてみましょう。`},
     {title:'角度を時間に',
-     body:`<p>逆向きの計算は経度補正に必要です。出生地の経度を 15 で割ると、グリニッジ恒星時と地方恒星時の差になります。</p>
+     body:`<p>逆向きの計算は経度補正<span class="gloss" lang="en">（longitude correction）</span>に必要です。出生地の経度を 15 で割ると、グリニッジ恒星時<span class="gloss" lang="en">（Greenwich sidereal time）</span>と地方恒星時の差になります。</p>
          <p>ミネアポリスは西経 93° 15′ 48″ にあります。93° ÷ 15 = 6h、余り 3°。3° は 180′、それに 15′ を足して 195′、195′ ÷ 15 = ちょうど 13m。48″ ÷ 15 = 3.2s。したがって補正は 6h 13m 03s で、この都市はグリニッジより西にあるので引きます。</p>
          <p>§2 と §6 の最初のワークシートの計算は、これで全部です。この課の残りは表を引くこと——そして、この算術を丁寧にこなすことです。</p>`,
      try:`すべて表示してください。それから「練習」に行き、「<em>中級</em>」レベルで各モードを、5 問続けてミスなく解けるまで練習しましょう。`}

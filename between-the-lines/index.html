@@ -854,22 +854,22 @@ I18N.nb = {
 
   walk: [
     {title:'Én verdi styrer tabellen',
-     body:`<p>En hustabell oppgir ascendanter og midthimler med faste intervaller i stjernetid — her for hvert 4′ ST, som tilsvarer 1° RAMC. Alt i den styres av denne ene verdien. Samme ST har bare én mulig MC, men mange ascendanter, én for hver fødselsbreddegrad.</p>
-         <p>Kvinnen i eksempelet er født med lokal stjernetid 17:39:47 på 44° 58′ 48″ N. Ingen av tallene står i tabellen. Hun ligger <em>mellom linjene</em>: mellom to ST-kolonner og to bredderader. Ruten i diagrammet er disse fire tabellcellene, og de to linjene er henne.</p>
-         <p>Interpolasjon er ikke noe annet enn å finne ut hvor linjene krysser hverandre.</p>`,
+     body:`<p>En hustabell <span class="gloss" lang="en">(table of houses)</span> oppgir ascendanter og midthimler <span class="gloss" lang="en">(Midheavens)</span> med faste intervaller i stjernetid <span class="gloss" lang="en">(sidereal time, ST)</span> — her for hvert 4′ ST, som tilsvarer 1° RAMC. Alt i den styres av denne ene verdien. Samme ST har bare én mulig MC, men mange ascendanter, én for hver fødselsbreddegrad.</p>
+         <p>Den fødte <span class="gloss" lang="en">(the native)</span> i eksempelet har lokal stjernetid <span class="gloss" lang="en">(local sidereal time, LST)</span> 17:39:47 og breddegrad 44° 58′ 48″ N. Ingen av tallene står i tabellen. Hun ligger <em>mellom linjene</em>: mellom to ST-kolonner og to bredderader. Ruten i diagrammet er disse fire tabellcellene, og de to linjene er henne.</p>
+         <p>Interpolasjon <span class="gloss" lang="en">(interpolation)</span> er ikke noe annet enn å finne ut hvor linjene krysser hverandre.</p>`,
      try:`Dra i glidebryteren <span class="term">ST-kolonne</span> under diagrammet: den gylne linjen flytter seg bortover i ruten. Dra i glidebryteren <span class="term lat">bredderad</span>: den blå linjen flytter seg opp og ned. Selve ruten står stille; knappene ◀ ▶ bytter kolonne, og ruten blinker når den flytter til nye tabellceller. <em>Begynn på nytt</em> setter henne tilbake der leksjonen har henne.`},
     {title:'ST-forholdet',
      body:`<p>Hennes ST er 17:39:47. Tabellen har 17:36:00 på den ene siden og 17:40:00 på den andre. Hun ligger 3′ 47″ forbi den tidligere kolonnen, av et intervall på 4′.</p>
-         <p>Del det ene på det andre: 3′ 47″ er 227 sekunder, 4′ er 240, og 227 ÷ 240 = 0,9458333. Det er <span class="term">ST-forholdet</span> hennes: hvor langt bortover i ruten hun ligger, uttrykt som en brøk. Du ser uten å regne at hun er nesten helt ute ved den andre kanten.</p>
+         <p>Del det ene på det andre: 3′ 47″ er 227 sekunder, 4′ er 240, og 227 ÷ 240 = 0,9458333. Det er <span class="term">ST-forholdet</span> <span class="gloss" lang="en">(ST ratio)</span> hennes: hvor langt bortover i ruten hun ligger, uttrykt som en brøk. Du ser uten å regne at hun er nesten helt ute ved den andre kanten.</p>
          <p>Alle størrelser som avhenger av ST — MC og hver av ascendantene — interpoleres med det samme forholdet.</p>`,
      try:`Feltet under diagrammet viser raden vi er på: forholdet. Dra glidebryteren til venstre, til midten av kolonnen, og se forholdet synke til omtrent 0,5.`},
     {title:'Interpolasjon av midthimmelen',
      body:`<p>MC ved 17:36 er 264° 29′ 30″; ved 17:40 er den 265° 24′ 38″. Differansen er 55′ 08″. Hun ligger 0,9458333 av veien bortover, så hennes andel av differansen er 55′ 08″ × 0,9458333 = 52′ 09″.</p>
-         <p>Legg tilveksten til den tidligere MC-verdien: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, altså 25° 21′ 39″ Skytten.</p>
+         <p>Legg tilveksten <span class="gloss" lang="en">(increment)</span> til den tidligere MC-verdien: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, altså 25° 21′ 39″ Skytten.</p>
          <p>Differanse ganger forhold, lagt til den tidligere verdien. Det mønsteret er hele interpolasjonen; ascendanten gjør bare det samme tre ganger.</p>`,
      try:`Trykk <em>Neste steg</em> fem ganger. Hvert trykk flytter feltet under diagrammet én rad ned i arbeidsarket; ved det femte kommer svaret opp på linjalen.`},
     {title:'Kontroller det direkte',
-     body:`<p>MC kan også beregnes direkte: <span class="mono">arctan(tan RAMC ÷ cos OE)</span>, der RAMC er LST × 15 og OE er ekliptikkens skråstilling. Ligger resultatet ikke nær RAMC, legger du til eller trekker fra 180°.</p>
+     body:`<p>MC kan også finnes ved direkte beregning <span class="gloss" lang="en">(direct calculation)</span>: <span class="mono">arctan(tan RAMC ÷ cos OE)</span>, der RAMC er LST × 15 og OE er ekliptikkens skråstilling <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Ligger resultatet ikke nær RAMC, legger du til eller trekker fra 180°.</p>
          <p>For henne gir RAMC 264° 56′ 45″ og OE 23° 26′ 54″ resultatet 85° 21′ 41″; det er langt fra 264°, så legg til 180°: 265° 21′ 41″.</p>
          <p>Bare 2″ fra den interpolerte verdien. Avviket har to årsaker: tabellen er beregnet for en skråstilling på nøyaktig 23° 26′, og interpolasjonen trekker en rett linje der ekliptikken krummer. Begge er små her.</p>`,
      try:`Trykk <em>Neste steg</em> fire ganger til for å gå gjennom den direkte beregningen. Trykk så <em>Åpne arbeidsarket</em> for å se alle de tretten radene samlet.`},
@@ -884,7 +884,7 @@ I18N.nb = {
          <p>De to ligger nær hverandre, men er ikke like, og vi vil være nøyaktige: noen få minutter på ascendanten betyr mye for mange teknikker.</p>`,
      try:`Fem trykk til på <em>Neste steg</em> setter den andre prikken på den øverste kanten. Dra så glidebryteren <span class="term lat">bredderad</span> helt opp: den blå linjen legger seg på den øverste kanten, og svaret blir rett og slett den prikken.`},
     {title:'Nedover siden: breddegradsforholdet',
-     body:`<p>Breddegraden hennes ligger 58′ 48″ forbi 44°, av et intervall på 60′: et <span class="term lat">breddegradsforhold</span> på 0,98. De to kantverdiene skiller seg med 14′ 41″; hennes andel er 14′ 41″ × 0,98 = 14′ 23″.</p>
+     body:`<p>Breddegraden hennes ligger 58′ 48″ forbi 44°, av et intervall på 60′: et <span class="term lat">breddegradsforhold</span> <span class="gloss" lang="en">(latitude ratio)</span> på 0,98. De to kantverdiene skiller seg med 14′ 41″; hennes andel er 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Gå nå fra verdien ved den lavere breddegraden mot den høyere. Her er verdien ved 45° minst, så trekk fra: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, altså 20° 19′ 17″ Fiskene.</p>
          <p>Arbeidsarket sier det som en regel: er rad 30 minst, legg til; er rad 36 minst, trekk fra. Diagrammet sier det enklere — svaret ligger der linjene krysser hverandre.</p>`,
      try:`Trykk <em>Neste steg</em> sju ganger for å komme til rad 41: den grønne prikken lander i krysningspunktet. Trykk så ▼ ved glidebryteren for breddegrad to ganger, til raden 20°–21°, og én gang til: nær ekvator ligger radene 5° fra hverandre, og feltet sier det i rad 38.`},
@@ -899,7 +899,7 @@ I18N.nb = {
          <p>Eksempelet er en fødsel på 45° S med LST 16:00:00. MC er 2° 05′ Skytten. Omregnet til 4:00:00 gir tabellen 2° 05′ Tvillingene — gjør det til Skytten — og en ascendant på 7° 15′ Jomfruen, som blir 7° 15′ Fiskene.</p>`,
      try:`Feltet viser de to ekstra radene en sørlig fødsel trenger. Trykk <em>Alle</em>: svaret i diagrammet er den korrigerte verdien i Fiskene, og den siste raden bekrefter den med direkte beregning.`},
     {title:'Planeter fra efemeriden',
-     body:`<p>En efemeride oppgir posisjonene kl. 00:00 i Greenwich for hver dag. Hun ble født kl. 15:55 UT, da 15:55 ÷ 24 = 0,6631944 av døgnet var gått. Det er <span class="term">fødselstidsforholdet</span> hennes, og det spiller den rollen ST-forholdet spilte før.</p>
+     body:`<p>En efemeride <span class="gloss" lang="en">(ephemeris)</span> oppgir posisjonene kl. 00:00 i Greenwich for hver dag. Hun ble født kl. 15:55 universaltid <span class="gloss" lang="en">(Universal Time, UT)</span>, da 15:55 ÷ 24 = 0,6631944 av døgnet var gått. Det er <span class="term">fødselstidsforholdet</span> <span class="gloss" lang="en">(birth-time ratio)</span> hennes, og det spiller den rollen ST-forholdet spilte før.</p>
          <p>Solen sto på 29° 21′ 50″ Steinbukken ved midnatt og på 0° 22′ 55″ Vannmannen ved neste midnatt: 1° 01′ 05″ bevegelse. Hennes andel er 1° 01′ 05″ × 0,6631944 = 40′ 31″. Lagt til midnattsposisjonen gir det Solen ved fødselen på 0° 02′ 21″ Vannmannen.</p>
          <p>Det samme arbeidsarket gjelder for alle planetene; bare de to posisjonene endres.</p>`,
      try:`Trykk <em>Neste steg</em> helt til slutten. Dra så glidebryteren for <span class="term">fødselstid</span>: en fødsel kl. 12:00 tar nøyaktig halvparten av dagens bevegelse, en fødsel kl. 00:00 tar ingenting.`},
@@ -1074,13 +1074,13 @@ I18N.es = {
 
   walk: [
     {title:'Un solo valor rige la tabla',
-     body:`<p>Una tabla de casas da Ascendentes y Medios Cielos a intervalos regulares de tiempo sidéreo: aquí, cada 4′ de TS, que equivalen a 1° de ARMC. Todo en ella depende de ese único valor. Un mismo TS solo admite un MC, pero muchos Ascendentes: uno por cada latitud de nacimiento.</p>
-         <p>Nuestra nativa nació con un tiempo sidéreo local de 17:39:47 a 44° 58′ 48″ N. Ninguno de los dos números figura en la tabla. Está <em>entre líneas</em>: entre dos columnas de TS y dos filas de latitud. El recuadro del diagrama son esas cuatro casillas de la tabla, y las dos líneas son ella.</p>
-         <p>Interpolar no es más que hallar dónde se cruzan las líneas.</p>`,
+     body:`<p>Una tabla de casas <span class="gloss" lang="en">(table of houses)</span> da Ascendentes <span class="gloss" lang="en">(Ascendants)</span> y Medios Cielos <span class="gloss" lang="en">(Midheavens)</span> a intervalos regulares de tiempo sidéreo <span class="gloss" lang="en">(sidereal time, ST)</span>: aquí, cada 4′ de TS, que equivalen a 1° de ARMC <span class="gloss" lang="en">(RAMC)</span>. Todo en ella depende de ese único valor. Un mismo TS solo admite un MC, pero muchos Ascendentes: uno por cada latitud de nacimiento.</p>
+         <p>Nuestra nativa <span class="gloss" lang="en">(the native)</span> nació con un tiempo sidéreo local <span class="gloss" lang="en">(local sidereal time, LST)</span> de 17:39:47 a 44° 58′ 48″ N. Ninguno de los dos números figura en la tabla. Está <em>entre líneas</em>: entre dos columnas de TS y dos filas de latitud. El recuadro del diagrama son esas cuatro casillas de la tabla, y las dos líneas son ella.</p>
+         <p>Interpolar <span class="gloss" lang="en">(interpolation)</span> no es más que hallar dónde se cruzan las líneas.</p>`,
      try:`Arrastre el control <span class="term">Columna de TS</span>, bajo el diagrama: la línea dorada recorre el recuadro. Arrastre el control <span class="term lat">Fila de latitud</span>: la línea azul sube y baja. El recuadro no se mueve; los botones ◀ ▶ cambian de columna, y el recuadro destella cuando pasa a otras casillas de la tabla. <em>Empezar de nuevo</em> devuelve a la nativa adonde la sitúa la lección.`},
     {title:'La proporción de TS',
      body:`<p>Su TS es 17:39:47. La tabla tiene 17:36:00 a un lado y 17:40:00 al otro. Está 3′ 47″ más allá de la columna anterior, en un intervalo de 4′.</p>
-         <p>Divida lo uno entre lo otro: 3′ 47″ son 227 segundos, 4′ son 240, y 227 ÷ 240 = 0,9458333. Esa es su <span class="term">proporción de TS</span>: cuánto ha avanzado a lo ancho del recuadro, expresado como fracción. Se ve sin calcular que casi lo ha cruzado entero.</p>
+         <p>Divida lo uno entre lo otro: 3′ 47″ son 227 segundos, 4′ son 240, y 227 ÷ 240 = 0,9458333. Esa es su <span class="term">proporción de TS</span> <span class="gloss" lang="en">(ST ratio)</span>: cuánto ha avanzado a lo ancho del recuadro, expresado como fracción. Se ve sin calcular que casi lo ha cruzado entero.</p>
          <p>Todas las magnitudes que dependen del TS —el MC y cada uno de los Ascendentes— se interpolarán con esta misma proporción.</p>`,
      try:`La franja bajo el diagrama muestra la fila en la que estamos: la proporción. Arrastre el control hacia la izquierda, hasta la mitad de la columna, y verá que la proporción baja a cerca de 0,5.`},
     {title:'Interpolar el Medio Cielo',
@@ -1089,7 +1089,7 @@ I18N.es = {
          <p>La diferencia, por la proporción, sumada al valor anterior. Ese esquema es toda la interpolación; el Ascendente se limita a repetirlo tres veces.</p>`,
      try:`Pulse <em>Paso siguiente</em> cinco veces. Cada pulsación baja la franja una fila de la hoja de trabajo; a la quinta, la respuesta aparece en la regla.`},
     {title:'Comprobarlo directamente',
-     body:`<p>El MC también puede calcularse directamente: <span class="mono">arctan(tan ARMC ÷ cos OE)</span>, donde la ARMC es el TSL × 15 y OE es la oblicuidad de la eclíptica. Si el resultado no queda cerca de la ARMC, sume o reste 180°.</p>
+     body:`<p>El MC también se puede obtener por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>: <span class="mono">arctan(tan ARMC ÷ cos OE)</span>, donde la ARMC es el TSL × 15 y OE es la oblicuidad de la eclíptica <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Si el resultado no queda cerca de la ARMC, sume o reste 180°.</p>
          <p>Para nuestra nativa, una ARMC de 264° 56′ 45″ y una OE de 23° 26′ 54″ dan 85° 21′ 41″; eso queda lejos de 264°, así que sume 180°: 265° 21′ 41″.</p>
          <p>Solo 2″ de diferencia con el valor interpolado. La diferencia tiene dos causas: la tabla se hizo para una oblicuidad de exactamente 23° 26′, y la interpolación traza una línea recta donde la eclíptica se curva. Aquí ambas son mínimas.</p>`,
      try:`Pulse <em>Paso siguiente</em> cuatro veces más para recorrer el cálculo directo. Después, <em>Abrir la hoja</em> para ver las trece filas juntas.`},
@@ -1104,7 +1104,7 @@ I18N.es = {
          <p>Los dos valores se parecen, pero no son iguales, y queremos precisión: unos minutos de Ascendente importan en muchas técnicas.</p>`,
      try:`Cinco pulsaciones más de <em>Paso siguiente</em> colocan el segundo punto en el borde superior. Luego arrastre el control <span class="term lat">Fila de latitud</span> hasta arriba del todo: la línea azul queda sobre el borde superior, y la respuesta será simplemente ese punto.`},
     {title:'Por el lateral: la proporción de latitud',
-     body:`<p>Su latitud está 58′ 48″ más allá de 44°, en un intervalo de 60′: una <span class="term lat">proporción de latitud</span> de 0,98. Los valores de los dos bordes difieren en 14′ 41″; su parte es 14′ 41″ × 0,98 = 14′ 23″.</p>
+     body:`<p>Su latitud está 58′ 48″ más allá de 44°, en un intervalo de 60′: una <span class="term lat">proporción de latitud</span> <span class="gloss" lang="en">(latitude ratio)</span> de 0,98. Los valores de los dos bordes difieren en 14′ 41″; su parte es 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Ahora vaya del valor de la latitud inferior hacia el de la superior. Aquí el valor a 45° es menor, así que reste: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, es decir, 20° 19′ 17″ de Piscis.</p>
          <p>La hoja de trabajo lo formula como regla: si la fila 30 es menor, sume; si la fila 36 es menor, reste. El diagrama lo dice de forma más sencilla: la respuesta está donde se cruzan las líneas.</p>`,
      try:`Pulse <em>Paso siguiente</em> siete veces hasta llegar a la fila 41: el punto verde cae en el cruce. Luego pulse dos veces ▼ junto al control de latitud, hasta la fila de 20°–21°, y otra vez más: cerca del ecuador las filas están a 5° una de otra, y la franja lo indica en la fila 38.`},
@@ -1119,12 +1119,12 @@ I18N.es = {
          <p>El ejemplo es una nativa a 45° S con un TSL de 16:00:00. El MC es 2° 05′ de Sagitario. Al convertir a 4:00:00, la tabla da 2° 05′ de Géminis —páselo a Sagitario— y un Ascendente de 7° 15′ de Virgo, que pasa a ser 7° 15′ de Piscis.</p>`,
      try:`La franja muestra las dos filas adicionales que necesita un nacimiento austral. Pulse <em>Todo</em>: la respuesta en el diagrama es el valor corregido en Piscis, y la última fila lo confirma con el cálculo directo.`},
     {title:'Los planetas, desde las efemérides',
-     body:`<p>Unas efemérides dan las posiciones de cada día a las 00:00 en Greenwich. La nativa nació a las 15:55 TU, cuando ya había transcurrido 15:55 ÷ 24 = 0,6631944 del día. Esa es su <span class="term">proporción de la hora de nacimiento</span>, y hace el papel que antes hacía la proporción de TS.</p>
+     body:`<p>Unas efemérides <span class="gloss" lang="en">(ephemeris)</span> dan las posiciones de cada día a las 00:00 en Greenwich. La nativa nació a las 15:55 TU <span class="gloss" lang="en">(Universal Time, UT)</span>, cuando ya había transcurrido 15:55 ÷ 24 = 0,6631944 del día. Esa es su <span class="term">proporción de la hora de nacimiento</span> <span class="gloss" lang="en">(birth-time ratio)</span>, y hace el papel que antes hacía la proporción de TS.</p>
          <p>El Sol estaba en 29° 21′ 50″ de Capricornio a medianoche, y en 0° 22′ 55″ de Acuario la medianoche siguiente: 1° 01′ 05″ de movimiento. La parte de la nativa es 1° 01′ 05″ × 0,6631944 = 40′ 31″. Sumada a la posición de medianoche, sitúa al Sol natal en 0° 02′ 21″ de Acuario.</p>
          <p>La misma hoja de trabajo sirve para todos los planetas; solo cambian las dos posiciones.</p>`,
      try:`Pulse <em>Paso siguiente</em> hasta el final. Luego arrastre el control <span class="term">Hora de nacimiento</span>: un nacimiento a mediodía se lleva exactamente la mitad del movimiento del día; uno a las 00:00, nada.`},
     {title:'Retrógrado: reste',
-     body:`<p>Saturno estaba retrógrado ese día, en gris en las efemérides: 19° 02′ 56″ de Virgo a medianoche, 19° 00′ 40″ la siguiente. La posición posterior es menor, porque se movía hacia atrás.</p>
+     body:`<p>Saturno estaba retrógrado <span class="gloss" lang="en">(retrograde)</span> ese día, en gris en las efemérides: 19° 02′ 56″ de Virgo a medianoche, 19° 00′ 40″ la siguiente. La posición posterior es menor, porque se movía hacia atrás.</p>
          <p>La diferencia es 2′ 16″; el incremento, 2′ 16″ × 0,6631944 = 1′ 30″. El único cambio es que lo restamos de la posición del comienzo del día: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ de Virgo.</p>
          <p>La parte rellena de la regla se vuelve roja cuando el planeta está retrógrado. Siempre que la longitud del día siguiente sea menor que la del día del nacimiento, el incremento se resta.</p>`,
      try:`Dos pulsaciones más de <em>Paso siguiente</em> y está hecho. Luego pulse <em>Abrir la hoja</em>, escriba un planeta de su propia página de efemérides —la medianoche de su cumpleaños y la del día siguiente— y compare la fila 47 con su carta.`}
@@ -1294,22 +1294,22 @@ I18N.fr = {
 
   walk: [
     {title:'Une seule valeur commande la table',
-     body:`<p>Une table des maisons donne les Ascendants et les Milieux du Ciel à intervalles réguliers de temps sidéral — ici toutes les 4′ de TS, soit 1° d'ARMC. Tout y dépend de cette seule valeur. Un même TS n'a qu'un MC possible, mais de nombreux Ascendants, un pour chaque latitude de naissance.</p>
-         <p>Notre native est née avec un temps sidéral local de 17:39:47, à 44° 58′ 48″ N. Aucun de ces deux nombres ne figure dans la table. Elle se trouve <em>entre les lignes</em> : entre deux colonnes de TS et deux lignes de latitude. La case du schéma, ce sont ces quatre cellules de la table ; les deux lignes, c'est elle.</p>
-         <p>Interpoler, ce n'est rien d'autre que trouver où les lignes se croisent.</p>`,
+     body:`<p>Une table des maisons <span class="gloss" lang="en">(table of houses)</span> donne les Ascendants et les Milieux du Ciel <span class="gloss" lang="en">(Midheavens)</span> à intervalles réguliers de temps sidéral <span class="gloss" lang="en">(sidereal time)</span> — ici toutes les 4′ de TS <span class="gloss" lang="en">(ST)</span>, soit 1° d'ARMC <span class="gloss" lang="en">(RAMC)</span>. Tout y dépend de cette seule valeur. Un même TS n'a qu'un MC possible, mais de nombreux Ascendants, un pour chaque latitude de naissance.</p>
+         <p>Notre native <span class="gloss" lang="en">(the native)</span> est née avec un temps sidéral local (TSL) <span class="gloss" lang="en">(local sidereal time, LST)</span> de 17:39:47, à 44° 58′ 48″ N. Aucun de ces deux nombres ne figure dans la table. Elle se trouve <em>entre les lignes</em> : entre deux colonnes de TS et deux lignes de latitude. La case du schéma, ce sont ces quatre cellules de la table ; les deux lignes, c'est elle.</p>
+         <p>Interpoler <span class="gloss" lang="en">(interpolation)</span>, ce n'est rien d'autre que trouver où les lignes se croisent.</p>`,
      try:`Faites glisser le curseur <span class="term">Colonne de TS</span> sous le schéma : la ligne dorée traverse la case. Faites glisser le curseur <span class="term lat">Ligne de latitude</span> : la ligne bleue monte et descend. La case, elle, ne bouge pas ; les boutons ◀ ▶ changent de colonne, et la case clignote quand elle passe à de nouvelles cellules. <em>Recommencer</em> remet la native là où la leçon la place.`},
     {title:'Le rapport de TS',
      body:`<p>Son TS est 17:39:47. La table a 17:36:00 d'un côté et 17:40:00 de l'autre. Elle est à 3′ 47″ au-delà de la colonne précédente, sur un intervalle de 4′.</p>
-         <p>Divisez l'un par l'autre : 3′ 47″ font 227 secondes, 4′ en font 240, et 227 ÷ 240 = 0,9458333. C'est son <span class="term">rapport de TS</span> : la fraction de la case qu'elle a traversée. On voit sans calcul qu'elle est presque de l'autre côté.</p>
+         <p>Divisez l'un par l'autre : 3′ 47″ font 227 secondes, 4′ en font 240, et 227 ÷ 240 = 0,9458333. C'est son <span class="term">rapport de TS</span> <span class="gloss" lang="en">(ST ratio)</span> : la fraction de la case qu'elle a traversée. On voit sans calcul qu'elle est presque de l'autre côté.</p>
          <p>Toute grandeur qui dépend du TS — le MC, et chaque Ascendant — s'interpole avec ce même rapport.</p>`,
      try:`Le bandeau sous le schéma montre la ligne où nous en sommes : le rapport. Faites glisser le curseur vers la gauche jusqu'au milieu de la colonne et regardez le rapport tomber à 0,5 environ.`},
     {title:'Interpoler le Milieu du Ciel',
      body:`<p>Le MC à 17:36 est 264° 29′ 30″ ; à 17:40, 265° 24′ 38″. La différence est de 55′ 08″. Elle se trouve à 0,9458333 de la largeur, donc sa part de cette différence est 55′ 08″ × 0,9458333 = 52′ 09″.</p>
-         <p>Ajoutez l'accroissement au MC précédent : 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, soit 25° 21′ 39″ du Sagittaire.</p>
+         <p>Ajoutez l'accroissement <span class="gloss" lang="en">(increment)</span> au MC précédent : 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, soit 25° 21′ 39″ du Sagittaire.</p>
          <p>La différence, multipliée par le rapport, ajoutée à la valeur précédente : voilà toute l'interpolation. L'Ascendant répète simplement l'opération trois fois.</p>`,
      try:`Appuyez cinq fois sur <em>Étape suivante</em>. Chaque pression fait descendre le bandeau d'une ligne de la feuille de calcul ; à la cinquième, la réponse apparaît sur la règle.`},
     {title:'Vérifier par le calcul direct',
-     body:`<p>Le MC peut aussi se calculer directement : <span class="mono">arctan(tan ARMC ÷ cos OE)</span>, où l'ARMC est le TSL × 15 et OE l'obliquité de l'écliptique. Si le résultat n'est pas proche de l'ARMC, ajoutez ou retranchez 180°.</p>
+     body:`<p>Le MC peut aussi s'obtenir par le calcul direct <span class="gloss" lang="en">(direct calculation)</span> : <span class="mono">arctan(tan ARMC ÷ cos OE)</span>, où l'ARMC est le TSL × 15 et OE l'obliquité de l'écliptique <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Si le résultat n'est pas proche de l'ARMC, ajoutez ou retranchez 180°.</p>
          <p>Pour notre native, ARMC 264° 56′ 45″ et OE 23° 26′ 54″ donnent 85° 21′ 41″ ; c'est loin de 264°, donc ajoutez 180° : 265° 21′ 41″.</p>
          <p>À 2″ seulement de la valeur interpolée. L'écart a deux causes : la table a été calculée pour une obliquité d'exactement 23° 26′, et l'interpolation trace une droite là où l'écliptique est courbe. Les deux sont infimes ici.</p>`,
      try:`Appuyez encore quatre fois sur <em>Étape suivante</em> pour dérouler le calcul direct. Appuyez ensuite sur <em>Ouvrir la feuille</em> pour voir les treize lignes ensemble.`},
@@ -1324,7 +1324,7 @@ I18N.fr = {
          <p>Les deux sont proches sans être identiques, et nous voulons de la précision : quelques minutes d'Ascendant comptent pour bien des techniques.</p>`,
      try:`Cinq pressions de plus sur <em>Étape suivante</em> placent le second point sur le bord supérieur. Faites ensuite glisser le curseur <span class="term lat">Ligne de latitude</span> tout en haut : la ligne bleue se pose sur le bord supérieur, et la réponse sera tout simplement ce point.`},
     {title:'Sur le côté : le rapport de latitude',
-     body:`<p>Sa latitude dépasse 44° de 58′ 48″, sur un intervalle de 60′ : un <span class="term lat">rapport de latitude</span> de 0,98. Les valeurs des deux bords diffèrent de 14′ 41″ ; sa part est de 14′ 41″ × 0,98 = 14′ 23″.</p>
+     body:`<p>Sa latitude dépasse 44° de 58′ 48″, sur un intervalle de 60′ : un <span class="term lat">rapport de latitude</span> <span class="gloss" lang="en">(latitude ratio)</span> de 0,98. Les valeurs des deux bords diffèrent de 14′ 41″ ; sa part est de 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Allez maintenant de la valeur de la latitude inférieure vers celle de la supérieure. Ici, la valeur à 45° est plus petite, donc retranchez : 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, soit 20° 19′ 17″ des Poissons.</p>
          <p>La feuille de calcul en fait une règle : si la ligne 30 est plus petite, ajoutez ; si la ligne 36 est plus petite, retranchez. Le schéma le dit plus simplement — la réponse est là où les lignes se croisent.</p>`,
      try:`Appuyez sept fois sur <em>Étape suivante</em> pour atteindre la ligne 41 : le point vert tombe sur le croisement. Appuyez ensuite deux fois sur ▼ à côté du curseur de latitude, jusqu'à la ligne 20°–21°, puis une fois encore : près de l'équateur, les lignes sont espacées de 5°, et le bandeau le signale à la ligne 38.`},
@@ -1339,7 +1339,7 @@ I18N.fr = {
          <p>L'exemple est une native née à 45° S avec un TSL de 16:00:00. Le MC est à 2° 05′ du Sagittaire. Après conversion en 4:00:00, la table donne 2° 05′ des Gémeaux — remettez Sagittaire — et un Ascendant à 7° 15′ de la Vierge, qui devient 7° 15′ des Poissons.</p>`,
      try:`Le bandeau montre les deux lignes supplémentaires qu'exige une naissance australe. Appuyez sur <em>Tout</em> : la réponse sur le schéma est la valeur corrigée, en Poissons, et la dernière ligne la confirme par le calcul direct.`},
     {title:'Les planètes, par les éphémérides',
-     body:`<p>Les éphémérides donnent les positions de chaque jour à 00:00 à Greenwich. La native est née à 15:55 TU, alors que 15:55 ÷ 24 = 0,6631944 de la journée s'était écoulé. C'est son <span class="term">rapport de l'heure de naissance</span>, et il joue le rôle que jouait jusqu'ici le rapport de TS.</p>
+     body:`<p>Les éphémérides <span class="gloss" lang="en">(ephemeris)</span> donnent les positions de chaque jour à 00:00 à Greenwich. La native est née à 15:55 TU <span class="gloss" lang="en">(Universal Time, UT)</span>, alors que 15:55 ÷ 24 = 0,6631944 de la journée s'était écoulé. C'est son <span class="term">rapport de l'heure de naissance</span> <span class="gloss" lang="en">(birth-time ratio)</span>, et il joue le rôle que jouait jusqu'ici le rapport de TS.</p>
          <p>Le Soleil était à 29° 21′ 50″ du Capricorne à minuit, et à 0° 22′ 55″ du Verseau le minuit suivant : 1° 01′ 05″ de mouvement. Sa part est de 1° 01′ 05″ × 0,6631944 = 40′ 31″. Ajoutée à la position de minuit, elle place le Soleil de naissance à 0° 02′ 21″ du Verseau.</p>
          <p>La même feuille de calcul sert pour toutes les planètes ; seules les deux positions changent.</p>`,
      try:`Appuyez sur <em>Étape suivante</em> jusqu'au bout. Faites ensuite glisser le curseur <span class="term">Heure de naissance</span> : une naissance à midi prend exactement la moitié du mouvement du jour, une naissance à 00:00 n'en prend rien.`},
@@ -1514,22 +1514,22 @@ I18N.de = {
 
   walk: [
     {title:'Ein Wert bestimmt die Tabelle',
-     body:`<p>Eine Häusertabelle führt Aszendenten und MC in regelmäßigen Abständen der Sternzeit auf — hier alle 4′ Sternzeit, also alle 1° RAMC. Alles darin hängt von diesem einen Wert ab. Zur selben Sternzeit gibt es nur ein mögliches MC, aber viele Aszendenten, einen für jede Geburtsbreite.</p>
-         <p>Unsere Geborene kam bei einer Ortssternzeit von 17:39:47 auf 44° 58′ 48″ N zur Welt. Keine der beiden Zahlen steht in der Tabelle. Sie liegt <em>zwischen den Zeilen</em>: zwischen zwei Sternzeitspalten und zwei Breitenzeilen. Der Kasten im Diagramm steht für diese vier Tabellenzellen, die beiden Linien stehen für sie.</p>
-         <p>Interpolieren heißt nichts anderes, als den Punkt zu finden, an dem sich die Linien kreuzen.</p>`,
+     body:`<p>Eine Häusertabelle <span class="gloss" lang="en">(table of houses)</span> führt Aszendenten <span class="gloss" lang="en">(Ascendant, ASC)</span> und MC in regelmäßigen Abständen der Sternzeit <span class="gloss" lang="en">(sidereal time, ST)</span> auf — hier alle 4′ Sternzeit, also alle 1° RAMC. Alles darin hängt von diesem einen Wert ab. Zur selben Sternzeit gibt es nur ein mögliches MC, aber viele Aszendenten, einen für jede Geburtsbreite.</p>
+         <p>Unsere Geborene <span class="gloss" lang="en">(the native)</span> kam auf 44° 58′ 48″ N zur Welt, bei einer Ortssternzeit, kurz OSZ <span class="gloss" lang="en">(local sidereal time, LST)</span>, von 17:39:47. Keine der beiden Zahlen steht in der Tabelle. Sie liegt <em>zwischen den Zeilen</em>: zwischen zwei Sternzeitspalten und zwei Breitenzeilen. Der Kasten im Diagramm steht für diese vier Tabellenzellen, die beiden Linien stehen für sie.</p>
+         <p>Interpolation heißt nichts anderes, als den Punkt zu finden, an dem sich die Linien kreuzen.</p>`,
      try:`Ziehen Sie den Regler <span class="term">Sternzeitspalte</span> unter dem Diagramm: Die goldene Linie wandert durch den Kasten. Ziehen Sie den Regler <span class="term lat">Breitenzeile</span>: Die blaue Linie bewegt sich auf und ab. Der Kasten selbst bleibt stehen; die Schaltflächen ◀ ▶ wechseln die Spalte, und der Kasten blinkt auf, wenn er zu neuen Tabellenzellen springt. <em>Von vorn</em> setzt die Geborene dorthin zurück, wo die Lektion sie hat.`},
     {title:'Der Sternzeitfaktor',
      body:`<p>Ihre Sternzeit ist 17:39:47. Die Tabelle hat 17:36:00 auf der einen Seite und 17:40:00 auf der anderen. Sie liegt 3′ 47″ nach der früheren Spalte, bei einem Intervall von 4′.</p>
-         <p>Teilen Sie das eine durch das andere: 3′ 47″ sind 227 Sekunden, 4′ sind 240, und 227 ÷ 240 = 0,9458333. Das ist ihr <span class="term">Sternzeitfaktor</span>: wie weit sie den Kasten durchquert hat, als Bruchteil. Ohne Rechnen sieht man, dass sie fast am anderen Rand liegt.</p>
+         <p>Teilen Sie das eine durch das andere: 3′ 47″ sind 227 Sekunden, 4′ sind 240, und 227 ÷ 240 = 0,9458333. Das ist ihr <span class="term">Sternzeitfaktor</span> <span class="gloss" lang="en">(ST ratio)</span>: wie weit sie den Kasten durchquert hat, als Bruchteil. Ohne Rechnen sieht man, dass sie fast am anderen Rand liegt.</p>
          <p>Jede Größe, die von der Sternzeit abhängt — das MC und jeder Aszendent —, wird mit genau diesem Faktor interpoliert.</p>`,
      try:`Der Streifen unter dem Diagramm zeigt die Zeile, bei der wir sind: den Faktor. Ziehen Sie den Regler nach links bis zur Mitte der Spalte, und der Faktor sinkt auf etwa 0,5.`},
     {title:'Das MC interpolieren',
      body:`<p>Das MC um 17:36 steht auf 264° 29′ 30″, um 17:40 auf 265° 24′ 38″. Die Differenz beträgt 55′ 08″. Sie liegt bei 0,9458333 der Strecke, also ist ihr Anteil an dieser Differenz 55′ 08″ × 0,9458333 = 52′ 09″.</p>
-         <p>Addieren Sie den Anteil zum früheren MC: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, also 25° 21′ 39″ Schütze.</p>
+         <p>Addieren Sie den Anteil <span class="gloss" lang="en">(increment)</span> zum früheren MC: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, also 25° 21′ 39″ Schütze.</p>
          <p>Differenz mal Faktor, zum früheren Wert addiert. Dieses Muster ist die ganze Interpolation; der Aszendent macht es einfach dreimal.</p>`,
      try:`Drücken Sie fünfmal <em>Nächster Schritt</em>. Jeder Druck schiebt den Streifen unter dem Diagramm eine Zeile des Arbeitsblatts weiter; beim fünften erscheint das Ergebnis auf dem Lineal.`},
     {title:'Direkt nachprüfen',
-     body:`<p>Das MC lässt sich auch direkt berechnen: <span class="mono">arctan(tan RAMC ÷ cos ε)</span>, wobei die RAMC die OSZ × 15 ist und ε die Schiefe der Ekliptik. Liegt das Ergebnis nicht nahe an der RAMC, addieren oder subtrahieren Sie 180°.</p>
+     body:`<p>Das MC lässt sich auch direkt berechnen <span class="gloss" lang="en">(direct calculation)</span>: <span class="mono">arctan(tan RAMC ÷ cos ε)</span>, wobei die RAMC die OSZ × 15 ist und ε die Schiefe der Ekliptik <span class="gloss" lang="en">(obliquity of the ecliptic, OE)</span>. Liegt das Ergebnis nicht nahe an der RAMC, addieren oder subtrahieren Sie 180°.</p>
          <p>Für unsere Geborene ergeben RAMC 264° 56′ 45″ und ε 23° 26′ 54″ den Wert 85° 21′ 41″; das ist weit von 264° entfernt, also 180° addieren: 265° 21′ 41″.</p>
          <p>Nur 2″ vom interpolierten Wert entfernt. Die Abweichung hat zwei Ursachen: Die Tabelle wurde für eine Schiefe von genau 23° 26′ berechnet, und die Interpolation zieht eine Gerade, wo die Ekliptik sich krümmt. Beides ist hier winzig.</p>`,
      try:`Drücken Sie noch viermal <em>Nächster Schritt</em>, um die direkte Berechnung durchzugehen. Klicken Sie dann auf <em>Arbeitsblatt öffnen</em>, um alle dreizehn Zeilen beisammen zu sehen.`},
@@ -1544,7 +1544,7 @@ I18N.de = {
          <p>Die beiden liegen nah beieinander, sind aber nicht gleich, und wir wollen genau sein: Ein paar Minuten am Aszendenten zählen für viele Techniken.</p>`,
      try:`Fünf weitere Klicks auf <em>Nächster Schritt</em> setzen den zweiten Punkt auf die Oberkante. Ziehen Sie dann den Regler <span class="term lat">Breitenzeile</span> ganz nach oben: Die blaue Linie liegt auf der Oberkante, und das Ergebnis ist einfach dieser Punkt.`},
     {title:'Die Seite hinab: der Breitenfaktor',
-     body:`<p>Ihre Breite liegt 58′ 48″ über 44°, bei einem Intervall von 60′: ein <span class="term lat">Breitenfaktor</span> von 0,98. Die beiden Kantenwerte unterscheiden sich um 14′ 41″; ihr Anteil ist 14′ 41″ × 0,98 = 14′ 23″.</p>
+     body:`<p>Ihre Breite liegt 58′ 48″ über 44°, bei einem Intervall von 60′: ein <span class="term lat">Breitenfaktor</span> <span class="gloss" lang="en">(latitude ratio)</span> von 0,98. Die beiden Kantenwerte unterscheiden sich um 14′ 41″; ihr Anteil ist 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Gehen Sie nun vom Wert der niedrigeren Breite zu dem der höheren hin. Hier ist der Wert bei 45° kleiner, also subtrahieren: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, das ist 20° 19′ 17″ Fische.</p>
          <p>Das Arbeitsblatt fasst es als Regel: Ist Zeile 30 kleiner, addieren; ist Zeile 36 kleiner, subtrahieren. Das Diagramm sagt es einfacher — das Ergebnis liegt dort, wo sich die Linien kreuzen.</p>`,
      try:`Drücken Sie siebenmal <em>Nächster Schritt</em>, bis Zeile 41: Der grüne Punkt landet auf dem Schnittpunkt. Drücken Sie dann zweimal ▼ neben dem Regler Breitenzeile, bis zur Zeile 20°–21°, und noch einmal: Nahe dem Äquator liegen die Zeilen 5° auseinander, und der Streifen sagt es in Zeile 38.`},
@@ -1559,12 +1559,12 @@ I18N.de = {
          <p>Das Beispiel ist eine Geborene auf 45° S mit OSZ 16:00:00. Das MC ist 2° 05′ Schütze. Umgerechnet auf 4:00:00 liefert die Tabelle 2° 05′ Zwillinge — daraus wird Schütze — und einen Aszendenten von 7° 15′ Jungfrau, der zu 7° 15′ Fische wird.</p>`,
      try:`Der Streifen zeigt die zwei zusätzlichen Zeilen, die eine Südgeburt braucht. Drücken Sie <em>Alle</em>: Das Ergebnis im Diagramm ist der korrigierte Wert in den Fischen, und die letzte Zeile bestätigt ihn durch direkte Berechnung.`},
     {title:'Planeten aus der Ephemeride',
-     body:`<p>Eine Ephemeride führt für jeden Tag die Positionen um 00:00 in Greenwich auf. Die Geborene kam um 15:55 UT zur Welt, als 15:55 ÷ 24 = 0,6631944 des Tages vergangen waren. Das ist ihr <span class="term">Geburtszeitfaktor</span>, und er spielt die Rolle, die zuvor der Sternzeitfaktor spielte.</p>
+     body:`<p>Eine Ephemeride <span class="gloss" lang="en">(ephemeris)</span> führt für jeden Tag die Positionen um 00:00 in Greenwich auf. Die Geborene kam um 15:55 UT zur Welt, als 15:55 ÷ 24 = 0,6631944 des Tages vergangen waren. Das ist ihr <span class="term">Geburtszeitfaktor</span> <span class="gloss" lang="en">(birth-time ratio)</span>, und er spielt die Rolle, die zuvor der Sternzeitfaktor spielte.</p>
          <p>Die Sonne stand um Mitternacht auf 29° 21′ 50″ Steinbock und um die folgende Mitternacht auf 0° 22′ 55″ Wassermann: 1° 01′ 05″ Bewegung. Ihr Anteil ist 1° 01′ 05″ × 0,6631944 = 40′ 31″. Zur Mitternachtsposition addiert, steht die Sonne bei der Geburt auf 0° 02′ 21″ Wassermann.</p>
          <p>Dasselbe Arbeitsblatt dient für jeden Planeten; nur die beiden Positionen ändern sich.</p>`,
      try:`Drücken Sie <em>Nächster Schritt</em> bis zum Ende. Ziehen Sie dann den Regler <span class="term">Geburtszeit</span>: Eine Geburt um 12 Uhr mittags erhält genau die halbe Tagesbewegung, eine Geburt um 00:00 gar nichts.`},
     {title:'Rückläufig: abziehen',
-     body:`<p>Saturn war an diesem Tag rückläufig, in der Ephemeride grau gedruckt: 19° 02′ 56″ Jungfrau um Mitternacht, 19° 00′ 40″ um die folgende. Die spätere Position ist kleiner, weil er sich rückwärts bewegte.</p>
+     body:`<p>Saturn war an diesem Tag rückläufig <span class="gloss" lang="en">(retrograde)</span>, in der Ephemeride grau gedruckt: 19° 02′ 56″ Jungfrau um Mitternacht, 19° 00′ 40″ um die folgende. Die spätere Position ist kleiner, weil er sich rückwärts bewegte.</p>
          <p>Die Differenz ist 2′ 16″, der Anteil 2′ 16″ × 0,6631944 = 1′ 30″. Einziger Unterschied: Wir ziehen ihn vom Tagesbeginn ab: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ Jungfrau.</p>
          <p>Der gefüllte Teil des Lineals wird rot, wenn der Planet rückläufig ist. Immer wenn die Länge des Folgetags kleiner ist als die des Geburtstags, wird der Anteil abgezogen.</p>`,
      try:`Zwei weitere Klicks auf <em>Nächster Schritt</em> schließen es ab. Klicken Sie dann auf <em>Arbeitsblatt öffnen</em>, tragen Sie einen Planeten aus Ihrer eigenen Ephemeride ein — Mitternacht an Ihrem Geburtstag und am Tag danach — und vergleichen Sie Zeile 47 mit Ihrem Horoskop.`}
@@ -1734,22 +1734,22 @@ I18N.zh = {
 
   walk: [
     {title:'一个值统领全表',
-     body:`<p>宫位表按固定的恒星时间隔列出上升点与中天——这里是每 4′ 恒星时一列，也就是 RAMC 的 1°。表中一切都由这一个值决定。同一个恒星时只可能有一个 MC，却有许多个上升点，出生地的每个纬度各一个。</p>
-         <p>我们的命主出生时的地方恒星时是 17:39:47，地点在北纬 44° 58′ 48″。这两个数都不在表里。她落在<em>字里行间</em>：两列恒星时与两行纬度之间。示意图上的方框就是那四个表格单元，两条线就是她。</p>
-         <p>插值无非就是找出两条线的交点。</p>`,
+     body:`<p>宫位表<span class="gloss" lang="en">（table of houses）</span>按固定的恒星时<span class="gloss" lang="en">（sidereal time, ST）</span>间隔列出上升点<span class="gloss" lang="en">（Ascendant）</span>与中天<span class="gloss" lang="en">（Midheaven）</span>——这里是每 4′ 恒星时一列，也就是 RAMC 的 1°。表中一切都由这一个值决定。同一个恒星时只可能有一个 MC，却有许多个上升点，出生地的每个纬度各一个。</p>
+         <p>我们的命主<span class="gloss" lang="en">（the native）</span>出生时的地方恒星时<span class="gloss" lang="en">（local sidereal time, LST）</span>是 17:39:47，地点在北纬 44° 58′ 48″。这两个数都不在表里。她落在<em>字里行间</em>：两列恒星时与两行纬度之间。示意图上的方框就是那四个表格单元，两条线就是她。</p>
+         <p>插值<span class="gloss" lang="en">（interpolation）</span>无非就是找出两条线的交点。</p>`,
      try:`拖动示意图下方的<span class="term">恒星时列</span>滑块：金线横向移动。拖动<span class="term lat">纬度行</span>滑块：蓝线上下移动。方框本身不动；◀ ▶ 按钮切换列，方框移到新的表格单元时会闪一下。<em>从头开始</em>会把命主放回课中的位置。`},
     {title:'恒星时比例',
      body:`<p>她的恒星时是 17:39:47。表中一边是 17:36:00，另一边是 17:40:00。她比前一列晚 3′ 47″，而整个间隔是 4′。</p>
-         <p>两者相除：3′ 47″ 是 227 秒，4′ 是 240 秒，227 ÷ 240 = 0.9458333。这就是她的<span class="term">恒星时比例</span>：她在方框里横向走了多远，用分数表示。不用计算也看得出，她几乎走到了头。</p>
+         <p>两者相除：3′ 47″ 是 227 秒，4′ 是 240 秒，227 ÷ 240 = 0.9458333。这就是她的<span class="term">恒星时比例</span><span class="gloss" lang="en">（ST ratio）</span>：她在方框里横向走了多远，用分数表示。不用计算也看得出，她几乎走到了头。</p>
          <p>凡是取决于恒星时的量——MC，以及每一个上升点——都用这同一个比例来插值。</p>`,
      try:`示意图下方的横条显示我们正在算的那一行：比例。把滑块往左拖到列的中间，看比例降到 0.5 左右。`},
     {title:'中天的插值',
      body:`<p>17:36 的 MC 是 264° 29′ 30″；17:40 的是 265° 24′ 38″。差值为 55′ 08″。她在方框里横向走了 0.9458333，所以她分得的差值是 55′ 08″ × 0.9458333 = 52′ 09″。</p>
-         <p>把增量加到较早的 MC 上：264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″，即射手座 25° 21′ 39″。</p>
+         <p>把增量<span class="gloss" lang="en">（increment）</span>加到较早的 MC 上：264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″，即射手座 25° 21′ 39″。</p>
          <p>差值乘以比例，加到较早的值上。插值的全部就是这个模式；上升点不过是把它做三遍。</p>`,
      try:`按五次<em>下一步</em>。每按一次，示意图下方的横条就沿计算表下移一行；第五次时，答案出现在标尺上。`},
     {title:'直接验算',
-     body:`<p>MC 也可以直接计算：<span class="mono">arctan(tan RAMC ÷ cos OE)</span>，其中 RAMC 等于 LST × 15，OE 为黄赤交角。若结果不接近 RAMC，就加上或减去 180°。</p>
+     body:`<p>MC 也可以通过直接计算<span class="gloss" lang="en">（direct calculation）</span>求得：<span class="mono">arctan(tan RAMC ÷ cos OE)</span>，其中 RAMC 等于 LST × 15，OE 为黄赤交角<span class="gloss" lang="en">（obliquity of the ecliptic, OE）</span>。若结果不接近 RAMC，就加上或减去 180°。</p>
          <p>对我们的命主，RAMC 264° 56′ 45″ 与 OE 23° 26′ 54″ 得出 85° 21′ 41″；这离 264° 很远，所以加 180°：265° 21′ 41″。</p>
          <p>与插值结果只差 2″。差距有两个原因：宫位表是按恰好 23° 26′ 的黄赤交角编制的；插值在黄道弯曲之处画的是直线。在这里两者都微不足道。</p>`,
      try:`再按四次<em>下一步</em>，走完直接计算。然后按<em>打开计算表</em>，把十三行放在一起看。`},
@@ -1764,7 +1764,7 @@ I18N.zh = {
          <p>两者接近但不相同，而我们要的是精确：上升点差几分，对许多技法都有影响。</p>`,
      try:`再按五次<em>下一步</em>，第二个点就落在上边。然后把<span class="term lat">纬度行</span>滑块一直拖到顶：蓝线与上边重合，答案就是那个点。`},
     {title:'沿侧边而下：纬度比例',
-     body:`<p>她的纬度比 44° 多 58′ 48″，间隔为 60′：<span class="term lat">纬度比例</span>是 0.98。上下两边的值相差 14′ 41″；她分得 14′ 41″ × 0.98 = 14′ 23″。</p>
+     body:`<p>她的纬度比 44° 多 58′ 48″，间隔为 60′：<span class="term lat">纬度比例</span><span class="gloss" lang="en">（latitude ratio）</span>是 0.98。上下两边的值相差 14′ 41″；她分得 14′ 41″ × 0.98 = 14′ 23″。</p>
          <p>现在从低纬度的值走向高纬度的值。这里 45° 的值较小，所以减：350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″，即双鱼座 20° 19′ 17″。</p>
          <p>计算表把它写成一条规则：若第 30 行较小，就加；若第 36 行较小，就减。示意图说得更简单——答案就在两线交点。</p>`,
      try:`按七次<em>下一步</em>，到第 41 行：绿点落在交点上。然后按纬度滑块旁的 ▼ 两次，到 20°–21° 那一行，再按一次：靠近赤道时各行相隔 5°，横条在第 38 行会写明。`},
@@ -1779,12 +1779,12 @@ I18N.zh = {
          <p>示例命主位于南纬 45°，地方恒星时 16:00:00。MC 为射手座 2° 05′。换算为 4:00:00 后，查表得双子座 2° 05′——改为射手座——上升点为处女座 7° 15′，改为双鱼座 7° 15′。</p>`,
      try:`横条显示南半球出生需要多出来的两行。按<em>全部</em>：示意图上的答案是更正后的双鱼座数值，最后一行用直接计算加以确认。`},
     {title:'由星历表求行星位置',
-     body:`<p>星历表列出每天格林尼治 00:00 的位置。命主出生于 UT 15:55，此时这一天已过去 15:55 ÷ 24 = 0.6631944。这就是她的<span class="term">出生时间比例</span>，它扮演的角色就是前面的恒星时比例。</p>
+     body:`<p>星历表<span class="gloss" lang="en">（ephemeris）</span>列出每天格林尼治 00:00 的位置。命主出生于世界时<span class="gloss" lang="en">（Universal Time, UT）</span>15:55，此时这一天已过去 15:55 ÷ 24 = 0.6631944。这就是她的<span class="term">出生时间比例</span><span class="gloss" lang="en">（birth-time ratio）</span>，它扮演的角色就是前面的恒星时比例。</p>
          <p>午夜时太阳在摩羯座 29° 21′ 50″，次日午夜在水瓶座 0° 22′ 55″：运行了 1° 01′ 05″。她分得 1° 01′ 05″ × 0.6631944 = 40′ 31″。加到午夜的位置上，出生时的太阳在水瓶座 0° 02′ 21″。</p>
          <p>每颗行星都用同一张计算表；变的只是那两个位置。</p>`,
      try:`一直按<em>下一步</em>到底。然后拖动<span class="term">出生时间</span>滑块：正午出生恰好分得当天运行量的一半，00:00 出生则一点也分不到。`},
     {title:'逆行：减',
-     body:`<p>土星那天在逆行，星历表中以灰色标出：午夜在处女座 19° 02′ 56″，次日午夜在 19° 00′ 40″。后一个位置较小，因为它在倒退。</p>
+     body:`<p>土星那天在逆行<span class="gloss" lang="en">（retrograde）</span>，星历表中以灰色标出：午夜在处女座 19° 02′ 56″，次日午夜在 19° 00′ 40″。后一个位置较小，因为它在倒退。</p>
          <p>差值为 2′ 16″，增量为 2′ 16″ × 0.6631944 = 1′ 30″。唯一的变化是要从当天起点的位置中减去它：19° 02′ 56″ − 1′ 30″ = 处女座 19° 01′ 26″。</p>
          <p>行星逆行时，标尺上的填充部分变成红色。只要次日的黄经小于生日当天的黄经，增量就要减去。</p>`,
      try:`再按两次<em>下一步</em>就算完了。然后按<em>打开计算表</em>，从你自己的星历表中输入一颗行星——你生日当天和次日的午夜位置——再把第 47 行与你的星盘比较。`}
@@ -1954,22 +1954,22 @@ I18N.ja = {
 
   walk: [
     {title:'ひとつの値が表を決める',
-     body:`<p>ハウス表は、恒星時の一定間隔ごとにアセンダントと MC を並べたものです。ここでは恒星時 4′ ごと、つまり RAMC 1° ごとです。表のすべてはこのひとつの値で決まります。同じ恒星時に対して MC はひとつしかありえませんが、アセンダントは出生地の緯度ごとにひとつずつ、いくつもあります。</p>
-         <p>この課の出生者は、北緯 44° 58′ 48″ で地方恒星時 17:39:47 に生まれました。どちらの数も表にはありません。彼女は<em>行間</em>にいます。恒星時の二つの列と、緯度の二つの行のあいだに。図の枠はその四つのセルで、二本の線が彼女です。</p>
-         <p>補間とは、線が交わる点を見つけることにすぎません。</p>`,
+     body:`<p>ハウス表<span class="gloss" lang="en">（table of houses）</span>は、恒星時<span class="gloss" lang="en">（sidereal time, ST）</span>の一定間隔ごとにアセンダント<span class="gloss" lang="en">（Ascendant）</span>と MC を並べたものです。ここでは恒星時 4′ ごと、つまり RAMC 1° ごとです。表のすべてはこのひとつの値で決まります。同じ恒星時に対して MC はひとつしかありえませんが、アセンダントは出生地の緯度ごとにひとつずつ、いくつもあります。</p>
+         <p>この課の出生者<span class="gloss" lang="en">（the native）</span>は、北緯 44° 58′ 48″ で地方恒星時<span class="gloss" lang="en">（local sidereal time, LST）</span>17:39:47 に生まれました。どちらの数も表にはありません。彼女は<em>行間</em>にいます。恒星時の二つの列と、緯度の二つの行のあいだに。図の枠はその四つのセルで、二本の線が彼女です。</p>
+         <p>補間<span class="gloss" lang="en">（interpolation）</span>とは、線が交わる点を見つけることにすぎません。</p>`,
      try:`図の下の「<span class="term">恒星時の列</span>」スライダーを動かすと、金色の線が枠を横切ります。「<span class="term lat">緯度の行</span>」スライダーを動かすと、青い線が上下します。枠そのものは動きません。◀ ▶ ボタンで列が変わり、枠が新しいセルへ移るときには点滅します。「<em>最初から</em>」を押すと、出生者は教本どおりの位置に戻ります。`},
     {title:'恒星時比',
      body:`<p>彼女の恒星時は 17:39:47 です。表には一方に 17:36:00、もう一方に 17:40:00 があります。彼女は 4′ の間隔のうち、前の列から 3′ 47″ 進んだところにいます。</p>
-         <p>一方を他方で割ります。3′ 47″ は 227 秒、4′ は 240 秒で、227 ÷ 240 = 0.9458333。これが彼女の<span class="term">恒星時比</span>、つまり枠のどこまで進んでいるかを割合で表したものです。計算しなくても、ほとんど端まで来ていることは見てわかります。</p>
+         <p>一方を他方で割ります。3′ 47″ は 227 秒、4′ は 240 秒で、227 ÷ 240 = 0.9458333。これが彼女の<span class="term">恒星時比</span><span class="gloss" lang="en">（ST ratio）</span>、つまり枠のどこまで進んでいるかを割合で表したものです。計算しなくても、ほとんど端まで来ていることは見てわかります。</p>
          <p>恒星時で決まる量——MC と、それぞれのアセンダント——は、すべてこの同じ比で補間します。</p>`,
      try:`図の下の帯には、いま計算している行、つまり比が表示されています。スライダーを左へ、列の中ほどまで動かして、比が約 0.5 まで下がるのを見てください。`},
     {title:'MC の補間',
      body:`<p>17:36 の MC は 264° 29′ 30″、17:40 では 265° 24′ 38″ です。差は 55′ 08″。彼女は 0.9458333 のところにいるので、その差のうち彼女の取り分は 55′ 08″ × 0.9458333 = 52′ 09″ です。</p>
-         <p>この増分を前の MC に加えます。264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″、すなわち射手座 25° 21′ 39″ です。</p>
+         <p>この増分<span class="gloss" lang="en">（increment）</span>を前の MC に加えます。264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″、すなわち射手座 25° 21′ 39″ です。</p>
          <p>差に比を掛け、前の値に加える。補間はこの型がすべてで、アセンダントはそれを三回繰り返すだけです。</p>`,
      try:`「<em>次のステップ</em>」を 5 回押してください。押すたびに図の下の帯がワークシートを一行ずつ進み、5 回目で答えが目盛りに現れます。`},
     {title:'直接確かめる',
-     body:`<p>MC は直接計算することもできます。<span class="mono">arctan(tan RAMC ÷ cos OE)</span>。ここで RAMC は LST × 15、OE は黄道傾斜角です。結果が RAMC に近くなければ、180° を足すか引きます。</p>
+     body:`<p>MC は直接計算<span class="gloss" lang="en">（direct calculation）</span>で求めることもできます。<span class="mono">arctan(tan RAMC ÷ cos OE)</span>。ここで RAMC は LST × 15、OE は黄道傾斜角<span class="gloss" lang="en">（obliquity of the ecliptic, OE）</span>です。結果が RAMC に近くなければ、180° を足すか引きます。</p>
          <p>この出生者の場合、RAMC 264° 56′ 45″ と OE 23° 26′ 54″ から 85° 21′ 41″ が得られます。264° から大きく離れているので、180° を加えて 265° 21′ 41″。</p>
          <p>補間値との差はわずか 2″ です。この差には二つの原因があります。表がちょうど 23° 26′ の黄道傾斜角で作られていること、そして補間が、黄道の曲がっているところに直線を引くことです。ここではどちらもごく小さなものです。</p>`,
      try:`「<em>次のステップ</em>」をさらに 4 回押して、直接計算をたどってください。それから「<em>ワークシートを開く</em>」で、13 行すべてをまとめて見られます。`},
@@ -1984,7 +1984,7 @@ I18N.ja = {
          <p>二つは近いものの同じではなく、ここは正確にいきたいところです。アセンダントの数分の違いが、多くの技法では効いてきます。</p>`,
      try:`「<em>次のステップ</em>」をさらに 5 回押すと、二つ目の点が上辺に現れます。それから「<span class="term lat">緯度の行</span>」スライダーをいちばん上まで動かしてください。青い線が上辺に重なり、答えはその点そのものになります。`},
     {title:'縦の辺：緯度比',
-     body:`<p>彼女の緯度は 60′ の間隔のうち、44° から 58′ 48″ 進んだところにあります。<span class="term lat">緯度比</span>は 0.98 です。二辺の値の差は 14′ 41″ で、彼女の取り分は 14′ 41″ × 0.98 = 14′ 23″ です。</p>
+     body:`<p>彼女の緯度は 60′ の間隔のうち、44° から 58′ 48″ 進んだところにあります。<span class="term lat">緯度比</span><span class="gloss" lang="en">（latitude ratio）</span>は 0.98 です。二辺の値の差は 14′ 41″ で、彼女の取り分は 14′ 41″ × 0.98 = 14′ 23″ です。</p>
          <p>ここで、低緯度側の値から高緯度側の値へ向かって動かします。この例では 45° の値のほうが小さいので引きます。350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″、すなわち魚座 20° 19′ 17″ です。</p>
          <p>ワークシートはこれを規則として書いています。30 行目が小さければ足し、36 行目が小さければ引く。図はもっと簡単に言います——答えは線が交わるところにある、と。</p>`,
      try:`「<em>次のステップ</em>」を 7 回押して 41 行目まで進めてください。緑の点が交点に乗ります。次に緯度スライダーの横の ▼ を 2 回押して 20°–21° の行へ、さらにもう 1 回押してください。赤道近くでは行の間隔が 5° になり、帯の 38 行目もそれを示します。`},
@@ -1999,12 +1999,12 @@ I18N.ja = {
          <p>例は南緯 45°、LST 16:00:00 の出生者です。MC は射手座 2° 05′。4:00:00 に変換すると、表からは双子座 2° 05′ が得られ——これを射手座に直します——アセンダントは乙女座 7° 15′ で、これが魚座 7° 15′ になります。</p>`,
      try:`帯には、南半球の出生に必要な二つの追加の行が表示されます。「<em>すべて</em>」を押してください。図上の答えは補正後の魚座の値で、最終行の直接計算がそれを裏づけます。`},
     {title:'天文暦から惑星を',
-     body:`<p>天文暦は毎日、グリニッジの 00:00 における位置を載せています。出生者は 15:55 UT に生まれました。そのとき一日のうち 15:55 ÷ 24 = 0.6631944 が過ぎていました。これが彼女の<span class="term">出生時刻比</span>で、先の恒星時比と同じ役割を果たします。</p>
+     body:`<p>天文暦<span class="gloss" lang="en">（ephemeris）</span>は毎日、グリニッジの 00:00 における位置を載せています。出生者は世界時<span class="gloss" lang="en">（Universal Time, UT）</span>で 15:55 に生まれました。そのとき一日のうち 15:55 ÷ 24 = 0.6631944 が過ぎていました。これが彼女の<span class="term">出生時刻比</span><span class="gloss" lang="en">（birth-time ratio）</span>で、先の恒星時比と同じ役割を果たします。</p>
          <p>太陽は 0 時に山羊座 29° 21′ 50″、翌日の 0 時に水瓶座 0° 22′ 55″ にあり、運行量は 1° 01′ 05″。彼女の取り分は 1° 01′ 05″ × 0.6631944 = 40′ 31″ です。これを 0 時の位置に加えると、出生時の太陽は水瓶座 0° 02′ 21″ です。</p>
          <p>どの惑星も同じワークシートで求められます。変わるのは二つの位置だけです。</p>`,
      try:`「<em>次のステップ</em>」を最後まで押してください。それから「<span class="term">出生時刻</span>」スライダーを動かしてみてください。正午の出生ならその日の運行のちょうど半分、00:00 の出生なら何も加わりません。`},
     {title:'逆行：引く',
-     body:`<p>その日、土星は逆行しており、天文暦では灰色で示されています。0 時に乙女座 19° 02′ 56″、翌日は 19° 00′ 40″。後の位置のほうが小さいのは、土星が後ろ向きに動いていたからです。</p>
+     body:`<p>その日、土星は逆行<span class="gloss" lang="en">（retrograde）</span>しており、天文暦では灰色で示されています。0 時に乙女座 19° 02′ 56″、翌日は 19° 00′ 40″。後の位置のほうが小さいのは、土星が後ろ向きに動いていたからです。</p>
          <p>差は 2′ 16″、増分は 2′ 16″ × 0.6631944 = 1′ 30″。違うのは、それをその日の初めの位置から引くことだけです。19° 02′ 56″ − 1′ 30″ = 乙女座 19° 01′ 26″。</p>
          <p>惑星が逆行しているときは、目盛りの塗られた部分が赤くなります。翌日の黄経が出生日の黄経より小さければ、いつでも増分を引きます。</p>`,
      try:`「<em>次のステップ</em>」をあと 2 回押せば完了です。それから「<em>ワークシートを開く</em>」を押し、手元の天文暦から惑星をひとつ——自分の誕生日の 0 時とその翌日の位置を——入力して、47 行目を自分のチャートと比べてみてください。`}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One <item> per piece, newest first. Add a piece: copy an <item>, change every field,
+     give it a new <guid> (its URL) and today's <pubDate>, and update <lastBuildDate>.
+     Readers and bots use the <guid> to tell new pieces from ones they have seen. -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dār al-Ḥikma</title>
+    <link>https://dar-al-hikma.github.io/</link>
+    <atom:link href="https://dar-al-hikma.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Small self-contained pieces, each one a single page, made to be opened and used. New pieces as they go on the shelf.</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 24 Sep 2026 15:30:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Sayyid's Orrery</title>
+      <link>https://dar-al-hikma.github.io/sayyids-orrery/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/sayyids-orrery/</guid>
+      <pubDate>Thu, 24 Sep 2026 15:30:00 GMT</pubDate>
+      <category>Astronomy</category>
+      <category>Interactive</category>
+      <description>Ptolemy's models, seen from the pole of the ecliptic. The eccentric Sun, deferents, epicycles and the equant, the mean conjunctions of Jupiter and Saturn, and the Moon's two months — animated on real dates, with Sayyid at the centre and the royal stars on the rim. Set your birthday and see whether you were born conjunctional or preventional. In seven languages.</description>
+    </item>
+
+    <item>
+      <title>Between the Lines</title>
+      <link>https://dar-al-hikma.github.io/between-the-lines/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/between-the-lines/</guid>
+      <pubDate>Thu, 24 Sep 2026 15:20:00 GMT</pubDate>
+      <category>Calculation</category>
+      <category>Interactive</category>
+      <description>Interpolation in a table of houses. The Midheaven by sidereal time, the Ascendant by sidereal time and latitude, a planet by the hour of birth — the two ratios drawn as crossing lines, the lesson's worksheet filled one row at a time, and the direct calculation beside it so you can see why your program differs. In seven languages.</description>
+    </item>
+
+    <item>
+      <title>The Reckoner</title>
+      <link>https://dar-al-hikma.github.io/reckoner/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/reckoner/</guid>
+      <pubDate>Thu, 24 Sep 2026 15:10:00 GMT</pubDate>
+      <category>Arithmetic</category>
+      <category>Practice</category>
+      <description>Arithmetic in sixties. Degrees, minutes and seconds added, subtracted and converted with every carry and borrow shown; signs to absolute longitude, time to arc and back. An eleven-step walkthrough on the lesson's own examples, endless practice with diagnostic hints, and a slate that works your homework without telling you the answer first. In seven languages.</description>
+    </item>
+
+    <item>
+      <title>Sayyid's Sphere</title>
+      <link>https://dar-al-hikma.github.io/sayyids-sphere/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/sayyids-sphere/</guid>
+      <pubDate>Tue, 22 Sep 2026 15:27:43 GMT</pubDate>
+      <category>Astronomy</category>
+      <category>Interactive</category>
+      <description>Three reference frames, one turning sky. An interactive celestial sphere that holds the horizonal, equatorial and ecliptical frames together at once, so a single point can be named three ways as the sky turns. Includes an eleven-step walkthrough, a latitude and sidereal-time drive, and the quadrant problem laid out in full. In seven languages.</description>
+    </item>
+
+  </channel>
+</rss>

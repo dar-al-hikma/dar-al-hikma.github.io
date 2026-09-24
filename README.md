@@ -19,6 +19,7 @@ tracking. Save one to disk and it still works.
 ```
 .
 ├── index.html          the shelf
+├── feed.xml            RSS: one item per piece, newest first
 ├── .nojekyll           serve files as-is, no Jekyll pass
 └── <piece>/index.html  one folder per piece
 ```
@@ -28,7 +29,10 @@ tracking. Save one to disk and it still works.
 1. `mkdir <piece-slug>` and drop the file in as `index.html`.
 2. Add a `<li>` to the shelf in the root `index.html`.
 3. Add a row to the table above.
-4. Commit and push. GitHub Pages redeploys from `main` within a minute.
+4. Add an `<item>` at the top of `feed.xml` (title, link, guid, date,
+   description) and update its `<lastBuildDate>`. Feed readers and the
+   Discord bot announce whatever appears there with a new `<guid>`.
+5. Commit and push. GitHub Pages redeploys from `main` within a minute.
 
 Slugs are lowercase and hyphenated; the folder name is the URL.
 

@@ -428,9 +428,9 @@
       </div>
       <div class="ctl lat-presets">
         <button class="btn" data-lat="0" data-i18n="ui.equator">Equator</button>
-        <button class="btn" data-lat="40">Menorca 40°</button>
-        <button class="btn" data-lat="51.5">London</button>
-        <button class="btn" data-lat="64">Reykjavík</button>
+        <button class="btn" data-lat="40" data-i18n="ui.menorca">Menorca 40°</button>
+        <button class="btn" data-lat="51.5" data-i18n="ui.london">London</button>
+        <button class="btn" data-lat="64" data-i18n="ui.reykjavik">Reykjavík</button>
       </div>
     </div>
   </section>
@@ -575,42 +575,50 @@
       "lbl.N":"N","lbl.E":"E","lbl.S":"S","lbl.W":"W",
       "lbl.zenith":"Zenith","lbl.nadir":"Nadir","lbl.meridian":"Meridian","lbl.pv":"Prime vertical",
       "lbl.equator":"Celestial equator","lbl.npole":"North pole","lbl.spole":"South pole","lbl.sun":"Sun",
-      "lbl.qe":"Eastern quadrant","lbl.qs":"Southern quadrant","lbl.qw":"Western quadrant","lbl.qn":"Northern quadrant"
-    },
-    nb: {
-      "ui.boot":"Reiser kulen …",
-      "ui.subtitle":"Tre referanserammer, én roterende himmel",
-      "ui.probe":"Målepunkt","ui.azalt":"Asim / Høyde","ui.radec":"RA / Dekl","ui.longlat":"Lengde / Bredde",
-      "ui.plateNote":"Ett punkt på himmelen, navngitt på tre måter samtidig.",
-      "ui.above":"Over horisonten — i den %1 kvadranten.",
-      "ui.below":"Under jorden. Asimut og høyde endrer seg hele tiden; RA, deklinasjon og lengde gjør det ikke.",
-      "q.east":"østlige","q.south":"sørlige","q.west":"vestlige","q.north":"nordlige",
-      "ui.turn":"Drei kulen","ui.hold":"Stopp kulen",
-      "ui.lst":"Siderisk tid","ui.lat":"Breddegrad","ui.equator":"Ekvator",
-      "ui.tabWalk":"Gjennomgang","ui.tabLayers":"Lag","ui.tabChart":"Kart",
-      "ui.stepOf":"Steg %1 av %2","ui.tryit":"Prøv dette",
-      "ui.back":"Tilbake","ui.next":"Neste","ui.allLayers":"Alle lag",
-      "ui.obliquity":"Skjevhet","ui.sunlon":"Solens lengde",
-      "grp.hor":"Den horisontale rammen","grp.equ":"Ekvatorrammen","grp.ecl":"Den ekliptiske rammen","grp.sky":"Himmelen",
-      "lay.horizon":"Horisont","lay.ground":"Skyggelagt grunn","lay.meridian":"Meridian",
-      "lay.primeVertical":"Første vertikal","lay.cardinals":"N Ø S V","lay.zenith":"Senit – nadir",
-      "lay.quadrants":"Kvadrantnavn","lay.almucantar":"Almukantarat for målepunktet","lay.azArc":"Asimutbue",
-      "lay.equator":"Himmelekvator","lay.poles":"Polakse","lay.decCircles":"Deklinasjonssirkler",
-      "lay.raTicks":"Rektascensjonsskala","lay.probeDec":"Deklinasjonssirkel for målepunktet",
-      "lay.ecliptic":"Ekliptikken","lay.zodiacBand":"Zodiakbånd ±8°","lay.signGlyphs":"Tegnsymboler","lay.sun":"Solen",
-      "lay.starfield":"Stjernefelt","lay.brightStars":"Klare stjerner","lay.starNames":"Stjernenavn","lay.probeMark":"Målepunktmarkør",
-      "cap.great":"storsirkel",
-      "layers.oblNote":"Den sanne verdien er 23° 26′. Skru den opp for å se hva skjevheten faktisk gjør; skru den til 0°, og de to rammene faller sammen til én.",
-      "layers.foot":"Stjerneposisjonene er ekvatorkoordinater for J2000, avrundet — nøyaktige nok til å kjenne igjen himmelen, ikke nøyaktige nok til å kaste et kart fra.",
-      "chart.qtitle":"Kvadrantproblemet",
-      "chart.measure":"Fra MC rundt til ASC måler %1 av zodiaken; fra ASC rundt til IC måler %2. I den horisontale rammen er begge disse kvadrantene nøyaktig 90°. Zodiaken ligger rett og slett ikke rett på dem.",
-      "chart.poleAlt":"Polens høyde","chart.eqAlt":"Ekvators høyde",
-      "chart.foot":"<b style=\"color:var(--muted)\">OA</b> er graden av rektascensjon som står på den østlige horisonten, <b style=\"color:var(--muted)\">OD</b> graden på den vestlige. Begge ligger fast 90° fra rektascensjonen på meridianen, alltid, på enhver breddegrad — storsirklene står vinkelrett på hverandre, så gradene deres må gjøre det samme.",
-      "lbl.N":"N","lbl.E":"Ø","lbl.S":"S","lbl.W":"V",
-      "lbl.zenith":"Senit","lbl.nadir":"Nadir","lbl.meridian":"Meridian","lbl.pv":"Første vertikal",
-      "lbl.equator":"Himmelekvator","lbl.npole":"Nordre himmelpol","lbl.spole":"Søndre himmelpol","lbl.sun":"Solen",
-      "lbl.qe":"Østlig kvadrant","lbl.qs":"Sørlig kvadrant","lbl.qw":"Vestlig kvadrant","lbl.qn":"Nordlig kvadrant"
+      "lbl.qe":"Eastern quadrant","lbl.qs":"Southern quadrant","lbl.qw":"Western quadrant","lbl.qn":"Northern quadrant",
+      "ui.menorca":"Menorca 40°","ui.london":"London","ui.reykjavik":"Reykjavík",
+      "star.Sirius":"Sirius","star.Canopus":"Canopus","star.Arcturus":"Arcturus","star.Vega":"Vega",
+      "star.Capella":"Capella","star.Rigel":"Rigel","star.Procyon":"Procyon","star.Achernar":"Achernar",
+      "star.Betelgeuse":"Betelgeuse","star.Altair":"Altair","star.Aldebaran":"Aldebaran","star.Antares":"Antares",
+      "star.Spica":"Spica","star.Pollux":"Pollux","star.Fomalhaut":"Fomalhaut","star.Deneb":"Deneb",
+      "star.Regulus":"Regulus","star.Polaris":"Polaris","star.Bellatrix":"Bellatrix","star.Alphard":"Alphard",
+      "star.Castor":"Castor","star.Denebola":"Denebola","star.Alpheratz":"Alpheratz","star.Algol":"Algol"
     }
+  };
+
+  TX.nb = {
+    "ui.boot":"Reiser kulen …",
+    "ui.subtitle":"Tre referanserammer, én roterende himmel",
+    "ui.probe":"Målepunkt","ui.azalt":"Asim / Høyde","ui.radec":"RA / Dekl","ui.longlat":"Lengde / Bredde",
+    "ui.plateNote":"Ett punkt på himmelen, navngitt på tre måter samtidig.",
+    "ui.above":"Over horisonten — i den %1 kvadranten.",
+    "ui.below":"Under jorden. Asimut og høyde endrer seg hele tiden; RA, deklinasjon og lengde gjør det ikke.",
+    "q.east":"østlige","q.south":"sørlige","q.west":"vestlige","q.north":"nordlige",
+    "ui.turn":"Drei kulen","ui.hold":"Stopp kulen",
+    "ui.lst":"Siderisk tid","ui.lat":"Breddegrad","ui.equator":"Ekvator",
+    "ui.tabWalk":"Gjennomgang","ui.tabLayers":"Lag","ui.tabChart":"Kart",
+    "ui.stepOf":"Steg %1 av %2","ui.tryit":"Prøv dette",
+    "ui.back":"Tilbake","ui.next":"Neste","ui.allLayers":"Alle lag",
+    "ui.obliquity":"Skjevhet","ui.sunlon":"Solens lengde",
+    "grp.hor":"Den horisontale rammen","grp.equ":"Ekvatorrammen","grp.ecl":"Den ekliptiske rammen","grp.sky":"Himmelen",
+    "lay.horizon":"Horisont","lay.ground":"Skyggelagt grunn","lay.meridian":"Meridian",
+    "lay.primeVertical":"Første vertikal","lay.cardinals":"N Ø S V","lay.zenith":"Senit – nadir",
+    "lay.quadrants":"Kvadrantnavn","lay.almucantar":"Almukantarat for målepunktet","lay.azArc":"Asimutbue",
+    "lay.equator":"Himmelekvator","lay.poles":"Polakse","lay.decCircles":"Deklinasjonssirkler",
+    "lay.raTicks":"Rektascensjonsskala","lay.probeDec":"Deklinasjonssirkel for målepunktet",
+    "lay.ecliptic":"Ekliptikken","lay.zodiacBand":"Zodiakbånd ±8°","lay.signGlyphs":"Tegnsymboler","lay.sun":"Solen",
+    "lay.starfield":"Stjernefelt","lay.brightStars":"Klare stjerner","lay.starNames":"Stjernenavn","lay.probeMark":"Målepunktmarkør",
+    "cap.great":"storsirkel",
+    "layers.oblNote":"Den sanne verdien er 23° 26′. Skru den opp for å se hva skjevheten faktisk gjør; skru den til 0°, og de to rammene faller sammen til én.",
+    "layers.foot":"Stjerneposisjonene er ekvatorkoordinater for J2000, avrundet — nøyaktige nok til å kjenne igjen himmelen, ikke nøyaktige nok til å kaste et kart fra.",
+    "chart.qtitle":"Kvadrantproblemet",
+    "chart.measure":"Fra MC rundt til ASC måler %1 av zodiaken; fra ASC rundt til IC måler %2. I den horisontale rammen er begge disse kvadrantene nøyaktig 90°. Zodiaken ligger rett og slett ikke rett på dem.",
+    "chart.poleAlt":"Polens høyde","chart.eqAlt":"Ekvators høyde",
+    "chart.foot":"<b style=\"color:var(--muted)\">OA</b> er graden av rektascensjon som står på den østlige horisonten, <b style=\"color:var(--muted)\">OD</b> graden på den vestlige. Begge ligger fast 90° fra rektascensjonen på meridianen, alltid, på enhver breddegrad — storsirklene står vinkelrett på hverandre, så gradene deres må gjøre det samme.",
+    "lbl.N":"N","lbl.E":"Ø","lbl.S":"S","lbl.W":"V",
+    "lbl.zenith":"Senit","lbl.nadir":"Nadir","lbl.meridian":"Meridian","lbl.pv":"Første vertikal",
+    "lbl.equator":"Himmelekvator","lbl.npole":"Nordre himmelpol","lbl.spole":"Søndre himmelpol","lbl.sun":"Solen",
+    "lbl.qe":"Østlig kvadrant","lbl.qs":"Sørlig kvadrant","lbl.qw":"Vestlig kvadrant","lbl.qn":"Nordlig kvadrant"
   };
 
   // ---- UI strings for the remaining languages -----------------------------
@@ -1149,7 +1157,7 @@
     var sn = group(equGroup, "starNames", false);
     STARS.forEach(function(st){
       if(st[3] > 1.3) return;
-      sn.add(put(label(st[0], "#C9C3B2", 26), equLocal(st[1],st[2]), 1.035));
+      sn.add(put(tlabel("star."+st[0], "#C9C3B2", 26), equLocal(st[1],st[2]), 1.035));
     });
 
     // probe marker + its aid circles
@@ -1218,7 +1226,7 @@
     txt("rdHor", pad(hor.az,3)+"°  /  "+fmtDeg(hor.alt,1));
     txt("rdEqu", rd.ra.toFixed(1)+"°  /  "+fmtDeg(rd.dec,1));
     txt("rdEcl", fmtZod(ec.lon)+"  /  "+fmtDeg(ec.lat,1));
-    txt("probeName", S.probe);
+    txt("probeName", probeLabel(S.probe));
     txt("plateNote", hor.alt >= 0
       ? T("ui.above").replace("%1", T(quadrantName(hor.az)))
       : T("ui.below"));
@@ -1674,11 +1682,12 @@
   }
 
   // probe select
+  function probeLabel(n){ return n === "Sun" ? T("lbl.sun") : T("star."+n); }
   (function(){
     var sel = document.getElementById("probeSel");
     var opts = ["Sun"].concat(STARS.map(function(s){ return s[0]; }));
     opts.forEach(function(n){
-      var o = document.createElement("option"); o.value = n; o.textContent = n;
+      var o = document.createElement("option"); o.value = n; o.textContent = probeLabel(n);
       if(n === S.probe) o.selected = true;
       sel.appendChild(o);
     });
@@ -1802,7 +1811,7 @@
   var LANG_TAGS = { en:"en", nb:"nb", es:"es", fr:"fr", de:"de", zh:"zh-Hans", ja:"ja" };
   function applyLang(l){
     LANG = TX[l] ? l : "en";
-    try { localStorage.setItem("sayyid.lang", LANG); } catch(e){}
+    try { localStorage.setItem("dah.lang", LANG); } catch(e){}
     document.documentElement.setAttribute("lang", LANG_TAGS[LANG] || "en");
     document.body.classList.toggle("cjk", LANG === "zh" || LANG === "ja");
 
@@ -1818,6 +1827,7 @@
 
     var sel = document.getElementById("langSel");
     if(sel.value !== LANG) sel.value = LANG;
+    Array.prototype.forEach.call(document.getElementById("probeSel").options, function(o){ o.textContent = probeLabel(o.value); });
 
     setPlaying(playing);
     renderStepText();
@@ -1829,7 +1839,7 @@
 
   function initialLang(){
     var saved = null;
-    try { saved = localStorage.getItem("sayyid.lang"); } catch(e){}
+    try { saved = localStorage.getItem("dah.lang") || localStorage.getItem("sayyid.lang"); } catch(e){}
     if(saved && TX[saved]) return saved;
     var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
     for(var i=0;i<list.length;i++){

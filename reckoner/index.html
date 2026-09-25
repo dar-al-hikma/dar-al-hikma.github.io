@@ -864,7 +864,7 @@ I18N.en = {
     hmsH: 'The hours are off — degrees ÷ 15, keep the remainder for the minutes.',
     hmsM: 'The minutes are off — remember to turn the leftover degrees into 60′ each.',
     hmsS: 'The seconds are off — leftover minutes become 60″ each, then ÷ 15.',
-    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n == 1 ? 'one has' : `${n} have`} passed.`,
+    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n == 0 ? 'none has' : n == 1 ? 'one has' : `${n} have`} passed.`,
     rightSign: 'Right sign — the degree is the remainder after dividing by 30, with minutes and seconds unchanged.',
     signHow: 'Divide the degrees by 30: the quotient counts signs passed, the remainder is the degree within the next.',
     backPast: 'You have gone backward past 0° Aries — add 360° to the top line first.',
@@ -1109,7 +1109,7 @@ I18N.nb = {
     hmsH: 'Timene er feil — grader ÷ 15, og behold resten til minuttene.',
     hmsM: 'Minuttene er feil — husk å gjøre de overskytende gradene om til 60′ hver.',
     hmsS: 'Sekundene er feil — overskytende minutter blir 60″ hver, deretter ÷ 15.',
-    wrongSign: n => `Riktig grad, feil tegn: tell de hele tegnene på nytt — ${n} er passert.`,
+    wrongSign: n => `Riktig grad, feil tegn: tell de hele tegnene på nytt — ${n == 0 ? 'ingen' : n} er passert.`,
     rightSign: 'Riktig tegn — graden er resten etter deling på 30, med minutter og sekunder uendret.',
     signHow: 'Del gradene på 30: kvotienten teller tegnene som er passert, resten er graden innenfor det neste.',
     backPast: 'Du har gått baklengs forbi 0° Væren — legg først 360° til den øverste linjen.',
@@ -1353,7 +1353,7 @@ I18N.es = {
     hmsH: 'Las horas no cuadran: grados ÷ 15; guarde el resto para los minutos.',
     hmsM: 'Los minutos no cuadran: recuerde convertir cada grado sobrante en 60′.',
     hmsS: 'Los segundos no cuadran: cada minuto sobrante se convierte en 60″, y luego ÷ 15.',
-    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; ${n == 1 ? 'ha' : 'han'} pasado ${n}.`,
+    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; ${n == 0 ? 'no ha pasado ninguno' : `${n == 1 ? 'ha' : 'han'} pasado ${n}`}.`,
     rightSign: 'Signo correcto: el grado es el resto de dividir entre 30, con los minutos y los segundos sin cambiar.',
     signHow: 'Divida los grados entre 30: el cociente cuenta los signos que han pasado; el resto es el grado dentro del siguiente.',
     backPast: 'Ha retrocedido más allá de 0° de Aries: sume primero 360° a la línea de arriba.',
@@ -1597,7 +1597,7 @@ I18N.fr = {
     hmsH: 'Les heures sont fausses — degrés ÷ 15, gardez le reste pour les minutes.',
     hmsM: 'Les minutes sont fausses — pensez que chaque degré restant fait 60′.',
     hmsS: 'Les secondes sont fausses — chaque minute restante fait 60″, puis ÷ 15.',
-    wrongSign: n => `Bon degré, mauvais signe : recomptez les signes complets — il en est passé ${n}.`,
+    wrongSign: n => `Bon degré, mauvais signe : recomptez les signes complets — ${n == 0 ? 'il n’en est passé aucun' : `il en est passé ${n}`}.`,
     rightSign: 'Bon signe — le degré est le reste de la division par 30, minutes et secondes inchangées.',
     signHow: 'Divisez les degrés par 30 : le quotient compte les signes passés, le reste est le degré dans le signe suivant.',
     backPast: "Vous êtes repassé en arrière par 0° du Bélier — ajoutez d'abord 360° à la ligne du haut.",
@@ -1841,7 +1841,7 @@ I18N.de = {
     hmsH: 'Die Stunden stimmen nicht — Grad ÷ 15, den Rest für die Minuten aufheben.',
     hmsM: 'Die Minuten stimmen nicht — denken Sie daran, jeden übrigen Grad in 60′ umzuwandeln.',
     hmsS: 'Die Sekunden stimmen nicht — jede übrige Minute wird zu 60″, dann ÷ 15.',
-    wrongSign: n => `Richtiger Grad, falsches Zeichen: Zählen Sie die vollen Zeichen noch einmal — ${n} ${n==1?'ist':'sind'} vergangen.`,
+    wrongSign: n => `Richtiger Grad, falsches Zeichen: Zählen Sie die vollen Zeichen noch einmal — ${n == 0 ? 'keines ist' : `${n} ${n==1?'ist':'sind'}`} vergangen.`,
     rightSign: 'Richtiges Zeichen — der Grad ist der Rest nach der Division durch 30, Minuten und Sekunden unverändert.',
     signHow: 'Teilen Sie die Grade durch 30: Der Quotient zählt die vergangenen Zeichen, der Rest ist der Grad im nächsten.',
     backPast: 'Sie sind rückwärts über 0° Widder hinausgegangen — addieren Sie zuerst 360° zur oberen Zeile.',
@@ -2085,7 +2085,7 @@ I18N.zh = {
     hmsH: '时不对——度 ÷ 15，余数留给分。',
     hmsM: '分不对——记得把剩下的每一度化为 60′。',
     hmsS: '秒不对——剩下的每一分化为 60″，再 ÷ 15。',
-    wrongSign: n => `度数对了，星座错了：再数一遍完整的星座——已经过了 ${n} 个。`,
+    wrongSign: n => `度数对了，星座错了：再数一遍完整的星座——${n == 0 ? '还没有过完一个' : `已经过了 ${n} 个`}。`,
     rightSign: '星座对了——度数是除以 30 后的余数，分和秒不变。',
     signHow: '把度数除以 30：商是已经过去的星座数，余数是在下一个星座内的度数。',
     backPast: '你已经倒退越过了白羊座 0°——先给上一行加上 360°。',
@@ -2329,7 +2329,7 @@ I18N.ja = {
     hmsH: '時が違います——度 ÷ 15、余りは分に回します。',
     hmsM: '分が違います——余った度を 1° につき 60′ に直すのを忘れずに。',
     hmsS: '秒が違います——余った分を 1′ につき 60″ に直し、それから ÷ 15。',
-    wrongSign: n => `度数は合っていますが、サインが違います。経過したサインを数え直してください——${n} サインが経過しています。`,
+    wrongSign: n => `度数は合っていますが、サインが違います。経過したサインを数え直してください——${n == 0 ? 'まだ 1 サインも経過していません' : `${n} サインが経過しています`}。`,
     rightSign: 'サインは合っています——度数は 30 で割った余りで、分と秒はそのままです。',
     signHow: '度数を 30 で割ります。商が経過したサインの数、余りが次のサインの中の度数です。',
     backPast: '牡羊座 0° を越えて後ろへ戻っています——先に上の行に 360° を加えてください。',
@@ -2455,7 +2455,7 @@ function makeProblem(mode, level){
       if (level===3 && toSec(a) === toSec(b)){ a.d = rnd(0, 358); b.d = rnd(a.d+1, 359); }
       return {mode, a, b, ask:'dms'}; }
     case 'todec': { const x = rDMS(level, 359); if (level===1) x.s = 0; return {mode, x, ask:'dec'}; }
-    case 'todms': { const x = rDMS(level, 359); if (level===1){ x.s = 0; x.m = 3*rnd(0,19); }   // Gentle: m/60 ends within five places
+    case 'todms': { const x = rDMS(level, 359); if (level===1){ x.s = 0; x.m = 3*rnd(1,19); }   // Gentle: m/60 ends within five places
       return {mode, decStr: decStrOf(x), ask:'dms'}; }
     case 'signs': {
       const kinds = level===1 ? ['toAbs','toSign'] : level===2 ? ['toAbs','toSign','dist'] : ['dist','dist','toSign'];
@@ -2656,8 +2656,8 @@ function ringSVG(points, arc){
   return h + `</svg>`;
 }
 
-function load(problem, reveal, practising){
-  if (problem.mode !== ownMode) buildOwn(problem.mode);
+function load(problem, reveal, practising, keepOwn){
+  if (problem.mode !== ownMode && !keepOwn) buildOwn(problem.mode);
   state.problem = problem; state.mode = problem.mode; state.sol = solve(problem); state.reveal = reveal||0; state.practising = !!practising;
   render();
 }
@@ -2712,11 +2712,11 @@ function selectTab(id){
 }
 document.querySelectorAll('.tabs [role=tab]').forEach(t=>t.addEventListener('click',()=>{ selectTab(t.id);
   if (t.id==='tabWalk' && state.practising) showWalk(walkIdx);   // the step's own example, under the step's own text
-  else if (t.id==='tabPractice' && !state.practising && parked){ if (parked.p.mode === state.mode) resumePractice(); else { parked = null; newProblem(state.mode); } }
+  else if (t.id==='tabPractice' && !state.practising && parked) resumePractice();
 }));
 function resumePractice(){
   const {p, reveal} = parked, cls = $('#ansWrap').className; parked = null;
-  load(p, reveal, true); $('#qline').innerHTML = question(p);
+  load(p, reveal, true, true); $('#qline').innerHTML = question(p);   // the own-numbers form stays in the walkthrough's mode, as its Try this asks
   keepInputs('#ansWrap', () => buildAnswer(p.ask)); $('#ansWrap').className = cls;
 }
 
@@ -2735,16 +2735,18 @@ document.querySelectorAll('.modes .btn').forEach(b=>b.addEventListener('click',(
 
 // ---------- practice ----------
 const stats = {right:0, streak:0, best:0};
-try{ const b = Number(localStorage.getItem('reckoner.best')); stats.best = Number.isInteger(b) && b > 0 ? b : 0; }catch(e){}
+try{ const b = localStorage.getItem('reckoner.best') || ''; stats.best = /^\d{1,6}$/.test(b) ? Number(b) : 0; }catch(e){}
 function paintStats(){ $('#stRight').textContent = stats.right; $('#stStreak').textContent = stats.streak; $('#stBest').textContent = stats.best; }
 paintStats();
 // credit for a problem: 'open' until it is answered or its working seen, then 'done', 'shown' or 'tried' (a wrong Check);
 // 'own' for your own numbers, which are checked but never scored. solved: answered right.
 state.credit = 'open'; state.solved = false; state.okFb = null;
 let fbKey = null, ownFbKey = null;   // what the two feedback lines say, so a language switch can repaint them
+// Leaving a problem unanswered, on the slate or parked by the walkthrough, ends the run.
+function abandon(){ if ((state.practising || parked) && state.credit === 'open' && !state.solved && stats.streak){ stats.streak = 0; paintStats(); } parked = null; }
 function newProblem(mode){
   const level = Number($('#diffSel').value);
-  if (state.practising && state.credit === 'open' && !state.solved && stats.streak){ stats.streak = 0; paintStats(); }   // a skip ends the run
+  abandon();
   const p = makeProblem(mode, level); state.credit = 'open'; state.solved = false;
   load(p, 0, true);
   $('#qline').innerHTML = question(p);
@@ -2764,7 +2766,7 @@ function buildAnswer(ask){
   else if (ask==='dec') w.innerHTML = `<input type="text" inputmode="decimal" class="wide" id="adec" aria-label="${L().ui.decimalDegrees}" placeholder="${N('0.00000')}"><span class="u">°</span>`;
   else if (ask==='hms') w.innerHTML = dmsInputs('a', ['h','m','s']);
   else if (ask==='signpos') w.innerHTML = dmsInputs('a', ['°','′','″']) + signSelect('asign');
-  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); check(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.isComposing && e.keyCode !== 229){ e.preventDefault(); check(); } }));
 }
 // a blank box is 0; anything that is not a plain number ("-", "1-", "7.1e1") is NaN
 function readField(id){ const el = $('#'+id); if (el.validity && el.validity.badInput) return NaN;
@@ -2821,11 +2823,12 @@ function check(){
       ok = diff === 0;   // the correctly rounded second, nothing either side
       if (!ok){ const f = secFrac(p);
         if (diff === -1 && f === 2) hint = {k:'roundUp'}; else if (diff === 1 && f === 1) hint = {k:'roundDown'};
+        else if (sol.s === 60 && (diff === -60 || diff === -3600)) hint = {k:'oneUnit'};   // the 60s carry was dropped
         else if (v.d!==exp.d) hint = {k:'hmsH'}; else if (v.m!==exp.m) hint = {k:'hmsM'}; else hint = {k:'hmsS'}; }
     } else { // dms
       ok = diff === 0;
       if (!ok){
-        const carries = p.mode==='add' || p.mode==='sub' || p.kind==='dist' || p.kind==='toArc';   // modes with a carry or a borrow to miss
+        const carries = p.mode==='add' || p.mode==='sub' || p.kind==='dist' || p.kind==='toArc' || (p.mode==='todms' && sol.s === 60);   // a carry or a borrow to miss
         if (p.mode==='sub' && neg) hint = toSec(p.a) < toSec(p.b) ? {k:'backPast'} : val === -toSec(exp) ? {k:'swapped'} : {k:'range'};
         else if (p.mode==='sub' && toSec(p.a) < toSec(p.b) && val === toSec(p.b) - toSec(p.a)) hint = {k:'swapped'};   // 279° − 16° for 16° − 279°
         else if (neg) hint = p.kind==='dist' && diff === -CIRC ? {k:'distCross'} : {k:'range'};
@@ -2880,12 +2883,12 @@ function buildOwn(mode){
     case 'signs': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" aria-label="${O.task}" style="font-family:var(--f-ui)"><option value="toAbs">${O.toAbs}</option><option value="toSign">${O.toSign}</option><option value="dist">${O.dist}</option></select></div>` + sgn('o1',O.a) + sgn('o2',O.b); break;
     case 'time': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" aria-label="${O.task}" style="font-family:var(--f-ui)"><option value="toArc">${O.toArc}</option><option value="toTime">${O.toTime}</option></select></div>` + hms('o1',O.time) + dms('o2',O.arc); break;
   }
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); workOwn(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.isComposing && e.keyCode !== 229){ e.preventDefault(); workOwn(); } }));
 }
 function setOwnFb(key, ok){ ownFbKey = key; const fb = $('#ownFb'); fb.textContent = key ? L().own[key] : ''; fb.className = 'fb' + (key ? (ok ? ' ok' : ' no') : ''); }
 function validDMS(x, maxd){ return Number.isInteger(x.d) && Number.isInteger(x.m) && Number.isInteger(x.s) && x.d>=0 && x.d<=maxd && x.m>=0 && x.m<60 && x.s>=0 && x.s<60; }
 function workOwn(){
-  const m = state.mode; setOwnFb(null); let p = null;
+  const m = ownMode; setOwnFb(null); let p = null;
   const bad = key => setOwnFb(key, false);
   switch(m){
     case 'add': case 'sub': { const a = readDMS('o1'), b = readDMS('o2'); if(!validDMS(a,359)||!validDMS(b,359)) return bad('badDms'); p = {mode:m, a, b, ask:'dms'}; break; }
@@ -2905,7 +2908,7 @@ function workOwn(){
       break; }
   }
   if (!p) return;
-  state.credit = 'own'; state.solved = false; load(p, 0, true); $('#qline').innerHTML = question(p); buildAnswer(p.ask); setFb(null);
+  abandon(); state.credit = 'own'; state.solved = false; load(p, 0, true); $('#qline').innerHTML = question(p); buildAnswer(p.ask); setFb(null);
   setOwnFb('ok', true); seeSlate();
 }
 $('#ownBtn').addEventListener('click', workOwn);
@@ -2964,7 +2967,7 @@ function applyLang(l, first){
   // the worked steps carry their words, so solve again; the problem itself is unchanged
   if (state.problem){ state.sol = solve(state.problem); render(); if (state.practising) $('#qline').innerHTML = question(state.problem); }
   if (state.problem && state.practising){ const cls = $('#ansWrap').className; keepInputs('#ansWrap', () => buildAnswer(state.problem.ask)); $('#ansWrap').className = cls; }
-  keepInputs('#ownWrap', () => buildOwn(state.mode));
+  keepInputs('#ownWrap', () => buildOwn(ownMode || state.mode));
   setFb(fbKey); if (ownFbKey) setOwnFb(ownFbKey, ownFbKey==='ok');
 }
 $('#langSel').addEventListener('change', e => applyLang(e.target.value));

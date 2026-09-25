@@ -170,7 +170,7 @@
   .foot a{color:var(--muted)}
   kbd{font-family:var(--f-mono);font-size:.78em;border:1px solid var(--line);border-radius:2px;padding:0 4px;color:var(--vellum)}
 
-  @media (max-width:980px){
+  @media (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px){
     .shell{grid-template-columns:minmax(0,1fr);height:auto;min-height:100dvh}
     .stage{border-right:none;border-bottom:1px solid var(--line-soft)}
     #view{min-height:0;flex:none;padding-left:8px;padding-right:8px}
@@ -230,9 +230,8 @@
   .rail{gap:10px 16px}
   .rail .grp{display:flex;align-items:center;gap:8px;padding-right:16px;border-right:1px solid var(--line-soft)}
   .rail .grp:last-child{border-right:none;padding-right:0}
-  @media (max-width:980px){
-    .say{margin:0 12px 10px;grid-template-columns:1fr auto}
-    .say .k{grid-column:1 / -1}
+  @media (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px){
+    .say{margin:0 12px 10px}
     .rail .grp{border-right:none;padding-right:0;flex-wrap:wrap}
     input[type=range]{width:120px}
   }
@@ -279,22 +278,66 @@
   /* ---- round 2 ---- */
   /* secondary text: at least 4.5:1 on every background it is used on (panel #0D1220: 5.3:1) */
   :root{--muted-2:#8288A0}
-  /* two columns: the drawing keeps a usable height; if the stage is too short it scrolls instead of squeezing it,
-     and a long narration scrolls inside its strip */
-  @media (min-width:981px){
-    .stage{overflow-y:auto}
-    #view{min-height:250px}
-    .say{max-height:8.6em;overflow-y:auto}
-    .say.more{box-shadow:inset 0 -16px 12px -10px rgba(0,0,0,.6)}   /* a hint that the strip scrolls */
-  }
-  @media (min-width:981px) and (max-width:1279px){
-    .say{grid-template-columns:minmax(0,1fr) auto}
-    .say .k{grid-column:1 / -1}
-  }
+  /* ---- round 3: a steady layout ---- */
+  /* Two columns only where the stage has the height for them; otherwise one column, as on a narrow screen.
+     The heights are measured: below them, in some language, some step of the walkthrough would draw text under
+     9 px or push the rail out of view (the southern example, step 9, is the tallest drawing).
+       one column  (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px)
+       two columns (min-width:981px) and (min-height:640px), (min-width:1180px) and (min-height:620px), (min-width:1280px) and (min-height:540px)
+     The script reads --cols, so it always agrees with these queries. */
+  :root{--cols:2;--say-bg:#0C101D}
+  @media (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px){ :root{--cols:1} }
+  /* the narration strip: the step, then the words beside the value */
+  .say{display:block;padding:0 16px 13px;min-height:0;background:var(--say-bg);--say-lh:calc(1.02rem * 1.45)}
+  body.cjk .say{--say-lh:calc(1.02rem * 1.85)}
+  .say .k{display:block;padding:12px 0 6px;line-height:16px}
+  .say .tv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;align-items:baseline}
+  .say .v{line-height:1.2} .say .v small{line-height:1.35;margin-top:2px}   /* the value's baseline sits no lower than the words' */
+  .say .cue{display:none}
   /* phones: the result goes under the text, which gets the full width */
   @media (max-width:600px){
-    .say{grid-template-columns:minmax(0,1fr)}
+    .say .tv{grid-template-columns:minmax(0,1fr)}
     .say .v,.say .v small{text-align:left}
+  }
+  /* values beside the sliders and on the plate keep one width, so nothing beside them moves */
+  .rail .val{display:inline-block;min-width:5.4em}
+  .plate .row span{min-width:8.5em}                  /* the widest value, 11° 59′ 59″ N, is 7.9em */
+  /* two columns: the stage never scrolls; the strip has one height for every step, and a longer text scrolls
+     inside it under its step label; the rail stays at the bottom and the drawing takes the rest */
+  @media (min-width:981px) and (min-height:640px), (min-width:1180px) and (min-height:620px), (min-width:1280px) and (min-height:540px){
+    .stage{overflow:hidden}
+    #view{min-height:0}
+    .masthead > div:first-child{flex:1 1 0;min-width:0}
+    .say{height:calc(52px + 3 * var(--say-lh));overflow-y:auto;overscroll-behavior:contain}   /* label band, three lines, padding, a little for mixed fonts */
+    .say .k{position:sticky;top:0;z-index:1;background:var(--say-bg)}
+    .say .v{position:sticky;top:34px}
+    /* more below: the last line shown fades out and a ▾ shows (brass on the strip, 9:1); both go at the end */
+    .say .cue{display:block;position:sticky;bottom:0;height:0;pointer-events:none;z-index:1}
+    .say .cue::before{content:"";position:absolute;left:-16px;right:-16px;bottom:-13px;height:calc(13px + var(--say-lh));background:linear-gradient(to bottom, rgba(12,16,29,0), rgba(12,16,29,.85) calc(100% - 13px), var(--say-bg) calc(100% - 12px));opacity:0}
+    .say .cue::after{content:"\25BE";position:absolute;right:-12px;bottom:-12px;font:15px/1 var(--f-ui);color:var(--brass);opacity:0}
+    .say.more .cue::before,.say.more .cue::after{opacity:1}
+  }
+  @media (min-width:1280px) and (min-height:540px){
+    .say{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;align-items:baseline;padding-top:12px;height:calc(30px + 3 * var(--say-lh))}
+    .say .k{padding:0;top:12px;background:none}
+    .say .v{top:12px}
+    .say .cue{grid-column:1 / -1}
+  }
+  /* one column on a wide but short screen: the drawing keeps to part of the height */
+  @media (min-width:981px) and (max-width:1179.98px) and (max-height:639.98px), (min-width:981px) and (max-width:1279.98px) and (max-height:619.98px), (min-width:981px) and (max-height:539.98px){
+    #view svg{max-height:max(280px, 60vh)}
+  }
+  /* print: nothing capped, nothing scrolled */
+  @media print{
+    .shell{height:auto;min-height:0}
+    .stage{overflow:visible}
+    #view{flex:none}
+    #view svg{height:auto;max-height:none}
+    .say{height:auto!important;max-height:none!important;overflow:visible!important}
+    .say .k,.say .v{position:static!important}
+    .say .cue{display:none!important}
+    .side{min-height:0}
+    .pane{overflow:visible}
   }
 </style>
 
@@ -608,7 +651,7 @@ I18N.en = {
     titlePlanet: 'The planet between two midnight positions',
     descAsc: (e, l, lo, hi, c, st, lat) => `A box of four table cells: sidereal time ${e} to ${l}, latitude ${lo}° to ${hi}°. Ascendants at ${lo}°: ${c.EL} and ${c.LL}; at ${hi}°: ${c.EH} and ${c.LH}. The native's sidereal-time line lies at ratio ${st} across the box, her latitude line at ratio ${lat} up it.`,
     descMc: (e, ve, l, vl, r) => `A ruler from ${e}, MC ${ve}, to ${l}, MC ${vl}. The native's sidereal time lies at ratio ${r} along it.`,
-    descPlanet: (v0, v1, ut, r, m) => `A ruler from the position at 00:00 on the day of birth, ${v0}, to 00:00 the next day, ${v1}; motion ${m}. The birth at ${ut} UT lies at ratio ${r} along it.`,
+    descPlanet: (v0, v1, ut, r, m) => `A ruler from the position at 00:00 on the day of birth, ${v0}, to 00:00 the next day, ${v1}${m ? `; motion ${m}` : ''}. The birth at ${ut} UT lies at ratio ${r} along it.`,
     descRes: v => ` Result: ${v}.`
   },
 
@@ -861,7 +904,7 @@ I18N.nb = {
     titlePlanet: 'Planeten mellom to midnattsposisjoner',
     descAsc: (e, l, lo, hi, c, st, lat) => `En rute av fire tabellceller: stjernetid ${e} til ${l}, breddegrad ${lo}° til ${hi}°. Ascendanter ved ${lo}°: ${c.EL} og ${c.LL}; ved ${hi}°: ${c.EH} og ${c.LH}. Stjernetidslinjen hennes ligger ved forholdet ${st} bortover i ruten, breddegradslinjen ved forholdet ${lat} oppover.`,
     descMc: (e, ve, l, vl, r) => `En linjal fra ${e}, MC ${ve}, til ${l}, MC ${vl}. Stjernetiden hennes ligger ved forholdet ${r} langs den.`,
-    descPlanet: (v0, v1, ut, r, m) => `En linjal fra posisjonen kl. 00:00 på fødselsdagen, ${v0}, til kl. 00:00 dagen etter, ${v1}; bevegelse ${m}. Fødselen kl. ${ut} UT ligger ved forholdet ${r} langs den.`,
+    descPlanet: (v0, v1, ut, r, m) => `En linjal fra posisjonen kl. 00:00 på fødselsdagen, ${v0}, til kl. 00:00 dagen etter, ${v1}${m ? `; bevegelse ${m}` : ''}. Fødselen kl. ${ut} UT ligger ved forholdet ${r} langs den.`,
     descRes: v => ` Resultat: ${v}.`
   },
 
@@ -1108,7 +1151,7 @@ I18N.es = {
     titlePlanet: 'El planeta entre dos posiciones de medianoche',
     descAsc: (e, l, lo, hi, c, st, lat) => `Un recuadro de cuatro casillas de la tabla: tiempo sidéreo de ${e} a ${l}, latitud de ${lo}° a ${hi}°. Ascendentes a ${lo}°: ${c.EL} y ${c.LL}; a ${hi}°: ${c.EH} y ${c.LH}. La línea del tiempo sidéreo de la nativa está en la proporción ${st} a lo ancho del recuadro, y la de su latitud en la proporción ${lat} hacia arriba.`,
     descMc: (e, ve, l, vl, r) => `Una regla de ${e}, MC ${ve}, a ${l}, MC ${vl}. El tiempo sidéreo de la nativa está en la proporción ${r} a lo largo de ella.`,
-    descPlanet: (v0, v1, ut, r, m) => `Una regla desde la posición de las 00:00 del día del nacimiento, ${v0}, hasta las 00:00 del día siguiente, ${v1}; movimiento ${m}. El nacimiento a las ${ut} TU está en la proporción ${r} a lo largo de ella.`,
+    descPlanet: (v0, v1, ut, r, m) => `Una regla desde la posición de las 00:00 del día del nacimiento, ${v0}, hasta las 00:00 del día siguiente, ${v1}${m ? `; movimiento ${m}` : ''}. El nacimiento a las ${ut} TU está en la proporción ${r} a lo largo de ella.`,
     descRes: v => ` Resultado: ${v}.`
   },
 
@@ -1355,7 +1398,7 @@ I18N.fr = {
     titlePlanet: 'La planète entre deux positions de minuit',
     descAsc: (e, l, lo, hi, c, st, lat) => `Une case de quatre cellules de la table : temps sidéral de ${e} à ${l}, latitude de ${lo}° à ${hi}°. Ascendants à ${lo}° : ${c.EL} et ${c.LL} ; à ${hi}° : ${c.EH} et ${c.LH}. La ligne du temps sidéral de la native est au rapport ${st} sur la largeur de la case, celle de sa latitude au rapport ${lat} sur la hauteur.`,
     descMc: (e, ve, l, vl, r) => `Une règle de ${e}, MC ${ve}, à ${l}, MC ${vl}. Le temps sidéral de la native est au rapport ${r} sur sa longueur.`,
-    descPlanet: (v0, v1, ut, r, m) => `Une règle allant de la position de 00:00 le jour de naissance, ${v0}, à 00:00 le lendemain, ${v1} ; mouvement ${m}. La naissance à ${ut} TU est au rapport ${r} sur sa longueur.`,
+    descPlanet: (v0, v1, ut, r, m) => `Une règle allant de la position de 00:00 le jour de naissance, ${v0}, à 00:00 le lendemain, ${v1}${m ? ` ; mouvement ${m}` : ''}. La naissance à ${ut} TU est au rapport ${r} sur sa longueur.`,
     descRes: v => ` Résultat : ${v}.`
   },
 
@@ -1602,7 +1645,7 @@ I18N.de = {
     titlePlanet: 'Der Planet zwischen zwei Mitternachtspositionen',
     descAsc: (e, l, lo, hi, c, st, lat) => `Ein Kasten aus vier Tabellenzellen: Sternzeit ${e} bis ${l}, Breite ${lo}° bis ${hi}°. Aszendenten bei ${lo}°: ${c.EL} und ${c.LL}; bei ${hi}°: ${c.EH} und ${c.LH}. Die Sternzeitlinie der Geborenen liegt beim Faktor ${st} quer durch den Kasten, ihre Breitenlinie beim Faktor ${lat} nach oben.`,
     descMc: (e, ve, l, vl, r) => `Ein Lineal von ${e}, MC ${ve}, bis ${l}, MC ${vl}. Die Sternzeit der Geborenen liegt beim Faktor ${r} darauf.`,
-    descPlanet: (v0, v1, ut, r, m) => `Ein Lineal von der Position um 00:00 am Geburtstag, ${v0}, bis 00:00 am Folgetag, ${v1}; Bewegung ${m}. Die Geburt um ${ut} UT liegt beim Faktor ${r} darauf.`,
+    descPlanet: (v0, v1, ut, r, m) => `Ein Lineal von der Position um 00:00 am Geburtstag, ${v0}, bis 00:00 am Folgetag, ${v1}${m ? `; Bewegung ${m}` : ''}. Die Geburt um ${ut} UT liegt beim Faktor ${r} darauf.`,
     descRes: v => ` Ergebnis: ${v}.`
   },
 
@@ -1849,7 +1892,7 @@ I18N.zh = {
     titlePlanet: '两个午夜位置之间的行星',
     descAsc: (e, l, lo, hi, c, st, lat) => `由四个表格组成的方框：恒星时 ${e} 至 ${l}，纬度 ${lo}° 至 ${hi}°。${lo}° 的上升点为 ${c.EL} 和 ${c.LL}；${hi}° 的为 ${c.EH} 和 ${c.LH}。命主的恒星时线位于方框横向比例 ${st} 处，纬度线位于纵向比例 ${lat} 处。`,
     descMc: (e, ve, l, vl, r) => `一把标尺，从 ${e}（MC ${ve}）到 ${l}（MC ${vl}）。命主的恒星时位于比例 ${r} 处。`,
-    descPlanet: (v0, v1, ut, r, m) => `一把标尺，从出生当日 00:00 的位置 ${v0} 到次日 00:00 的 ${v1}；${m}。UT ${ut} 出生，位于比例 ${r} 处。`,
+    descPlanet: (v0, v1, ut, r, m) => `一把标尺，从出生当日 00:00 的位置 ${v0} 到次日 00:00 的 ${v1}${m ? `；${m}` : ''}。UT ${ut} 出生，位于比例 ${r} 处。`,
     descRes: v => `结果：${v}。`
   },
 
@@ -2096,7 +2139,7 @@ I18N.ja = {
     titlePlanet: '二つの 0 時の位置の間の惑星',
     descAsc: (e, l, lo, hi, c, st, lat) => `表の四つのセルでできた枠：恒星時 ${e}〜${l}、緯度 ${lo}°〜${hi}°。${lo}° のアセンダントは ${c.EL} と ${c.LL}、${hi}° では ${c.EH} と ${c.LH}。出生者の恒星時の線は枠の横方向の比 ${st} の位置、緯度の線は縦方向の比 ${lat} の位置にあります。`,
     descMc: (e, ve, l, vl, r) => `${e}（MC ${ve}）から ${l}（MC ${vl}）までの目盛り。出生者の恒星時は比 ${r} の位置にあります。`,
-    descPlanet: (v0, v1, ut, r, m) => `出生日 00:00 の位置 ${v0} から翌日 00:00 の ${v1} までの目盛り。${m}。UT ${ut} の出生は比 ${r} の位置にあります。`,
+    descPlanet: (v0, v1, ut, r, m) => `出生日 00:00 の位置 ${v0} から翌日 00:00 の ${v1} までの目盛り。${m ? `${m}。` : ''}UT ${ut} の出生は比 ${r} の位置にあります。`,
     descRes: v => `結果：${v}。`
   },
 
@@ -2407,7 +2450,8 @@ function renderWs(){
     if (r.hd){ h += (open ? '</tbody>' : '') + `<tbody><tr class="hd"><th scope="rowgroup" colspan="3">${r.hd}</th></tr>`; open = true; return; }
     if (!open){ h += '<tbody>'; open = true; }
     i++; const vis = i <= shown; const act = i === shown && state.reveal < ALL;
-    h += `<tr class="${act?'act':''} ${r.cls==='res'?'res':''}"><td class="n">${r.n}</td><th scope="row" class="l">${r.l}</th><td class="v ${vis?(r.cls||''):'hid'}">${vis ? r.v + (r.sub?`<br><span style="color:var(--muted);font-size:.9em">${r.sub}</span>`:'') : '·'}</td></tr>`; });
+    const lab = vis ? r.l : r.l.replace(/\s*<small>[^<]*=[^<]*<\/small>/g, '');   // a formula can give its result away: it waits for its row
+    h += `<tr class="${act?'act':''} ${r.cls==='res'?'res':''}"><td class="n">${r.n}</td><th scope="row" class="l">${lab}</th><td class="v ${vis?(r.cls||''):'hid'}">${vis ? r.v + (r.sub?`<br><span style="color:var(--muted);font-size:.9em">${r.sub}</span>`:'') : '·'}</td></tr>`; });
   if (open) h += '</tbody>';
   const ws = $('#ws'); ws.innerHTML = h; ws.setAttribute('aria-label', U.worksheet);
   $('#wsnote').textContent = state.mode==='planet' ? planetNote() : houseNote();
@@ -2415,22 +2459,50 @@ function renderWs(){
 }
 
 // ---------- narration strip ----------
+const sayHTML = (T, r, shown, n) => r ? `<span class="k">${r.n ? T.stepRow(shown, n, r.n) : T.stepOnly(shown, n)}</span><span class="tv"><span class="t">${r.say||''}</span><span class="v ${r.cls||''}">${r.v}${r.sub?`<small>${r.sub}</small>`:''}</span></span>`
+  : `<span class="k">${T.working}</span><span class="tv"><span class="t">${T.idle(T.what[state.mode]) + SP() + T.idleHint[state.mode]}</span><span class="v"></span></span>`;
 function renderSay(){
   const T = L();
   const rows = dataRows(); const n = rows.length; const shown = shownCount(); const el = $('#say');
   const complete = shown >= n;
   $('#stepBtn').disabled = complete; $('#allBtn').disabled = complete; $('#resetBtn').disabled = false;
-  if (shown===0){
-    el.className = 'say idle';
-    el.innerHTML = `<span class="k">${T.working}</span><span class="t">${T.idle(T.what[state.mode]) + SP() + T.idleHint[state.mode]}</span><span class="v"></span>`;
-    el.scrollTop = 0; el.tabIndex = -1; return;
-  }
-  const r = rows[shown-1];
-  el.className = 'say' + (complete?' done':'');
+  el.className = shown===0 ? 'say idle' : 'say' + (complete?' done':'');
+  el.innerHTML = sayHTML(T, shown ? rows[shown-1] : null, shown, n) + '<span class="cue" aria-hidden="true"></span>';
   el.scrollTop = 0;
-  el.innerHTML = `<span class="k">${r.n ? T.stepRow(shown, n, r.n) : T.stepOnly(shown, n)}</span><span class="t">${r.say||''}</span><span class="v ${r.cls||''}">${r.v}${r.sub?`<small>${r.sub}</small>`:''}</span>`;
-  const more = el.scrollHeight > el.clientHeight + 1; el.tabIndex = more ? 0 : -1; el.classList.toggle('more', more);
+  sayHold(); sayFit();
 }
+// The layout in use, as the style sheet decided it (one column on a narrow or a short screen).
+const oneCol = () => getComputedStyle(document.documentElement).getPropertyValue('--cols').trim() === '1';
+// Two columns: the strip has a fixed height and scrolls when its words are longer. Only words and value count,
+// not padding. A strip with more to read can take the focus, and shows a fading last line and a ▾ until its end.
+function sayFit(){
+  const el = $('#say'), tv = el.querySelector('.tv'); if (!tv) return;
+  const visBottom = el.getBoundingClientRect().top + el.clientTop + el.clientHeight;
+  let low = -Infinity; const range = document.createRange(), walk = document.createTreeWalker(tv, NodeFilter.SHOW_TEXT);
+  for (let t = walk.nextNode(); t; t = walk.nextNode()){ if (!t.data.trim()) continue; range.selectNodeContents(t); for (const r of range.getClientRects()) if (r.height) low = Math.max(low, r.bottom); }
+  const hidden = low - visBottom;                                         // the lowest text below the visible part now
+  const scrollable = hidden + el.scrollTop > 0.5;                         // below it with the strip at its top
+  el.tabIndex = scrollable ? 0 : -1;
+  el.classList.toggle('more', hidden > 0.5);
+}
+// One column: nothing scrolls inside the strip, so it keeps the height of the longest step of this calculation,
+// and the rail under it stays where it is from step to step.
+let sayKey = '', sayMin = 0;
+function sayHold(){
+  const el = $('#say');
+  if (!oneCol()){ if (sayKey){ el.style.minHeight = ''; sayKey = ''; } return; }
+  const T = L(), rows = dataRows(), n = rows.length, w = el.getBoundingClientRect().width;
+  const key = [LANG, state.mode, H.south, Math.round(w)].join('|');
+  const box = document.createElement('div'); box.setAttribute('aria-hidden', 'true');
+  box.style.cssText = `position:absolute;left:-10000px;top:0;width:${w}px;visibility:hidden`;
+  box.innerHTML = [null].concat(rows).map((r, i) => `<div class="say" style="margin:0;min-height:0">${sayHTML(T, r, i, n)}</div>`).join('');
+  el.parentNode.appendChild(box);
+  let m = 0; for (const c of box.children) m = Math.max(m, c.getBoundingClientRect().height);
+  box.remove();
+  sayMin = key === sayKey ? Math.max(sayMin, m) : m; sayKey = key;
+  el.style.minHeight = Math.ceil(sayMin) + 'px';
+}
+$('#say').addEventListener('scroll', sayFit, {passive: true});
 
 // ---------- diagram ----------
 // Drawn in its own units, then every movable label is placed by measuring it, so that no two labels
@@ -2463,22 +2535,33 @@ function place(el, cands, obst, W, Hh){
 // Keep a centred label inside the drawing by sliding it sideways.
 function clampX(el, x, W, m){ m = m || 4; el.setAttribute('x', x); el.setAttribute('text-anchor', 'middle'); const b = box(el); const half = b.w/2; const nx = Math.min(W - m - half, Math.max(m + half, x)); el.setAttribute('x', nx); return box(el); }
 // Break a label into lines no wider than maxW (words; single characters in Chinese and Japanese).
-function wrapText(el, str, maxW, lineH){
-  const x = el.getAttribute('x');
+// Measured in a hidden copy of the drawing at scale 1, before anything is drawn: the drawing's height is then
+// known first, and the same words always break the same way.
+const figM = (() => { const m = document.createElementNS(SVGNS, 'svg'); m.setAttribute('class', 'fig'); m.setAttribute('aria-hidden', 'true'); m.setAttribute('viewBox', '0 0 640 10');
+  m.style.cssText = 'position:absolute;left:-10000px;top:0;width:640px;height:10px;visibility:hidden;pointer-events:none'; document.body.appendChild(m); return m; })();
+function breakLines(str, cls, maxW, lay){
+  figM.classList.toggle('narrow', lay==='narrow');
+  figM.innerHTML = `<text class="${cls}"></text>`; const el = figM.firstChild;
   const units = String(str).match(/[　-ヿ㐀-鿿＀-￯]|[^\s　-ヿ㐀-鿿＀-￯]+|\s+/g) || [];
-  el.textContent = '';
-  const probe = document.createElementNS(SVGNS, 'tspan'); el.appendChild(probe);
   const lines = []; let line = '';
   for (const u of units){
-    const t = line + u; probe.textContent = t.trim();
-    let w = 0; try { w = probe.getComputedTextLength(); } catch(e){}
+    const t = line + u; el.textContent = t.trim();
+    let w = 0; try { w = el.getComputedTextLength(); } catch(e){}
     if (line.trim() && w > maxW){ lines.push(line.trim()); line = /^\s+$/.test(u) ? '' : u; }
     else line = t;
   }
   if (line.trim()) lines.push(line.trim());
-  el.textContent = '';
+  return lines.length ? lines : [''];
+}
+function setLines(el, lines, lineH){
+  const x = el.getAttribute('x'); el.textContent = '';
   lines.forEach((ln, i) => { const ts = document.createElementNS(SVGNS, 'tspan'); ts.setAttribute('x', x); if (i) ts.setAttribute('dy', lineH); ts.textContent = ln; el.appendChild(ts); });
-  return lines.length;
+}
+// After drawing: if some text reaches past the height worked out beforehand, make room (it should not happen).
+function roomFor(W, Hh, rot){
+  let need = Hh;
+  for (const el of fig.querySelectorAll('text')){ const b = rot && el.id===rot.id ? rotBox(el, rot.x, rot.y) : box(el); need = Math.max(need, b.y + b.h + 6); }
+  if (need > Hh + 0.5) fig.setAttribute('viewBox', `0 0 ${W} ${Math.ceil(need)}`);
 }
 function figHead(title, desc){ return `<title id="figTitle">${esc(title)}</title><desc id="figDesc">${esc(desc)}</desc>`; }
 
@@ -2490,9 +2573,24 @@ function drawAsc(){
   const yCol = yMark + 0.3*f.big + 0.95*f.col + 8;
   const yTop = yCol + 0.3*f.col + 0.95*f.txt + 6;
   const y1 = yTop + 0.3*f.txt + 0.62*f.col + 8;
-  const boxH = ascBox !== null ? ascBox : (lay==='narrow' ? 240 : 210);
+  // Everything but the box has a height known before drawing. The southern notes are broken into lines first,
+  // with room for the widest latitude, so that moving the native never changes the drawing's size.
+  const lh = 1.4*f.txt, maxW = W - 24;
+  let south = null, sN = 0;
+  if (h.south){
+    south = [breakLines(F.south1(fmtT(h.lstUse), fmtSec(h.latSec)), 'red-t', maxW, lay), breakLines(F.south2, 'red-t', maxW, lay)];
+    sN = Math.max(south[0].length, breakLines(F.south1(fmtT(h.lstUse), fmtSec(60*3600 - 1)), 'red-t', maxW, lay).length) + south[1].length;
+  }
+  const foot = 0.63*f.col + 0.95*f.txt + 8 + 0.3*f.txt;                      // from the box's foot to the lower cells' foot
+  const rest = y1 + foot + 8 + (sN ? 12 + 0.95*f.txt + (sN - 1)*lh + 0.3*f.txt : 0);
+  // In two columns the drawing fills the height the stage gives it: the box takes what the rest leaves.
+  const avail = availUnits();
+  const boxH = avail ? Math.floor(Math.min(lay==='narrow' ? 300 : 280, Math.max(110, avail - rest - 1))) : (lay==='narrow' ? 240 : 210);
+  ascBox = avail ? boxH : null;
   const y0 = y1 + boxH;
   const yBot = y0 + 0.63*f.col + 0.95*f.txt + 8;
+  const Hh = Math.ceil(rest + boxH), yLim = y0 + foot + 8;                   // labels stay above the notes
+  fig.setAttribute('viewBox', `0 0 ${W} ${Hh}`);                             // first: text is measured at the scale it is shown at
   const px = x0 + (x1-x0)*h.ratio, py = y0 - (y0-y1)*h.latRatio;
   const res = `${T.plate.asc} ${signStr(h.south ? h.asc : h.ascT)}`;
   const resOn = isShown(h.south?'ascS':'asc');
@@ -2530,26 +2628,19 @@ function drawAsc(){
   const rc = [];
   for (const v of rowsFrom(f.big, 3)) for (const r of [right, !right]) rc.push(Object.assign({y:v}, sideX(r)));
   obst.push({x:px-1, y:y1-10, w:2, h:y0-y1+20});   // the gold line
-  const bRes = place(mRes, rc, obst, W, 0);         // place() adds each placed label to the obstacles
+  const bRes = place(mRes, rc, obst, W, yLim);      // place() adds each placed label to the obstacles
   // a zodiac glyph can come from a fallback font that arrives later and is wider: keep a glyph's width clear
   obst.push({x:bRes.x - 0.8*f.big, y:bRes.y, w:bRes.w + 1.6*f.big, h:bRes.h});
   const inL = {x:x0+8, a:'start'}, inR = {x:x1-8, a:'end'};
   const lc = [];
   for (const v of rowsFrom(f.txt, 4)) for (const sd of (h.ratio >= 0.5 ? [inL, inR] : [inR, inL])) lc.push(Object.assign({y:v}, sd));
   if (lay==='wide') for (const v of rowsFrom(f.txt, 1)) lc.push({x:x0-14, y:v, a:'end'});
-  place(mLat, lc, obst, W, 0);
-  let bottom = yBot + 0.3*f.txt;
-  if (h.south){
-    const lh = 1.4*f.txt; let y = bottom + 12 + 0.95*f.txt;
-    for (const id of ['sN1','sN2']){ const el = $('#'+id); el.setAttribute('y', y); const n = wrapText(el, id==='sN1' ? F.south1(fmtT(h.lstUse), fmtSec(h.latSec)) : F.south2, W - 24, lh); y += n*lh; }
-    bottom = y - lh + 0.3*f.txt;
+  place(mLat, lc, obst, W, yLim);
+  if (south){
+    let y = yBot + 0.3*f.txt + 12 + 0.95*f.txt;
+    ['sN1','sN2'].forEach((id, i) => { const el = $('#'+id); el.setAttribute('y', y); setLines(el, south[i], lh); y += south[i].length*lh; });
   }
-  let Hh = bottom + 8;
-  for (const el of fig.querySelectorAll('text')){ const b = el.id==='fLat' ? rotBox(el, rx, ry) : box(el); Hh = Math.max(Hh, b.y + b.h + 6); }
-  const avail = availUnits();
-  // never taller than the space (the drawing would shrink); grow only when a few units are free, so it settles
-  if (avail){ const want = Math.floor(Math.min(lay==='narrow' ? 300 : 280, Math.max(110, avail - (Hh - boxH) - 1))); ascBox = (boxH > want || boxH < want - 2) ? want : boxH; } else ascBox = null;
-  fig.setAttribute('viewBox', `0 0 ${W} ${Math.ceil(Hh)}`);
+  roomFor(W, Hh, {id:'fLat', x:rx, y:ry});
 }
 function drawLine(kind){
   // kind 'mc' or 'planet': a single ruler between two table or ephemeris values
@@ -2561,10 +2652,27 @@ function drawLine(kind){
     resOn = isShown(h.south?'mcS':'mc'); title = F.titleMc; desc = F.descMc(hdL, fmtSec(h.mcE), hdR, fmtSec(h.mcL), R7(h.k)); }
   else { const p = P; ratio = p.ratio; retro = p.retro; hdL = T.ui.p0; hdR = T.ui.p1; labL = fmtSec(p.p0); labR = fmtSec(p.p1); subL = signStr(p.p0); subR = signStr(p.p1); mark = `${F.ut} ${fmtT(p.ut)}`; res = signStr(p.pos);
     dir = p.motion==='retro' ? F.retro : p.motion==='stat' ? F.stationary : F.direct;
-    resOn = isShown('pos'); title = F.titlePlanet; desc = F.descPlanet(signStr(p.p0), signStr(p.p1), fmtT(p.ut).slice(0,5), R7(p.k), isShown('diff') ? T.motionWord[p.motion] : '…'); }
+    resOn = isShown('pos'); title = F.titlePlanet; desc = F.descPlanet(signStr(p.p0), signStr(p.p1), fmtT(p.ut).slice(0,5), R7(p.k), isShown('diff') ? T.motionWord[p.motion] : ''); }
   if (resOn) desc += F.descRes(res);
   const px = x0 + (x1-x0)*ratio;
   const hcls = kind==='mc' ? 'colhd' : 'hd', fh = kind==='mc' ? f.col : f.hd;
+  // The lines first, so that the height is known before anything is drawn. The direction label keeps room for
+  // the longest of its three wordings: the drawing is the same size whichever way the planet moves.
+  const maxW = W - 24, half = (x1 - x0)/2 - 10;
+  const dirLines = dir ? breakLines(dir, 'dim', maxW, lay) : null;
+  const dirN = dir ? Math.max(...[F.retro, F.stationary, F.direct].map(t => breakLines(t, 'dim', maxW, lay).length)) : 0;
+  const hdLines = [breakLines(hdL, hcls, half, lay), breakLines(hdR, hcls, half, lay)];
+  const nh = Math.max(hdLines[0].length, hdLines[1].length);
+  let y = 6;
+  if (dir) y += 0.95*f.txt + (dirN-1)*1.4*f.txt + 0.3*f.txt + 12;
+  const yh = y + 0.95*fh;
+  y = yh + (nh-1)*1.4*fh + 0.3*fh + 10;
+  const yMark = y + 0.95*f.big;
+  const yRail = yMark + 0.3*f.big + 18;
+  const yVal = yRail + 16 + 0.95*f.txt, ySub = yVal + 0.3*f.txt + 6 + 0.95*f.txt;
+  const yRes = ySub + 0.3*f.txt + 16 + 0.95*f.big;
+  const Hh = Math.ceil(yRes + 0.3*f.big + 8);
+  fig.setAttribute('viewBox', `0 0 ${W} ${Hh}`);                             // first: text is measured at the scale it is shown at
   let g = figHead(title, desc);
   g += `<rect id="fFlash" class="flash${state.flash?' go':''}" x="${x0}" y="0" width="${x1-x0}" height="10" rx="4"/>`;
   const dirOn = kind==='planet' && isShown('diff');
@@ -2576,35 +2684,26 @@ function drawLine(kind){
   g += text(px, 0, mark, 'st-t big', 'middle', 'mMark');
   g += `<g class="${hidAttr(kind==='mc'?(H.south?'mcS':'mc'):'pos')}" id="gRes"></g>`;
   fig.innerHTML = g;
-  let y = 6;
-  if (dir){ const el = $('#fDir'); el.setAttribute('y', y + 0.95*f.txt); const n = wrapText(el, dir, W - 24, 1.4*f.txt); y += 0.95*f.txt + (n-1)*1.4*f.txt + 0.3*f.txt + 12; }
-  const half = (x1 - x0)/2 - 10;
-  const yh = y + 0.95*fh; let nh = 1;
-  for (const id of ['fHL','fHR']){ const el = $('#'+id); el.setAttribute('y', yh); nh = Math.max(nh, wrapText(el, id==='fHL' ? hdL : hdR, half, 1.4*fh)); }
-  y = yh + (nh-1)*1.4*fh + 0.3*fh + 10;
-  const yMark = y + 0.95*f.big; const bM = clampX($('#mMark'), px, W); $('#mMark').setAttribute('y', yMark);
-  const yRail = yMark + 0.3*f.big + 18;
-  const yVal = yRail + 16 + 0.95*f.txt, ySub = yVal + 0.3*f.txt + 6 + 0.95*f.txt;
+  if (dir){ const el = $('#fDir'); el.setAttribute('y', 6 + 0.95*f.txt); setLines(el, dirLines, 1.4*f.txt); }
+  [['fHL', 0], ['fHR', 1]].forEach(([id, i]) => { const el = $('#'+id); el.setAttribute('y', yh); setLines(el, hdLines[i], 1.4*fh); });
+  clampX($('#mMark'), px, W); $('#mMark').setAttribute('y', yMark);
   for (const [id, yy] of [['fVL',yVal],['fVR',yVal],['fSL',ySub],['fSR',ySub]]) $('#'+id).setAttribute('y', yy);
   let r = `<line class="rail" x1="${x0}" y1="${yRail}" x2="${x1}" y2="${yRail}"/>`;
   for (let i=0;i<=4;i++){ const gx = x0+(x1-x0)*i/4; r += `<line class="axis" x1="${gx}" y1="${yRail-7}" x2="${gx}" y2="${yRail+7}"/>`; }
   r += `<line class="fill${retro && dirOn?' retro':''}" x1="${x0}" y1="${yRail}" x2="${px}" y2="${yRail}"/>`;
   r += `<line class="st-line" x1="${px}" y1="${yRail-18}" x2="${px}" y2="${yRail+14}"/>`;
   $('#fRail').innerHTML = r;
-  const yRes = ySub + 0.3*f.txt + 16 + 0.95*f.big;
   const gr = $('#gRes'); gr.innerHTML = `<circle class="dot-res" cx="${px}" cy="${yRail}" r="7"/>` + text(px, yRes, res, 'res-t big', 'middle', 'mRes');
   clampX($('#mRes'), px, W, 4 + 0.8*f.big);
   const fl = $('#fFlash'); fl.setAttribute('y', yh - 0.95*fh - 6); fl.setAttribute('height', ySub + 0.3*f.txt + 6 - (yh - 0.95*fh - 6));
-  let Hh = yRes + 0.3*f.big + 8;
-  for (const el of fig.querySelectorAll('text')){ const b = box(el); Hh = Math.max(Hh, b.y + b.h + 6); }
-  fig.setAttribute('viewBox', `0 0 ${W} ${Math.ceil(Hh)}`);
+  roomFor(W, Hh, null);
 }
-// Text is measured at the scale the drawing is shown at, so a change of height means measuring again.
-// In two columns the drawing fills the height the stage gives it: the box of four cells takes what the text leaves.
-let ascBox = null;
-function availUnits(){ if (matchMedia('(max-width:980px)').matches) return null; const r = fig.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r.height*640/r.width : null; }
-function drawFig(){ if (!H) return;
-  for (let pass = 0; pass < 4; pass++){ const vb = fig.getAttribute('viewBox'); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); if (fig.getAttribute('viewBox') === vb) break; } }
+// In two columns the drawing's box on the page is fixed by the layout; in one column only its width is.
+// Each drawing measures that space first, works out its height, sets it, and then draws once at that scale.
+let ascBox = null, figSig = '';
+function availUnits(){ if (oneCol()) return null; const r = fig.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r.height*640/r.width : null; }
+const sizeSig = () => { const r = fig.getBoundingClientRect(); return oneCol() ? '1|' + Math.round(r.width) : '2|' + Math.round(r.width) + 'x' + Math.round(r.height); };
+function drawFig(){ if (!H) return; figSig = sizeSig(); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); }
 
 // ---------- plate ----------
 function renderPlate(){
@@ -2626,7 +2725,7 @@ function render(){
   document.querySelectorAll('.rail [data-mode]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===state.mode?'true':'false'));
   const pl = state.mode==='planet'; $('#ctlLst').hidden = pl; $('#ctlLat').hidden = pl || state.mode==='mc'; $('#ctlUt').hidden = !pl;
   $('#grpNative').hidden = pl; $('#grpPlanet').hidden = !pl;
-  renderPlate(); renderSay(); renderWs();
+  renderPlate(); renderSay(); renderWs(); renderNote();
   // sliders move within the current cell
   const latTxt = `${fmtSec(state.latSec)} ${NS(state.hemi)}`;
   $('#lstRange').value = H.diff; $('#lstOut').textContent = fmtT(state.lst); $('#lstRange').setAttribute('aria-valuetext', fmtT(state.lst));
@@ -2642,7 +2741,23 @@ function render(){
 const FIELDS = { lstH:[0,23], lstM:[0,59], lstS:[0,59], latD:[0,60], latM:[0,59], latS:[0,59], oblD:[0,90], oblM:[0,59], oblS:[0,59],
   utH:[0,23], utM:[0,59], p0D:[0,29], p0M:[0,59], p0S:[0,59], p1D:[0,29], p1M:[0,59], p1S:[0,59] };
 const shownVal = {};
-function setNote(s){ $('#inote').textContent = s || ''; }
+// Notes on typed values are kept as what they say, not as words, so that another language says them again.
+// Each belongs to the value it describes and goes as soon as that value changes, whatever changes it (typing,
+// a stepper, a slider, a preset), or when its fields are put away (the planet's outside Planet, the native's in it).
+let notes = [];
+const VALUE_OF = { lst:'lst', lat:'latSec', obl:'oblSec', ut:'ut', p0:'p0', p1:'p1' };
+const fieldValue = id => VALUE_OF[id.replace(/[HMSDG]$/, '')];
+const PLANET_VALUES = ['ut', 'p0', 'p1'];
+function noteText(n){
+  const U = L().ui, name = id => $('#'+id).getAttribute('aria-label') || id;
+  return n.k==='noteBlank' ? U.noteBlank(name(n.id)) : n.k==='noteRound' ? U.noteRound(name(n.id), N(n.raw), n.to) : n.k==='noteRange' ? U.noteRange(name(n.id), n.lo, n.hi) : U[n.k];
+}
+function renderNote(){
+  const pl = state.mode==='planet';
+  notes = notes.filter(n => n.on.every((k, i) => state[k] === n.at[i] && PLANET_VALUES.includes(k) === pl));
+  $('#inote').textContent = notes.map(noteText).join(' ');
+}
+function setNote(){ notes = []; renderNote(); }
 const snapshot = () => [state.lst, state.latSec, state.hemi, state.oblSec, state.ut, state.p0, state.p1].join(',');
 function syncInputs(){
   const t = fromSec(state.lst); $('#lstH').value = t.d; $('#lstM').value = t.m; $('#lstS').value = t.s;
@@ -2653,33 +2768,32 @@ function syncInputs(){
   for (const id in FIELDS) shownVal[id] = Number($('#'+id).value);
 }
 function readInputs(){
-  const U = L().ui, notes = [], v = {};
-  const name = id => $('#'+id).getAttribute('aria-label') || id;
+  const found = [], v = {};
   let latHigh = false, utLate = false; const before = snapshot();
   for (const id in FIELDS){
     const raw = String($('#'+id).value).trim(), [lo, hi] = FIELDS[id];
     let x;
-    if (raw === '' || !isFinite(Number(raw))){ x = shownVal[id]; notes.push(U.noteBlank(name(id))); }
-    else { x = Number(raw); if (!Number.isInteger(x)){ const r = Math.round(x); notes.push(U.noteRound(name(id), N(raw), r)); x = r; } }
+    if (raw === '' || !isFinite(Number(raw))){ x = shownVal[id]; found.push({k:'noteBlank', id}); }
+    else { x = Number(raw); if (!Number.isInteger(x)){ const r = Math.round(x); found.push({k:'noteRound', id, raw, to:r}); x = r; } }
     if (id==='latD' && x > 60){ latHigh = true; x = 60; }
     else if (id==='utH' && x > 23){ utLate = true; x = 23; }
-    else if (x < lo || x > hi){ notes.push(U.noteRange(name(id), lo, hi)); x = shownVal[id]; }
+    else if (x < lo || x > hi){ found.push({k:'noteRange', id, lo, hi}); x = shownVal[id]; }
     v[id] = x;
   }
   let latSec = (v.latD*60 + v.latM)*60 + v.latS;
-  if (latHigh || latSec > 60*3600){ latSec = 60*3600; notes.push(U.noteLat); }
-  if (utLate){ v.utM = 59; notes.push(U.noteUt); }
+  if (latHigh || latSec > 60*3600){ latSec = 60*3600; found.push({k:'noteLat', id:'latD'}); }
+  if (utLate){ v.utM = 59; found.push({k:'noteUt', id:'utH'}); }
   let oblSec = (v.oblD*60 + v.oblM)*60 + v.oblS;
-  if (oblSec < 22*3600 || oblSec > 25*3600){ oblSec = state.oblSec; notes.push(U.noteObl); }
+  if (oblSec < 22*3600 || oblSec > 25*3600){ oblSec = state.oblSec; found.push({k:'noteObl', id:'oblD'}); }
   state.lst = (v.lstH*60 + v.lstM)*60 + v.lstS;
   state.latSec = latSec; state.hemi = Number($('#latNS').value) < 0 ? -1 : 1; state.oblSec = oblSec;
   state.ut = (v.utH*60 + v.utM)*60;
   state.p0 = norm(Number($('#p0G').value)*30*3600 + toSec({d:v.p0D, m:v.p0M, s:v.p0S}));
   state.p1 = norm(Number($('#p1G').value)*30*3600 + toSec({d:v.p1D, m:v.p1M, s:v.p1S}));
   // a planet that moves more than about 20° in a day is almost certainly a typing slip: say so, but calculate
-  if (state.mode==='planet' && Math.abs(sdiff(state.p1, state.p0)) > 20*3600) notes.push(U.noteFast);
-  // nothing wrong and nothing changed (a second change event as focus leaves): the last note still describes the fields
-  if (notes.length || snapshot() !== before) setNote(notes.join(' '));
+  if (state.mode==='planet' && Math.abs(sdiff(state.p1, state.p0)) > 20*3600) found.push({k:'noteFast', on:['p0','p1']});
+  // nothing wrong and nothing changed (a second change event as focus leaves): the last notes still describe the fields
+  if (found.length || snapshot() !== before) notes = found.map(n => { const on = n.on || [fieldValue(n.id)]; return Object.assign(n, {on, at: on.map(k => state[k])}); });
   render();   // writes the values used back into the fields
 }
 function nameFields(){ const T = L(), U = T.ui; document.querySelectorAll('#paneWs [data-name]').forEach(el => el.setAttribute('aria-label', T.fieldName(U[el.dataset.name], U[el.dataset.unit]))); }
@@ -2767,6 +2881,7 @@ const INTERACTIVE = 'button, a, summary, [role=tab], input, select, textarea, [c
 document.addEventListener('keydown', e => {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
   const t = e.target; if (t && t.closest && t.closest(INTERACTIVE)) return;
+  if (t && t.id === 'say' && t.tabIndex >= 0) return;          // the strip, focused with more to read: its keys scroll it
   if (e.key===' '){ e.preventDefault(); $('#stepBtn').click(); }
   else if (e.key==='ArrowRight' && !$('#paneWalk').hidden) showWalk(walkIdx+1);
   else if (e.key==='ArrowLeft' && !$('#paneWalk').hidden) showWalk(walkIdx-1);
@@ -2793,7 +2908,7 @@ function applyLang(l, first){
   document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = U[el.dataset.i18nTitle]; });
   document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', U[el.dataset.i18nAria]); });
   const sel = $('#langSel'); if (sel.value !== LANG) sel.value = LANG;
-  fillSignSelects(); buildPips(); nameFields(); setNote('');
+  fillSignSelects(); buildPips(); nameFields();                // a note on a typed value is said again in the new language
   if (!first){ paintWalk(); render(); }
 }
 $('#langSel').addEventListener('change', e => applyLang(e.target.value));
@@ -2810,12 +2925,13 @@ function initialLang(){
 
 applyLang(initialLang(), true);
 (function(){ const h = (location.hash||'').replace('#',''); const i = WALK.findIndex(w=>w.mode===h); showWalk(i>=0?i:0); })();
-// the drawing is laid out by measuring its text: again when the fonts arrive and when the width changes
+// An action draws at once (render). The drawing is made again only when the space for it changes, as when the
+// window is resized, and then the strip is measured again too: its overflow, its focus, its height in one column.
 let figFrame = 0;
-const redraw = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(drawFig); };
-addEventListener('resize', redraw);
-if (window.ResizeObserver) new ResizeObserver(redraw).observe($('#view'));
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawFig);
+const refit = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(() => { if (sizeSig() !== figSig) drawFig(); sayHold(); sayFit(); }); };
+addEventListener('resize', refit);
+if (window.ResizeObserver){ const ro = new ResizeObserver(refit); ro.observe($('#view')); ro.observe($('#say')); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { drawFig(); sayHold(); sayFit(); });
 </script>
 </body>
 </html>

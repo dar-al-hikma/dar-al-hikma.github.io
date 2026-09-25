@@ -261,7 +261,7 @@
 <style>
   /* ---- corrections after review ---- */
   /* the drawing on a narrow screen: larger text in its own units, laid out to fit */
-  .fig.narrow text{font-size:20px} .fig.narrow .big{font-size:24px} .fig.narrow .hd{font-size:15px}
+  .fig.narrow text{font-size:21px} .fig.narrow .big{font-size:26px} .fig.narrow .hd{font-size:17.5px}
   .fig.narrow .colhd,.fig.narrow .rowhd{font-size:20px}
   /* inputs grouped with a legend that names the quantity */
   fieldset.field{border:0;margin:10px 0 0;padding:0;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -276,6 +276,26 @@
   .notes .mono,.prose .mono{white-space:normal}
   /* no flash of the table cells for readers who ask for less motion */
   @media (prefers-reduced-motion:reduce){.fig .flash.go{animation:none}}
+  /* ---- round 2 ---- */
+  /* secondary text: at least 4.5:1 on every background it is used on (panel #0D1220: 5.3:1) */
+  :root{--muted-2:#8288A0}
+  /* two columns: the drawing keeps a usable height; if the stage is too short it scrolls instead of squeezing it,
+     and a long narration scrolls inside its strip */
+  @media (min-width:981px){
+    .stage{overflow-y:auto}
+    #view{min-height:250px}
+    .say{max-height:8.6em;overflow-y:auto}
+    .say.more{box-shadow:inset 0 -16px 12px -10px rgba(0,0,0,.6)}   /* a hint that the strip scrolls */
+  }
+  @media (min-width:981px) and (max-width:1279px){
+    .say{grid-template-columns:minmax(0,1fr) auto}
+    .say .k{grid-column:1 / -1}
+  }
+  /* phones: the result goes under the text, which gets the full width */
+  @media (max-width:600px){
+    .say{grid-template-columns:minmax(0,1fr)}
+    .say .v,.say .v small{text-align:left}
+  }
 </style>
 
 <div class="shell">
@@ -301,7 +321,7 @@
       </div>
       <div class="plate" id="plate"></div>
     </div>
-    <div id="view"><svg class="fig" id="fig" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="figTitle figDesc"></svg></div>
+    <div id="view"><svg class="fig" id="fig" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="figTitle" aria-describedby="figDesc"></svg></div>
     <div class="say" id="say" aria-live="polite"></div>
     <div class="rail">
       <div class="grp" role="group" aria-label="Mode" data-i18n-aria="mode">
@@ -439,7 +459,7 @@ const fmtT = t => fmtHMS(fromSec(((Math.round(t) % DAY) + DAY) % DAY));   // tim
 const signStr = t => { t = norm(t); const i = Math.floor(t/(30*3600)); return `${fmtSec(t - i*30*3600)} ${SIGNS[i]}`; };
 const norm360 = d => ((d%360)+360)%360;
 const signName = t => L().signs[Math.floor(norm(t)/(30*3600))];
-const fmtSigned = d => (d<0?'−':'') + fmtSec(Math.round(Math.abs(d)*3600));   // decimal degrees, as a calculator gives them
+const fmtSigned = d => { const t = Math.round(Math.abs(d)*3600); return (d<0 && t>0 ? '−' : '') + fmtSec(t); };   // decimal degrees, as a calculator gives them; never −0
 const fmtSgn = t => (t<0?'−':t>0?'+':'') + fmtSec(Math.abs(t));                 // seconds of arc, with a sign
 // A gap between two values, in seconds of arc, written in ° ′ ″ with its sign: +23″, −2′ 34″, +1° 00′ 05″
 function fmtGap(t){ t = Math.round(t); const sg = t>0 ? '+' : t<0 ? '−' : ''; const a = Math.abs(t), d = Math.floor(a/3600), m = Math.floor(a%3600/60), x = a%60;
@@ -546,6 +566,7 @@ I18N.en = {
     noteLat: 'The table stops at 60°. The latitude is set to 60°.',
     noteUt: `UT runs from 00:00 to 23:59, so it is set to 23:59. A birth after midnight at Greenwich takes the next day's ephemeris.`,
     noteObl: 'The obliquity must lie between 22° and 25°, so its previous value is back.',
+    noteFast: 'A planet moves at most about 15° a day; check the two positions.',
     wsFoot: `Row numbers follow the lesson's worksheets (pp. 41–44). The sidereal time is typed in, so rows 1–12 are not repeated; rows 13, 25, 30 and 36, which the worksheets repeat, appear once, and later rows refer to them by number. S1–S5 are the steps of the southern procedure (§6.2.3), not worksheet rows. Unnumbered rows are the second line of row 16 and the direct values the page adds. Each increment uses the ratio exactly as shown, to seven places, and is rounded to the nearest second, halves up, before it is added. The <em>Next step</em> button under the diagram fills this table one row at a time; <em>All</em> fills it at once.`,
     method: 'The method',
     rule1t: 'One value controls the table',
@@ -581,7 +602,7 @@ I18N.en = {
     south2: 'signs corrected in the last rows',
     retro: `◀ retrograde: the day's motion is negative`,
     direct: 'direct motion ▶',
-    stationary: 'stationary: no motion that day',
+    stationary: 'no net motion between the two midnights',
     titleAsc: 'The Ascendant between four table cells',
     titleMc: 'The Midheaven between two table columns',
     titlePlanet: 'The planet between two midnight positions',
@@ -594,18 +615,19 @@ I18N.en = {
   // narration strip under the diagram
   working: 'Working',
   what: { mc:'the Midheaven', asc:'the Ascendant', planet:"the planet's position" },
-  idle: what => `Press <em>Next step</em> to find ${what} one worksheet row at a time, or <em>All</em> to see the whole working. The sliders move the native inside the box.`,
+  idle: what => `Press <em>Next step</em> to find ${what} one worksheet row at a time, or <em>All</em> to see the whole working.`,
+  idleHint: { asc:'The sliders move the native inside the box.', mc:'The slider moves her sidereal time along the ruler, between two columns of the table.', planet:'The slider moves the time of birth through the day.' },
   stepRow: (k, n, row) => `<b>Step ${k} of ${n}</b> · row ${row}`,
   stepOnly: (k, n) => `<b>Step ${k} of ${n}</b>`,
   fieldName: (f, u) => `${f}, ${u}`,
-  motionWord: { direct:'direct', retro:'retrograde ℞', stat:'stationary' },
+  motionWord: { direct:'direct', retro:'retrograde ℞', stat:'no net motion' },
 
   // note under the worksheet
-  wsRetro: `Retrograde: the day's motion, row 43 minus row 44, is negative, so the increment is subtracted from the position at 00:00.`,
-  wsDirect: `Direct motion: the day's motion, row 43 minus row 44, is positive, so the increment is added to the position at 00:00.`,
-  wsStat: 'Stationary: rows 43 and 44 are equal, so the position is the same all day.',
-  wsCross: both => `The planet crossed 0° Aries, so the 360° step is written into row 45${both ? ' and row 47' : ''}.`,
-  gap: o => (o.same ? `Interpolated minus direct: ${o.tot}. The direct value here uses the table's own obliquity, so all of it is interpolation.` : `Interpolated minus direct: ${o.tot}. The obliquity accounts for ${o.obl} of it (${o.chosen} here, ${o.table} in the table), interpolation for ${o.int}.`) + (o.within ? ' Within 1′ is fine.' : ` That is more than 1′, ${o.dom==='obl' ? 'mostly from the obliquity' : o.dom==='int' ? 'mostly from interpolation' : 'equally from both'}.`),
+  wsRetro: d => `Retrograde: row 43 minus row 44 is ${d}, negative, so the increment is subtracted from the position at 00:00.`,
+  wsDirect: d => `Direct motion: row 43 minus row 44 is ${d}, positive, so the increment is added to the position at 00:00.`,
+  wsStat: 'No net motion: rows 43 and 44 are equal, so the increment is 0 and row 47 is the position at 00:00.',
+  wsCross: (raw, add, d, retro, both) => `Row 43 minus row 44 is ${raw}, but the planet crossed 0° Aries: ${add ? 'adding' : 'taking away'} 360° gives ${d}, ${retro ? 'negative, so the planet is retrograde and the increment is subtracted from' : 'positive, so the motion is direct and the increment is added to'} the position at 00:00. The 360° step is written into row 45${both ? ' and row 47' : ''}.`,
+  gap: o => `Interpolated minus direct: ${o.tot}.` + ({agree: ' The two agree to the second.', same: ` The direct value here uses the table's own obliquity, so all of it is interpolation.`, allObl: ` All of it comes from the obliquity (${o.chosen} here, ${o.table} in the table); interpolation adds nothing you can see.`, allInt: ` The obliquity (${o.chosen} here, ${o.table} in the table) makes no difference you can see, so all of it is interpolation.`, opposite: ` The obliquity (${o.chosen} here, ${o.table} in the table) gives ${o.obl} and interpolation ${o.int}, in opposite directions.`, both: ` The obliquity (${o.chosen} here, ${o.table} in the table) gives ${o.obl} of it and interpolation ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Within 1′ is fine.' : (o.kind === 'opposite' || o.kind === 'both') ? ` That is more than 1′, ${o.dom === 'obl' ? 'mostly from the obliquity' : o.dom === 'int' ? 'mostly from interpolation' : 'half from each'}.` : ' That is more than 1′.'),
 
   // worksheet section headings
   hd: {
@@ -660,7 +682,7 @@ I18N.en = {
     p0: (sign, abs) => `And at 00:00 on the day of birth: ${sign}, which is ${abs}.`,
     diffRetro: (expr, d) => `The day's motion is the next day's longitude minus the birthday's: ${expr}. It is negative: the planet is retrograde, moving backward. Row 45 takes its size, ${d}.`,
     diffDirect: (expr, d) => `The day's motion is the next day's longitude minus the birthday's: ${expr}. It is positive: the planet moved ${d} forward that day, in direct motion.`,
-    diffStat: expr => `The day's motion is the next day's longitude minus the birthday's: ${expr}. The planet is stationary: it did not move that day.`,
+    diffStat: expr => `The day's motion is the next day's longitude minus the birthday's: ${expr}. There is no net motion between the two midnights, so the increment is 0.`,
     crossFwd: `It crossed 0° Aries going forward, so 360° is added to the next day's longitude.`,
     crossBack: `It crossed 0° Aries going backward, so 360° is taken from the next day's longitude.`,
     planetShare: sum => `The native's share of that motion: ${sum}.`,
@@ -709,7 +731,7 @@ I18N.en = {
      body:`<p>A table of houses lists Ascendants and Midheavens at regular intervals of sidereal time — here every 4′ of ST, which is 1° of RAMC. Everything in it is controlled by that one value. The same ST has only one possible MC, but many Ascendants, one for each latitude of birth.</p>
          <p>Our native was born with a local sidereal time of 17:39:47 at 44° 58′ 48″ N. Neither number is in the table. She lies <em>between the lines</em>: between two columns of ST and two rows of latitude. The box on the diagram is those four table cells, and the two lines are her.</p>
          <p>Interpolation is nothing more than finding where the lines cross.</p>`,
-     try:`Drag the <span class="term">ST column</span> slider under the diagram: the gold line moves across the box. Drag the <span class="term lat">latitude row</span> slider: the blue line moves up and down. The box itself stays put; the ◀ ▶ buttons change columns and the box flashes when it moves to new table cells. <em>Start over</em> puts the native back where the lesson has her.`},
+     try:`Drag the <span class="term">ST column</span> slider under the diagram: the gold line moves across the box. Drag the <span class="term lat">latitude row</span> slider: the blue line moves up and down. The box itself stays put; the ◀ ▶ buttons change columns, moving the box to new table cells (it flashes briefly as it moves, unless your system asks for reduced motion). <em>Start over</em> puts the native back where the lesson has her.`},
     {title:'The ST ratio',
      body:`<p>Her ST is 17:39:47. The table has 17:36:00 on one side and 17:40:00 on the other. She is 3′ 47″ past the earlier column, out of an interval of 4′.</p>
          <p>Divide the one by the other: 3′ 47″ is 227 seconds, 4′ is 240, and 227 ÷ 240 = .9458333. That is her <span class="term">ST ratio</span>: how far across the box she lies, as a fraction. You can see without calculating that she is nearly all the way across.</p>
@@ -739,12 +761,12 @@ I18N.en = {
      body:`<p>Her latitude is 58′ 48″ past 44°, out of a 60′ interval: a <span class="term lat">latitude ratio</span> of .98. The two edge values differ by 14′ 41″; her share is 14′ 41″ × .98 = 14′ 23″.</p>
          <p>Now move from the lower-latitude value toward the higher one. Here the value at 45° is smaller, so subtract: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, that is 20° 19′ 17″ Pisces.</p>
          <p>The worksheet says it as a rule: if row 30 is smaller, add; if row 36 is smaller, subtract. The diagram says it more simply — the answer is where the lines cross.</p>`,
-     try:`Press <em>Next step</em> six times to reach row 41: the green dot lands on the crossing. Then try ▼ beside the latitude slider: each press moves the box down one table row and keeps her place within it. The rows are 1° apart here; below 20° the table steps by 5°, and rows 37 and 38 then work in 5° instead of 60′.`},
+     try:`Press <em>Next step</em> six times to reach row 41: the green dot lands on the crossing. Then try ▼ beside the latitude slider: each press moves the box down one table row and keeps her place within it. The rows are 1° apart here; below 20° the table steps by 5°, and row 38 then divides by 5° instead of 60′.`},
     {title:'Why it differs from your program',
      body:`<p>Janus gives this native an Ascendant of 20° 18′ 32″; the direct calculation from our rounded LST gives 20° 18′ 54″; interpolation gives 20° 19′ 17″. None of them agree, and that is normal.</p>
          <p>The page can show where its own 23″ comes from. Both calculations start from the same LST, 17:39:47, but not from the same obliquity: the direct one uses 23° 26′ 54″, the table 23° 26′. Calculated directly at 23° 26′, the Ascendant is 20° 19′ 17″ — the interpolated value exactly. So the whole gap here is the obliquity; interpolation's straight line is about 0.1″ off at this latitude.</p>
          <p>Interpolation has an error of its own where the Ascendant moves fast, as it does near the poles, and a larger one with wider steps; that is why tables are cut at 4′. Janus may differ for another reason too, which the lesson gives: a program keeps fractions of a second in the sidereal time. This page gives both its calculations the same LST, so it cannot show that. So don't worry if your interpolated values differ slightly from your program: the lesson's rule of thumb is that up to 1′ is fine.</p>`,
-     try:`On the <em>Worksheet</em> tab, set the obliquity to 23° 26′: the gap in the note under the worksheet falls to 0″. Then press ▲ beside the latitude slider until the row reaches 59°–60°: the gap there, −7″, is interpolation alone. Put the obliquity back to 23° 26′ 54″ and it becomes +2′ 34″, almost all of it the obliquity, whose effect grows near the poles.`},
+     try:`On the <em>Worksheet</em> tab, set the obliquity to 23° 26′: the gap in the note under the worksheet falls to 0″. Then press ▲ beside the latitude slider until the row reaches 59°–60°: the gap there, −7″, is interpolation alone. Put the obliquity back to 23° 26′ 54″ and it becomes +2′ 34″: the obliquity gives +2′ 41″ and interpolation −7″. The obliquity's share grows near the poles.`},
     {title:'South of the equator',
      body:`<p>The table is built for the northern hemisphere. For a southern birth, first note which sign the MC has at the native's LST. Then add or subtract 12:00:00 to the LST and look up the table as normal, at the same latitude north.</p>
          <p>The MC you find will be in the opposite sign: make it the original sign. The Ascendant you find is also opposite: give it the opposite sign of what is listed.</p>
@@ -754,7 +776,7 @@ I18N.en = {
      body:`<p>An ephemeris lists positions at 00:00 at Greenwich each day. The native was born at 15:55 UT, when 15:55 ÷ 24 = .6631944 of the day had passed. That is her <span class="term">birth-time ratio</span>, and it plays the part the ST ratio played before.</p>
          <p>The Sun was at 29° 21′ 50″ Capricorn at midnight, and at 0° 22′ 55″ Aquarius the next midnight: 1° 01′ 05″ of motion. Her share is 1° 01′ 05″ × .6631944 = 40′ 31″. Added to the midnight position, the Sun at birth is 0° 02′ 21″ Aquarius.</p>
          <p>The same worksheet does every planet; only the two positions change.</p>`,
-     try:`Press <em>Next step</em> to the end. Then drag the <span class="term">time of birth</span> slider: a birth at noon takes exactly half the day's motion, a birth at 00:00 takes none.`},
+     try:`Press <em>Next step</em> to the end. Then drag the <span class="term">time of birth</span> slider: a birth at noon takes half the day's motion, to the nearest second; a birth at 00:00 takes none.`},
     {title:'Retrograde: subtract',
      body:`<p>Saturn was retrograde that day, shown in gray in the ephemeris: 19° 02′ 56″ Virgo at midnight, 19° 00′ 40″ the next. Take the day's motion as always, the next day's longitude minus the birthday's: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. It is negative because he was moving backward: that is what retrograde means.</p>
          <p>The difference is 2′ 16″, the increment 2′ 16″ × .6631944 = 1′ 30″. The only change is that we subtract it from the beginning of the day: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ Virgo.</p>
@@ -798,6 +820,7 @@ I18N.nb = {
     noteLat: 'Tabellen stopper ved 60°. Breddegraden er satt til 60°.',
     noteUt: 'UT går fra 00:00 til 23:59, så den er satt til 23:59. En fødsel etter midnatt i Greenwich hører til neste dags efemeride.',
     noteObl: 'Skjevheten må ligge mellom 22° og 25°, så den forrige verdien er satt tilbake.',
+    noteFast: 'En planet beveger seg høyst omtrent 15° på et døgn; kontroller de to posisjonene.',
     wsFoot: `Radnumrene følger arbeidsarkene i leksjonen (s. 41–44). Stjernetiden skrives inn direkte, så radene 1–12 gjentas ikke; radene 13, 25, 30 og 36, som arbeidsarkene gjentar, står her bare én gang, og senere rader viser til dem med nummer. S1–S5 er trinnene i fremgangsmåten for sørlige fødsler (§6.2.3), ikke rader i arbeidsarket. Rader uten nummer er fortsettelsen av rad 16 og de direkte verdiene siden legger til. Hver tilvekst regnes med forholdet nøyaktig slik det står, med sju desimaler, og rundes av til nærmeste sekund, halve opp, før den legges til. Knappen <em>Neste steg</em> under diagrammet fyller ut tabellen én rad om gangen; <em>Alle</em> fyller den ut på én gang.`,
     method: 'Metoden',
     rule1t: 'Én verdi styrer tabellen',
@@ -832,7 +855,7 @@ I18N.nb = {
     south2: 'tegnene rettet i de siste radene',
     retro: '◀ retrograd: dagens bevegelse er negativ',
     direct: 'direkte bevegelse ▶',
-    stationary: 'stasjonær: ingen bevegelse den dagen',
+    stationary: 'ingen nettobevegelse mellom de to midnattene',
     titleAsc: 'Ascendanten mellom fire tabellceller',
     titleMc: 'Midthimmelen mellom to tabellkolonner',
     titlePlanet: 'Planeten mellom to midnattsposisjoner',
@@ -844,17 +867,18 @@ I18N.nb = {
 
   working: 'Utregning',
   what: { mc:'midthimmelen', asc:'ascendanten', planet:'planetens posisjon' },
-  idle: what => `Trykk <em>Neste steg</em> for å finne ${what} én rad av arbeidsarket om gangen, eller <em>Alle</em> for å se hele utregningen. Glidebryterne flytter den fødte inne i ruten.`,
+  idle: what => `Trykk <em>Neste steg</em> for å finne ${what} én rad av arbeidsarket om gangen, eller <em>Alle</em> for å se hele utregningen.`,
+  idleHint: { asc:'Glidebryterne flytter den fødte inne i ruten.', mc:'Glidebryteren flytter stjernetiden hennes langs linjalen, mellom to kolonner i tabellen.', planet:'Glidebryteren flytter fødselstiden gjennom døgnet.' },
   stepRow: (k, n, row) => `<b>Steg ${k} av ${n}</b> · rad ${row}`,
   stepOnly: (k, n) => `<b>Steg ${k} av ${n}</b>`,
   fieldName: (f, u) => `${f}, ${u}`,
-  motionWord: { direct:'direkte', retro:'retrograd ℞', stat:'stasjonær' },
+  motionWord: { direct:'direkte', retro:'retrograd ℞', stat:'ingen nettobevegelse' },
 
-  wsRetro: 'Retrograd: dagens bevegelse, rad 43 minus rad 44, er negativ, så tilveksten trekkes fra posisjonen kl. 00:00.',
-  wsDirect: 'Direkte bevegelse: dagens bevegelse, rad 43 minus rad 44, er positiv, så tilveksten legges til posisjonen kl. 00:00.',
-  wsStat: 'Stasjonær: rad 43 og rad 44 er like, så posisjonen er den samme hele dagen.',
-  wsCross: both => `Planeten krysset 0° Væren, så steget på 360° er skrevet inn i rad 45${both ? ' og rad 47' : ''}.`,
-  gap: o => (o.same ? `Interpolert minus direkte: ${o.tot}. Den direkte verdien bruker her tabellens egen skjevhet, så alt skyldes interpolasjonen.` : `Interpolert minus direkte: ${o.tot}. Skjevheten står for ${o.obl} av det (${o.chosen} her, ${o.table} i tabellen), interpolasjonen for ${o.int}.`) + (o.within ? ' Innenfor 1′ er det helt greit.' : ` Det er mer enn 1′, ${o.dom==='obl' ? 'mest på grunn av skjevheten' : o.dom==='int' ? 'mest på grunn av interpolasjonen' : 'like mye fra begge'}.`),
+  wsRetro: d => `Retrograd: rad 43 minus rad 44 er ${d}, altså negativ, så tilveksten trekkes fra posisjonen kl. 00:00.`,
+  wsDirect: d => `Direkte bevegelse: rad 43 minus rad 44 er ${d}, altså positiv, så tilveksten legges til posisjonen kl. 00:00.`,
+  wsStat: 'Ingen nettobevegelse: rad 43 og rad 44 er like, så tilveksten er 0 og rad 47 er posisjonen kl. 00:00.',
+  wsCross: (raw, add, d, retro, both) => `Rad 43 minus rad 44 er ${raw}, men planeten krysset 0° Væren: ${add ? 'legger vi til' : 'trekker vi fra'} 360°, får vi ${d}, ${retro ? 'altså negativ, så planeten er retrograd og tilveksten trekkes fra' : 'altså positiv, så bevegelsen er direkte og tilveksten legges til'} posisjonen kl. 00:00. Steget på 360° er skrevet inn i rad 45${both ? ' og rad 47' : ''}.`,
+  gap: o => `Interpolert minus direkte: ${o.tot}.` + ({agree: ' De to stemmer på sekundet.', same: ' Den direkte verdien bruker her tabellens egen skjevhet, så alt skyldes interpolasjonen.', allObl: ` Alt kommer fra skjevheten (${o.chosen} her, ${o.table} i tabellen); interpolasjonen legger ikke til noe synlig.`, allInt: ` Skjevheten (${o.chosen} her, ${o.table} i tabellen) gjør ingen synlig forskjell, så alt skyldes interpolasjonen.`, opposite: ` Skjevheten (${o.chosen} her, ${o.table} i tabellen) gir ${o.obl} og interpolasjonen ${o.int}, i hver sin retning.`, both: ` Skjevheten (${o.chosen} her, ${o.table} i tabellen) gir ${o.obl} av det og interpolasjonen ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Innenfor 1′ er det helt greit.' : (o.kind === 'opposite' || o.kind === 'both') ? ` Det er mer enn 1′, ${o.dom === 'obl' ? 'mest fra skjevheten' : o.dom === 'int' ? 'mest fra interpolasjonen' : 'halvparten fra hver'}.` : ' Det er mer enn 1′.'),
 
   hd: {
     birthRatio: 'Fødselstidsforhold', motion: 'Planetens bevegelse',
@@ -906,7 +930,7 @@ I18N.nb = {
     p0: (sign, abs) => `Og kl. 00:00 på fødselsdagen: ${sign}, altså ${abs}.`,
     diffRetro: (expr, d) => `Dagens bevegelse er lengden neste dag minus lengden på fødselsdagen: ${expr}. Den er negativ: planeten er retrograd og beveger seg baklengs. Rad 45 tar størrelsen, ${d}.`,
     diffDirect: (expr, d) => `Dagens bevegelse er lengden neste dag minus lengden på fødselsdagen: ${expr}. Den er positiv: planeten gikk ${d} fremover den dagen, i direkte bevegelse.`,
-    diffStat: expr => `Dagens bevegelse er lengden neste dag minus lengden på fødselsdagen: ${expr}. Planeten er stasjonær: den beveget seg ikke den dagen.`,
+    diffStat: expr => `Dagens bevegelse er lengden neste dag minus lengden på fødselsdagen: ${expr}. Det er ingen nettobevegelse mellom de to midnattene, så tilveksten er 0.`,
     crossFwd: 'Den krysset 0° Væren på vei fremover, så 360° legges til lengden neste dag.',
     crossBack: 'Den krysset 0° Væren på vei bakover, så 360° trekkes fra lengden neste dag.',
     planetShare: sum => `Hennes andel av den bevegelsen: ${sum}.`,
@@ -954,7 +978,7 @@ I18N.nb = {
      body:`<p>En hustabell <span class="gloss" lang="en">(table of houses)</span> oppgir ascendanter og midthimler <span class="gloss" lang="en">(Midheavens)</span> med faste intervaller i stjernetid <span class="gloss" lang="en">(sidereal time, ST)</span> — her for hvert 4′ ST, som tilsvarer 1° RAMC. Alt i den styres av denne ene verdien. Samme ST har bare én mulig MC, men mange ascendanter, én for hver fødselsbreddegrad.</p>
          <p>Den fødte <span class="gloss" lang="en">(the native)</span> i eksempelet har lokal stjernetid <span class="gloss" lang="en">(local sidereal time, LST)</span> 17:39:47 og breddegrad 44° 58′ 48″ N. Ingen av tallene står i tabellen. Hun ligger <em>mellom linjene</em>: mellom to ST-kolonner og to bredderader. Ruten i diagrammet er disse fire tabellcellene, og de to linjene er henne.</p>
          <p>Interpolasjon <span class="gloss" lang="en">(interpolation)</span> er ikke noe annet enn å finne ut hvor linjene krysser hverandre.</p>`,
-     try:`Dra i glidebryteren <span class="term">ST-kolonne</span> under diagrammet: den gylne linjen flytter seg bortover i ruten. Dra i glidebryteren <span class="term lat">bredderad</span>: den blå linjen flytter seg opp og ned. Selve ruten står stille; knappene ◀ ▶ bytter kolonne, og ruten blinker når den flytter til nye tabellceller. <em>Begynn på nytt</em> setter henne tilbake der leksjonen har henne.`},
+     try:`Dra i glidebryteren <span class="term">ST-kolonne</span> under diagrammet: den gylne linjen flytter seg bortover i ruten. Dra i glidebryteren <span class="term lat">bredderad</span>: den blå linjen flytter seg opp og ned. Selve ruten står stille; knappene ◀ ▶ bytter kolonne og flytter ruten til nye tabellceller (den blinker kort når den flytter seg, med mindre systemet ditt ber om redusert bevegelse). <em>Begynn på nytt</em> setter henne tilbake der leksjonen har henne.`},
     {title:'ST-forholdet',
      body:`<p>Hennes ST er 17:39:47. Tabellen har 17:36:00 på den ene siden og 17:40:00 på den andre. Hun ligger 3′ 47″ forbi den tidligere kolonnen, av et intervall på 4′.</p>
          <p>Del det ene på det andre: 3′ 47″ er 227 sekunder, 4′ er 240, og 227 ÷ 240 = 0,9458333. Det er <span class="term">ST-forholdet</span> <span class="gloss" lang="en">(ST ratio)</span> hennes: hvor langt bortover i ruten hun ligger, uttrykt som en brøk. Du ser uten å regne at hun er nesten helt ute ved den andre kanten.</p>
@@ -984,12 +1008,12 @@ I18N.nb = {
      body:`<p>Breddegraden hennes ligger 58′ 48″ forbi 44°, av et intervall på 60′: et <span class="term lat">breddegradsforhold</span> <span class="gloss" lang="en">(latitude ratio)</span> på 0,98. De to kantverdiene skiller seg med 14′ 41″; hennes andel er 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Gå nå fra verdien ved den lavere breddegraden mot den høyere. Her er verdien ved 45° minst, så trekk fra: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, altså 20° 19′ 17″ Fiskene.</p>
          <p>Arbeidsarket sier det som en regel: er rad 30 minst, legg til; er rad 36 minst, trekk fra. Diagrammet sier det enklere — svaret ligger der linjene krysser hverandre.</p>`,
-     try:`Trykk <em>Neste steg</em> seks ganger for å komme til rad 41: den grønne prikken lander i krysningspunktet. Prøv så ▼ ved glidebryteren for breddegrad: hvert trykk flytter ruten én tabellrad ned og beholder plassen hennes i den. Radene ligger 1° fra hverandre her; under 20° går tabellen i trinn på 5°, og da regner rad 37 og 38 med 5° i stedet for 60′.`},
+     try:`Trykk <em>Neste steg</em> seks ganger for å komme til rad 41: den grønne prikken lander i krysningspunktet. Prøv så ▼ ved glidebryteren for breddegrad: hvert trykk flytter ruten én tabellrad ned og beholder plassen hennes i den. Radene ligger 1° fra hverandre her; under 20° går tabellen i trinn på 5°, og da deler rad 38 på 5° i stedet for 60′.`},
     {title:'Hvorfor det avviker fra programmet ditt',
      body:`<p>Janus gir henne en ascendant på 20° 18′ 32″; den direkte beregningen ut fra vår avrundede LST gir 20° 18′ 54″; interpolasjonen gir 20° 19′ 17″. Ingen av dem stemmer overens, og det er normalt.</p>
          <p>Siden kan vise hvor dens egne 23″ kommer fra. Begge beregningene tar utgangspunkt i samme LST, 17:39:47, men ikke i samme skjevhet: den direkte bruker 23° 26′ 54″, tabellen 23° 26′. Beregnet direkte med 23° 26′ er ascendanten 20° 19′ 17″ — nøyaktig den interpolerte verdien. Hele avviket her skyldes altså skjevheten; interpolasjonens rette linje er omtrent 0,1″ unna på denne breddegraden.</p>
          <p>Interpolasjonen har en egen feil der ascendanten beveger seg raskt, som nær polene, og en større med større trinn; derfor går tabellene i trinn på 4′. Janus kan også avvike av en annen grunn, som leksjonen nevner: et program tar med brøkdeler av et sekund i stjernetiden. Denne siden gir begge beregningene samme LST, så den kan ikke vise det. Så ikke bekymre deg om de interpolerte verdiene dine avviker litt fra programmet ditt: leksjonens tommelfingerregel er at inntil 1′ er helt greit.</p>`,
-     try:`Gå til fanen <em>Arbeidsark</em> og sett skjevheten til 23° 26′: avviket i merknaden under arbeidsarket faller til 0″. Trykk så ▲ ved glidebryteren for breddegrad til raden kommer til 59°–60°: avviket der, −7″, er interpolasjon alene. Sett skjevheten tilbake til 23° 26′ 54″, så blir det +2′ 34″, nesten alt fra skjevheten, som betyr mer nær polene.`},
+     try:`Gå til fanen <em>Arbeidsark</em> og sett skjevheten til 23° 26′: avviket i merknaden under arbeidsarket faller til 0″. Trykk så ▲ ved glidebryteren for breddegrad til raden kommer til 59°–60°: avviket der, −7″, er interpolasjon alene. Sett skjevheten tilbake til 23° 26′ 54″, så blir det +2′ 34″: skjevheten gir +2′ 41″ og interpolasjonen −7″. Skjevhetens andel vokser nær polene.`},
     {title:'Sør for ekvator',
      body:`<p>Tabellen er laget for den nordlige halvkule. Ved en sørlig fødsel merker du deg først hvilket tegn MC står i ved den fødtes LST. Så legger du til eller trekker fra 12:00:00 på LST og slår opp i tabellen som vanlig, på samme breddegrad nord.</p>
          <p>MC-en du finner, står i motsatt tegn: gi den det opprinnelige tegnet. Ascendanten du finner, er også motsatt: gi den det motsatte tegnet av det som står i tabellen.</p>
@@ -999,7 +1023,7 @@ I18N.nb = {
      body:`<p>En efemeride <span class="gloss" lang="en">(ephemeris)</span> oppgir posisjonene kl. 00:00 i Greenwich for hver dag. Hun ble født kl. 15:55 universaltid <span class="gloss" lang="en">(Universal Time, UT)</span>, da 15:55 ÷ 24 = 0,6631944 av døgnet var gått. Det er <span class="term">fødselstidsforholdet</span> <span class="gloss" lang="en">(birth-time ratio)</span> hennes, og det spiller den rollen ST-forholdet spilte før.</p>
          <p>Solen sto på 29° 21′ 50″ Steinbukken ved midnatt og på 0° 22′ 55″ Vannmannen ved neste midnatt: 1° 01′ 05″ bevegelse. Hennes andel er 1° 01′ 05″ × 0,6631944 = 40′ 31″. Lagt til midnattsposisjonen gir det Solen ved fødselen på 0° 02′ 21″ Vannmannen.</p>
          <p>Det samme arbeidsarket gjelder for alle planetene; bare de to posisjonene endres.</p>`,
-     try:`Trykk <em>Neste steg</em> helt til slutten. Dra så glidebryteren for <span class="term">fødselstid</span>: en fødsel kl. 12:00 tar nøyaktig halvparten av dagens bevegelse, en fødsel kl. 00:00 tar ingenting.`},
+     try:`Trykk <em>Neste steg</em> helt til slutten. Dra så glidebryteren for <span class="term">fødselstid</span>: en fødsel kl. 12:00 tar halvparten av dagens bevegelse, til nærmeste sekund; en fødsel kl. 00:00 tar ingenting.`},
     {title:'Retrograd: trekk fra',
      body:`<p>Saturn var retrograd den dagen, vist i grått i efemeriden: 19° 02′ 56″ Jomfruen ved midnatt, 19° 00′ 40″ ved neste. Regn dagens bevegelse som alltid, lengden neste dag minus lengden på fødselsdagen: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. Den er negativ fordi Saturn gikk baklengs: det er det retrograd betyr.</p>
          <p>Differansen er 2′ 16″, tilveksten 2′ 16″ × 0,6631944 = 1′ 30″. Den eneste forskjellen er at vi trekker den fra posisjonen ved dagens begynnelse: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ Jomfruen.</p>
@@ -1043,6 +1067,7 @@ I18N.es = {
     noteLat: 'La tabla llega hasta 60°. La latitud queda en 60°.',
     noteUt: 'El TU va de 00:00 a 23:59, así que queda en 23:59. Un nacimiento posterior a la medianoche de Greenwich corresponde a las efemérides del día siguiente.',
     noteObl: 'La oblicuidad debe estar entre 22° y 25°, así que vuelve su valor anterior.',
+    noteFast: 'Un planeta se mueve como mucho unos 15° al día; revise las dos posiciones.',
     wsFoot: `Los números de fila siguen las hojas de trabajo de la lección (pp. 41–44). El tiempo sidéreo se escribe directamente, así que las filas 1–12 no se repiten; las filas 13, 25, 30 y 36, que las hojas repiten, aparecen una sola vez, y las filas posteriores remiten a ellas por su número. S1–S5 son los pasos del procedimiento austral (§6.2.3), no filas de la hoja. Las filas sin número son la continuación de la fila 16 y los valores directos que añade la página. Cada incremento usa la proporción tal como aparece, con siete decimales, y se redondea al segundo más próximo (las mitades, hacia arriba) antes de sumarlo. El botón <em>Paso siguiente</em>, bajo el diagrama, rellena esta tabla fila a fila; <em>Todo</em> la rellena de una vez.`,
     method: 'El método',
     rule1t: 'Un solo valor rige la tabla',
@@ -1077,7 +1102,7 @@ I18N.es = {
     south2: 'signos corregidos en las últimas filas',
     retro: '◀ retrógrado: el movimiento del día es negativo',
     direct: 'movimiento directo ▶',
-    stationary: 'estacionario: sin movimiento ese día',
+    stationary: 'sin movimiento neto entre las dos medianoches',
     titleAsc: 'El Ascendente entre cuatro casillas de la tabla',
     titleMc: 'El Medio Cielo entre dos columnas de la tabla',
     titlePlanet: 'El planeta entre dos posiciones de medianoche',
@@ -1089,17 +1114,18 @@ I18N.es = {
 
   working: 'Desarrollo',
   what: { mc:'el Medio Cielo', asc:'el Ascendente', planet:'la posición del planeta' },
-  idle: what => `Pulse <em>Paso siguiente</em> para hallar ${what} fila a fila de la hoja de trabajo, o <em>Todo</em> para ver el desarrollo completo. Los controles mueven a la nativa dentro del recuadro.`,
+  idle: what => `Pulse <em>Paso siguiente</em> para hallar ${what} fila a fila de la hoja de trabajo, o <em>Todo</em> para ver el desarrollo completo.`,
+  idleHint: { asc:'Los controles mueven a la nativa dentro del recuadro.', mc:'El control mueve su tiempo sidéreo a lo largo de la regla, entre dos columnas de la tabla.', planet:'El control mueve la hora de nacimiento a lo largo del día.' },
   stepRow: (k, n, row) => `<b>Paso ${k} de ${n}</b> · fila ${row}`,
   stepOnly: (k, n) => `<b>Paso ${k} de ${n}</b>`,
   fieldName: (f, u) => `${f}, ${u}`,
-  motionWord: { direct:'directo', retro:'retrógrado ℞', stat:'estacionario' },
+  motionWord: { direct:'directo', retro:'retrógrado ℞', stat:'sin movimiento neto' },
 
-  wsRetro: 'Retrógrado: el movimiento del día, fila 43 menos fila 44, es negativo, así que el incremento se resta de la posición de las 00:00.',
-  wsDirect: 'Movimiento directo: el movimiento del día, fila 43 menos fila 44, es positivo, así que el incremento se suma a la posición de las 00:00.',
-  wsStat: 'Estacionario: las filas 43 y 44 son iguales, así que la posición es la misma todo el día.',
-  wsCross: both => `El planeta cruzó 0° de Aries, así que el paso de 360° está escrito en la fila 45${both ? ' y en la fila 47' : ''}.`,
-  gap: o => (o.same ? `Interpolado menos directo: ${o.tot}. El valor directo usa aquí la misma oblicuidad que la tabla, así que todo se debe a la interpolación.` : `Interpolado menos directo: ${o.tot}. La oblicuidad explica ${o.obl} (aquí ${o.chosen}, en la tabla ${o.table}); la interpolación, ${o.int}.`) + (o.within ? ' Un margen de hasta 1′ es aceptable.' : ` Supera 1′, ${o.dom==='obl' ? 'sobre todo por la oblicuidad' : o.dom==='int' ? 'sobre todo por la interpolación' : 'a partes iguales por ambas causas'}.`),
+  wsRetro: d => `Retrógrado: la fila 43 menos la fila 44 da ${d}, un valor negativo, así que el incremento se resta de la posición de las 00:00.`,
+  wsDirect: d => `Movimiento directo: la fila 43 menos la fila 44 da ${d}, un valor positivo, así que el incremento se suma a la posición de las 00:00.`,
+  wsStat: 'Sin movimiento neto: las filas 43 y 44 son iguales, así que el incremento es 0 y la fila 47 es la posición de las 00:00.',
+  wsCross: (raw, add, d, retro, both) => `La fila 43 menos la fila 44 da ${raw}, pero el planeta cruzó 0° de Aries: ${add ? 'sumando' : 'restando'} 360° se obtiene ${d}, ${retro ? 'un valor negativo, así que el planeta está retrógrado y el incremento se resta de' : 'un valor positivo, así que el movimiento es directo y el incremento se suma a'} la posición de las 00:00. El paso de 360° está escrito en la fila 45${both ? ' y en la fila 47' : ''}.`,
+  gap: o => `Interpolado menos directo: ${o.tot}.` + ({agree: ' Los dos coinciden al segundo.', same: ' El valor directo usa aquí la misma oblicuidad que la tabla, así que todo se debe a la interpolación.', allObl: ` Todo viene de la oblicuidad (aquí ${o.chosen}, en la tabla ${o.table}); la interpolación no añade nada visible.`, allInt: ` La oblicuidad (aquí ${o.chosen}, en la tabla ${o.table}) no cambia nada visible, así que todo se debe a la interpolación.`, opposite: ` La oblicuidad (aquí ${o.chosen}, en la tabla ${o.table}) aporta ${o.obl} y la interpolación ${o.int}, en sentidos opuestos.`, both: ` La oblicuidad (aquí ${o.chosen}, en la tabla ${o.table}) aporta ${o.obl} y la interpolación ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Un margen de hasta 1′ es aceptable.' : (o.kind === 'opposite' || o.kind === 'both') ? ` Supera 1′, ${o.dom === 'obl' ? 'sobre todo por la oblicuidad' : o.dom === 'int' ? 'sobre todo por la interpolación' : 'a partes iguales'}.` : ' Supera 1′.'),
 
   hd: {
     birthRatio: 'Proporción de la hora de nacimiento', motion: 'Movimiento planetario',
@@ -1151,7 +1177,7 @@ I18N.es = {
     p0: (sign, abs) => `Y a las 00:00 del día del nacimiento, ${sign}, es decir, ${abs}.`,
     diffRetro: (expr, d) => `El movimiento del día es la longitud del día siguiente menos la del día del nacimiento: ${expr}. Es negativo: el planeta está retrógrado y se mueve hacia atrás. La fila 45 toma su magnitud, ${d}.`,
     diffDirect: (expr, d) => `El movimiento del día es la longitud del día siguiente menos la del día del nacimiento: ${expr}. Es positivo: el planeta avanzó ${d} ese día, en movimiento directo.`,
-    diffStat: expr => `El movimiento del día es la longitud del día siguiente menos la del día del nacimiento: ${expr}. El planeta está estacionario: no se movió ese día.`,
+    diffStat: expr => `El movimiento del día es la longitud del día siguiente menos la del día del nacimiento: ${expr}. No hay movimiento neto entre las dos medianoches, así que el incremento es 0.`,
     crossFwd: 'Cruzó 0° de Aries avanzando, así que se suman 360° a la longitud del día siguiente.',
     crossBack: 'Cruzó 0° de Aries retrocediendo, así que se restan 360° a la longitud del día siguiente.',
     planetShare: sum => `La parte de ese movimiento que corresponde a la nativa: ${sum}.`,
@@ -1199,7 +1225,7 @@ I18N.es = {
      body:`<p>Una tabla de casas <span class="gloss" lang="en">(table of houses)</span> da Ascendentes <span class="gloss" lang="en">(Ascendants)</span> y Medios Cielos <span class="gloss" lang="en">(Midheavens)</span> a intervalos regulares de tiempo sidéreo <span class="gloss" lang="en">(sidereal time, ST)</span>: aquí, cada 4′ de TS, que equivalen a 1° de ARMC <span class="gloss" lang="en">(RAMC)</span>. Todo en ella depende de ese único valor. Un mismo TS solo admite un MC, pero muchos Ascendentes: uno por cada latitud de nacimiento.</p>
          <p>Nuestra nativa <span class="gloss" lang="en">(the native)</span> nació con un tiempo sidéreo local <span class="gloss" lang="en">(local sidereal time, LST)</span> de 17:39:47 a 44° 58′ 48″ N. Ninguno de los dos números figura en la tabla. Está <em>entre líneas</em>: entre dos columnas de TS y dos filas de latitud. El recuadro del diagrama son esas cuatro casillas de la tabla, y las dos líneas son ella.</p>
          <p>Interpolar <span class="gloss" lang="en">(interpolation)</span> no es más que hallar dónde se cruzan las líneas.</p>`,
-     try:`Arrastre el control <span class="term">Columna de TS</span>, bajo el diagrama: la línea dorada recorre el recuadro. Arrastre el control <span class="term lat">Fila de latitud</span>: la línea azul sube y baja. El recuadro no se mueve; los botones ◀ ▶ cambian de columna, y el recuadro destella cuando pasa a otras casillas de la tabla. <em>Empezar de nuevo</em> devuelve a la nativa adonde la sitúa la lección.`},
+     try:`Arrastre el control <span class="term">Columna de TS</span>, bajo el diagrama: la línea dorada recorre el recuadro. Arrastre el control <span class="term lat">Fila de latitud</span>: la línea azul sube y baja. El recuadro no se mueve; los botones ◀ ▶ cambian de columna y llevan el recuadro a otras casillas de la tabla (destella un instante al moverse, salvo que su sistema pida reducir el movimiento). <em>Empezar de nuevo</em> devuelve a la nativa adonde la sitúa la lección.`},
     {title:'La proporción de TS',
      body:`<p>Su TS es 17:39:47. La tabla tiene 17:36:00 a un lado y 17:40:00 al otro. Está 3′ 47″ más allá de la columna anterior, en un intervalo de 4′.</p>
          <p>Divida lo uno entre lo otro: 3′ 47″ son 227 segundos, 4′ son 240, y 227 ÷ 240 = 0,9458333. Esa es su <span class="term">proporción de TS</span> <span class="gloss" lang="en">(ST ratio)</span>: cuánto ha avanzado a lo ancho del recuadro, expresado como fracción. Se ve sin calcular que casi lo ha cruzado entero.</p>
@@ -1229,12 +1255,12 @@ I18N.es = {
      body:`<p>Su latitud está 58′ 48″ más allá de 44°, en un intervalo de 60′: una <span class="term lat">proporción de latitud</span> <span class="gloss" lang="en">(latitude ratio)</span> de 0,98. Los valores de los dos bordes difieren en 14′ 41″; su parte es 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Ahora vaya del valor de la latitud inferior hacia el de la superior. Aquí el valor a 45° es menor, así que reste: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, es decir, 20° 19′ 17″ de Piscis.</p>
          <p>La hoja de trabajo lo formula como regla: si la fila 30 es menor, sume; si la fila 36 es menor, reste. El diagrama lo dice de forma más sencilla: la respuesta está donde se cruzan las líneas.</p>`,
-     try:`Pulse <em>Paso siguiente</em> seis veces hasta llegar a la fila 41: el punto verde cae en el cruce. Luego pruebe ▼ junto al control de latitud: cada pulsación baja el recuadro una fila de la tabla y mantiene la posición de la nativa dentro de él. Aquí las filas están a 1° una de otra; por debajo de 20° la tabla avanza de 5° en 5°, y las filas 37 y 38 trabajan entonces con 5° en lugar de 60′.`},
+     try:`Pulse <em>Paso siguiente</em> seis veces hasta llegar a la fila 41: el punto verde cae en el cruce. Luego pruebe ▼ junto al control de latitud: cada pulsación baja el recuadro una fila de la tabla y mantiene la posición de la nativa dentro de él. Aquí las filas están a 1° una de otra; por debajo de 20° la tabla avanza de 5° en 5°, y la fila 38 divide entonces entre 5° en lugar de 60′.`},
     {title:'Por qué no coincide con su programa',
      body:`<p>Janus da a esta nativa un Ascendente de 20° 18′ 32″; el cálculo directo con nuestro TSL redondeado da 20° 18′ 54″; la interpolación, 20° 19′ 17″. No coinciden, y es normal.</p>
          <p>La página puede mostrar de dónde vienen sus propios 23″. Ambos cálculos parten del mismo TSL, 17:39:47, pero no de la misma oblicuidad: el directo usa 23° 26′ 54″, y la tabla, 23° 26′. Calculado directamente con 23° 26′, el Ascendente es 20° 19′ 17″: exactamente el valor interpolado. Así que toda la diferencia se debe aquí a la oblicuidad; la línea recta de la interpolación se desvía unos 0,1″ en esta latitud.</p>
          <p>La interpolación tiene un error propio donde el Ascendente se mueve deprisa, como cerca de los polos, y mayor con pasos más anchos; por eso las tablas van de 4′ en 4′. Janus puede diferir además por otro motivo, que da la lección: un programa conserva fracciones de segundo en el tiempo sidéreo. Esta página da a sus dos cálculos el mismo TSL, así que no puede mostrarlo. Así que no se preocupe si sus valores interpolados difieren un poco de los de su programa: la regla práctica de la lección es que un margen de hasta 1′ es aceptable.</p>`,
-     try:`En la pestaña <em>Hoja</em>, ponga la oblicuidad en 23° 26′: la diferencia de la nota bajo la hoja baja a 0″. Luego pulse ▲ junto al control de latitud hasta llegar a la fila de 59°–60°: la diferencia allí, −7″, es solo interpolación. Vuelva a poner la oblicuidad en 23° 26′ 54″ y pasa a +2′ 34″, casi todo por la oblicuidad, cuyo efecto crece cerca de los polos.`},
+     try:`En la pestaña <em>Hoja</em>, ponga la oblicuidad en 23° 26′: la diferencia de la nota bajo la hoja baja a 0″. Luego pulse ▲ junto al control de latitud hasta llegar a la fila de 59°–60°: la diferencia allí, −7″, es solo interpolación. Vuelva a poner la oblicuidad en 23° 26′ 54″ y pasa a +2′ 34″: la oblicuidad aporta +2′ 41″ y la interpolación −7″. La parte de la oblicuidad crece cerca de los polos.`},
     {title:'Al sur del ecuador',
      body:`<p>La tabla está hecha para el hemisferio norte. En un nacimiento austral, anote primero qué signo tiene el MC con el TSL de la nativa. Después sume o reste 12:00:00 al TSL y consulte la tabla como siempre, en la misma latitud, pero norte.</p>
          <p>El MC que encuentre estará en el signo opuesto: devuélvale el signo original. El Ascendente que encuentre también está en el signo opuesto: dele el signo opuesto al que figura en la tabla.</p>
@@ -1244,7 +1270,7 @@ I18N.es = {
      body:`<p>Unas efemérides <span class="gloss" lang="en">(ephemeris)</span> dan las posiciones de cada día a las 00:00 en Greenwich. La nativa nació a las 15:55 TU <span class="gloss" lang="en">(Universal Time, UT)</span>, cuando ya había transcurrido 15:55 ÷ 24 = 0,6631944 del día. Esa es su <span class="term">proporción de la hora de nacimiento</span> <span class="gloss" lang="en">(birth-time ratio)</span>, y hace el papel que antes hacía la proporción de TS.</p>
          <p>El Sol estaba en 29° 21′ 50″ de Capricornio a medianoche, y en 0° 22′ 55″ de Acuario la medianoche siguiente: 1° 01′ 05″ de movimiento. La parte de la nativa es 1° 01′ 05″ × 0,6631944 = 40′ 31″. Sumada a la posición de medianoche, sitúa al Sol natal en 0° 02′ 21″ de Acuario.</p>
          <p>La misma hoja de trabajo sirve para todos los planetas; solo cambian las dos posiciones.</p>`,
-     try:`Pulse <em>Paso siguiente</em> hasta el final. Luego arrastre el control <span class="term">Hora de nacimiento</span>: un nacimiento a mediodía se lleva exactamente la mitad del movimiento del día; uno a las 00:00, nada.`},
+     try:`Pulse <em>Paso siguiente</em> hasta el final. Luego arrastre el control <span class="term">Hora de nacimiento</span>: un nacimiento a mediodía se lleva la mitad del movimiento del día, al segundo más próximo; uno a las 00:00, nada.`},
     {title:'Retrógrado: reste',
      body:`<p>Saturno estaba retrógrado <span class="gloss" lang="en">(retrograde)</span> ese día, en gris en las efemérides: 19° 02′ 56″ de Virgo a medianoche, 19° 00′ 40″ la siguiente. Calcule el movimiento del día como siempre, la longitud del día siguiente menos la del día del nacimiento: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. Es negativo porque se movía hacia atrás: eso es estar retrógrado.</p>
          <p>La diferencia es 2′ 16″; el incremento, 2′ 16″ × 0,6631944 = 1′ 30″. El único cambio es que lo restamos de la posición del comienzo del día: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ de Virgo.</p>
@@ -1288,6 +1314,7 @@ I18N.fr = {
     noteLat: `La table s'arrête à 60°. La latitude est ramenée à 60°.`,
     noteUt: `Le TU va de 00:00 à 23:59 : il est ramené à 23:59. Une naissance après minuit à Greenwich relève des éphémérides du lendemain.`,
     noteObl: `L'obliquité doit être comprise entre 22° et 25° : sa valeur précédente est rétablie.`,
+    noteFast: `Une planète avance au plus d'environ 15° par jour ; vérifiez les deux positions.`,
     wsFoot: `Les numéros de ligne suivent les feuilles de calcul de la leçon (p. 41–44). Le temps sidéral est saisi directement, si bien que les lignes 1 à 12 ne sont pas reprises ; les lignes 13, 25, 30 et 36, que les feuilles répètent, n'apparaissent qu'une fois, et les lignes suivantes y renvoient par leur numéro. S1 à S5 sont les étapes de la méthode pour l'hémisphère sud (§ 6.2.3), non des lignes de la feuille. Les lignes sans numéro sont la suite de la ligne 16 et les valeurs directes ajoutées par la page. Chaque accroissement utilise le rapport tel qu'il est affiché, à sept décimales, et il est arrondi à la seconde la plus proche (les moitiés vers le haut) avant d'être ajouté. Le bouton <em>Étape suivante</em> sous le schéma remplit ce tableau ligne par ligne ; <em>Tout</em> le remplit d'un coup.`,
     method: 'La méthode',
     rule1t: 'Une seule valeur commande la table',
@@ -1322,7 +1349,7 @@ I18N.fr = {
     south2: 'signes corrigés dans les dernières lignes',
     retro: `◀ rétrograde : le mouvement du jour est négatif`,
     direct: 'mouvement direct ▶',
-    stationary: `stationnaire : aucun mouvement ce jour-là`,
+    stationary: 'aucun mouvement net entre les deux minuits',
     titleAsc: `L'Ascendant entre quatre cellules de la table`,
     titleMc: 'Le Milieu du Ciel entre deux colonnes de la table',
     titlePlanet: 'La planète entre deux positions de minuit',
@@ -1334,17 +1361,18 @@ I18N.fr = {
 
   working: 'Calcul',
   what: { mc:'le Milieu du Ciel', asc:"l'Ascendant", planet:'la position de la planète' },
-  idle: what => `Appuyez sur <em>Étape suivante</em> pour trouver ${what} ligne après ligne de la feuille de calcul, ou sur <em>Tout</em> pour voir le calcul entier. Les curseurs déplacent la native dans la case.`,
+  idle: what => `Appuyez sur <em>Étape suivante</em> pour trouver ${what} ligne après ligne de la feuille de calcul, ou sur <em>Tout</em> pour voir le calcul entier.`,
+  idleHint: { asc:'Les curseurs déplacent la native dans la case.', mc:'Le curseur déplace son temps sidéral le long de la règle, entre deux colonnes de la table.', planet:"Le curseur déplace l'heure de naissance au fil de la journée." },
   stepRow: (k, n, row) => `<b>Étape ${k} sur ${n}</b> · ligne ${row}`,
   stepOnly: (k, n) => `<b>Étape ${k} sur ${n}</b>`,
   fieldName: (f, u) => `${f}, ${u}`,
-  motionWord: { direct:'direct', retro:'rétrograde ℞', stat:'stationnaire' },
+  motionWord: { direct:'direct', retro:'rétrograde ℞', stat:'aucun mouvement net' },
 
-  wsRetro: `Rétrograde : le mouvement du jour, ligne 43 moins ligne 44, est négatif, donc l'accroissement se retranche de la position de 00:00.`,
-  wsDirect: `Mouvement direct : le mouvement du jour, ligne 43 moins ligne 44, est positif, donc l'accroissement s'ajoute à la position de 00:00.`,
-  wsStat: `Stationnaire : les lignes 43 et 44 sont égales, donc la position reste la même toute la journée.`,
-  wsCross: both => `La planète a franchi 0° du Bélier : le pas de 360° est écrit dans la ligne 45${both ? ' et dans la ligne 47' : ''}.`,
-  gap: o => (o.same ? `Interpolé moins direct : ${o.tot}. La valeur directe utilise ici l'obliquité même de la table : tout vient de l'interpolation.` : `Interpolé moins direct : ${o.tot}. L'obliquité en explique ${o.obl} (${o.chosen} ici, ${o.table} dans la table), l'interpolation ${o.int}.`) + (o.within ? " Moins de 1′ d'écart, c'est bien." : ` C'est plus de 1′, ${o.dom==='obl' ? "surtout à cause de l'obliquité" : o.dom==='int' ? "surtout à cause de l'interpolation" : 'à parts égales'}.`),
+  wsRetro: d => `Rétrograde : ligne 43 moins ligne 44 donne ${d}, une valeur négative, donc l'accroissement se retranche de la position de 00:00.`,
+  wsDirect: d => `Mouvement direct : ligne 43 moins ligne 44 donne ${d}, une valeur positive, donc l'accroissement s'ajoute à la position de 00:00.`,
+  wsStat: `Aucun mouvement net : les lignes 43 et 44 sont égales, donc l'accroissement est nul et la ligne 47 est la position de 00:00.`,
+  wsCross: (raw, add, d, retro, both) => `Ligne 43 moins ligne 44 donne ${raw}, mais la planète a franchi 0° du Bélier : ${add ? 'en ajoutant' : 'en retranchant'} 360°, on obtient ${d}, ${retro ? "une valeur négative, donc la planète est rétrograde et l'accroissement se retranche de" : "une valeur positive, donc le mouvement est direct et l'accroissement s'ajoute à"} la position de 00:00. Le pas de 360° est écrit dans la ligne 45${both ? ' et dans la ligne 47' : ''}.`,
+  gap: o => `Interpolé moins direct : ${o.tot}.` + ({agree: ' Les deux concordent à la seconde.', same: " La valeur directe utilise ici l'obliquité même de la table : tout vient de l'interpolation.", allObl: ` Tout vient de l'obliquité (${o.chosen} ici, ${o.table} dans la table) ; l'interpolation n'ajoute rien de visible.`, allInt: ` L'obliquité (${o.chosen} ici, ${o.table} dans la table) ne change rien de visible : tout vient de l'interpolation.`, opposite: ` L'obliquité (${o.chosen} ici, ${o.table} dans la table) donne ${o.obl} et l'interpolation ${o.int}, en sens contraires.`, both: ` L'obliquité (${o.chosen} ici, ${o.table} dans la table) en donne ${o.obl} et l'interpolation ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? " Moins de 1′ d'écart, c'est bien." : (o.kind === 'opposite' || o.kind === 'both') ? ` C'est plus de 1′, ${o.dom === 'obl' ? "surtout à cause de l'obliquité" : o.dom === 'int' ? "surtout à cause de l'interpolation" : 'à parts égales'}.` : " C'est plus de 1′."),
 
   hd: {
     birthRatio: "Rapport de l'heure de naissance", motion: 'Mouvement de la planète',
@@ -1396,7 +1424,7 @@ I18N.fr = {
     p0: (sign, abs) => `Et à 00:00 le jour de la naissance : ${sign}, soit ${abs}.`,
     diffRetro: (expr, d) => `Le mouvement du jour est la longitude du lendemain moins celle du jour de naissance : ${expr}. Il est négatif : la planète est rétrograde, elle recule. La ligne 45 en prend la grandeur, ${d}.`,
     diffDirect: (expr, d) => `Le mouvement du jour est la longitude du lendemain moins celle du jour de naissance : ${expr}. Il est positif : la planète a avancé de ${d} ce jour-là, d'un mouvement direct.`,
-    diffStat: expr => `Le mouvement du jour est la longitude du lendemain moins celle du jour de naissance : ${expr}. La planète est stationnaire : elle n'a pas bougé ce jour-là.`,
+    diffStat: expr => `Le mouvement du jour est la longitude du lendemain moins celle du jour de naissance : ${expr}. Aucun mouvement net entre les deux minuits, donc l'accroissement est nul.`,
     crossFwd: `Elle a franchi 0° du Bélier en avançant : on ajoute 360° à la longitude du lendemain.`,
     crossBack: `Elle a franchi 0° du Bélier en reculant : on retranche 360° de la longitude du lendemain.`,
     planetShare: sum => `La part de ce mouvement qui revient à la native : ${sum}.`,
@@ -1444,7 +1472,7 @@ I18N.fr = {
      body:`<p>Une table des maisons <span class="gloss" lang="en">(table of houses)</span> donne les Ascendants et les Milieux du Ciel <span class="gloss" lang="en">(Midheavens)</span> à intervalles réguliers de temps sidéral <span class="gloss" lang="en">(sidereal time)</span> — ici toutes les 4′ de TS <span class="gloss" lang="en">(ST)</span>, soit 1° d'ARMC <span class="gloss" lang="en">(RAMC)</span>. Tout y dépend de cette seule valeur. Un même TS n'a qu'un MC possible, mais de nombreux Ascendants, un pour chaque latitude de naissance.</p>
          <p>Notre native <span class="gloss" lang="en">(the native)</span> est née avec un temps sidéral local (TSL) <span class="gloss" lang="en">(local sidereal time, LST)</span> de 17:39:47, à 44° 58′ 48″ N. Aucun de ces deux nombres ne figure dans la table. Elle se trouve <em>entre les lignes</em> : entre deux colonnes de TS et deux lignes de latitude. La case du schéma, ce sont ces quatre cellules de la table ; les deux lignes, c'est elle.</p>
          <p>Interpoler <span class="gloss" lang="en">(interpolation)</span>, ce n'est rien d'autre que trouver où les lignes se croisent.</p>`,
-     try:`Faites glisser le curseur <span class="term">Colonne de TS</span> sous le schéma : la ligne dorée traverse la case. Faites glisser le curseur <span class="term lat">Ligne de latitude</span> : la ligne bleue monte et descend. La case, elle, ne bouge pas ; les boutons ◀ ▶ changent de colonne, et la case clignote quand elle passe à de nouvelles cellules. <em>Recommencer</em> remet la native là où la leçon la place.`},
+     try:`Faites glisser le curseur <span class="term">Colonne de TS</span> sous le schéma : la ligne dorée traverse la case. Faites glisser le curseur <span class="term lat">Ligne de latitude</span> : la ligne bleue monte et descend. La case, elle, ne bouge pas ; les boutons ◀ ▶ changent de colonne et amènent la case sur de nouvelles cellules (elle clignote brièvement, sauf si votre système demande de réduire les animations). <em>Recommencer</em> remet la native là où la leçon la place.`},
     {title:'Le rapport de TS',
      body:`<p>Son TS est 17:39:47. La table a 17:36:00 d'un côté et 17:40:00 de l'autre. Elle est à 3′ 47″ au-delà de la colonne précédente, sur un intervalle de 4′.</p>
          <p>Divisez l'un par l'autre : 3′ 47″ font 227 secondes, 4′ en font 240, et 227 ÷ 240 = 0,9458333. C'est son <span class="term">rapport de TS</span> <span class="gloss" lang="en">(ST ratio)</span> : la fraction de la case qu'elle a traversée. On voit sans calcul qu'elle est presque de l'autre côté.</p>
@@ -1474,12 +1502,12 @@ I18N.fr = {
      body:`<p>Sa latitude dépasse 44° de 58′ 48″, sur un intervalle de 60′ : un <span class="term lat">rapport de latitude</span> <span class="gloss" lang="en">(latitude ratio)</span> de 0,98. Les valeurs des deux bords diffèrent de 14′ 41″ ; sa part est de 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Allez maintenant de la valeur de la latitude inférieure vers celle de la supérieure. Ici, la valeur à 45° est plus petite, donc retranchez : 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, soit 20° 19′ 17″ des Poissons.</p>
          <p>La feuille de calcul en fait une règle : si la ligne 30 est plus petite, ajoutez ; si la ligne 36 est plus petite, retranchez. Le schéma le dit plus simplement — la réponse est là où les lignes se croisent.</p>`,
-     try:`Appuyez six fois sur <em>Étape suivante</em> pour atteindre la ligne 41 : le point vert tombe sur le croisement. Essayez ensuite ▼ à côté du curseur de latitude : chaque pression descend la case d'une ligne de la table en gardant la place de la native à l'intérieur. Ici, les lignes sont espacées de 1° ; au-dessous de 20°, la table avance par pas de 5°, et les lignes 37 et 38 comptent alors en 5° au lieu de 60′.`},
+     try:`Appuyez six fois sur <em>Étape suivante</em> pour atteindre la ligne 41 : le point vert tombe sur le croisement. Essayez ensuite ▼ à côté du curseur de latitude : chaque pression descend la case d'une ligne de la table en gardant la place de la native à l'intérieur. Ici, les lignes sont espacées de 1° ; au-dessous de 20°, la table avance par pas de 5°, et la ligne 38 divise alors par 5° au lieu de 60′.`},
     {title:'Pourquoi votre logiciel trouve autre chose',
      body:`<p>Janus donne à cette native un Ascendant de 20° 18′ 32″ ; le calcul direct à partir de notre TSL arrondi donne 20° 18′ 54″ ; l'interpolation, 20° 19′ 17″. Aucun ne concorde, et c'est normal.</p>
          <p>La page peut montrer d'où viennent ses propres 23″. Les deux calculs partent du même TSL, 17:39:47, mais pas de la même obliquité : le calcul direct utilise 23° 26′ 54″, la table 23° 26′. Calculé directement avec 23° 26′, l'Ascendant vaut 20° 19′ 17″ — exactement la valeur interpolée. Tout l'écart vient donc ici de l'obliquité ; la droite de l'interpolation s'écarte d'environ 0,1″ à cette latitude.</p>
          <p>L'interpolation a son erreur propre là où l'Ascendant va vite, comme près des pôles, et plus grande avec des pas plus larges ; c'est pourquoi les tables procèdent par pas de 4′. Janus peut aussi différer pour une autre raison, que donne la leçon : un logiciel garde des fractions de seconde dans le temps sidéral. Cette page donne le même TSL à ses deux calculs, elle ne peut donc pas le montrer. Ne vous inquiétez donc pas si vos valeurs interpolées diffèrent légèrement de celles de votre logiciel : la règle pratique de la leçon est que jusqu'à 1′ d'écart, c'est bien.</p>`,
-     try:`Dans l'onglet <em>Feuille</em>, réglez l'obliquité sur 23° 26′ : l'écart dans la note sous la feuille tombe à 0″. Appuyez ensuite sur ▲ à côté du curseur de latitude jusqu'à la ligne 59°–60° : l'écart y est de −7″, l'interpolation seule. Remettez l'obliquité à 23° 26′ 54″ et il passe à +2′ 34″, presque entièrement dû à l'obliquité, dont l'effet grandit près des pôles.`},
+     try:`Dans l'onglet <em>Feuille</em>, réglez l'obliquité sur 23° 26′ : l'écart dans la note sous la feuille tombe à 0″. Appuyez ensuite sur ▲ à côté du curseur de latitude jusqu'à la ligne 59°–60° : l'écart y est de −7″, l'interpolation seule. Remettez l'obliquité à 23° 26′ 54″ et il passe à +2′ 34″ : l'obliquité donne +2′ 41″ et l'interpolation −7″. La part de l'obliquité grandit près des pôles.`},
     {title:"Au sud de l'équateur",
      body:`<p>La table est faite pour l'hémisphère nord. Pour une naissance australe, notez d'abord le signe du MC au TSL de la native. Ajoutez ensuite 12:00:00 au TSL ou retranchez-les, et consultez la table normalement, à la même latitude, mais nord.</p>
          <p>Le MC trouvé sera dans le signe opposé : remettez-le dans le signe d'origine. L'Ascendant trouvé est lui aussi opposé : donnez-lui le signe opposé à celui de la table.</p>
@@ -1489,7 +1517,7 @@ I18N.fr = {
      body:`<p>Les éphémérides <span class="gloss" lang="en">(ephemeris)</span> donnent les positions de chaque jour à 00:00 à Greenwich. La native est née à 15:55 TU <span class="gloss" lang="en">(Universal Time, UT)</span>, alors que 15:55 ÷ 24 = 0,6631944 de la journée s'était écoulé. C'est son <span class="term">rapport de l'heure de naissance</span> <span class="gloss" lang="en">(birth-time ratio)</span>, et il joue le rôle que jouait jusqu'ici le rapport de TS.</p>
          <p>Le Soleil était à 29° 21′ 50″ du Capricorne à minuit, et à 0° 22′ 55″ du Verseau le minuit suivant : 1° 01′ 05″ de mouvement. Sa part est de 1° 01′ 05″ × 0,6631944 = 40′ 31″. Ajoutée à la position de minuit, elle place le Soleil de naissance à 0° 02′ 21″ du Verseau.</p>
          <p>La même feuille de calcul sert pour toutes les planètes ; seules les deux positions changent.</p>`,
-     try:`Appuyez sur <em>Étape suivante</em> jusqu'au bout. Faites ensuite glisser le curseur <span class="term">Heure de naissance</span> : une naissance à midi prend exactement la moitié du mouvement du jour, une naissance à 00:00 n'en prend rien.`},
+     try:`Appuyez sur <em>Étape suivante</em> jusqu'au bout. Faites ensuite glisser le curseur <span class="term">Heure de naissance</span> : une naissance à midi prend la moitié du mouvement du jour, à la seconde près ; une naissance à 00:00 n'en prend rien.`},
     {title:'Rétrograde : on retranche',
      body:`<p>Saturne était rétrograde ce jour-là, ce que les éphémérides signalent en gris : 19° 02′ 56″ de la Vierge à minuit, 19° 00′ 40″ le minuit suivant. Comptez le mouvement du jour comme toujours, longitude du lendemain moins celle du jour de naissance : 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. Il est négatif parce qu'il reculait : c'est ce que veut dire rétrograde.</p>
          <p>La différence est de 2′ 16″, l'accroissement de 2′ 16″ × 0,6631944 = 1′ 30″. Seul changement, on le retranche de la position du début de journée : 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ de la Vierge.</p>
@@ -1533,6 +1561,7 @@ I18N.de = {
     noteLat: 'Die Tabelle endet bei 60°. Die Breite ist auf 60° gesetzt.',
     noteUt: 'UT reicht von 00:00 bis 23:59, daher ist sie auf 23:59 gesetzt. Eine Geburt nach Mitternacht in Greenwich gehört zur Ephemeride des Folgetags.',
     noteObl: 'Die Schiefe muss zwischen 22° und 25° liegen, daher gilt wieder der vorige Wert.',
+    noteFast: 'Ein Planet bewegt sich höchstens etwa 15° am Tag; bitte die beiden Positionen prüfen.',
     wsFoot: `Die Zeilennummern folgen den Arbeitsblättern der Lektion (S. 41–44). Die Sternzeit wird direkt eingegeben, daher fehlen die Zeilen 1–12; die Zeilen 13, 25, 30 und 36, die die Arbeitsblätter wiederholen, stehen nur einmal da, und spätere Zeilen verweisen mit ihrer Nummer darauf. S1–S5 sind die Schritte des Verfahrens für die Südhalbkugel (§6.2.3), keine Zeilen des Arbeitsblatts. Zeilen ohne Nummer sind die Fortsetzung von Zeile 16 und die direkten Werte, die die Seite ergänzt. Jeder Anteil wird mit dem Faktor genau so gerechnet, wie er dasteht, auf sieben Stellen, und vor dem Addieren auf die volle Sekunde gerundet, Hälften aufwärts. Die Schaltfläche <em>Nächster Schritt</em> unter dem Diagramm füllt diese Tabelle Zeile für Zeile; <em>Alle</em> füllt sie auf einmal.`,
     method: 'Die Methode',
     rule1t: 'Ein Wert bestimmt die Tabelle',
@@ -1567,7 +1596,7 @@ I18N.de = {
     south2: 'Zeichen in den letzten Zeilen korrigiert',
     retro: '◀ rückläufig: die Tagesbewegung ist negativ',
     direct: 'direktläufig ▶',
-    stationary: 'stationär: an diesem Tag keine Bewegung',
+    stationary: 'keine Nettobewegung zwischen den beiden Mitternächten',
     titleAsc: 'Der Aszendent zwischen vier Tabellenzellen',
     titleMc: 'Das MC zwischen zwei Tabellenspalten',
     titlePlanet: 'Der Planet zwischen zwei Mitternachtspositionen',
@@ -1579,17 +1608,18 @@ I18N.de = {
 
   working: 'Rechenweg',
   what: { mc:'das MC', asc:'den Aszendenten', planet:'die Position des Planeten' },
-  idle: what => `Drücken Sie <em>Nächster Schritt</em>, um ${what} Zeile für Zeile des Arbeitsblatts zu ermitteln, oder <em>Alle</em>, um den ganzen Rechenweg zu sehen. Die Regler bewegen die Geborene innerhalb des Kastens.`,
+  idle: what => `Drücken Sie <em>Nächster Schritt</em>, um ${what} Zeile für Zeile des Arbeitsblatts zu ermitteln, oder <em>Alle</em>, um den ganzen Rechenweg zu sehen.`,
+  idleHint: { asc:'Die Regler bewegen die Geborene innerhalb des Kastens.', mc:'Der Regler bewegt ihre Sternzeit auf dem Lineal zwischen zwei Tabellenspalten.', planet:'Der Regler bewegt die Geburtszeit durch den Tag.' },
   stepRow: (k, n, row) => `<b>Schritt ${k} von ${n}</b> · Zeile ${row}`,
   stepOnly: (k, n) => `<b>Schritt ${k} von ${n}</b>`,
   fieldName: (f, u) => `${f}, ${u}`,
-  motionWord: { direct:'direktläufig', retro:'rückläufig ℞', stat:'stationär' },
+  motionWord: { direct:'direktläufig', retro:'rückläufig ℞', stat:'keine Nettobewegung' },
 
-  wsRetro: 'Rückläufig: Die Tagesbewegung, Zeile 43 minus Zeile 44, ist negativ, also wird der Anteil von der Position um 00:00 abgezogen.',
-  wsDirect: 'Direktläufig: Die Tagesbewegung, Zeile 43 minus Zeile 44, ist positiv, also wird der Anteil zur Position um 00:00 addiert.',
-  wsStat: 'Stationär: Zeile 43 und Zeile 44 sind gleich, also bleibt die Position den ganzen Tag dieselbe.',
-  wsCross: both => `Der Planet hat 0° Widder überschritten, daher steht der Schritt von 360° in Zeile 45${both ? ' und in Zeile 47' : ''}.`,
-  gap: o => (o.same ? `Interpoliert minus direkt: ${o.tot}. Der direkte Wert rechnet hier mit der Schiefe der Tabelle, also stammt alles aus der Interpolation.` : `Interpoliert minus direkt: ${o.tot}. Davon gehen ${o.obl} auf die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}), ${o.int} auf die Interpolation.`) + (o.within ? ' Unter 1′ ist das in Ordnung.' : ` Das ist mehr als 1′, ${o.dom==='obl' ? 'vor allem wegen der Schiefe' : o.dom==='int' ? 'vor allem wegen der Interpolation' : 'zu gleichen Teilen aus beiden'}.`),
+  wsRetro: d => `Rückläufig: Zeile 43 minus Zeile 44 ergibt ${d}, also negativ; der Anteil wird von der Position um 00:00 abgezogen.`,
+  wsDirect: d => `Direktläufig: Zeile 43 minus Zeile 44 ergibt ${d}, also positiv; der Anteil wird zur Position um 00:00 addiert.`,
+  wsStat: 'Keine Nettobewegung: Zeile 43 und Zeile 44 sind gleich, also ist der Anteil 0 und Zeile 47 die Position um 00:00.',
+  wsCross: (raw, add, d, retro, both) => `Zeile 43 minus Zeile 44 ergibt ${raw}, aber der Planet hat 0° Widder überschritten: ${add ? 'Mit 360° mehr' : 'Mit 360° weniger'} ergibt sich ${d}, ${retro ? 'also negativ: Der Planet ist rückläufig, und der Anteil wird von der Position um 00:00 abgezogen' : 'also positiv: Die Bewegung ist direkt, und der Anteil wird zur Position um 00:00 addiert'}. Der Schritt von 360° steht in Zeile 45${both ? ' und in Zeile 47' : ''}.`,
+  gap: o => `Interpoliert minus direkt: ${o.tot}.` + ({agree: ' Beide stimmen auf die Sekunde überein.', same: ' Der direkte Wert rechnet hier mit der Schiefe der Tabelle, also stammt alles aus der Interpolation.', allObl: ` Alles stammt von der Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}); die Interpolation fügt nichts Sichtbares hinzu.`, allInt: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) macht keinen sichtbaren Unterschied, also stammt alles aus der Interpolation.`, opposite: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) bringt ${o.obl} und die Interpolation ${o.int}, in entgegengesetzter Richtung.`, both: ` Davon bringt die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) ${o.obl} und die Interpolation ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Unter 1′ ist das in Ordnung.' : (o.kind === 'opposite' || o.kind === 'both') ? ` Das ist mehr als 1′, ${o.dom === 'obl' ? 'vor allem wegen der Schiefe' : o.dom === 'int' ? 'vor allem wegen der Interpolation' : 'zu gleichen Teilen'}.` : ' Das ist mehr als 1′.'),
 
   hd: {
     birthRatio: 'Geburtszeitfaktor', motion: 'Planetenbewegung',
@@ -1641,7 +1671,7 @@ I18N.de = {
     p0: (sign, abs) => `Und um 00:00 am Geburtstag: ${sign}, also ${abs}.`,
     diffRetro: (expr, d) => `Die Tagesbewegung ist die Länge des Folgetags minus die des Geburtstags: ${expr}. Sie ist negativ: Der Planet ist rückläufig, er bewegt sich rückwärts. Zeile 45 nimmt ihren Betrag, ${d}.`,
     diffDirect: (expr, d) => `Die Tagesbewegung ist die Länge des Folgetags minus die des Geburtstags: ${expr}. Sie ist positiv: Der Planet ist an diesem Tag ${d} vorangekommen, direktläufig.`,
-    diffStat: expr => `Die Tagesbewegung ist die Länge des Folgetags minus die des Geburtstags: ${expr}. Der Planet ist stationär: Er hat sich an diesem Tag nicht bewegt.`,
+    diffStat: expr => `Die Tagesbewegung ist die Länge des Folgetags minus die des Geburtstags: ${expr}. Zwischen den beiden Mitternächten gibt es keine Nettobewegung, also ist der Anteil 0.`,
     crossFwd: 'Er hat 0° Widder vorwärts überschritten, daher werden zur Länge des Folgetags 360° addiert.',
     crossBack: 'Er hat 0° Widder rückwärts überschritten, daher werden von der Länge des Folgetags 360° abgezogen.',
     planetShare: sum => `Der Anteil der Geborenen an dieser Bewegung: ${sum}.`,
@@ -1689,7 +1719,7 @@ I18N.de = {
      body:`<p>Eine Häusertabelle <span class="gloss" lang="en">(table of houses)</span> führt Aszendenten <span class="gloss" lang="en">(Ascendant, ASC)</span> und MC in regelmäßigen Abständen der Sternzeit <span class="gloss" lang="en">(sidereal time, ST)</span> auf — hier alle 4′ Sternzeit, also alle 1° RAMC. Alles darin hängt von diesem einen Wert ab. Zur selben Sternzeit gibt es nur ein mögliches MC, aber viele Aszendenten, einen für jede Geburtsbreite.</p>
          <p>Unsere Geborene <span class="gloss" lang="en">(the native)</span> kam auf 44° 58′ 48″ N zur Welt, bei einer Ortssternzeit, kurz OSZ <span class="gloss" lang="en">(local sidereal time, LST)</span>, von 17:39:47. Keine der beiden Zahlen steht in der Tabelle. Sie liegt <em>zwischen den Zeilen</em>: zwischen zwei Sternzeitspalten und zwei Breitenzeilen. Der Kasten im Diagramm steht für diese vier Tabellenzellen, die beiden Linien stehen für sie.</p>
          <p>Interpolation heißt nichts anderes, als den Punkt zu finden, an dem sich die Linien kreuzen.</p>`,
-     try:`Ziehen Sie den Regler <span class="term">Sternzeitspalte</span> unter dem Diagramm: Die goldene Linie wandert durch den Kasten. Ziehen Sie den Regler <span class="term lat">Breitenzeile</span>: Die blaue Linie bewegt sich auf und ab. Der Kasten selbst bleibt stehen; die Schaltflächen ◀ ▶ wechseln die Spalte, und der Kasten blinkt auf, wenn er zu neuen Tabellenzellen springt. <em>Von vorn</em> setzt die Geborene dorthin zurück, wo die Lektion sie hat.`},
+     try:`Ziehen Sie den Regler <span class="term">Sternzeitspalte</span> unter dem Diagramm: Die goldene Linie wandert durch den Kasten. Ziehen Sie den Regler <span class="term lat">Breitenzeile</span>: Die blaue Linie bewegt sich auf und ab. Der Kasten selbst bleibt stehen; die Schaltflächen ◀ ▶ wechseln die Spalte und rücken den Kasten auf neue Tabellenzellen (er blinkt dabei kurz auf, außer wenn Ihr System reduzierte Bewegung verlangt). <em>Von vorn</em> setzt die Geborene dorthin zurück, wo die Lektion sie hat.`},
     {title:'Der Sternzeitfaktor',
      body:`<p>Ihre Sternzeit ist 17:39:47. Die Tabelle hat 17:36:00 auf der einen Seite und 17:40:00 auf der anderen. Sie liegt 3′ 47″ nach der früheren Spalte, bei einem Intervall von 4′.</p>
          <p>Teilen Sie das eine durch das andere: 3′ 47″ sind 227 Sekunden, 4′ sind 240, und 227 ÷ 240 = 0,9458333. Das ist ihr <span class="term">Sternzeitfaktor</span> <span class="gloss" lang="en">(ST ratio)</span>: wie weit sie den Kasten durchquert hat, als Bruchteil. Ohne Rechnen sieht man, dass sie fast am anderen Rand liegt.</p>
@@ -1719,12 +1749,12 @@ I18N.de = {
      body:`<p>Ihre Breite liegt 58′ 48″ über 44°, bei einem Intervall von 60′: ein <span class="term lat">Breitenfaktor</span> <span class="gloss" lang="en">(latitude ratio)</span> von 0,98. Die beiden Kantenwerte unterscheiden sich um 14′ 41″; ihr Anteil ist 14′ 41″ × 0,98 = 14′ 23″.</p>
          <p>Gehen Sie nun vom Wert der niedrigeren Breite zu dem der höheren hin. Hier ist der Wert bei 45° kleiner, also subtrahieren: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, das ist 20° 19′ 17″ Fische.</p>
          <p>Das Arbeitsblatt fasst es als Regel: Ist Zeile 30 kleiner, addieren; ist Zeile 36 kleiner, subtrahieren. Das Diagramm sagt es einfacher — das Ergebnis liegt dort, wo sich die Linien kreuzen.</p>`,
-     try:`Drücken Sie sechsmal <em>Nächster Schritt</em>, bis Zeile 41: Der grüne Punkt landet auf dem Schnittpunkt. Probieren Sie dann ▼ neben dem Regler Breitenzeile: Jeder Klick verschiebt den Kasten um eine Tabellenzeile nach unten und behält ihren Platz darin bei. Hier liegen die Zeilen 1° auseinander; unter 20° geht die Tabelle in Schritten von 5°, und die Zeilen 37 und 38 rechnen dann mit 5° statt mit 60′.`},
+     try:`Drücken Sie sechsmal <em>Nächster Schritt</em>, bis Zeile 41: Der grüne Punkt landet auf dem Schnittpunkt. Probieren Sie dann ▼ neben dem Regler Breitenzeile: Jeder Klick verschiebt den Kasten um eine Tabellenzeile nach unten und behält ihren Platz darin bei. Hier liegen die Zeilen 1° auseinander; unter 20° geht die Tabelle in Schritten von 5°, und Zeile 38 teilt dann durch 5° statt durch 60′.`},
     {title:'Warum es von Ihrem Programm abweicht',
      body:`<p>Janus gibt dieser Geborenen einen Aszendenten von 20° 18′ 32″; die direkte Berechnung aus unserer gerundeten OSZ ergibt 20° 18′ 54″; die Interpolation 20° 19′ 17″. Keine zwei Werte stimmen überein, und das ist normal.</p>
          <p>Die Seite kann zeigen, woher ihre eigenen 23″ kommen. Beide Rechnungen gehen von derselben OSZ aus, 17:39:47, aber nicht von derselben Schiefe: Die direkte verwendet 23° 26′ 54″, die Tabelle 23° 26′. Direkt mit 23° 26′ berechnet, ist der Aszendent 20° 19′ 17″ — genau der interpolierte Wert. Die ganze Abweichung stammt hier also von der Schiefe; die Gerade der Interpolation liegt bei dieser Breite etwa 0,1″ daneben.</p>
          <p>Die Interpolation hat einen eigenen Fehler dort, wo sich der Aszendent schnell bewegt, etwa nahe den Polen, und einen größeren bei weiteren Schritten; deshalb sind Tabellen in Schritten von 4′ angelegt. Janus kann auch aus einem anderen Grund abweichen, den die Lektion nennt: Ein Programm führt in der Sternzeit Sekundenbruchteile mit. Diese Seite gibt beiden Rechnungen dieselbe OSZ und kann das daher nicht zeigen. Machen Sie sich also keine Sorgen, wenn Ihre interpolierten Werte leicht von Ihrem Programm abweichen: Die Faustregel der Lektion lautet, dass bis zu 1′ in Ordnung ist.</p>`,
-     try:`Stellen Sie im Reiter <em>Arbeitsblatt</em> die Schiefe auf 23° 26′: Die Abweichung in der Notiz unter dem Arbeitsblatt fällt auf 0″. Drücken Sie dann ▲ neben dem Regler Breitenzeile, bis die Zeile 59°–60° erreicht ist: Die Abweichung dort, −7″, ist reine Interpolation. Stellen Sie die Schiefe wieder auf 23° 26′ 54″, dann wird sie +2′ 34″, fast ganz von der Schiefe, deren Wirkung nahe den Polen wächst.`},
+     try:`Stellen Sie im Reiter <em>Arbeitsblatt</em> die Schiefe auf 23° 26′: Die Abweichung in der Notiz unter dem Arbeitsblatt fällt auf 0″. Drücken Sie dann ▲ neben dem Regler Breitenzeile, bis die Zeile 59°–60° erreicht ist: Die Abweichung dort, −7″, ist reine Interpolation. Stellen Sie die Schiefe wieder auf 23° 26′ 54″, dann wird sie +2′ 34″: Die Schiefe bringt +2′ 41″, die Interpolation −7″. Der Anteil der Schiefe wächst nahe den Polen.`},
     {title:'Südlich des Äquators',
      body:`<p>Die Tabelle ist für die Nordhalbkugel berechnet. Bei einer Südgeburt notieren Sie zuerst, in welchem Zeichen das MC bei der OSZ der Geborenen steht. Dann addieren Sie 12:00:00 zur OSZ oder ziehen sie ab und schlagen die Tabelle wie gewohnt auf, bei derselben Breite, aber nördlich.</p>
          <p>Das gefundene MC steht im Gegenzeichen: Geben Sie ihm das ursprüngliche Zeichen. Auch der gefundene Aszendent steht im Gegenzeichen: Geben Sie ihm das Gegenzeichen des Tabellenwerts.</p>
@@ -1734,7 +1764,7 @@ I18N.de = {
      body:`<p>Eine Ephemeride <span class="gloss" lang="en">(ephemeris)</span> führt für jeden Tag die Positionen um 00:00 in Greenwich auf. Die Geborene kam um 15:55 UT zur Welt, als 15:55 ÷ 24 = 0,6631944 des Tages vergangen waren. Das ist ihr <span class="term">Geburtszeitfaktor</span> <span class="gloss" lang="en">(birth-time ratio)</span>, und er spielt die Rolle, die zuvor der Sternzeitfaktor spielte.</p>
          <p>Die Sonne stand um Mitternacht auf 29° 21′ 50″ Steinbock und um die folgende Mitternacht auf 0° 22′ 55″ Wassermann: 1° 01′ 05″ Bewegung. Ihr Anteil ist 1° 01′ 05″ × 0,6631944 = 40′ 31″. Zur Mitternachtsposition addiert, steht die Sonne bei der Geburt auf 0° 02′ 21″ Wassermann.</p>
          <p>Dasselbe Arbeitsblatt dient für jeden Planeten; nur die beiden Positionen ändern sich.</p>`,
-     try:`Drücken Sie <em>Nächster Schritt</em> bis zum Ende. Ziehen Sie dann den Regler <span class="term">Geburtszeit</span>: Eine Geburt um 12 Uhr mittags erhält genau die halbe Tagesbewegung, eine Geburt um 00:00 gar nichts.`},
+     try:`Drücken Sie <em>Nächster Schritt</em> bis zum Ende. Ziehen Sie dann den Regler <span class="term">Geburtszeit</span>: Eine Geburt um 12 Uhr mittags erhält die halbe Tagesbewegung, auf die Sekunde gerundet, eine Geburt um 00:00 gar nichts.`},
     {title:'Rückläufig: abziehen',
      body:`<p>Saturn war an diesem Tag rückläufig <span class="gloss" lang="en">(retrograde)</span>, in der Ephemeride grau gedruckt: 19° 02′ 56″ Jungfrau um Mitternacht, 19° 00′ 40″ um die folgende. Rechnen Sie die Tagesbewegung wie immer, Länge des Folgetags minus Länge des Geburtstags: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. Sie ist negativ, weil er sich rückwärts bewegte: Das bedeutet rückläufig.</p>
          <p>Die Differenz ist 2′ 16″, der Anteil 2′ 16″ × 0,6631944 = 1′ 30″. Einziger Unterschied: Wir ziehen ihn vom Tagesbeginn ab: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ Jungfrau.</p>
@@ -1778,6 +1808,7 @@ I18N.zh = {
     noteLat: '宫位表只到 60°，纬度已设为 60°。',
     noteUt: 'UT 的范围是 00:00 到 23:59，已设为 23:59。格林尼治午夜之后出生的，要用次日的星历。',
     noteObl: '黄赤交角必须在 22° 到 25° 之间，已恢复原来的值。',
+    noteFast: '行星一天最多运行约 15°；请核对这两个位置。',
     wsFoot: `行号沿用课程计算表的编号（第 41–44 页）。恒星时直接输入，所以不再重复第 1–12 行；计算表中重复出现的第 13、25、30、36 行这里只列一次，后面的行按行号引用它们。S1–S5 是南半球出生的步骤（§6.2.3），不是计算表的行。没有行号的，是第 16 行的续行和本页补充的直接计算值。每个增量都按显示出来的比例（七位小数）计算，先取整到最近的秒（逢半进一），再相加。示意图下方的<em>下一步</em>按钮每次填入本表的一行；<em>全部</em>一次填满。`,
     method: '方法',
     rule1t: '一个值统领全表',
@@ -1812,7 +1843,7 @@ I18N.zh = {
     south2: '星座在最后几行更正',
     retro: '◀ 逆行：当日运行量为负',
     direct: '顺行 ▶',
-    stationary: '停滞：当日没有运行',
+    stationary: '两个午夜之间没有净运行',
     titleAsc: '四个表格之间的上升点',
     titleMc: '宫位表两列之间的中天',
     titlePlanet: '两个午夜位置之间的行星',
@@ -1824,17 +1855,18 @@ I18N.zh = {
 
   working: '演算',
   what: { mc:'中天', asc:'上升点', planet:'行星的位置' },
-  idle: what => `按<em>下一步</em>，一次一行地求出${what}；或按<em>全部</em>，查看完整演算。滑块可在方框内移动命主。`,
+  idle: what => `按<em>下一步</em>，一次一行地求出${what}；或按<em>全部</em>，查看完整演算。`,
+  idleHint: { asc:'滑块可在方框内移动命主。', mc:'滑块沿标尺移动她的恒星时，在表的两列之间。', planet:'滑块在一天之中移动出生时刻。' },
   stepRow: (k, n, row) => `<b>第 ${k} 步，共 ${n} 步</b> · 第 ${row} 行`,
   stepOnly: (k, n) => `<b>第 ${k} 步，共 ${n} 步</b>`,
   fieldName: (f, u) => `${f}（${u}）`,
-  motionWord: { direct:'顺行', retro:'逆行 ℞', stat:'停滞' },
+  motionWord: { direct:'顺行', retro:'逆行 ℞', stat:'无净运行' },
 
-  wsRetro: '逆行：当日运行量（第 43 行减第 44 行）为负，所以要从 00:00 的位置中减去增量。',
-  wsDirect: '顺行：当日运行量（第 43 行减第 44 行）为正，所以把增量加到 00:00 的位置上。',
-  wsStat: '停滞：第 43 行与第 44 行相等，所以全天位置不变。',
-  wsCross: both => `行星越过了白羊座 0°，所以第 45 行${both ? '和第 47 行' : ''}写出了 360° 这一步。`,
-  gap: o => (o.same ? `插值减直接计算：${o.tot}。这里直接计算用的就是表本身的黄赤交角，所以差距全部来自插值。` : `插值减直接计算：${o.tot}。其中黄赤交角造成 ${o.obl}（此处 ${o.chosen}，表中 ${o.table}），插值造成 ${o.int}。`) + (o.within ? '误差在 1′ 以内就没问题。' : `这超过了 1′，${o.dom==='obl' ? '主要来自黄赤交角' : o.dom==='int' ? '主要来自插值' : '两者各占一半'}。`),
+  wsRetro: d => `逆行：第 43 行减第 44 行得 ${d}，为负，所以要从 00:00 的位置中减去增量。`,
+  wsDirect: d => `顺行：第 43 行减第 44 行得 ${d}，为正，所以把增量加到 00:00 的位置上。`,
+  wsStat: '没有净运行：第 43 行与第 44 行相等，所以增量为 0，第 47 行就是 00:00 的位置。',
+  wsCross: (raw, add, d, retro, both) => `第 43 行减第 44 行得 ${raw}，但行星越过了白羊座 0°：${add ? '加上' : '减去'} 360° 得 ${d}，${retro ? '为负，所以行星逆行，要从 00:00 的位置中减去增量' : '为正，所以行星顺行，要把增量加到 00:00 的位置上'}。第 45 行${both ? '和第 47 行' : ''}写出了 360° 这一步。`,
+  gap: o => `插值减直接计算：${o.tot}。` + ({agree: '两者分秒不差。', same: '这里直接计算用的就是表本身的黄赤交角，所以差距全部来自插值。', allObl: `差距全部来自黄赤交角（此处 ${o.chosen}，表中 ${o.table}）；插值没有带来可见的差别。`, allInt: `黄赤交角（此处 ${o.chosen}，表中 ${o.table}）没有带来可见的差别，所以差距全部来自插值。`, opposite: `黄赤交角（此处 ${o.chosen}，表中 ${o.table}）造成 ${o.obl}，插值造成 ${o.int}，方向相反。`, both: `其中黄赤交角（此处 ${o.chosen}，表中 ${o.table}）造成 ${o.obl}，插值造成 ${o.int}。`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? '误差在 1′ 以内就没问题。' : (o.kind === 'opposite' || o.kind === 'both') ? `这超过了 1′，${o.dom === 'obl' ? '主要来自黄赤交角' : o.dom === 'int' ? '主要来自插值' : '两者各占一半'}。` : '这超过了 1′。'),
 
   hd: {
     birthRatio: '出生时间比例', motion: '行星运行量',
@@ -1886,7 +1918,7 @@ I18N.zh = {
     p0: (sign, abs) => `出生当日 00:00 的位置：${sign}，即 ${abs}。`,
     diffRetro: (expr, d) => `当日运行量等于次日黄经减去出生当日黄经：${expr}。它是负的：行星在逆行，向后退。第 45 行取它的大小，${d}。`,
     diffDirect: (expr, d) => `当日运行量等于次日黄经减去出生当日黄经：${expr}。它是正的：行星当天顺行，前进了 ${d}。`,
-    diffStat: expr => `当日运行量等于次日黄经减去出生当日黄经：${expr}。行星停滞：当天没有移动。`,
+    diffStat: expr => `当日运行量等于次日黄经减去出生当日黄经：${expr}。两个午夜之间没有净运行，所以增量为 0。`,
     crossFwd: '它向前越过了白羊座 0°，所以次日黄经要加上 360°。',
     crossBack: '它向后越过了白羊座 0°，所以次日黄经要减去 360°。',
     planetShare: sum => `命主分得的运行量：${sum}。`,
@@ -1934,7 +1966,7 @@ I18N.zh = {
      body:`<p>宫位表<span class="gloss" lang="en">（table of houses）</span>按固定的恒星时<span class="gloss" lang="en">（sidereal time, ST）</span>间隔列出上升点<span class="gloss" lang="en">（Ascendant）</span>与中天<span class="gloss" lang="en">（Midheaven）</span>——这里是每 4′ 恒星时一列，也就是 RAMC 的 1°。表中一切都由这一个值决定。同一个恒星时只可能有一个 MC，却有许多个上升点，出生地的每个纬度各一个。</p>
          <p>我们的命主<span class="gloss" lang="en">（the native）</span>出生时的地方恒星时<span class="gloss" lang="en">（local sidereal time, LST）</span>是 17:39:47，地点在北纬 44° 58′ 48″。这两个数都不在表里。她落在<em>字里行间</em>：两列恒星时与两行纬度之间。示意图上的方框就是那四个表格单元，两条线就是她。</p>
          <p>插值<span class="gloss" lang="en">（interpolation）</span>无非就是找出两条线的交点。</p>`,
-     try:`拖动示意图下方的<span class="term">恒星时列</span>滑块：金线横向移动。拖动<span class="term lat">纬度行</span>滑块：蓝线上下移动。方框本身不动；◀ ▶ 按钮切换列，方框移到新的表格单元时会闪一下。<em>从头开始</em>会把命主放回课中的位置。`},
+     try:`拖动示意图下方的<span class="term">恒星时列</span>滑块：金线横向移动。拖动<span class="term lat">纬度行</span>滑块：蓝线上下移动。方框本身不动；◀ ▶ 按钮切换列，把方框移到新的表格单元（移动时会短暂闪一下，除非你的系统要求减少动态效果）。<em>从头开始</em>会把命主放回课中的位置。`},
     {title:'恒星时比例',
      body:`<p>她的恒星时是 17:39:47。表中一边是 17:36:00，另一边是 17:40:00。她比前一列晚 3′ 47″，而整个间隔是 4′。</p>
          <p>两者相除：3′ 47″ 是 227 秒，4′ 是 240 秒，227 ÷ 240 = 0.9458333。这就是她的<span class="term">恒星时比例</span><span class="gloss" lang="en">（ST ratio）</span>：她在方框里横向走了多远，用分数表示。不用计算也看得出，她几乎走到了头。</p>
@@ -1964,12 +1996,12 @@ I18N.zh = {
      body:`<p>她的纬度比 44° 多 58′ 48″，间隔为 60′：<span class="term lat">纬度比例</span><span class="gloss" lang="en">（latitude ratio）</span>是 0.98。上下两边的值相差 14′ 41″；她分得 14′ 41″ × 0.98 = 14′ 23″。</p>
          <p>现在从低纬度的值走向高纬度的值。这里 45° 的值较小，所以减：350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″，即双鱼座 20° 19′ 17″。</p>
          <p>计算表把它写成一条规则：若第 30 行较小，就加；若第 36 行较小，就减。示意图说得更简单——答案就在两线交点。</p>`,
-     try:`按六次<em>下一步</em>，到第 41 行：绿点落在交点上。然后试试纬度滑块旁的 ▼：每按一次，方框下移表中一行，她在方框里的位置不变。这里各行相隔 1°；20° 以下，宫位表每 5° 一行，第 37、38 行就改以 5° 而不是 60′ 计算。`},
+     try:`按六次<em>下一步</em>，到第 41 行：绿点落在交点上。然后试试纬度滑块旁的 ▼：每按一次，方框下移表中一行，她在方框里的位置不变。这里各行相隔 1°；20° 以下，宫位表每 5° 一行，第 38 行就改为除以 5° 而不是 60′。`},
     {title:'为什么和你的软件不一样',
      body:`<p>Janus 给这位命主算出的上升点是 20° 18′ 32″；用我们取整后的地方恒星时直接计算，得 20° 18′ 54″；插值得 20° 19′ 17″。三者各不相同，这很正常。</p>
          <p>本页可以说明它自己的 23″ 从何而来。两种算法都从同一个地方恒星时 17:39:47 出发，但黄赤交角不同：直接计算用 23° 26′ 54″，宫位表用 23° 26′。用 23° 26′ 直接计算，上升点为 20° 19′ 17″——正好等于插值结果。所以这里的差距全部来自黄赤交角；在这个纬度，插值的直线只偏约 0.1″。</p>
          <p>插值自有其误差：在上升点变化快的地方，例如靠近两极处，误差较大，间隔越宽也越大；所以宫位表以 4′ 为一格。Janus 的不同还可能有课中提到的另一个原因：软件在恒星时里保留秒的小数。本页给两种算法的是同一个地方恒星时，所以无法演示这一点。所以，插值结果与软件略有出入，不必担心：课中的经验法则是，误差在 1′ 以内就没问题。</p>`,
-     try:`在<em>计算表</em>页把黄赤交角设为 23° 26′：计算表下方说明里的差距降为 0″。然后按纬度滑块旁的 ▲，直到那一行变成 59°–60°：那里的差距 −7″ 纯属插值。再把黄赤交角改回 23° 26′ 54″，差距就变成 +2′ 34″，几乎全部来自黄赤交角，而它的影响越靠近两极越大。`},
+     try:`在<em>计算表</em>页把黄赤交角设为 23° 26′：计算表下方说明里的差距降为 0″。然后按纬度滑块旁的 ▲，直到那一行变成 59°–60°：那里的差距 −7″ 纯属插值。再把黄赤交角改回 23° 26′ 54″，差距就变成 +2′ 34″：黄赤交角造成 +2′ 41″，插值造成 −7″。越靠近两极，黄赤交角那一份越大。`},
     {title:'赤道以南',
      body:`<p>宫位表是为北半球编制的。南半球出生，先记下命主的地方恒星时下 MC 所在的星座。然后给地方恒星时加上或减去 12:00:00，照常查表，纬度照旧，但按北纬查。</p>
          <p>查到的 MC 会落在相反的星座：把它改回原来的星座。查到的上升点也是相反的：取表列星座的对宫。</p>
@@ -1979,7 +2011,7 @@ I18N.zh = {
      body:`<p>星历表<span class="gloss" lang="en">（ephemeris）</span>列出每天格林尼治 00:00 的位置。命主出生于世界时<span class="gloss" lang="en">（Universal Time, UT）</span>15:55，此时这一天已过去 15:55 ÷ 24 = 0.6631944。这就是她的<span class="term">出生时间比例</span><span class="gloss" lang="en">（birth-time ratio）</span>，它扮演的角色就是前面的恒星时比例。</p>
          <p>午夜时太阳在摩羯座 29° 21′ 50″，次日午夜在水瓶座 0° 22′ 55″：运行了 1° 01′ 05″。她分得 1° 01′ 05″ × 0.6631944 = 40′ 31″。加到午夜的位置上，出生时的太阳在水瓶座 0° 02′ 21″。</p>
          <p>每颗行星都用同一张计算表；变的只是那两个位置。</p>`,
-     try:`一直按<em>下一步</em>到底。然后拖动<span class="term">出生时间</span>滑块：正午出生恰好分得当天运行量的一半，00:00 出生则一点也分不到。`},
+     try:`一直按<em>下一步</em>到底。然后拖动<span class="term">出生时间</span>滑块：正午出生分得当天运行量的一半（取整到秒），00:00 出生则一点也分不到。`},
     {title:'逆行：减',
      body:`<p>土星那天在逆行<span class="gloss" lang="en">（retrograde）</span>，星历表中以灰色标出：午夜在处女座 19° 02′ 56″，次日午夜在 19° 00′ 40″。当日运行量照常计算，次日黄经减去生日当天的黄经：19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″。它是负的，因为土星在倒退：这就是逆行的意思。</p>
          <p>差值为 2′ 16″，增量为 2′ 16″ × 0.6631944 = 1′ 30″。唯一的变化是要从当天起点的位置中减去它：19° 02′ 56″ − 1′ 30″ = 处女座 19° 01′ 26″。</p>
@@ -2023,6 +2055,7 @@ I18N.ja = {
     noteLat: '表は 60° までです。緯度を 60° にしました。',
     noteUt: 'UT の範囲は 00:00〜23:59 なので、23:59 にしました。グリニッジで午前 0 時を過ぎた出生には、翌日の天文暦を使います。',
     noteObl: '黄道傾斜角は 22°〜25° の範囲でなければならないので、前の値に戻しました。',
+    noteFast: '惑星が一日に動くのはせいぜい 15° ほどです。二つの位置を確かめてください。',
     wsFoot: `行番号は教本のワークシート（41–44 ページ）に従っています。恒星時は直接入力するので 1–12 行目は繰り返さず、ワークシートで繰り返し出てくる 13・25・30・36 行目は一度だけ示し、後の行は番号でそれを参照します。S1–S5 は南半球の手順（§6.2.3）の段階で、ワークシートの行ではありません。番号のない行は、16 行目の続きと、このページが加えた直接計算の値です。増分はどれも、表示されたとおりの比（小数第 7 位まで）で計算し、秒単位に丸めて（0.5 は切り上げ）から加えます。図の下の「<em>次のステップ</em>」ボタンはこの表を一行ずつ埋め、「<em>すべて</em>」は一度に埋めます。`,
     method: '手順',
     rule1t: 'ひとつの値が表を決める',
@@ -2057,7 +2090,7 @@ I18N.ja = {
     south2: '最後の行でサインを補正',
     retro: '◀ 逆行：その日の運行量が負',
     direct: '順行 ▶',
-    stationary: '留：その日は動いていない',
+    stationary: '二つの 0 時の間で正味の動きなし',
     titleAsc: '表の四つのセルの間のアセンダント',
     titleMc: '表の二つの列の間の MC',
     titlePlanet: '二つの 0 時の位置の間の惑星',
@@ -2069,17 +2102,18 @@ I18N.ja = {
 
   working: '計算過程',
   what: { mc:'MC の度数', asc:'アセンダントの度数', planet:'惑星の位置' },
-  idle: what => `「<em>次のステップ</em>」を押すと、${what}をワークシートに沿って一行ずつ求めます。「<em>すべて</em>」なら計算の全体が見えます。スライダーで出生者を枠の中で動かせます。`,
+  idle: what => `「<em>次のステップ</em>」を押すと、${what}をワークシートに沿って一行ずつ求めます。「<em>すべて</em>」なら計算の全体が見えます。`,
+  idleHint: { asc:'スライダーで出生者を枠の中で動かせます。', mc:'スライダーで彼女の恒星時を目盛りに沿って、表の二つの列の間で動かせます。', planet:'スライダーで出生時刻を一日の中で動かせます。' },
   stepRow: (k, n, row) => `<b>ステップ ${k} / ${n}</b> · 行番号 ${row}`,
   stepOnly: (k, n) => `<b>ステップ ${k} / ${n}</b>`,
   fieldName: (f, u) => `${f}（${u}）`,
-  motionWord: { direct:'順行', retro:'逆行 ℞', stat:'留' },
+  motionWord: { direct:'順行', retro:'逆行 ℞', stat:'正味の動きなし' },
 
-  wsRetro: '逆行：その日の運行量（43 行目 − 44 行目）が負なので、増分を 00:00 の位置から引きます。',
-  wsDirect: '順行：その日の運行量（43 行目 − 44 行目）が正なので、増分を 00:00 の位置に加えます。',
-  wsStat: '留：43 行目と 44 行目が等しいので、一日じゅう位置は変わりません。',
-  wsCross: both => `惑星が牡羊座 0° を越えたので、45 行目${both ? 'と 47 行目' : ''}に 360° の段階を書き込んでいます。`,
-  gap: o => (o.same ? `補間値 − 直接計算：${o.tot}。ここでの直接計算は表と同じ黄道傾斜角を使っているので、差はすべて補間によるものです。` : `補間値 − 直接計算：${o.tot}。そのうち黄道傾斜角の違い（ここでは ${o.chosen}、表では ${o.table}）によるものが ${o.obl}、補間によるものが ${o.int} です。`) + (o.within ? '1′ 以内なら問題ありません。' : `1′ を超えています。${o.dom==='obl' ? '主に黄道傾斜角の違いによるものです' : o.dom==='int' ? '主に補間によるものです' : '両方が同じくらい効いています'}。`),
+  wsRetro: d => `逆行：43 行目 − 44 行目は ${d} で負なので、増分を 00:00 の位置から引きます。`,
+  wsDirect: d => `順行：43 行目 − 44 行目は ${d} で正なので、増分を 00:00 の位置に加えます。`,
+  wsStat: '正味の動きなし：43 行目と 44 行目が等しいので、増分は 0 で、47 行目は 00:00 の位置です。',
+  wsCross: (raw, add, d, retro, both) => `43 行目 − 44 行目は ${raw} ですが、惑星は牡羊座 0° を越えています。360° を${add ? '加える' : '引く'}と ${d} になり、${retro ? '負なので惑星は逆行、増分を 00:00 の位置から引きます' : '正なので順行、増分を 00:00 の位置に加えます'}。45 行目${both ? 'と 47 行目' : ''}に 360° の段階を書き込んでいます。`,
+  gap: o => `補間値 − 直接計算：${o.tot}。` + ({agree: '両者は秒まで一致します。', same: 'ここでの直接計算は表と同じ黄道傾斜角を使っているので、差はすべて補間によるものです。', allObl: `差はすべて黄道傾斜角の違い（ここでは ${o.chosen}、表では ${o.table}）によるもので、補間による目に見える差はありません。`, allInt: `黄道傾斜角の違い（ここでは ${o.chosen}、表では ${o.table}）は目に見える差を生まないので、差はすべて補間によるものです。`, opposite: `黄道傾斜角の違い（ここでは ${o.chosen}、表では ${o.table}）が ${o.obl}、補間が ${o.int} で、向きが逆です。`, both: `そのうち黄道傾斜角の違い（ここでは ${o.chosen}、表では ${o.table}）によるものが ${o.obl}、補間によるものが ${o.int} です。`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? '1′ 以内なら問題ありません。' : (o.kind === 'opposite' || o.kind === 'both') ? `1′ を超えています。${o.dom === 'obl' ? '主に黄道傾斜角の違いによるものです' : o.dom === 'int' ? '主に補間によるものです' : '両方が半分ずつです'}。` : '1′ を超えています。'),
 
   hd: {
     birthRatio: '出生時刻比', motion: '惑星の運行',
@@ -2131,7 +2165,7 @@ I18N.ja = {
     p0: (sign, abs) => `出生日の 00:00 では ${sign}、すなわち ${abs} です。`,
     diffRetro: (expr, d) => `その日の運行量は、翌日の黄経から出生日の黄経を引いたものです：${expr}。負なので、惑星は逆行、つまり後ろ向きに動いています。45 行目にはその大きさ ${d} を書きます。`,
     diffDirect: (expr, d) => `その日の運行量は、翌日の黄経から出生日の黄経を引いたものです：${expr}。正なので、惑星はその日、順行で ${d} 進みました。`,
-    diffStat: expr => `その日の運行量は、翌日の黄経から出生日の黄経を引いたものです：${expr}。惑星は留で、その日は動いていません。`,
+    diffStat: expr => `その日の運行量は、翌日の黄経から出生日の黄経を引いたものです：${expr}。二つの 0 時の間で正味の動きはないので、増分は 0 です。`,
     crossFwd: '牡羊座 0° を前向きに越えたので、翌日の黄経に 360° を加えます。',
     crossBack: '牡羊座 0° を後ろ向きに越えたので、翌日の黄経から 360° を引きます。',
     planetShare: sum => `その運行のうち出生者の取り分：${sum}。`,
@@ -2179,7 +2213,7 @@ I18N.ja = {
      body:`<p>ハウス表<span class="gloss" lang="en">（table of houses）</span>は、恒星時<span class="gloss" lang="en">（sidereal time, ST）</span>の一定間隔ごとにアセンダント<span class="gloss" lang="en">（Ascendant）</span>と MC を並べたものです。ここでは恒星時 4′ ごと、つまり RAMC 1° ごとです。表のすべてはこのひとつの値で決まります。同じ恒星時に対して MC はひとつしかありえませんが、アセンダントは出生地の緯度ごとにひとつずつ、いくつもあります。</p>
          <p>この課の出生者<span class="gloss" lang="en">（the native）</span>は、北緯 44° 58′ 48″ で地方恒星時<span class="gloss" lang="en">（local sidereal time, LST）</span>17:39:47 に生まれました。どちらの数も表にはありません。彼女は<em>行間</em>にいます。恒星時の二つの列と、緯度の二つの行のあいだに。図の枠はその四つのセルで、二本の線が彼女です。</p>
          <p>補間<span class="gloss" lang="en">（interpolation）</span>とは、線が交わる点を見つけることにすぎません。</p>`,
-     try:`図の下の「<span class="term">恒星時の列</span>」スライダーを動かすと、金色の線が枠を横切ります。「<span class="term lat">緯度の行</span>」スライダーを動かすと、青い線が上下します。枠そのものは動きません。◀ ▶ ボタンで列が変わり、枠が新しいセルへ移るときには点滅します。「<em>最初から</em>」を押すと、出生者は教本どおりの位置に戻ります。`},
+     try:`図の下の「<span class="term">恒星時の列</span>」スライダーを動かすと、金色の線が枠を横切ります。「<span class="term lat">緯度の行</span>」スライダーを動かすと、青い線が上下します。枠そのものは動きません。◀ ▶ ボタンで列が変わり、枠が新しいセルへ移ります（移るときに一瞬点滅します。ただし、システムで動きを減らす設定にしている場合は点滅しません）。「<em>最初から</em>」を押すと、出生者は教本どおりの位置に戻ります。`},
     {title:'恒星時比',
      body:`<p>彼女の恒星時は 17:39:47 です。表には一方に 17:36:00、もう一方に 17:40:00 があります。彼女は 4′ の間隔のうち、前の列から 3′ 47″ 進んだところにいます。</p>
          <p>一方を他方で割ります。3′ 47″ は 227 秒、4′ は 240 秒で、227 ÷ 240 = 0.9458333。これが彼女の<span class="term">恒星時比</span><span class="gloss" lang="en">（ST ratio）</span>、つまり枠のどこまで進んでいるかを割合で表したものです。計算しなくても、ほとんど端まで来ていることは見てわかります。</p>
@@ -2209,12 +2243,12 @@ I18N.ja = {
      body:`<p>彼女の緯度は 60′ の間隔のうち、44° から 58′ 48″ 進んだところにあります。<span class="term lat">緯度比</span><span class="gloss" lang="en">（latitude ratio）</span>は 0.98 です。二辺の値の差は 14′ 41″ で、彼女の取り分は 14′ 41″ × 0.98 = 14′ 23″ です。</p>
          <p>ここで、低緯度側の値から高緯度側の値へ向かって動かします。この例では 45° の値のほうが小さいので引きます。350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″、すなわち魚座 20° 19′ 17″ です。</p>
          <p>ワークシートはこれを規則として書いています。30 行目が小さければ足し、36 行目が小さければ引く。図はもっと簡単に言います——答えは線が交わるところにある、と。</p>`,
-     try:`「<em>次のステップ</em>」を 6 回押して 41 行目まで進めてください。緑の点が交点に乗ります。次に緯度スライダーの横の ▼ を押してみてください。押すたびに枠が表の一行ぶん下がり、枠の中での彼女の位置はそのまま保たれます。ここでは行の間隔は 1° ですが、20° より下では表が 5° 刻みになり、37・38 行目は 60′ ではなく 5° で計算します。`},
+     try:`「<em>次のステップ</em>」を 6 回押して 41 行目まで進めてください。緑の点が交点に乗ります。次に緯度スライダーの横の ▼ を押してみてください。押すたびに枠が表の一行ぶん下がり、枠の中での彼女の位置はそのまま保たれます。ここでは行の間隔は 1° ですが、20° より下では表が 5° 刻みになり、38 行目は 60′ ではなく 5° で割ります。`},
     {title:'ソフトの値と違う理由',
      body:`<p>Janus はこの出生者のアセンダントを 20° 18′ 32″ としています。丸めた LST からの直接計算では 20° 18′ 54″、補間では 20° 19′ 17″。どれも一致しませんが、それが普通です。</p>
          <p>このページでは、自分の 23″ の出どころを示せます。二つの計算は同じ LST 17:39:47 から出発しますが、黄道傾斜角が違います。直接計算は 23° 26′ 54″、表は 23° 26′ です。23° 26′ で直接計算すると、アセンダントは 20° 19′ 17″——補間値とぴったり同じです。つまりここでの差はすべて黄道傾斜角によるもので、この緯度での補間の直線のずれは約 0.1″ です。</p>
          <p>補間には、アセンダントが速く動くところ、たとえば極の近くで、そして刻みが粗いほど大きくなる、それ自身の誤差があります。表が 4′ 刻みなのはそのためです。Janus は、教本が挙げるもうひとつの理由でもずれます。ソフトは恒星時の秒以下の端数を保持しているのです。このページは二つの計算に同じ LST を使うので、それは示せません。ですから、補間した値がソフトとわずかに違っても気にすることはありません。教本の目安では、1′ 以内なら問題ありません。</p>`,
-     try:`「<em>ワークシート</em>」タブで黄道傾斜角を 23° 26′ にしてください。ワークシートの下の注にある差が 0″ に下がります。次に緯度スライダーの横の ▲ を、行が 59°–60° になるまで押してください。そこでの差 −7″ は補間だけによるものです。黄道傾斜角を 23° 26′ 54″ に戻すと差は +2′ 34″ になり、そのほとんどが黄道傾斜角によるものです。その効きは極に近いほど大きくなります。`},
+     try:`「<em>ワークシート</em>」タブで黄道傾斜角を 23° 26′ にしてください。ワークシートの下の注にある差が 0″ に下がります。次に緯度スライダーの横の ▲ を、行が 59°–60° になるまで押してください。そこでの差 −7″ は補間だけによるものです。黄道傾斜角を 23° 26′ 54″ に戻すと差は +2′ 34″ になります。黄道傾斜角による分が +2′ 41″、補間による分が −7″ です。黄道傾斜角による分は極に近いほど大きくなります。`},
     {title:'赤道より南',
      body:`<p>表は北半球用に作られています。南半球の出生では、まず出生者の LST で MC にあるサインを控えます。次に LST に 12:00:00 を足すか引くかして、同じ緯度の北緯として通常どおり表を引きます。</p>
          <p>得られた MC は反対のサインになっているので、元のサインに戻します。得られたアセンダントもやはり反対なので、表にあるのと反対のサインにします。</p>
@@ -2224,7 +2258,7 @@ I18N.ja = {
      body:`<p>天文暦<span class="gloss" lang="en">（ephemeris）</span>は毎日、グリニッジの 00:00 における位置を載せています。出生者は世界時<span class="gloss" lang="en">（Universal Time, UT）</span>で 15:55 に生まれました。そのとき一日のうち 15:55 ÷ 24 = 0.6631944 が過ぎていました。これが彼女の<span class="term">出生時刻比</span><span class="gloss" lang="en">（birth-time ratio）</span>で、先の恒星時比と同じ役割を果たします。</p>
          <p>太陽は 0 時に山羊座 29° 21′ 50″、翌日の 0 時に水瓶座 0° 22′ 55″ にあり、運行量は 1° 01′ 05″。彼女の取り分は 1° 01′ 05″ × 0.6631944 = 40′ 31″ です。これを 0 時の位置に加えると、出生時の太陽は水瓶座 0° 02′ 21″ です。</p>
          <p>どの惑星も同じワークシートで求められます。変わるのは二つの位置だけです。</p>`,
-     try:`「<em>次のステップ</em>」を最後まで押してください。それから「<span class="term">出生時刻</span>」スライダーを動かしてみてください。正午の出生ならその日の運行のちょうど半分、00:00 の出生なら何も加わりません。`},
+     try:`「<em>次のステップ</em>」を最後まで押してください。それから「<span class="term">出生時刻</span>」スライダーを動かしてみてください。正午の出生ならその日の運行の半分（秒単位に丸めた値）、00:00 の出生なら何も加わりません。`},
     {title:'逆行：引く',
      body:`<p>その日、土星は逆行<span class="gloss" lang="en">（retrograde）</span>しており、天文暦では灰色で示されています。0 時に乙女座 19° 02′ 56″、翌日は 19° 00′ 40″。その日の運行量はいつもどおり、翌日の黄経から出生日の黄経を引いて求めます。19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″。負になるのは、土星が後ろ向きに動いていたからです。それが逆行ということです。</p>
          <p>差は 2′ 16″、増分は 2′ 16″ × 0.6631944 = 1′ 30″。違うのは、それをその日の初めの位置から引くことだけです。19° 02′ 56″ − 1′ 30″ = 乙女座 19° 01′ 26″。</p>
@@ -2255,10 +2289,17 @@ const ALL = 99;
 // ---------- worksheet rows (each with a spoken line) ----------
 // Row numbers are the lesson's (pp. 41–44). S1–S5 are the steps of the southern procedure (§6.2.3).
 // Rows the lesson does not number have none.
-function gapText(g){
-  const T = L(); const same = H.oblSec === TOBL_SEC, within = Math.abs(g.tot) <= 60;
+// The gap between interpolation and the direct value, split into the obliquity's part and interpolation's.
+// kind: agree (no gap at all) | same (the direct value uses the table's obliquity) | allObl | allInt | both | opposite (the parts pull apart)
+function gapKind(g){
+  const same = H.oblSec === TOBL_SEC;
+  const kind = (g.tot === 0 && g.obl === 0 && g.int === 0) ? 'agree' : same ? 'same' : g.int === 0 ? 'allObl' : g.obl === 0 ? 'allInt' : (g.obl > 0) !== (g.int > 0) ? 'opposite' : 'both';
   const dom = Math.abs(g.obl) > Math.abs(g.int) ? 'obl' : Math.abs(g.obl) < Math.abs(g.int) ? 'int' : 'both';
-  return T.gap({tot:fmtGap(g.tot), obl:fmtGap(g.obl), int:fmtGap(g.int), chosen:fmtSec(H.oblSec), table:fmtSec(TOBL_SEC), same, within, dom});
+  return {kind, dom, within: Math.abs(g.tot) <= 60};
+}
+function gapText(g){
+  const T = L(), k = gapKind(g);
+  return T.gap(Object.assign({tot:fmtGap(g.tot), obl:fmtGap(g.obl), int:fmtGap(g.int), chosen:fmtSec(H.oblSec), table:fmtSec(TOBL_SEC)}, k));
 }
 function buildRows(){
   const T = L(), hdT = T.hd, lab = T.lab, say = T.say;
@@ -2348,10 +2389,16 @@ function idx(key){ let i=0; for (const r of state.rows){ if (r.hd) continue; i++
 const isShown = k => shownCount() >= idx(k);
 const resultKey = () => state.mode==='planet' ? 'pos' : state.mode==='mc' ? (H.south?'mcS':'mc') : (H.south?'ascS':'asc');
 
+// Says only what the revealed rows show: nothing before row 45, and row 47's 360° step only once row 47 is out.
 function planetNote(){
   const T = L(), p = P;
-  return (p.motion==='retro' ? T.wsRetro : p.motion==='stat' ? T.wsStat : T.wsDirect) + (p.adj ? SP() + T.wsCross(p.posWrap !== 0) : '');
+  if (!isShown('diff')) return '';
+  const raw = p.p1 - p.p0;                                    // row 43 minus row 44, as the rows show it
+  if (p.adj) return T.wsCross(fmtSgn(raw), p.adj > 0, fmtSgn(p.d), p.d < 0, p.posWrap !== 0 && isShown('pos'));
+  return p.motion==='retro' ? T.wsRetro(fmtSgn(p.d)) : p.motion==='stat' ? T.wsStat : T.wsDirect(fmtSgn(p.d));
 }
+// The gap note needs the direct rows, so it waits for the last of them.
+const houseNote = () => isShown('directT') ? gapText(state.mode==='mc' ? H.gapMc : H.gapAsc) : '';
 function renderWs(){
   const T = L(), U = T.ui;
   const rows = state.rows; const shown = shownCount(); let i = 0, open = false;
@@ -2363,7 +2410,7 @@ function renderWs(){
     h += `<tr class="${act?'act':''} ${r.cls==='res'?'res':''}"><td class="n">${r.n}</td><th scope="row" class="l">${r.l}</th><td class="v ${vis?(r.cls||''):'hid'}">${vis ? r.v + (r.sub?`<br><span style="color:var(--muted);font-size:.9em">${r.sub}</span>`:'') : '·'}</td></tr>`; });
   if (open) h += '</tbody>';
   const ws = $('#ws'); ws.innerHTML = h; ws.setAttribute('aria-label', U.worksheet);
-  $('#wsnote').textContent = state.mode==='planet' ? planetNote() : gapText(state.mode==='mc' ? H.gapMc : H.gapAsc);
+  $('#wsnote').textContent = state.mode==='planet' ? planetNote() : houseNote();
   if (state.reveal < ALL && shown>0 && !$('#paneWs').hidden){ const act = $('#ws tr.act'); if (act) act.scrollIntoView({block:'nearest'}); }
 }
 
@@ -2375,12 +2422,14 @@ function renderSay(){
   $('#stepBtn').disabled = complete; $('#allBtn').disabled = complete; $('#resetBtn').disabled = false;
   if (shown===0){
     el.className = 'say idle';
-    el.innerHTML = `<span class="k">${T.working}</span><span class="t">${T.idle(T.what[state.mode])}</span><span class="v"></span>`;
-    return;
+    el.innerHTML = `<span class="k">${T.working}</span><span class="t">${T.idle(T.what[state.mode]) + SP() + T.idleHint[state.mode]}</span><span class="v"></span>`;
+    el.scrollTop = 0; el.tabIndex = -1; return;
   }
   const r = rows[shown-1];
   el.className = 'say' + (complete?' done':'');
+  el.scrollTop = 0;
   el.innerHTML = `<span class="k">${r.n ? T.stepRow(shown, n, r.n) : T.stepOnly(shown, n)}</span><span class="t">${r.say||''}</span><span class="v ${r.cls||''}">${r.v}${r.sub?`<small>${r.sub}</small>`:''}</span>`;
+  const more = el.scrollHeight > el.clientHeight + 1; el.tabIndex = more ? 0 : -1; el.classList.toggle('more', more);
 }
 
 // ---------- diagram ----------
@@ -2390,7 +2439,7 @@ const fig = $('#fig');
 const SVGNS = 'http://www.w3.org/2000/svg';
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function text(x,y,s,cls,anchor,id){ return `<text${id?` id="${id}"`:''} x="${x}" y="${y}" class="${cls||''}" text-anchor="${anchor||'middle'}">${esc(s)}</text>`; }
-const FS = { wide:{txt:13, big:17, col:15.5, hd:12.5}, narrow:{txt:20, big:24, col:20, hd:15} };
+const FS = { wide:{txt:13, big:17, col:15.5, hd:12.5}, narrow:{txt:21, big:26, col:20, hd:17.5} };   // narrow: the original's phone sizes, headings raised
 function figLayout(){ const w = $('#view').clientWidth; return w > 0 && w < 520 ? 'narrow' : 'wide'; }
 const hidAttr = k => isShown(k) ? '' : ' hid" aria-hidden="true';   // not yet revealed: hidden to the eye and to assistive technology
 function box(el){ try { const b = el.getBBox(); return {x:b.x, y:b.y, w:b.width, h:b.height}; } catch(e){ return {x:0,y:0,w:0,h:0}; } }
@@ -2441,7 +2490,8 @@ function drawAsc(){
   const yCol = yMark + 0.3*f.big + 0.95*f.col + 8;
   const yTop = yCol + 0.3*f.col + 0.95*f.txt + 6;
   const y1 = yTop + 0.3*f.txt + 0.62*f.col + 8;
-  const y0 = y1 + (lay==='narrow' ? 240 : 210);
+  const boxH = ascBox !== null ? ascBox : (lay==='narrow' ? 240 : 210);
+  const y0 = y1 + boxH;
   const yBot = y0 + 0.63*f.col + 0.95*f.txt + 8;
   const px = x0 + (x1-x0)*h.ratio, py = y0 - (y0-y1)*h.latRatio;
   const res = `${T.plate.asc} ${signStr(h.south ? h.asc : h.ascT)}`;
@@ -2496,6 +2546,9 @@ function drawAsc(){
   }
   let Hh = bottom + 8;
   for (const el of fig.querySelectorAll('text')){ const b = el.id==='fLat' ? rotBox(el, rx, ry) : box(el); Hh = Math.max(Hh, b.y + b.h + 6); }
+  const avail = availUnits();
+  // never taller than the space (the drawing would shrink); grow only when a few units are free, so it settles
+  if (avail){ const want = Math.floor(Math.min(lay==='narrow' ? 300 : 280, Math.max(110, avail - (Hh - boxH) - 1))); ascBox = (boxH > want || boxH < want - 2) ? want : boxH; } else ascBox = null;
   fig.setAttribute('viewBox', `0 0 ${W} ${Math.ceil(Hh)}`);
 }
 function drawLine(kind){
@@ -2508,13 +2561,14 @@ function drawLine(kind){
     resOn = isShown(h.south?'mcS':'mc'); title = F.titleMc; desc = F.descMc(hdL, fmtSec(h.mcE), hdR, fmtSec(h.mcL), R7(h.k)); }
   else { const p = P; ratio = p.ratio; retro = p.retro; hdL = T.ui.p0; hdR = T.ui.p1; labL = fmtSec(p.p0); labR = fmtSec(p.p1); subL = signStr(p.p0); subR = signStr(p.p1); mark = `${F.ut} ${fmtT(p.ut)}`; res = signStr(p.pos);
     dir = p.motion==='retro' ? F.retro : p.motion==='stat' ? F.stationary : F.direct;
-    resOn = isShown('pos'); title = F.titlePlanet; desc = F.descPlanet(signStr(p.p0), signStr(p.p1), fmtT(p.ut).slice(0,5), R7(p.k), T.motionWord[p.motion]); }
+    resOn = isShown('pos'); title = F.titlePlanet; desc = F.descPlanet(signStr(p.p0), signStr(p.p1), fmtT(p.ut).slice(0,5), R7(p.k), isShown('diff') ? T.motionWord[p.motion] : '…'); }
   if (resOn) desc += F.descRes(res);
   const px = x0 + (x1-x0)*ratio;
   const hcls = kind==='mc' ? 'colhd' : 'hd', fh = kind==='mc' ? f.col : f.hd;
   let g = figHead(title, desc);
   g += `<rect id="fFlash" class="flash${state.flash?' go':''}" x="${x0}" y="0" width="${x1-x0}" height="10" rx="4"/>`;
-  if (dir) g += text(W/2, 0, dir, retro ? 'red-t' : 'dim', 'middle', 'fDir');
+  const dirOn = kind==='planet' && isShown('diff');
+  if (dir) g += `<g class="${hidAttr('diff')}">` + text(W/2, 0, dir, retro ? 'red-t' : 'dim', 'middle', 'fDir') + `</g>`;
   g += text(x0, 0, hdL, hcls, 'start', 'fHL') + text(x1, 0, hdR, hcls, 'end', 'fHR');
   g += `<g id="fRail"></g>`;
   g += text(x0, 0, labL, 'cell', 'start', 'fVL') + text(x1, 0, labR, 'cell', 'end', 'fVR');
@@ -2534,7 +2588,7 @@ function drawLine(kind){
   for (const [id, yy] of [['fVL',yVal],['fVR',yVal],['fSL',ySub],['fSR',ySub]]) $('#'+id).setAttribute('y', yy);
   let r = `<line class="rail" x1="${x0}" y1="${yRail}" x2="${x1}" y2="${yRail}"/>`;
   for (let i=0;i<=4;i++){ const gx = x0+(x1-x0)*i/4; r += `<line class="axis" x1="${gx}" y1="${yRail-7}" x2="${gx}" y2="${yRail+7}"/>`; }
-  r += `<line class="fill${retro?' retro':''}" x1="${x0}" y1="${yRail}" x2="${px}" y2="${yRail}"/>`;
+  r += `<line class="fill${retro && dirOn?' retro':''}" x1="${x0}" y1="${yRail}" x2="${px}" y2="${yRail}"/>`;
   r += `<line class="st-line" x1="${px}" y1="${yRail-18}" x2="${px}" y2="${yRail+14}"/>`;
   $('#fRail').innerHTML = r;
   const yRes = ySub + 0.3*f.txt + 16 + 0.95*f.big;
@@ -2546,8 +2600,11 @@ function drawLine(kind){
   fig.setAttribute('viewBox', `0 0 ${W} ${Math.ceil(Hh)}`);
 }
 // Text is measured at the scale the drawing is shown at, so a change of height means measuring again.
+// In two columns the drawing fills the height the stage gives it: the box of four cells takes what the text leaves.
+let ascBox = null;
+function availUnits(){ if (matchMedia('(max-width:980px)').matches) return null; const r = fig.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r.height*640/r.width : null; }
 function drawFig(){ if (!H) return;
-  for (let pass = 0; pass < 3; pass++){ const vb = fig.getAttribute('viewBox'); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); if (fig.getAttribute('viewBox') === vb) break; } }
+  for (let pass = 0; pass < 4; pass++){ const vb = fig.getAttribute('viewBox'); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); if (fig.getAttribute('viewBox') === vb) break; } }
 
 // ---------- plate ----------
 function renderPlate(){
@@ -2566,16 +2623,17 @@ function renderPlate(){
 function render(){
   H = houses(state.lst, state.latSec, state.hemi, state.oblSec, state.loHint); state.loHint = H.lo;
   P = planet(state.ut, state.p0, state.p1); state.rows = buildRows();
-  drawFig(); renderPlate(); renderSay(); renderWs();
   document.querySelectorAll('.rail [data-mode]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===state.mode?'true':'false'));
   const pl = state.mode==='planet'; $('#ctlLst').hidden = pl; $('#ctlLat').hidden = pl || state.mode==='mc'; $('#ctlUt').hidden = !pl;
   $('#grpNative').hidden = pl; $('#grpPlanet').hidden = !pl;
+  renderPlate(); renderSay(); renderWs();
   // sliders move within the current cell
   const latTxt = `${fmtSec(state.latSec)} ${NS(state.hemi)}`;
   $('#lstRange').value = H.diff; $('#lstOut').textContent = fmtT(state.lst); $('#lstRange').setAttribute('aria-valuetext', fmtT(state.lst));
   $('#latRange').value = H.latRatio; $('#latOut').textContent = latTxt; $('#latRange').setAttribute('aria-valuetext', latTxt);
   $('#utRange').value = Math.round(state.ut/60); $('#utOut').textContent = fmtT(state.ut).slice(0,5); $('#utRange').setAttribute('aria-valuetext', fmtT(state.ut).slice(0,5));
   syncInputs();
+  drawFig();   // last: the readout, the narration and the rail have their heights now
 }
 
 // ---------- typed values: what is shown is what is used ----------
@@ -2585,6 +2643,7 @@ const FIELDS = { lstH:[0,23], lstM:[0,59], lstS:[0,59], latD:[0,60], latM:[0,59]
   utH:[0,23], utM:[0,59], p0D:[0,29], p0M:[0,59], p0S:[0,59], p1D:[0,29], p1M:[0,59], p1S:[0,59] };
 const shownVal = {};
 function setNote(s){ $('#inote').textContent = s || ''; }
+const snapshot = () => [state.lst, state.latSec, state.hemi, state.oblSec, state.ut, state.p0, state.p1].join(',');
 function syncInputs(){
   const t = fromSec(state.lst); $('#lstH').value = t.d; $('#lstM').value = t.m; $('#lstS').value = t.s;
   const la = fromSec(state.latSec); $('#latD').value = la.d; $('#latM').value = la.m; $('#latS').value = la.s; $('#latNS').value = state.hemi<0?'-1':'1';
@@ -2596,7 +2655,7 @@ function syncInputs(){
 function readInputs(){
   const U = L().ui, notes = [], v = {};
   const name = id => $('#'+id).getAttribute('aria-label') || id;
-  let latHigh = false, utLate = false;
+  let latHigh = false, utLate = false; const before = snapshot();
   for (const id in FIELDS){
     const raw = String($('#'+id).value).trim(), [lo, hi] = FIELDS[id];
     let x;
@@ -2617,7 +2676,10 @@ function readInputs(){
   state.ut = (v.utH*60 + v.utM)*60;
   state.p0 = norm(Number($('#p0G').value)*30*3600 + toSec({d:v.p0D, m:v.p0M, s:v.p0S}));
   state.p1 = norm(Number($('#p1G').value)*30*3600 + toSec({d:v.p1D, m:v.p1M, s:v.p1S}));
-  setNote(notes.join(' '));
+  // a planet that moves more than about 20° in a day is almost certainly a typing slip: say so, but calculate
+  if (state.mode==='planet' && Math.abs(sdiff(state.p1, state.p0)) > 20*3600) notes.push(U.noteFast);
+  // nothing wrong and nothing changed (a second change event as focus leaves): the last note still describes the fields
+  if (notes.length || snapshot() !== before) setNote(notes.join(' '));
   render();   // writes the values used back into the fields
 }
 function nameFields(){ const T = L(), U = T.ui; document.querySelectorAll('#paneWs [data-name]').forEach(el => el.setAttribute('aria-label', T.fieldName(U[el.dataset.name], U[el.dataset.unit]))); }
@@ -2750,7 +2812,9 @@ applyLang(initialLang(), true);
 (function(){ const h = (location.hash||'').replace('#',''); const i = WALK.findIndex(w=>w.mode===h); showWalk(i>=0?i:0); })();
 // the drawing is laid out by measuring its text: again when the fonts arrive and when the width changes
 let figFrame = 0;
-addEventListener('resize', () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(drawFig); });
+const redraw = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(drawFig); };
+addEventListener('resize', redraw);
+if (window.ResizeObserver) new ResizeObserver(redraw).observe($('#view'));
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawFig);
 </script>
 </body>

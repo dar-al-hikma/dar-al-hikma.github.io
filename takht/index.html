@@ -125,6 +125,7 @@
   .val .ph{font-family:var(--f-ui);font-size:.5em;letter-spacing:.1em;text-transform:uppercase;vertical-align:middle}
   .val .u{color:var(--muted)}
   .val .neg{color:var(--brass)}
+  .val sup,.pending sup{font-size:.55em;vertical-align:.8em;line-height:0}
   .val.shake{animation:shake .32s ease}
   @keyframes shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
   .msg{position:absolute;left:0;right:0;bottom:0;font-size:.84rem;line-height:18px;text-align:right;color:var(--muted);background:var(--panel);opacity:0;transition:opacity .4s ease;pointer-events:none}
@@ -282,6 +283,8 @@
     .val{font-size:34px;line-height:1.1}
     .handle{height:calc(40px + env(safe-area-inset-bottom))}
   }
+  /* desktop: the history takes the calculator's height and scrolls inside it, however long it grows */
+  @media (min-width:820px){ .tape{contain:size} }
   /* between phone and desktop: the history goes under the calculator */
   @media (min-width:601px) and (max-width:819px){
     .masthead,footer{width:420px}
@@ -461,9 +464,8 @@
     </div>
     <div class="recipe">
       <b data-i18n-html="rAscLat">ASC between latitudes</b>
-      <div class="seq"><span class="vc" data-i18n="vLarger">larger</span><span class="kc o">−</span><span class="vc" data-i18n="vSmaller">smaller</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span></div>
-      <div class="seq"><span class="lbl" data-i18n="lblAdd">to add</span><span class="kc o">+</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">=</span></div>
-      <div class="seq"><span class="lbl" data-i18n="lblSub">to subtract</span><span class="kc r">sto</span><span class="kc r">x</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">−</span><span class="kc r">x</span><span class="kc o">=</span></div>
+      <div class="seq"><span class="lbl" data-i18n="lblAscUp">ASC increases</span><span class="vc" data-i18n="vHighAsc">ASC at the higher latitude</span><span class="kc o">−</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span><span class="kc o">+</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">=</span></div>
+      <div class="seq"><span class="lbl" data-i18n="lblAscDown">ASC decreases</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">−</span><span class="vc" data-i18n="vHighAsc">ASC at the higher latitude</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span><span class="kc r">sto</span><span class="kc r">x</span><span class="vc" data-i18n="vLowAsc">ASC at the lower latitude</span><span class="kc o">−</span><span class="kc r">x</span><span class="kc o">=</span></div>
       <small data-i18n-html="rAscLatNote"></small>
     </div>
     <div class="recipe">
@@ -473,9 +475,8 @@
     </div>
     <div class="recipe">
       <b data-i18n-html="rPlanet">A planet</b>
-      <div class="seq"><span class="vc" data-i18n="vLarger">larger</span><span class="kc o">−</span><span class="vc" data-i18n="vSmaller">smaller</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span></div>
-      <div class="seq"><span class="lbl" data-i18n="lblDirect">direct</span><span class="kc o">+</span><span class="vc" data-i18n="vMidnight">position at 00:00</span><span class="kc o">=</span></div>
-      <div class="seq"><span class="lbl" data-i18n="lblRetro">retrograde</span><span class="kc r">sto</span><span class="kc r">x</span><span class="vc" data-i18n="vMidnight">position at 00:00</span><span class="kc o">−</span><span class="kc r">x</span><span class="kc o">=</span></div>
+      <div class="seq"><span class="lbl" data-i18n="lblDirect">direct</span><span class="vc" data-i18n="vNextDay">next day</span><span class="kc o">−</span><span class="vc" data-i18n="vBirthDay">day of birth</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span><span class="kc o">+</span><span class="vc" data-i18n="vBirthDay">day of birth</span><span class="kc o">=</span></div>
+      <div class="seq"><span class="lbl" data-i18n="lblRetro">retrograde</span><span class="vc" data-i18n="vBirthDay">day of birth</span><span class="kc o">−</span><span class="vc" data-i18n="vNextDay">next day</span><span class="kc o">=</span><span class="kc o">×</span><span class="kc r">ratio</span><span class="kc o">=</span><span class="kc r">sto</span><span class="kc r">x</span><span class="vc" data-i18n="vBirthDay">day of birth</span><span class="kc o">−</span><span class="kc r">x</span><span class="kc o">=</span></div>
       <small data-i18n-html="rPlanetNote"></small>
     </div>
     <div class="recipe">
@@ -533,7 +534,7 @@
 </section>
 
 <script>
-// Sexagesimal core lifted from The Reckoner (dar-al-hikma). Tested against Lesson 5 worked examples.
+// Sexagesimal core lifted from The Reckoner (dar-al-hikma), without the walkthrough steps this page never shows. Tested against Lesson 5 worked examples.
 /*@core*/
 // ---------- sexagesimal core ----------
 const VS = '\uFE0E'; // text presentation, not emoji
@@ -543,7 +544,6 @@ const SIGNS = [
   {g:'♎'+VS,n:'Libra',ab:'LI'},{g:'♏'+VS,n:'Scorpio',ab:'SC'},{g:'♐'+VS,n:'Sagittarius',ab:'SG'},
   {g:'♑'+VS,n:'Capricorn',ab:'CP'},{g:'♒'+VS,n:'Aquarius',ab:'AQ'},{g:'♓'+VS,n:'Pisces',ab:'PI'}
 ];
-const ORD = ['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth','eleventh','twelfth'];
 const CIRC = 360*3600;
 const toSec = x => (x.d*60 + x.m)*60 + x.s;
 function fromSec(t){ t = Math.round(t); const neg = t<0; t = Math.abs(t);
@@ -553,7 +553,6 @@ const norm = t => ((t % CIRC) + CIRC) % CIRC;
 const pad2 = n => (n<10?'0':'') + n;
 function fmtDMS(x, units){ units = units || ['°','′','″'];
   return `${x.d}${units[0]} ${pad2(x.m)}${units[1]} ${pad2(x.s)}${units[2]}`; }
-function fmtDM(x){ return `${x.d}° ${pad2(x.m)}′`; }
 function fmtHMS(x){ return `${pad2(x.d)}:${pad2(x.m)}:${pad2(x.s)}`; }
 function signOf(x){ const t = norm(toSec(x)); const i = Math.floor(t/(30*3600)); const r = fromSec(t - i*30*3600); return {i, r}; }
 function fmtSign(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} <span class="glyph">${SIGNS[i].g}</span>`; }
@@ -589,36 +588,6 @@ function addSteps(rows, opts){ opts = opts || {}; const units = opts.units || ['
   return {steps, result:res};
 }
 
-// column subtraction a - b -> steps, with borrow history
-function subSteps(a, b, opts){ opts = opts || {}; const units = opts.units || ['°','′','″']; const wrap = opts.wrap !== false;
-  const steps = []; const top = {d:a.d, m:a.m, s:a.s}; const hist = {d:[a.d], m:[a.m], s:[a.s]}; const res = {};
-  if (wrap && toSec(a) < toSec(b)){
-    top.d += 360; hist.d.push(top.d);
-    steps.push({col:'d', rev:{d:[...hist.d]},
-      note: `${a.d}° is smaller than ${b.d}°, so the top line is smaller than the bottom. Add a full circle first: <span class="mono">${a.d}° + 360° = ${top.d}°</span>. Now subtract as normal.`});
-  }
-  // seconds
-  let borrowedS = false, emptyM = false;
-  if (top.s < b.s){
-    if (top.m === 0){ emptyM = true; top.d -= 1; top.m = 60; hist.d.push(top.d); hist.m.push(top.m); }
-    top.m -= 1; top.s += 60; hist.m.push(top.m); hist.s.push(top.s); borrowedS = true; }
-  res.s = top.s - b.s;
-  steps.push({col:'s', res:{s:res.s}, rev:{d:[...hist.d], m:[...hist.m], s:[...hist.s]},
-    note: borrowedS ? (emptyM ? `${a.s}${units[2]} is less than ${b.s}${units[2]}, but the minutes column is empty and has nothing to lend. So borrow twice: first 1${units[0]} from the degrees as 60${units[1]}, then 1${units[1]} of those as 60${units[2]}. That leaves ${top.d}${units[0]} ${top.m}${units[1]}, and the seconds become ${top.s}${units[2]}. Then <span class="mono">${top.s}${units[2]} − ${b.s}${units[2]} = ${res.s}${units[2]}</span>.`
-                    : `${a.s}${units[2]} is less than ${b.s}${units[2]}, so we cannot subtract directly. Borrow 1${units[1]} — that is 60${units[2]} — from the minutes: ${a.s}${units[2]} becomes ${top.s}${units[2]}, and the minutes drop to ${top.m}${units[1]}. Then <span class="mono">${top.s}${units[2]} − ${b.s}${units[2]} = ${res.s}${units[2]}</span>.`)
-                    : `${top.s}${units[2]} − ${b.s}${units[2]} = <span class="mono">${res.s}${units[2]}</span>. No borrowing needed.`});
-  let borrowedM = false; const mBefore = top.m;
-  if (top.m < b.m){ top.d -= 1; top.m += 60; hist.d.push(top.d); hist.m.push(top.m); borrowedM = true; }
-  res.m = top.m - b.m;
-  steps.push({col:'m', res:{m:res.m}, rev:{d:[...hist.d], m:[...hist.m]},
-    note: borrowedM ? `${mBefore}${units[1]} is less than ${b.m}${units[1]}: borrow 1${units[0]} as 60${units[1]} from the degrees, making ${top.m}${units[1]}, and the degrees drop to ${top.d}${units[0]}. Then <span class="mono">${top.m}${units[1]} − ${b.m}${units[1]} = ${res.m}${units[1]}</span>.`
-                    : `${borrowedS?`Only ${mBefore}${units[1]} are left, because we already borrowed 1${units[1]}. `:''}<span class="mono">${top.m}${units[1]} − ${b.m}${units[1]} = ${res.m}${units[1]}</span>.`});
-  res.d = top.d - b.d;
-  steps.push({col:'d', res:{d:res.d}, rev:{d:[...hist.d]},
-    note: `<span class="mono">${top.d}${units[0]} − ${b.d}${units[0]} = ${res.d}${units[0]}</span>.${borrowedM?' (Remember the degree we lent to the minutes.)':''}`});
-  return {steps, result:res};
-}
-
 // DMS -> decimal
 function toDecSteps(x){
   const f1 = x.s/60; const m2 = x.m + f1; const f2 = m2/60; const dec = x.d + f2;
@@ -642,41 +611,6 @@ function toDMSSteps(dec){
     {line:5, note:`Round to the nearest second: <span class="mono">${truncFixed(s2,3)}″ → ${s}″</span>.${s===60?' Sixty seconds is a full minute, so carry it.':''} The answer is <span class="mono">${fmtDMS(res)}</span>.`}
   ];
   return {steps, result:res, d, f1, m2, m, f2, s2, s};
-}
-
-// sign notation -> absolute
-function toAbsSteps(i, r){
-  const start = i*30; const abs = fromSec(start*3600 + toSec(r));
-  const steps = [
-    {k:1, note:`<span class="glyph">${SIGNS[i].g}</span> ${SIGNS[i].n} is the ${ORD[i]} sign, so ${i} full sign${i===1?'':'s'} of 30° come before it. Its first degree is <span class="mono">${i} × 30° = ${start}°</span> of absolute longitude.`},
-    {k:2, note:`Add the degrees within the sign to the sign's starting degree: <span class="mono">${start}° + ${fmtDMS(r)} = ${fmtDMS(abs)}</span>.`}
-  ];
-  return {steps, result:abs, start};
-}
-// absolute -> sign notation
-function toSignSteps(x){
-  const {i, r} = signOf(x); const q = Math.floor(x.d/30);
-  const steps = [
-    {k:1, note:`Divide the degrees by 30 to count the full signs: <span class="mono">${x.d} ÷ 30 = ${q}</span>, remainder <span class="mono">${x.d - q*30}°</span>. ${q} full sign${q===1?'':'s'} have passed.`},
-    {k:2, note:`After ${q} full sign${q===1?'':'s'} we are in the ${ORD[i]}, <span class="glyph">${SIGNS[i].g}</span> ${SIGNS[i].n}. The remainder, with the minutes and seconds unchanged, is the degree within it: <span class="mono">${fmtDMS(r)} ${SIGNS[i].g}</span>.`}
-  ];
-  return {steps, result:{i, r}};
-}
-// distance from A to B, forward through the zodiac (A, B absolute)
-function distSteps(A, B){
-  const sa = signOf(A), sb = signOf(B);
-  const a = fromSec(toSec(A)), b = {d:B.d, m:B.m, s:B.s};
-  const steps = [
-    {k:1, note:`Write both places as absolute longitude. Start: <span class="mono">${sa.i*30}° + ${fmtDMS(sa.r)} = ${fmtDMS(a)}</span>.`},
-    {k:2, note:`End: <span class="mono">${sb.i*30}° + ${fmtDMS(sb.r)} = ${fmtDMS(b)}</span>.`}
-  ];
-  let crossed = false;
-  if (toSec(b) < toSec(a)){ crossed = true; b.d += 360;
-    steps.push({k:3, note:`Counting forward from ${fmtDMS(a)}, we cross the 0° Aries line before reaching the end. So add 360° to the end point: <span class="mono">${B.d}° + 360° = ${b.d}°</span>. Now the subtraction runs the right way.`}); }
-  else steps.push({k:3, note:`The end point is later in the zodiac than the start and we do not cross 0° Aries, so no correction is needed. Subtract as normal.`});
-  const sub = subSteps(b, a, {wrap:false});
-  sub.steps.forEach(s => steps.push(Object.assign({grid:true}, s)));
-  return {steps, result:sub.result, a, b, crossed, subSteps:sub.steps};
 }
 
 // time -> arc (×15)
@@ -731,6 +665,7 @@ I18N.en = {
     helpT: 'Help (?)',
     regs: 'Registers',
     regA: n => `${n} register`,
+    regLatA: 'latitude (φ) register',
     trig: 'Trigonometry',
     trigA: {sin: 'sine', cos: 'cosine', tan: 'tangent', asin: 'inverse sine', acos: 'inverse cosine', atan: 'inverse tangent'},
     decT: 'Show as decimal (D)',
@@ -758,7 +693,7 @@ I18N.en = {
     tape: 'History',
     clearTape: 'clear history',
     close: 'close',
-    tapeEmpty: 'Each = writes a line here, in standard notation. Tap a line to bring its result back to the display.',
+    tapeEmpty: 'Calculations and conversions are listed here. Tap a line to bring its result back to the display.',
     tapeLineT: 'Tap to bring this result back',
     nothingYet: 'nothing yet',
     regFull: (n, v) => `${n}: ${v} — tap to recall, hold to store`,
@@ -774,12 +709,12 @@ I18N.en = {
     enter1: 'Type the degrees, press <span class="kc m">° ′ ″</span>, type the minutes, press it again, type the seconds: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> is 23° 26′ 12″. Anything you leave out is 00.',
     enter2: 'Tap <span class="kc m">°</span> or <span class="kc m">h</span> at the top left to type arc or time. In time the unit key reads <span class="kc m">h m s</span> and 15:55:00 is typed <b>15 h m s 55</b>.',
     enter3: 'Minutes and seconds run 0–59; the Takht refuses 60 or more rather than carry it for you. Degrees go up to 360 and hours up to 24.',
-    enter4: '<span class="kc">±</span> makes a value negative. For a decimal, press <span class="kc">dec</span> first; <span class="kc o">=</span> turns a typed decimal into ° ′ ″. After <span class="kc o">×</span> and <span class="kc o">÷</span> you type a plain number; press <span class="kc m">° ′ ″</span> or <span class="kc m">h m s</span> to divide by an angle or a time instead.',
+    enter4: '<span class="kc">±</span> changes the sign of a value. For a decimal, press <span class="kc">dec</span> first; <span class="kc o">=</span> turns a typed decimal into ° ′ ″. After <span class="kc o">×</span> and <span class="kc o">÷</span> you type a plain number; press <span class="kc m">° ′ ″</span> or <span class="kc m">h m s</span> to divide by an angle or a time instead.',
     enter5: 'With <span class="kc">sign</span> on, type the degrees within the sign (0–29), the minutes and the seconds, then press <span class="kc m">° ′ ″</span> again until the sign shows; <span class="kc o">=</span> gives the absolute longitude.',
     hRecipes: 'Recipes',
     recipesIntro: 'These are the keys to press. The Takht does not run them for you.',
     rUT: 'Universal Time',
-    rUTnote: '<b>+</b> for a zone west of Greenwich, <b>−</b> for east; take 1 h off first for daylight saving. If the history shows a wrap, the Greenwich date has changed: past 24 h it is the next day, below 0 the day before. Use that date for midnight GST and for the ephemeris.',
+    rUTnote: '<b>+</b> for a zone west of Greenwich, <b>−</b> for east; take 1 h off first for daylight saving. If the history shows a wrap, the Greenwich date has changed: at 24 h or more it is the next day, below 0 the day before. Use that date for midnight GST and for the ephemeris.',
     rLST: 'Local sidereal time',
     vUT: 'UT',
     vGST: 'GST',
@@ -791,35 +726,35 @@ I18N.en = {
     vEarlierST: 'earlier ST',
     vLater: 'later',
     vEarlier: 'earlier',
+    vNextDay: 'next day',
+    vBirthDay: 'day of birth',
+    vHighAsc: 'ASC at the higher latitude',
+    lblAscUp: 'ASC increases',
+    lblAscDown: 'ASC decreases',
     vLowerLat: 'lower latitude',
-    vLarger: 'larger',
-    vSmaller: 'smaller',
     vLowAsc: 'ASC at the lower latitude',
-    vMidnight: 'position at 00:00',
-    lblAdd: 'to add',
-    lblSub: 'to subtract',
     lblDirect: 'direct',
     lblRetro: 'retrograde',
     rLSTnote: 'Type UT and GST in time (<b>h</b>). Retype UT before <b>accel</b>. Tap <b>°</b> before the longitude so it goes in as arc, then press the <b>÷15</b> key, not <b>÷</b> 15. <b>+</b> for east of Greenwich, <b>−</b> for west; or type a west longitude with <b>±</b> and always press <b>+</b>.',
     rRAMC: 'RAMC',
     rMC: 'Direct MC',
-    rMCnote: 'Press <b>+180</b> if the result is about 180° from the RAMC. Results are always 0–360°. At RAMC 90° or 270°, tan has no value and the MC is the RAMC. Store your year\'s obliquity in <b>OE</b>; <b>sign</b> reads the MC in the zodiac.',
+    rMCnote: 'Press <b>+180</b> if the result is about 180° from the RAMC. With wrap on, results run from 0° up to 360°. At RAMC 90° or 270°, tan has no value and the MC is the RAMC. Store your year\'s obliquity in <b>OE</b>; <b>sign</b> reads the MC in the zodiac.',
     rST: 'ST ratio',
     rSTnote: 'A table of houses prints ST as 17° 36′ 00″. It is a time: type it in <b>h</b>. A time divided by a time gives the ratio.',
     rCusp: 'Interpolating the MC or an ASC',
-    rCuspNote: 'Subtract the smaller from the larger: a difference near 360° means you went the wrong way round. The increment is rounded to the second, and the history says so when it was.',
+    rCuspNote: 'Later minus earlier, in that order: the MC and the ASC move forward with sidereal time, so with wrap on this holds across 0° Aries too. A difference close to 360° means the two were swapped. The increment is rounded to the second; the history says so.',
     rLat: 'Latitude ratio',
     rLatNote: 'The lesson\'s 60′ is 1°; the Takht refuses 60 in the minutes.',
     rAscLat: 'ASC between latitudes',
-    rAscLatNote: 'Rows 40–41 of the worksheet say whether to add or subtract.',
+    rAscLatNote: 'The lesson\'s chart takes the second line: its ASC decreases from 44° to 45° (rows 39–41). If the first line\'s difference comes out close to 360°, use the second. With wrap on, both lines hold across 0° Aries.',
     rBirth: 'Birth-time ratio',
     rBirthNote: '<b>÷</b> 24 on its own divides the time by the number 24 and gives a time (00:39:48), not the ratio.',
     rPlanet: 'A planet',
-    rPlanetNote: 'Each ratio is used before the next is formed, so one <b>ratio</b> register serves the whole worksheet; <b>x</b> holds a second.',
+    rPlanetNote: 'Positions at 00:00 on the day of birth and the next day. If next day − day of birth comes out close to 360°, the planet is retrograde: use the second line. With wrap on, both lines hold across 0° Aries; they assume the planet does not station that day. Each ratio is used before the next is formed, so one <b>ratio</b> register serves the whole worksheet; <b>x</b> holds a second.',
     rSouth: 'Southern births, by the table',
     rSouthNote: 'Look up the new ST and work as usual, then press <b>+180</b> on the MC and on the ASC: both take the opposite sign.',
     rAscDirect: 'Direct ASC',
-    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Signed values',
     rSignedNote: 'With wrap on, a result stays signed if any value in it was negative; times always wrap. For declinations and latitudes, tap <b>wrap</b> on the display to turn it off. <b>+</b> 360 brings a negative longitude into the circle.',
     hRegs: 'Registers',
@@ -875,7 +810,7 @@ I18N.en = {
     arcTimeDiv: "An angle can't be divided by a time, or a time by an angle.",
     ratioHint: '× needs a plain number. A ratio is time ÷ time (÷ 24 h m s) or angle ÷ angle.',
     numByQty: "A plain number can't be divided by ° ′ ″ or h m s.",
-    decToFields: u => `A decimal can't become ${u}. Type a whole number, then press ${u}.`,
+    decToFields: u => `To use ${u}, type a whole number first, then press ${u}.`,
     numStays: u => `This number stays a number. Press dec to turn it into ${u}.`,
     signNum: 'Sign notation is for arc (°). This is a plain number.',
     divZero: 'Nothing can be divided by zero.',
@@ -924,6 +859,7 @@ I18N.nb = {
     helpT: 'Hjelp (?)',
     regs: 'Variabler',
     regA: n => `variabelen ${n}`,
+    regLatA: 'variabelen breddegrad (φ)',
     trig: 'Trigonometri',
     trigA: {sin: 'sinus', cos: 'cosinus', tan: 'tangens', asin: 'invers sinus', acos: 'invers cosinus', atan: 'invers tangens'},
     decT: 'Vis som desimaltall (D)',
@@ -951,7 +887,7 @@ I18N.nb = {
     tape: 'Historikk',
     clearTape: 'tøm historikken',
     close: 'lukk',
-    tapeEmpty: 'Hvert = skriver en linje her, med vanlig notasjon. Trykk på en linje for å hente resultatet tilbake til skjermen.',
+    tapeEmpty: 'Beregninger og omregninger vises her. Trykk på en linje for å hente resultatet tilbake til skjermen.',
     tapeLineT: 'Trykk for å hente dette resultatet tilbake',
     nothingYet: 'ingenting ennå',
     regFull: (n, v) => `${n}: ${v} — trykk for å hente fram, hold inne for å lagre`,
@@ -967,12 +903,12 @@ I18N.nb = {
     enter1: 'Skriv gradene, trykk på <span class="kc m">° ′ ″</span>, skriv minuttene, trykk på den igjen, skriv sekundene: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> er 23° 26′ 12″. Det du utelater, blir 00.',
     enter2: 'Trykk på <span class="kc m">°</span> eller <span class="kc m">h</span> øverst til venstre for å skrive bue eller tid. I tid står det <span class="kc m">h m s</span> på enhetstasten, og 15:55:00 skrives <b>15 h m s 55</b>.',
     enter3: 'Minutter og sekunder går fra 0 til 59; takhten nekter 60 eller mer i stedet for å gjøre det om til en hel grad eller time for deg. Gradene går opp til 360, timene opp til 24.',
-    enter4: '<span class="kc">±</span> gjør en verdi negativ. For et desimaltall, trykk på <span class="kc">dec</span> først; <span class="kc o">=</span> gjør et innskrevet desimaltall om til ° ′ ″. Etter <span class="kc o">×</span> og <span class="kc o">÷</span> skriver du et vanlig tall; trykk på <span class="kc m">° ′ ″</span> eller <span class="kc m">h m s</span> for å dele på en vinkel eller en tid i stedet. Du skriver alltid med punktum; resultatene vises med komma.',
+    enter4: '<span class="kc">±</span> bytter fortegn på verdien. For et desimaltall, trykk på <span class="kc">dec</span> først; <span class="kc o">=</span> gjør et innskrevet desimaltall om til ° ′ ″. Etter <span class="kc o">×</span> og <span class="kc o">÷</span> skriver du et vanlig tall; trykk på <span class="kc m">° ′ ″</span> eller <span class="kc m">h m s</span> for å dele på en vinkel eller en tid i stedet. Du skriver alltid med punktum; resultatene vises med komma.',
     enter5: 'Med <span class="kc">sign</span> på skriver du gradene innenfor tegnet (0–29), minuttene og sekundene, og trykker så på <span class="kc m">° ′ ″</span> igjen til tegnet vises; <span class="kc o">=</span> gir den absolutte lengden.',
     hRecipes: 'Oppskrifter',
     recipesIntro: 'Dette er tastene du skal trykke. Takhten kjører dem ikke for deg.',
     rUT: 'Universaltid <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: '<b>+</b> for en tidssone vest for Greenwich, <b>−</b> for øst; trekk fra 1 t først ved sommertid. Viser historikken en reduksjon, har datoen i Greenwich endret seg: over 24 t er det neste dag, under 0 dagen før. Bruk den datoen for GST ved midnatt og i efemeriden.',
+    rUTnote: '<b>+</b> for en tidssone vest for Greenwich, <b>−</b> for øst; trekk fra 1 t først ved sommertid. Viser historikken en reduksjon, har datoen i Greenwich endret seg: ved 24 t eller mer er det neste dag, under 0 dagen før. Bruk den datoen for GST ved midnatt og i efemeriden.',
     rLST: 'Lokal stjernetid <span class="gloss" lang="en">(local sidereal time, LST)</span>',
     vUT: 'UT',
     vGST: 'GST',
@@ -984,35 +920,35 @@ I18N.nb = {
     vEarlierST: 'tidligere ST',
     vLater: 'senere',
     vEarlier: 'tidligere',
+    vNextDay: 'neste dag',
+    vBirthDay: 'fødselsdagen',
+    vHighAsc: 'AC på høyere breddegrad',
+    lblAscUp: 'AC øker',
+    lblAscDown: 'AC minker',
     vLowerLat: 'lavere breddegrad',
-    vLarger: 'største',
-    vSmaller: 'minste',
     vLowAsc: 'AC på lavere breddegrad',
-    vMidnight: 'posisjon kl. 00:00',
-    lblAdd: 'legge til',
-    lblSub: 'trekke fra',
     lblDirect: 'direkte',
     lblRetro: 'retrograd',
     rLSTnote: 'Skriv UT og GST i tid (<b>h</b>). Skriv UT på nytt før <b>accel</b>. Trykk på <b>°</b> før lengdegraden, så den går inn som bue, og trykk så på <b>÷15</b>-tasten, ikke <b>÷</b> 15. <b>+</b> øst for Greenwich, <b>−</b> vest for; eller skriv en vestlig lengdegrad med <b>±</b> og trykk alltid på <b>+</b>.',
     rRAMC: 'RAMC',
-    rMC: 'MC regnet direkte',
-    rMCnote: 'Trykk på <b>+180</b> hvis svaret ligger omtrent 180° fra RAMC. Resultatene ligger alltid mellom 0 og 360°. Ved RAMC 90° eller 270° har tan ingen verdi, og MC er lik RAMC. Lagre årets skjevhet i <b>OE</b>; <b>sign</b> viser MC i dyrekretsen.',
+    rMC: 'MC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
+    rMCnote: 'Trykk på <b>+180</b> hvis svaret ligger omtrent 180° fra RAMC. Med reduksjon på ligger resultatet fra 0° til under 360°. Ved RAMC 90° eller 270° har tan ingen verdi, og MC er lik RAMC. Lagre ekliptikkens skjevhet for året i <b>OE</b>; <b>sign</b> viser MC i dyrekretsen.',
     rST: 'ST-forhold <span class="gloss" lang="en">(ST ratio)</span>',
     rSTnote: 'En hustabell skriver ST som 17° 36′ 00″. Det er en tid: skriv den i <b>h</b>. En tid delt på en tid gir forholdet.',
     rCusp: 'Interpolasjon av MC eller AC <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: 'Trekk den minste fra den største: en differanse nær 360° betyr at du trakk fra feil vei. Tilveksten avrundes til nærmeste sekund, og historikken sier fra når den ble det.',
+    rCuspNote: 'Senere minus tidligere, i den rekkefølgen: MC og AC går framover med stjernetiden, så med reduksjon på stemmer dette også over 0° Væren. En differanse nær 360° betyr at de to er byttet om. Tilveksten avrundes til nærmeste sekund; historikken viser eventuell avrunding.',
     rLat: 'Breddegradsforhold <span class="gloss" lang="en">(latitude ratio)</span>',
     rLatNote: 'Leksjonens 60′ er 1°; takhten nekter 60 i minuttene.',
-    rAscLat: 'AC mellom breddegradene',
-    rAscLatNote: 'Rad 40–41 i skjemaet sier om du skal legge til eller trekke fra.',
+    rAscLat: 'AC mellom breddegradene <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
+    rAscLatNote: 'Leksjonens horoskop bruker den andre linjen: AC minker fra 44° til 45° (rad 39–41). Blir differansen i første linje nær 360°, bruk den andre. Med reduksjon på holder begge linjene også over 0° Væren.',
     rBirth: 'Fødselstidsforhold <span class="gloss" lang="en">(birth-time ratio)</span>',
     rBirthNote: '<b>÷</b> 24 alene deler tiden på tallet 24 og gir en tid (00:39:48), ikke forholdet.',
-    rPlanet: 'En planet',
-    rPlanetNote: 'Hvert forhold brukes før det neste regnes ut, så én <b>ratio</b>-variabel rekker for hele skjemaet; <b>x</b> kan holde et forhold til.',
-    rSouth: 'Sørlige halvkule, med tabellen',
+    rPlanet: 'En planet <span class="gloss" lang="en">(planetary positions)</span>',
+    rPlanetNote: 'Posisjonene kl. 00:00 på fødselsdagen og dagen etter. Blir neste dag − fødselsdagen nær 360°, er planeten retrograd: bruk den andre linjen. Med reduksjon på holder begge linjene også over 0° Væren; de forutsetter at planeten ikke blir stasjonær den dagen. Hvert forhold brukes før det neste regnes ut, så én <b>ratio</b>-variabel rekker for hele skjemaet; <b>x</b> kan holde et forhold til.',
+    rSouth: 'Sørlige halvkule, med tabellen <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Slå opp den nye ST-en og regn som vanlig, og trykk så på <b>+180</b> for MC og for AC: begge får motsatt tegn.',
-    rAscDirect: 'AC regnet direkte',
-    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscDirect: 'AC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
+    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Verdier med fortegn',
     rSignedNote: 'Med reduksjon på beholder et resultat fortegnet hvis en av verdiene i det var negativ; tider reduseres alltid. For deklinasjoner og breddegrader, trykk på <b>reduksjon</b> i skjermen for å slå den av. <b>+</b> 360 bringer en negativ lengde inn i sirkelen.',
     hRegs: 'Variabler',
@@ -1068,7 +1004,7 @@ I18N.nb = {
     arcTimeDiv: 'En vinkel kan ikke deles på en tid, eller en tid på en vinkel.',
     ratioHint: '× trenger et vanlig tall. Et forhold er tid ÷ tid (÷ 24 h m s) eller vinkel ÷ vinkel.',
     numByQty: 'Et vanlig tall kan ikke deles på ° ′ ″ eller h m s.',
-    decToFields: u => `Et desimaltall kan ikke bli ${u}. Skriv et helt tall, og trykk så på ${u}.`,
+    decToFields: u => `For ${u}: skriv først et helt tall, og trykk så på ${u}.`,
     numStays: u => `Tallet forblir et tall. Trykk på dec for å gjøre det om til ${u}.`,
     signNum: 'Tegnnotasjon er for bue (°). Dette er et vanlig tall.',
     divZero: 'Ingenting kan deles på null.',
@@ -1118,6 +1054,7 @@ I18N.es = {
     helpT: 'Ayuda (?)',
     regs: 'Variables',
     regA: n => `variable ${n}`,
+    regLatA: 'variable latitud (φ)',
     trig: 'Trigonometría',
     trigA: {sin: 'seno', cos: 'coseno', tan: 'tangente', asin: 'arcoseno', acos: 'arcocoseno', atan: 'arcotangente'},
     decT: 'Mostrar en decimal (D)',
@@ -1145,7 +1082,7 @@ I18N.es = {
     tape: 'Historial',
     clearTape: 'borrar el historial',
     close: 'cerrar',
-    tapeEmpty: 'Cada = escribe aquí una línea, con la notación habitual. Pulse una línea para devolver su resultado a la pantalla.',
+    tapeEmpty: 'Aquí se registran los cálculos y las conversiones. Pulse una línea para recuperar su resultado.',
     tapeLineT: 'Pulse para recuperar este resultado',
     nothingYet: 'nada todavía',
     regFull: (n, v) => `${n}: ${v} — pulse para recuperar, mantenga para asignar`,
@@ -1161,12 +1098,12 @@ I18N.es = {
     enter1: 'Escriba los grados, pulse <span class="kc m">° ′ ″</span>, escriba los minutos, vuelva a pulsar esa tecla y escriba los segundos: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> es 23° 26′ 12″. Lo que omita vale 00.',
     enter2: 'Pulse <span class="kc m">°</span> o <span class="kc m">h</span> arriba a la izquierda para escribir arco o tiempo. En tiempo la tecla de unidades muestra <span class="kc m">h m s</span>, y 15:55:00 se escribe <b>15 h m s 55</b>.',
     enter3: 'Los minutos y los segundos van de 0 a 59; el takht rechaza 60 o más en lugar de hacer el acarreo por usted. Los grados llegan hasta 360 y las horas hasta 24.',
-    enter4: '<span class="kc">±</span> hace negativo un valor. Para un decimal, pulse antes <span class="kc">dec</span>; <span class="kc o">=</span> convierte un decimal escrito en ° ′ ″. Después de <span class="kc o">×</span> y <span class="kc o">÷</span> se escribe un número simple; pulse <span class="kc m">° ′ ″</span> o <span class="kc m">h m s</span> para dividir por un ángulo o por un tiempo. Los números se escriben siempre con punto; los resultados se muestran con coma.',
+    enter4: '<span class="kc">±</span> cambia el signo de un valor. Para un decimal, pulse antes <span class="kc">dec</span>; <span class="kc o">=</span> convierte un decimal escrito en ° ′ ″. Después de <span class="kc o">×</span> y <span class="kc o">÷</span> se escribe un número simple; pulse <span class="kc m">° ′ ″</span> o <span class="kc m">h m s</span> para dividir por un ángulo o por un tiempo. Los números se escriben siempre con punto; los resultados se muestran con coma.',
     enter5: 'Con <span class="kc">sign</span> activado, escriba los grados dentro del signo (0–29), los minutos y los segundos, y pulse <span class="kc m">° ′ ″</span> de nuevo hasta que aparezca el signo; <span class="kc o">=</span> da la longitud absoluta.',
     hRecipes: 'Procedimientos',
     recipesIntro: 'Estas son las teclas que hay que pulsar. El takht no las ejecuta por usted.',
     rUT: 'Tiempo universal <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: '<b>+</b> para un huso al oeste de Greenwich, <b>−</b> al este; reste antes 1 h si regía el horario de verano. Si el historial muestra una reducción, la fecha en Greenwich ha cambiado: pasadas las 24 h es el día siguiente, por debajo de 0 el anterior. Use esa fecha para el GST de medianoche y para las efemérides.',
+    rUTnote: '<b>+</b> para un huso al oeste de Greenwich, <b>−</b> al este; reste antes 1 h si regía el horario de verano. Si el historial muestra una reducción, la fecha en Greenwich ha cambiado: a partir de las 24 h es el día siguiente, por debajo de 0 el anterior. Use esa fecha para el GST de medianoche y para las efemérides.',
     rLST: 'Tiempo sidéreo local <span class="gloss" lang="en">(local sidereal time, LST)</span>',
     vUT: 'UT',
     vGST: 'GST',
@@ -1178,35 +1115,35 @@ I18N.es = {
     vEarlierST: 'TS anterior',
     vLater: 'posterior',
     vEarlier: 'anterior',
+    vNextDay: 'día siguiente',
+    vBirthDay: 'día del nacimiento',
+    vHighAsc: 'ASC de la latitud superior',
+    lblAscUp: 'el ASC aumenta',
+    lblAscDown: 'el ASC disminuye',
     vLowerLat: 'latitud inferior',
-    vLarger: 'mayor',
-    vSmaller: 'menor',
     vLowAsc: 'ASC de la latitud inferior',
-    vMidnight: 'posición a las 00:00',
-    lblAdd: 'para sumar',
-    lblSub: 'para restar',
     lblDirect: 'directo',
     lblRetro: 'retrógrado',
     rLSTnote: 'Escriba UT y GST en tiempo (<b>h</b>). Vuelva a escribir UT antes de <b>accel</b>. Pulse <b>°</b> antes de la longitud para que entre como arco y luego la tecla <b>÷15</b>, no <b>÷</b> 15. <b>+</b> al este de Greenwich, <b>−</b> al oeste; o escriba una longitud oeste con <b>±</b> y pulse siempre <b>+</b>.',
     rRAMC: 'RAMC',
-    rMC: 'MC por cálculo directo',
-    rMCnote: 'Pulse <b>+180</b> si el resultado queda a unos 180° de la RAMC. Los resultados van siempre de 0 a 360°. Con RAMC de 90° o 270°, la tangente no está definida y el MC es la RAMC. Guarde en <b>OE</b> la oblicuidad de su año; <b>sign</b> lee el MC en el zodíaco.',
+    rMC: 'MC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
+    rMCnote: 'Pulse <b>+180</b> si el resultado queda a unos 180° de la RAMC. Con la reducción activada, el resultado va de 0° a menos de 360°. Con RAMC de 90° o 270°, la tangente no está definida y el MC es la RAMC. Guarde en <b>OE</b> la oblicuidad de su año; <b>sign</b> lee el MC en el zodíaco.',
     rST: 'Proporción de TS <span class="gloss" lang="en">(ST ratio)</span>',
     rSTnote: 'Una tabla de casas imprime el TS como 17° 36′ 00″. Es un tiempo: escríbalo en <b>h</b>. Un tiempo dividido por un tiempo da la proporción.',
     rCusp: 'Interpolar el MC o un ASC <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: 'Reste el menor del mayor: una diferencia cercana a 360° indica que restó al revés. El incremento se redondea al segundo, y el historial lo indica cuando lo hace.',
+    rCuspNote: 'Posterior menos anterior, en ese orden: el MC y el ASC avanzan con el tiempo sidéreo, así que con la reducción activada esto vale también al cruzar 0° de Aries. Una diferencia cercana a 360° indica que se invirtieron. El incremento se redondea al segundo más cercano; el historial indica el redondeo.',
     rLat: 'Proporción de latitud <span class="gloss" lang="en">(latitude ratio)</span>',
     rLatNote: 'Los 60′ de la lección son 1°; el takht rechaza 60 en los minutos.',
-    rAscLat: 'ASC entre latitudes',
-    rAscLatNote: 'Las filas 40–41 de la hoja indican si hay que sumar o restar.',
+    rAscLat: 'ASC entre latitudes <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
+    rAscLatNote: 'La carta de la lección usa la segunda línea: su ASC disminuye de 44° a 45° (filas 39–41). Si la diferencia de la primera línea sale cercana a 360°, use la segunda. Con la reducción activada, ambas líneas valen también al cruzar 0° de Aries.',
     rBirth: 'Proporción de la hora de nacimiento <span class="gloss" lang="en">(birth-time ratio)</span>',
     rBirthNote: '<b>÷</b> 24 por sí solo divide el tiempo entre el número 24 y da un tiempo (00:39:48), no la proporción.',
-    rPlanet: 'Un planeta',
-    rPlanetNote: 'Cada proporción se usa antes de calcular la siguiente, así que una sola variable <b>ratio</b> basta para toda la hoja; <b>x</b> guarda otra.',
-    rSouth: 'Hemisferio sur, con la tabla',
+    rPlanet: 'Un planeta <span class="gloss" lang="en">(planetary positions)</span>',
+    rPlanetNote: 'Posiciones a las 00:00 del día del nacimiento y del día siguiente. Si día siguiente − día del nacimiento sale cercano a 360°, el planeta está retrógrado: use la segunda línea. Con la reducción activada, ambas líneas valen también al cruzar 0° de Aries; suponen que el planeta no hace estación ese día. Cada proporción se usa antes de calcular la siguiente, así que una sola variable <b>ratio</b> basta para toda la hoja; <b>x</b> guarda otra.',
+    rSouth: 'Hemisferio sur, con la tabla <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Busque el nuevo TS y calcule como siempre; después pulse <b>+180</b> sobre el MC y sobre el ASC: ambos toman el signo opuesto.',
-    rAscDirect: 'ASC por cálculo directo',
-    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscDirect: 'ASC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
+    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valores con signo',
     rSignedNote: 'Con la reducción activada, un resultado conserva el signo si alguno de sus valores era negativo; los tiempos se reducen siempre. Para declinaciones y latitudes, pulse <b>reducir</b> en la pantalla para desactivarla. <b>+</b> 360 lleva una longitud negativa al círculo.',
     hRegs: 'Variables',
@@ -1246,7 +1183,7 @@ I18N.es = {
     onePoint: 'Basta con un separador decimal.',
     wholeNumbers: 'Los minutos y los segundos son números enteros. Para un decimal, pulse antes dec.',
     decNoUnits: 'Un decimal no tiene ° ′ ″. Pulse = para convertirlo en ° ′ ″.',
-    decOn: 'dec está activo: escribe un decimal. Pulse dec para escribir ° ′ ″.',
+    decOn: 'dec está activo: usted escribe un decimal. Pulse dec para escribir ° ′ ″.',
     wasSeconds: 'Eso eran los segundos. Pulse = o una operación.',
     signSteps: u => `Si vuelve a pulsar ${u}, recorre los signos.`,
     bsNothing: '⌫ borra una cifra que esté escribiendo. C borra el número.',
@@ -1262,7 +1199,7 @@ I18N.es = {
     arcTimeDiv: 'Un ángulo no se divide por un tiempo, ni un tiempo por un ángulo.',
     ratioHint: '× necesita un número simple. Una proporción es tiempo ÷ tiempo (÷ 24 h m s) o ángulo ÷ ángulo.',
     numByQty: 'Un número simple no se divide por ° ′ ″ ni por h m s.',
-    decToFields: u => `Un decimal no puede convertirse en ${u}. Escriba un entero y pulse ${u}.`,
+    decToFields: u => `Para usar ${u}, escriba primero un entero y pulse ${u}.`,
     numStays: u => `Este número sigue siendo un número. Pulse dec para convertirlo en ${u}.`,
     signNum: 'La notación por signos es para arco (°). Esto es un número simple.',
     divZero: 'No se puede dividir entre cero.',
@@ -1311,6 +1248,7 @@ I18N.fr = {
     helpT: 'Aide (?)',
     regs: 'Variables',
     regA: n => `variable ${n}`,
+    regLatA: 'variable latitude (φ)',
     trig: 'Trigonométrie',
     trigA: {sin: 'sinus', cos: 'cosinus', tan: 'tangente', asin: 'arc sinus', acos: 'arc cosinus', atan: 'arc tangente'},
     decT: 'Afficher en décimal (D)',
@@ -1338,7 +1276,7 @@ I18N.fr = {
     tape: 'Historique',
     clearTape: 'effacer l’historique',
     close: 'fermer',
-    tapeEmpty: 'Chaque = écrit ici une ligne, dans la notation usuelle. Touchez une ligne pour ramener son résultat à l’affichage.',
+    tapeEmpty: 'Les calculs et les conversions s’inscrivent ici. Touchez une ligne pour rappeler son résultat.',
     tapeLineT: 'Touchez pour ramener ce résultat',
     nothingYet: 'rien pour l’instant',
     regFull: (n, v) => `${n} : ${v} — toucher pour rappeler, maintenir pour stocker`,
@@ -1354,12 +1292,12 @@ I18N.fr = {
     enter1: 'Tapez les degrés, appuyez sur <span class="kc m">° ′ ″</span>, tapez les minutes, appuyez de nouveau, tapez les secondes : <b>23 ° ′ ″ 26 ° ′ ″ 12</b> donne 23° 26′ 12″. Ce que vous omettez vaut 00.',
     enter2: 'Touchez <span class="kc m">°</span> ou <span class="kc m">h</span> en haut à gauche pour saisir un arc ou un temps. En temps, la touche d’unité affiche <span class="kc m">h m s</span>, et 15:55:00 se tape <b>15 h m s 55</b>.',
     enter3: 'Minutes et secondes vont de 0 à 59 ; le takht refuse 60 ou plus au lieu de faire la retenue à votre place. Les degrés vont jusqu’à 360 et les heures jusqu’à 24.',
-    enter4: '<span class="kc">±</span> rend une valeur négative. Pour un décimal, appuyez d’abord sur <span class="kc">dec</span> ; <span class="kc o">=</span> convertit un décimal saisi en ° ′ ″. Après <span class="kc o">×</span> et <span class="kc o">÷</span> vient un nombre simple ; appuyez sur <span class="kc m">° ′ ″</span> ou <span class="kc m">h m s</span> pour diviser plutôt par un angle ou par un temps. La saisie se fait toujours avec un point ; les résultats s’affichent avec une virgule.',
+    enter4: '<span class="kc">±</span> inverse le signe de la valeur. Pour un décimal, appuyez d’abord sur <span class="kc">dec</span> ; <span class="kc o">=</span> convertit un décimal saisi en ° ′ ″. Après <span class="kc o">×</span> et <span class="kc o">÷</span> vient un nombre simple ; appuyez sur <span class="kc m">° ′ ″</span> ou <span class="kc m">h m s</span> pour diviser plutôt par un angle ou par un temps. La saisie se fait toujours avec un point ; les résultats s’affichent avec une virgule.',
     enter5: 'Avec <span class="kc">sign</span> actif, tapez les degrés dans le signe (0–29), les minutes et les secondes, puis appuyez de nouveau sur <span class="kc m">° ′ ″</span> jusqu’à voir le signe ; <span class="kc o">=</span> donne la longitude absolue.',
     hRecipes: 'Recettes',
     recipesIntro: 'Voici les touches à presser. Le takht ne les exécute pas à votre place.',
     rUT: 'Temps universel <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: '<b>+</b> pour un fuseau à l’ouest de Greenwich, <b>−</b> à l’est ; retirez d’abord 1 h en heure d’été. Si l’historique montre une réduction, la date à Greenwich a changé : au-delà de 24 h, c’est le lendemain ; sous 0, la veille. Prenez cette date pour le TSG de minuit et pour les éphémérides.',
+    rUTnote: '<b>+</b> pour un fuseau à l’ouest de Greenwich, <b>−</b> à l’est ; retirez d’abord 1 h en heure d’été. Si l’historique montre une réduction, la date à Greenwich a changé : à partir de 24 h, c’est le lendemain ; sous 0, la veille. Prenez cette date pour le TSG de minuit et pour les éphémérides.',
     rLST: 'Temps sidéral local <span class="gloss" lang="en">(local sidereal time, LST)</span>',
     vUT: 'TU',
     vGST: 'TSG',
@@ -1371,37 +1309,37 @@ I18N.fr = {
     vEarlierST: 'TS antérieur',
     vLater: 'suivante',
     vEarlier: 'précédente',
+    vNextDay: 'lendemain',
+    vBirthDay: 'jour de naissance',
+    vHighAsc: 'ASC à la latitude supérieure',
+    lblAscUp: 'l’ASC augmente',
+    lblAscDown: 'l’ASC diminue',
     vLowerLat: 'latitude inférieure',
-    vLarger: 'la plus grande',
-    vSmaller: 'la plus petite',
     vLowAsc: 'ASC à la latitude inférieure',
-    vMidnight: 'position à 0 h',
-    lblAdd: 'pour ajouter',
-    lblSub: 'pour soustraire',
     lblDirect: 'direct',
     lblRetro: 'rétrograde',
     rLSTnote: 'Saisissez le TU et le TSG en temps (<b>h</b>). Retapez le TU avant <b>accel</b>. Touchez <b>°</b> avant la longitude pour qu’elle entre en arc, puis la touche <b>÷15</b>, et non <b>÷</b> 15. <b>+</b> à l’est de Greenwich, <b>−</b> à l’ouest ; ou saisissez une longitude ouest avec <b>±</b> et appuyez toujours sur <b>+</b>.',
     rRAMC: 'RAMC',
-    rMC: 'MC par le calcul direct',
-    rMCnote: 'Appuyez sur <b>+180</b> si le résultat est à environ 180° de la RAMC. Les résultats vont toujours de 0 à 360°. Pour une RAMC de 90° ou 270°, la tangente n’est pas définie et le MC est la RAMC. Stockez l’obliquité de votre année dans <b>OE</b> ; <b>sign</b> lit le MC dans le zodiaque.',
+    rMC: 'MC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
+    rMCnote: 'Appuyez sur <b>+180</b> si le résultat est à environ 180° de la RAMC. Avec la réduction activée, le résultat va de 0° à moins de 360°. Pour une RAMC de 90° ou 270°, la tangente n’est pas définie et le MC est la RAMC. Stockez l’obliquité de votre année dans <b>OE</b> ; <b>sign</b> lit le MC dans le zodiaque.',
     rST: 'Rapport de TS <span class="gloss" lang="en">(ST ratio)</span>',
     rSTnote: 'Une table des maisons imprime le TS sous la forme 17° 36′ 00″. C’est un temps : saisissez-le en <b>h</b>. Un temps divisé par un temps donne le rapport.',
     rCusp: 'Interpoler le MC ou un ASC <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: 'Soustrayez la plus petite de la plus grande : une différence proche de 360° signifie que la soustraction est à l’envers. L’incrément est arrondi à la seconde, et l’historique le signale quand c’est le cas.',
+    rCuspNote: 'Suivante moins précédente, dans cet ordre : le MC et l’ASC avancent avec le temps sidéral, donc, les résultats étant ramenés, cela vaut aussi au passage de 0° du Bélier. Une différence proche de 360° signifie qu’elles ont été inversées. L’incrément est arrondi à la seconde la plus proche ; l’historique indique l’arrondi.',
     rLat: 'Rapport de latitude <span class="gloss" lang="en">(latitude ratio)</span>',
     rLatNote: 'Les 60′ de la leçon font 1° ; le takht refuse 60 dans les minutes.',
-    rAscLat: 'ASC entre deux latitudes',
-    rAscLatNote: 'Les lignes 40–41 de la feuille disent s’il faut ajouter ou soustraire.',
+    rAscLat: 'ASC entre deux latitudes <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
+    rAscLatNote: 'Le thème de la leçon prend la seconde ligne : son ASC diminue de 44° à 45° (lignes 39–41). Si la différence de la première ligne est proche de 360°, prenez la seconde. Les résultats étant ramenés, les deux lignes valent aussi au passage de 0° du Bélier.',
     rBirth: 'Rapport de l’heure de naissance <span class="gloss" lang="en">(birth-time ratio)</span>',
     rBirthNote: '<b>÷</b> 24 seul divise le temps par le nombre 24 et donne un temps (00:39:48), pas le rapport.',
-    rPlanet: 'Une planète',
-    rPlanetNote: 'Chaque rapport sert avant que le suivant soit calculé : une seule variable <b>ratio</b> suffit pour toute la feuille ; <b>x</b> en garde un second.',
-    rSouth: 'Hémisphère sud, avec la table',
+    rPlanet: 'Une planète <span class="gloss" lang="en">(planetary positions)</span>',
+    rPlanetNote: 'Positions à 0 h le jour de naissance et le lendemain. Si lendemain − jour de naissance donne près de 360°, la planète est rétrograde : prenez la seconde ligne. Les résultats étant ramenés, les deux lignes valent aussi au passage de 0° du Bélier ; elles supposent que la planète ne stationne pas ce jour-là. Chaque rapport sert avant que le suivant soit calculé : une seule variable <b>ratio</b> suffit pour toute la feuille ; <b>x</b> en garde un second.',
+    rSouth: 'Hémisphère sud, avec la table <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Cherchez le nouveau TS et calculez comme d’habitude, puis appuyez sur <b>+180</b> pour le MC et pour l’ASC : tous deux prennent le signe opposé.',
-    rAscDirect: 'ASC par le calcul direct',
-    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscDirect: 'ASC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
+    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valeurs signées',
-    rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour le désactiver. <b>+</b> 360 ramène une longitude négative dans le cercle.',
+    rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour désactiver la réduction. <b>+</b> 360 ramène une longitude négative dans le cercle.',
     hRegs: 'Variables',
     regsHelp: chips => `Touchez ${chips} pour rappeler. Maintenez-en une, ou appuyez sur <span class="kc r">sto</span>, en tête de rangée, puis sur la variable, pour stocker l’affichage. Un point signale qu’elle contient une valeur. OE part de 23° 26′ 00″ ; stockez par-dessus la valeur de votre année.`,
     hSettings: 'Réglages',
@@ -1455,7 +1393,7 @@ I18N.fr = {
     arcTimeDiv: 'Un angle ne se divise pas par un temps, ni un temps par un angle.',
     ratioHint: '× attend un nombre simple. Un rapport est temps ÷ temps (÷ 24 h m s) ou angle ÷ angle.',
     numByQty: 'Un nombre simple ne se divise pas par des ° ′ ″ ni par des h m s.',
-    decToFields: u => `Un décimal ne peut pas devenir ${u}. Tapez un entier, puis ${u}.`,
+    decToFields: u => `Pour saisir en ${u}, tapez un entier, puis appuyez sur ${u}.`,
     numStays: u => `Ce nombre reste un nombre. Appuyez sur dec pour le convertir en ${u}.`,
     signNum: 'La notation par signe vaut pour l’arc (°). C’est un nombre simple.',
     divZero: 'On ne peut pas diviser par zéro.',
@@ -1484,7 +1422,7 @@ I18N.fr = {
     broughtBack: v => `Rappelé : ${v}`,
     wrapOn: 'Les résultats sont ramenés à 0–360° / 0–24 h.',
     wrapOff: 'Réduction désactivée : les résultats restent tels quels.',
-    rounded: v => `arrondi (valeur exacte : ${v})`
+    rounded: v => `arrondi à partir d’environ ${v}`
   }
 };
 
@@ -1504,6 +1442,7 @@ I18N.de = {
     helpT: 'Hilfe (?)',
     regs: 'Variablen',
     regA: n => `Variable ${n}`,
+    regLatA: 'Variable Breite (φ)',
     trig: 'Trigonometrie',
     trigA: {sin: 'Sinus', cos: 'Kosinus', tan: 'Tangens', asin: 'Arkussinus', acos: 'Arkuskosinus', atan: 'Arkustangens'},
     decT: 'Als Dezimalzahl anzeigen (D)',
@@ -1531,7 +1470,7 @@ I18N.de = {
     tape: 'Verlauf',
     clearTape: 'Verlauf löschen',
     close: 'schließen',
-    tapeEmpty: 'Jedes = schreibt hier eine Zeile in der üblichen Schreibweise. Tippen Sie eine Zeile an, um ihr Ergebnis zurück in die Anzeige zu holen.',
+    tapeEmpty: 'Berechnungen und Umrechnungen erscheinen hier. Tippen Sie eine Zeile an, um ihr Ergebnis abzurufen.',
     tapeLineT: 'Antippen, um dieses Ergebnis zurückzuholen',
     nothingYet: 'noch nichts',
     regFull: (n, v) => `${n}: ${v} — antippen zum Abrufen, halten zum Speichern`,
@@ -1547,52 +1486,52 @@ I18N.de = {
     enter1: 'Grad eintippen, <span class="kc m">° ′ ″</span> drücken, Minuten eintippen, noch einmal drücken, Sekunden eintippen: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> ist 23° 26′ 12″. Was Sie weglassen, ist 00.',
     enter2: 'Tippen Sie oben links <span class="kc m">°</span> oder <span class="kc m">h</span> an, um einen Winkel oder eine Zeit einzugeben. Im Zeitmodus zeigt die Einheitentaste <span class="kc m">h m s</span>, und 15:55:00 wird als <b>15 h m s 55</b> eingetippt.',
     enter3: 'Minuten und Sekunden reichen von 0 bis 59; das Takht lehnt 60 oder mehr ab, statt den Übertrag für Sie vorzunehmen. Grad reichen bis 360, Stunden bis 24.',
-    enter4: '<span class="kc">±</span> macht einen Wert negativ. Für eine Dezimalzahl zuerst <span class="kc">dec</span> drücken; <span class="kc o">=</span> macht aus einer eingetippten Dezimalzahl ° ′ ″. Nach <span class="kc o">×</span> und <span class="kc o">÷</span> folgt eine einfache Zahl; drücken Sie <span class="kc m">° ′ ″</span> oder <span class="kc m">h m s</span>, um stattdessen durch einen Winkel oder eine Zeit zu teilen. Eingegeben wird immer mit Punkt; Ergebnisse erscheinen mit Komma.',
+    enter4: '<span class="kc">±</span> wechselt das Vorzeichen eines Werts. Für eine Dezimalzahl zuerst <span class="kc">dec</span> drücken; <span class="kc o">=</span> macht aus einer eingetippten Dezimalzahl ° ′ ″. Nach <span class="kc o">×</span> und <span class="kc o">÷</span> folgt eine einfache Zahl; drücken Sie <span class="kc m">° ′ ″</span> oder <span class="kc m">h m s</span>, um stattdessen durch einen Winkel oder eine Zeit zu teilen. Eingegeben wird immer mit Punkt; Ergebnisse erscheinen mit Komma.',
     enter5: 'Mit <span class="kc">sign</span> an: Grad im Zeichen (0–29), Minuten und Sekunden eintippen, dann <span class="kc m">° ′ ″</span> drücken, bis das Zeichen erscheint; <span class="kc o">=</span> ergibt die absolute Länge.',
     hRecipes: 'Rechenwege',
     recipesIntro: 'Das sind die Tasten, die Sie drücken. Das Takht führt sie nicht für Sie aus.',
     rUT: 'Weltzeit <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: '<b>+</b> für eine Zeitzone westlich von Greenwich, <b>−</b> für östlich; bei Sommerzeit zuerst 1 h abziehen. Zeigt der Verlauf eine Reduktion, hat sich das Datum in Greenwich geändert: über 24 h ist es der nächste Tag, unter 0 der Vortag. Nehmen Sie dieses Datum für die GST um Mitternacht und für die Ephemeride.',
+    rUTnote: '<b>+</b> für eine Zeitzone westlich von Greenwich, <b>−</b> für östlich; bei Sommerzeit zuerst 1 h abziehen. Zeigt der Verlauf eine Reduktion, hat sich das Datum in Greenwich geändert: ab 24 h ist es der nächste Tag, unter 0 der Vortag. Nehmen Sie dieses Datum für die GST um Mitternacht und für die Ephemeride.',
     rLST: 'Ortssternzeit <span class="gloss" lang="en">(local sidereal time, LST)</span>',
     vUT: 'UT',
     vGST: 'GST',
     vLong: 'Länge',
     vDiff: 'Differenz',
-    vRatio: 'Verhältnis',
+    vRatio: 'Faktor',
     vLocal: 'Ortszeit',
     vZone: 'Zeitzone',
     vEarlierST: 'frühere Sternzeit',
     vLater: 'späterer Wert',
     vEarlier: 'früherer Wert',
+    vNextDay: 'Folgetag',
+    vBirthDay: 'Geburtstag',
+    vHighAsc: 'AC der höheren Breite',
+    lblAscUp: 'AC nimmt zu',
+    lblAscDown: 'AC nimmt ab',
     vLowerLat: 'niedrigere Breite',
-    vLarger: 'größerer Wert',
-    vSmaller: 'kleinerer Wert',
     vLowAsc: 'AC der niedrigeren Breite',
-    vMidnight: 'Stand um 0 Uhr',
-    lblAdd: 'zum Addieren',
-    lblSub: 'zum Subtrahieren',
     lblDirect: 'direktläufig',
     lblRetro: 'rückläufig',
     rLSTnote: 'UT und GST als Zeit (<b>h</b>) eingeben. UT vor <b>accel</b> noch einmal eintippen. Vor der Länge <b>°</b> antippen, damit sie als Winkel eingegeben wird, dann die Taste <b>÷15</b> drücken, nicht <b>÷</b> 15. <b>+</b> für östlich von Greenwich, <b>−</b> für westlich; oder eine westliche Länge mit <b>±</b> eingeben und immer <b>+</b> drücken.',
     rRAMC: 'RAMC',
-    rMC: 'MC direkt berechnet',
-    rMCnote: '<b>+180</b> drücken, wenn das Ergebnis etwa 180° von der RAMC entfernt liegt. Ergebnisse liegen immer zwischen 0 und 360°. Bei RAMC 90° oder 270° ist der Tangens nicht definiert, und der MC ist die RAMC. Speichern Sie die Schiefe Ihres Jahres in <b>OE</b>; <b>sign</b> zeigt den MC im Tierkreis.',
+    rMC: 'MC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
+    rMCnote: '<b>+180</b> drücken, wenn das Ergebnis etwa 180° von der RAMC entfernt liegt. Bei eingeschalteter Reduktion liegt das Ergebnis zwischen 0° und unter 360°. Bei RAMC 90° oder 270° ist der Tangens nicht definiert, und der MC ist die RAMC. Speichern Sie die Schiefe der Ekliptik für das betreffende Jahr in <b>OE</b>; <b>sign</b> zeigt den MC im Tierkreis.',
     rST: 'Sternzeitfaktor <span class="gloss" lang="en">(ST ratio)</span>',
     rSTnote: 'Eine Häusertabelle druckt die Sternzeit als 17° 36′ 00″. Sie ist eine Zeit: in <b>h</b> eingeben. Zeit geteilt durch Zeit ergibt den Faktor.',
     rCusp: 'MC oder AC interpolieren <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: 'Den kleineren Wert vom größeren abziehen: eine Differenz nahe 360° heißt, dass Sie falsch herum subtrahiert haben. Der Zuwachs wird auf die Sekunde gerundet, und der Verlauf vermerkt es.',
+    rCuspNote: 'Späterer minus früherer Wert, in dieser Reihenfolge: MC und AC laufen mit der Sternzeit vorwärts, daher stimmt das mit Reduktion auch über 0° Widder hinweg. Eine Differenz nahe 360° heißt, dass beide vertauscht wurden. Der Zuwachs wird auf die nächste Bogensekunde gerundet; der Verlauf vermerkt die Rundung.',
     rLat: 'Breitenfaktor <span class="gloss" lang="en">(latitude ratio)</span>',
     rLatNote: 'Die 60′ der Lektion sind 1°; das Takht lehnt 60 in den Minuten ab.',
-    rAscLat: 'AC zwischen den Breiten',
-    rAscLatNote: 'Zeile 40–41 des Arbeitsblatts sagt, ob addiert oder subtrahiert wird.',
+    rAscLat: 'AC zwischen den Breiten <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
+    rAscLatNote: 'Das Horoskop der Lektion nimmt die zweite Zeile: sein AC nimmt von 44° zu 45° ab (Zeile 39–41). Liegt die Differenz der ersten Zeile nahe 360°, nehmen Sie die zweite. Mit Reduktion gelten beide Zeilen auch über 0° Widder hinweg.',
     rBirth: 'Geburtszeitfaktor <span class="gloss" lang="en">(birth-time ratio)</span>',
     rBirthNote: '<b>÷</b> 24 allein teilt die Zeit durch die Zahl 24 und ergibt eine Zeit (00:39:48), nicht den Faktor.',
-    rPlanet: 'Ein Planet',
-    rPlanetNote: 'Jeder Faktor wird verbraucht, bevor der nächste entsteht; eine Variable <b>ratio</b> reicht also für das ganze Arbeitsblatt, <b>x</b> hält einen zweiten.',
-    rSouth: 'Südhalbkugel, mit der Tabelle',
+    rPlanet: 'Ein Planet <span class="gloss" lang="en">(planetary positions)</span>',
+    rPlanetNote: 'Stände um 0 Uhr am Geburtstag und am Folgetag. Liegt Folgetag − Geburtstag nahe 360°, ist der Planet rückläufig: nehmen Sie die zweite Zeile. Mit Reduktion gelten beide Zeilen auch über 0° Widder hinweg; sie setzen voraus, dass der Planet an diesem Tag nicht stationär wird. Jeder Faktor wird verwendet, bevor der nächste berechnet wird; eine Variable <b>ratio</b> reicht also für das ganze Arbeitsblatt, <b>x</b> hält einen zweiten.',
+    rSouth: 'Südhalbkugel, mit der Tabelle <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Die neue Sternzeit nachschlagen und wie gewohnt rechnen, dann <b>+180</b> auf MC und AC anwenden: beide bekommen das gegenüberliegende Zeichen.',
-    rAscDirect: 'AC direkt berechnet',
-    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscDirect: 'AC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
+    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Werte mit Vorzeichen',
     rSignedNote: 'Mit Reduktion bleibt ein Ergebnis vorzeichenbehaftet, wenn einer seiner Werte negativ war; Zeiten werden immer reduziert. Für Deklinationen und Breiten tippen Sie <b>Reduktion</b> in der Anzeige an, um sie auszuschalten. <b>+</b> 360 bringt eine negative Länge in den Kreis.',
     hRegs: 'Variablen',
@@ -1648,7 +1587,7 @@ I18N.de = {
     arcTimeDiv: 'Ein Winkel lässt sich nicht durch eine Zeit teilen, eine Zeit nicht durch einen Winkel.',
     ratioHint: '× braucht eine einfache Zahl. Ein Faktor ist Zeit ÷ Zeit (÷ 24 h m s) oder Winkel ÷ Winkel.',
     numByQty: 'Eine einfache Zahl lässt sich nicht durch ° ′ ″ oder h m s teilen.',
-    decToFields: u => `Eine Dezimalzahl wird nicht zu ${u}. Ganze Zahl eintippen, dann ${u}.`,
+    decToFields: u => `Für ${u} zuerst eine ganze Zahl eingeben, dann ${u} drücken.`,
     numStays: u => `Diese Zahl bleibt eine Zahl. dec macht daraus ${u}.`,
     signNum: 'Die Zeichenschreibweise gilt für Winkel (°). Das ist eine einfache Zahl.',
     divZero: 'Durch null lässt sich nicht teilen.',
@@ -1697,6 +1636,7 @@ I18N.zh = {
     helpT: '帮助（?）',
     regs: '变量',
     regA: n => `变量 ${n}`,
+    regLatA: '变量 纬度（φ）',
     trig: '三角函数',
     trigA: {sin: '正弦', cos: '余弦', tan: '正切', asin: '反正弦', acos: '反余弦', atan: '反正切'},
     decT: '以小数显示（D）',
@@ -1724,7 +1664,7 @@ I18N.zh = {
     tape: '历史记录',
     clearTape: '清除历史记录',
     close: '关闭',
-    tapeEmpty: '每按一次 =，这里就按通行的记法写下一行。点一行，就把它的结果调回显示屏。',
+    tapeEmpty: '这里记录计算和换算。点一行，即可把结果调回显示屏。',
     tapeLineT: '点此调回这个结果',
     nothingYet: '暂无',
     regFull: (n, v) => `${n}：${v}；点按调用，长按存储`,
@@ -1740,13 +1680,13 @@ I18N.zh = {
     enter1: '先输入度，按 <span class="kc m">° ′ ″</span>，再输入分，再按一次，然后输入秒：<b>23 ° ′ ″ 26 ° ′ ″ 12</b> 就是 23° 26′ 12″。没输入的部分记作 00。',
     enter2: '点左上角的 <span class="kc m">°</span> 或 <span class="kc m">h</span>，选择输入角度还是时间。在时间模式下，单位键显示 <span class="kc m">h m s</span>，15:55:00 要输入 <b>15 h m s 55</b>。',
     enter3: '分和秒只能是 0–59；遇到 60 或以上，Takht 会拒绝，而不是替你进位。度最多到 360，小时最多到 24。',
-    enter4: '按 <span class="kc">±</span> 使数值变为负数。要输入小数，先按 <span class="kc">dec</span>；按 <span class="kc o">=</span> 把输入的小数换成 ° ′ ″。<span class="kc o">×</span> 和 <span class="kc o">÷</span> 后面输入的是普通的数；若要除以一个角度或一个时间，按 <span class="kc m">° ′ ″</span> 或 <span class="kc m">h m s</span>。',
+    enter4: '按 <span class="kc">±</span> 切换数值的正负号。要输入小数，先按 <span class="kc">dec</span>；按 <span class="kc o">=</span> 把输入的小数换成 ° ′ ″。<span class="kc o">×</span> 和 <span class="kc o">÷</span> 后面输入的是普通的数；若要除以一个角度或一个时间，按 <span class="kc m">° ′ ″</span> 或 <span class="kc m">h m s</span>。',
     enter5: '开启 <span class="kc">sign</span> 后，输入星座内的度数（0–29）、分和秒，再按 <span class="kc m">° ′ ″</span>，直到出现所需的星座；按 <span class="kc o">=</span> 得到绝对黄经。',
     hRecipes: '计算步骤',
     recipesIntro: '以下是要按的键。Takht 不会替你自动执行。',
-    rUT: '世界时 <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: '时区在格林尼治以西用 <b>+</b>，以东用 <b>−</b>；若实行夏令时，先减去 1 小时。如果历史记录里出现化归，格林尼治的日期就变了：超过 24 小时是第二天，低于 0 是前一天。午夜 GST 和星历都要用这个日期。',
-    rLST: '地方恒星时 <span class="gloss" lang="en">(local sidereal time, LST)</span>',
+    rUT: '世界时<span class="gloss" lang="en">（Universal Time, UT）</span>',
+    rUTnote: '时区在格林尼治以西用 <b>+</b>，以东用 <b>−</b>；若实行夏令时，先减去 1 小时。如果历史记录里出现化归，格林尼治的日期就变了：达到或超过 24 小时是第二天，低于 0 是前一天。午夜 GST 和星历都要用这个日期。',
+    rLST: '地方恒星时<span class="gloss" lang="en">（local sidereal time, LST）</span>',
     vUT: 'UT',
     vGST: 'GST',
     vLong: '经度',
@@ -1757,35 +1697,35 @@ I18N.zh = {
     vEarlierST: '较早的恒星时',
     vLater: '较晚值',
     vEarlier: '较早值',
+    vNextDay: '次日',
+    vBirthDay: '出生当日',
+    vHighAsc: '较高纬度的 ASC',
+    lblAscUp: 'ASC 增大',
+    lblAscDown: 'ASC 减小',
     vLowerLat: '较低纬度',
-    vLarger: '较大值',
-    vSmaller: '较小值',
     vLowAsc: '较低纬度的 ASC',
-    vMidnight: '0 时的位置',
-    lblAdd: '相加时',
-    lblSub: '相减时',
     lblDirect: '顺行',
     lblRetro: '逆行',
     rLSTnote: 'UT 和 GST 用时间（<b>h</b>）输入。按 <b>accel</b> 之前再输入一次 UT。输入经度前先点 <b>°</b>，让它以角度的形式输入，然后按 <b>÷15</b> 键，而不是 <b>÷</b> 15。格林尼治以东用 <b>+</b>，以西用 <b>−</b>；也可以用 <b>±</b> 输入西经，然后一律按 <b>+</b>。',
     rRAMC: 'RAMC',
-    rMC: '直接计算 MC',
-    rMCnote: '如果结果与 RAMC 相差约 180°，就按 <b>+180</b>。结果总在 0–360° 之间。RAMC 为 90° 或 270° 时，正切无意义，MC 即等于 RAMC。把你那一年的黄赤交角存入 <b>OE</b>；<b>sign</b> 读出 MC 在黄道上的位置。',
-    rST: '恒星时比例 <span class="gloss" lang="en">(ST ratio)</span>',
+    rMC: '直接计算 MC<span class="gloss" lang="en">（direct calculation）</span>',
+    rMCnote: '如果结果与 RAMC 相差约 180°，就按 <b>+180</b>。开启化归时，结果在 0°（含）至 360°（不含）之间。RAMC 为 90° 或 270° 时，正切无意义，MC 即等于 RAMC。把你那一年的黄赤交角存入 <b>OE</b>；<b>sign</b> 读出 MC 在黄道上的位置。',
+    rST: '恒星时比例<span class="gloss" lang="en">（ST ratio）</span>',
     rSTnote: '宫位表把恒星时印成 17° 36′ 00″ 的样子。它是时间：请用 <b>h</b> 输入。时间除以时间，得到的就是比例。',
-    rCusp: '插值求 MC 或 ASC <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: '用较大值减较小值：差值接近 360°，说明减反了。增量舍入到秒；若有舍入，历史记录会注明。',
-    rLat: '纬度比例 <span class="gloss" lang="en">(latitude ratio)</span>',
+    rCusp: '插值求 MC 或 ASC<span class="gloss" lang="en">（interpolation）</span>',
+    rCuspNote: '按较晚值减较早值的顺序：MC 和 ASC 随恒星时向前推进，所以开启化归时，跨越白羊座 0° 也同样成立。差值接近 360°，说明两者颠倒了。增量舍入到最接近的角秒；历史记录会注明舍入。',
+    rLat: '纬度比例<span class="gloss" lang="en">（latitude ratio）</span>',
     rLatNote: '课文中的 60′ 就是 1°；Takht 不接受分为 60。',
-    rAscLat: '两纬度之间的 ASC',
-    rAscLatNote: '工作表第 40–41 行说明是相加还是相减。',
-    rBirth: '出生时间比例 <span class="gloss" lang="en">(birth-time ratio)</span>',
+    rAscLat: '两纬度之间的 ASC<span class="gloss" lang="en">（ASC interpolation between latitudes）</span>',
+    rAscLatNote: '课文中的星盘用第二行：从 44° 到 45°，ASC 减小（第 39–41 行）。如果第一行的差值接近 360°，就用第二行。开启化归时，两行在跨越白羊座 0° 时都成立。',
+    rBirth: '出生时间比例<span class="gloss" lang="en">（birth-time ratio）</span>',
     rBirthNote: '单独的 <b>÷</b> 24 是把时间除以数字 24，得到的是一个时间（00:39:48），而不是比例。',
-    rPlanet: '行星位置',
-    rPlanetNote: '每个比例都在求下一个比例之前用完，所以整张工作表只需一个 <b>ratio</b> 变量；<b>x</b> 可以再存一个。',
-    rSouth: '南半球（查表）',
+    rPlanet: '行星位置<span class="gloss" lang="en">（planetary positions）</span>',
+    rPlanetNote: '出生当日与次日 0 时的位置。如果“次日 − 出生当日”接近 360°，行星就在逆行：用第二行。开启化归时，两行在跨越白羊座 0° 时都成立；前提是行星当天没有停滞。每个比例都在求下一个比例之前使用，所以整张工作表只需一个 <b>ratio</b> 变量；<b>x</b> 可以再存一个。',
+    rSouth: '南半球，查表<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '查新的恒星时，照常计算，然后对 MC 和 ASC 各按一次 <b>+180</b>：两者都取对面的星座。',
-    rAscDirect: '直接计算 ASC',
-    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
+    rAscDirect: '直接计算 ASC<span class="gloss" lang="en">（direct calculation）</span>',
+    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
     rSigned: '带正负号的值',
     rSignedNote: '开启化归时，只要参与运算的值有一个是负数，结果就保留正负号；时间总是化归。计算赤纬和纬度时，点显示屏上的 <b>化归</b> 把它关掉。<b>+</b> 360 把负的经度带回圆周之内。',
     hRegs: '变量',
@@ -1806,7 +1746,7 @@ I18N.zh = {
     kConv: '×15、÷15',
     kNeg: '改变正负号',
     hAbout: '关于',
-    course: `依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6；例题星盘出自该书。`,
+    course: '依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6；例题星盘出自该课程。',
     about: `<i>Takht</i> 是古代算家演算用的尘板（沙盘）。属于 ${DAH} 的一部分。字体：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed 与 Noto Sans Symbols，采用 SIL Open Font License。`
   },
   m: {
@@ -1841,7 +1781,7 @@ I18N.zh = {
     arcTimeDiv: '角度不能除以时间，时间也不能除以角度。',
     ratioHint: '× 后面要跟普通的数。比例是时间 ÷ 时间（÷ 24 h m s）或角度 ÷ 角度。',
     numByQty: '普通的数不能除以 ° ′ ″ 或 h m s。',
-    decToFields: u => `小数不能变成 ${u}。请输入整数，再按 ${u}。`,
+    decToFields: u => `要用 ${u} 输入，请先输入整数，再按 ${u}。`,
     numStays: u => `这个数仍是普通的数。按 dec 把它化为 ${u}。`,
     signNum: '星座记法只用于角度（°）。这是一个普通的数。',
     divZero: '不能除以零。',
@@ -1889,10 +1829,11 @@ I18N.ja = {
     helpA: 'ヘルプ・手順・設定',
     helpT: 'ヘルプ（?）',
     regs: '変数メモリー',
-    regA: n => `メモリー ${n}`,
+    regA: n => `変数メモリー ${n}`,
+    regLatA: '変数メモリー 緯度（φ）',
     trig: '三角関数',
     trigA: {sin: 'サイン', cos: 'コサイン', tan: 'タンジェント', asin: 'アークサイン', acos: 'アークコサイン', atan: 'アークタンジェント'},
-    decT: '10進数で表示（D）',
+    decT: '小数形式で表示（D）',
     signT: '星座（サイン）内の度数で表示（S）',
     x15T: '時間を弧に（T）',
     d15T: '弧を時間に（Shift T）',
@@ -1917,7 +1858,7 @@ I18N.ja = {
     tape: '履歴',
     clearTape: '履歴を消去',
     close: '閉じる',
-    tapeEmpty: '= を押すたびに、一般的な表記でここに 1 行ずつ記録されます。行をタップすると、その結果を表示に呼び出せます。',
+    tapeEmpty: '計算と換算の結果がここに記録されます。行をタップすると、その結果を呼び出せます。',
     tapeLineT: 'タップしてこの結果を呼び出す',
     nothingYet: 'まだありません',
     regFull: (n, v) => `${n}：${v} — タップで呼び出し、長押しで登録`,
@@ -1933,13 +1874,13 @@ I18N.ja = {
     enter1: '度を入力して <span class="kc m">° ′ ″</span> を押し、分を入力してもう一度押し、秒を入力します。<b>23 ° ′ ″ 26 ° ′ ″ 12</b> で 23° 26′ 12″ です。入力しなかった欄は 00 になります。',
     enter2: '左上の <span class="kc m">°</span> か <span class="kc m">h</span> で、弧と時間のどちらを入力するか選びます。時間では単位キーが <span class="kc m">h m s</span> になり、15:55:00 は <b>15 h m s 55</b> と入力します。',
     enter3: '分と秒は 0〜59 です。60 以上は繰り上げずに受け付けません。度は 360 まで、時は 24 まで入力できます。',
-    enter4: '<span class="kc">±</span> で値を負にします。小数を入力するときは先に <span class="kc">dec</span> を押し、<span class="kc o">=</span> で入力した小数を ° ′ ″ に変えます。<span class="kc o">×</span> と <span class="kc o">÷</span> のあとは普通の数を入力します。角度や時間で割るときは <span class="kc m">° ′ ″</span> か <span class="kc m">h m s</span> を押します。',
+    enter4: '<span class="kc">±</span> で値の符号を反転します。小数を入力するときは先に <span class="kc">dec</span> を押し、<span class="kc o">=</span> で入力した小数を ° ′ ″ に変えます。<span class="kc o">×</span> と <span class="kc o">÷</span> のあとは普通の数を入力します。角度や時間で割るときは <span class="kc m">° ′ ″</span> か <span class="kc m">h m s</span> を押します。',
     enter5: '<span class="kc">sign</span> をオンにしたら、サイン内の度（0〜29）・分・秒を入力し、目的のサインが出るまで <span class="kc m">° ′ ″</span> を押します。<span class="kc o">=</span> で絶対黄経になります。',
     hRecipes: '計算の手順',
     recipesIntro: '押すキーの順番です。Takht が代わりに実行することはありません。',
-    rUT: '世界時 <span class="gloss" lang="en">(Universal Time, UT)</span>',
-    rUTnote: 'グリニッジより西のタイムゾーンは <b>+</b>、東は <b>−</b> です。夏時間なら先に 1 時間引きます。履歴に範囲補正が出たら、グリニッジの日付が変わっています。24 時間を超えたら翌日、0 を下回ったら前日です。深夜 0 時の GST とエフェメリスには、その日付を使います。',
-    rLST: '地方恒星時 <span class="gloss" lang="en">(local sidereal time, LST)</span>',
+    rUT: '世界時<span class="gloss" lang="en">（Universal Time, UT）</span>',
+    rUTnote: 'グリニッジより西のタイムゾーンは <b>+</b>、東は <b>−</b> です。夏時間なら先に 1 時間引きます。履歴に範囲補正が出たら、グリニッジの日付が変わっています。24 時間以上なら翌日、0 を下回ったら前日です。深夜 0 時の GST とエフェメリスには、その日付を使います。',
+    rLST: '地方恒星時<span class="gloss" lang="en">（local sidereal time, LST）</span>',
     vUT: 'UT',
     vGST: 'GST',
     vLong: '経度',
@@ -1950,35 +1891,35 @@ I18N.ja = {
     vEarlierST: '前の恒星時',
     vLater: '後の値',
     vEarlier: '前の値',
+    vNextDay: '翌日',
+    vBirthDay: '出生日',
+    vHighAsc: '高い緯度の ASC',
+    lblAscUp: 'ASC が増える',
+    lblAscDown: 'ASC が減る',
     vLowerLat: '低い緯度',
-    vLarger: '大きい方',
-    vSmaller: '小さい方',
     vLowAsc: '低い緯度の ASC',
-    vMidnight: '0 時の位置',
-    lblAdd: '足すとき',
-    lblSub: '引くとき',
     lblDirect: '順行',
     lblRetro: '逆行',
     rLSTnote: 'UT と GST は時間（<b>h</b>）で入力します。<b>accel</b> の前に UT をもう一度入力します。経度の前に <b>°</b> を押して弧として入力し、<b>÷15</b> キーを押します。<b>÷</b> 15 ではありません。グリニッジより東なら <b>+</b>、西なら <b>−</b> です。西経を <b>±</b> で入力して、いつも <b>+</b> を押してもかまいません。',
     rRAMC: 'RAMC',
-    rMC: 'MC を直接計算',
-    rMCnote: '答えが RAMC から約 180° 離れていたら <b>+180</b> を押します。結果は常に 0〜360° です。RAMC が 90° か 270° のときは tan に値がなく、MC は RAMC と同じです。その年の黄道傾斜角を <b>OE</b> に登録し、<b>sign</b> で黄道上の位置を読みます。',
-    rST: '恒星時比 <span class="gloss" lang="en">(ST ratio)</span>',
+    rMC: 'MC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
+    rMCnote: '答えが RAMC から約 180° 離れていたら <b>+180</b> を押します。範囲補正がオンなら、結果は 0° 以上 360° 未満です。RAMC が 90° か 270° のときは tan に値がなく、MC は RAMC と同じです。その年の黄道傾斜角を <b>OE</b> に登録し、<b>sign</b> で黄道上の位置を読みます。',
+    rST: '恒星時比<span class="gloss" lang="en">（ST ratio）</span>',
     rSTnote: 'ハウス表は恒星時を 17° 36′ 00″ のように印刷しています。これは時間なので、<b>h</b> で入力します。時間を時間で割ると比率になります。',
-    rCusp: 'MC・ASC の補間 <span class="gloss" lang="en">(interpolation)</span>',
-    rCuspNote: '大きい方から小さい方を引きます。差が 360° 近くになったら、引く向きが逆です。増分は秒単位に丸め、丸めたときは履歴に記されます。',
-    rLat: '緯度比 <span class="gloss" lang="en">(latitude ratio)</span>',
+    rCusp: 'MC・ASC の補間<span class="gloss" lang="en">（interpolation）</span>',
+    rCuspNote: '後の値から前の値を、この順に引きます。MC と ASC は恒星時とともに進むので、範囲補正がオンなら牡羊座 0° をまたいでも成り立ちます。差が 360° 近くになったら、2 つが入れ替わっています。増分は最も近い角秒に丸め、履歴に記録します。',
+    rLat: '緯度比<span class="gloss" lang="en">（latitude ratio）</span>',
     rLatNote: 'レッスンの 60′ は 1° です。分に 60 は入力できません。',
-    rAscLat: '緯度の間の ASC',
-    rAscLatNote: '足すか引くかは、ワークシートの 40〜41 行に従います。',
-    rBirth: '出生時刻比 <span class="gloss" lang="en">(birth-time ratio)</span>',
+    rAscLat: '緯度の間の ASC<span class="gloss" lang="en">（ASC interpolation between latitudes）</span>',
+    rAscLatNote: 'レッスンのチャートは 2 行目です。44° から 45° で ASC が減ります（39〜41 行）。1 行目の差が 360° 近くになったら 2 行目を使います。範囲補正がオンなら、どちらの行も牡羊座 0° をまたいで成り立ちます。',
+    rBirth: '出生時刻比<span class="gloss" lang="en">（birth-time ratio）</span>',
     rBirthNote: '<b>÷</b> 24 だけだと、時間を数 24 で割るので時間（00:39:48）になり、比率にはなりません。',
-    rPlanet: '惑星の位置',
-    rPlanetNote: '比率は次の比率を出す前に使い終わるので、ワークシート全体で <b>ratio</b> メモリー 1 つで足ります。もう 1 つは <b>x</b> に入れられます。',
-    rSouth: '南半球（表を使う場合）',
+    rPlanet: '惑星の位置<span class="gloss" lang="en">（planetary positions）</span>',
+    rPlanetNote: '出生日と翌日の 0 時の位置を使います。「翌日 − 出生日」が 360° 近くになったら逆行なので、2 行目を使います。範囲補正がオンなら、どちらの行も牡羊座 0° をまたいで成り立ちます。その日のうちに留にならないことが前提です。比率は次の比率を出す前に使うので、ワークシート全体で <b>ratio</b> メモリー 1 つで足ります。もう 1 つは <b>x</b> に入れられます。',
+    rSouth: '南半球・表を使う場合<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '新しい恒星時で表を引き、いつもどおり計算してから、MC と ASC にそれぞれ <b>+180</b> を押します。どちらも反対側のサインになります。',
-    rAscDirect: 'ASC を直接計算',
-    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
+    rAscDirect: 'ASC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
+    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
     rSigned: '符号つきの値',
     rSignedNote: '範囲補正がオンでも、計算に負の値が含まれていれば結果は符号つきのままです。時間は常に補正されます。赤緯や緯度を扱うときは、表示の <b>範囲補正</b> を押してオフにします。<b>+</b> 360 で負の経度を円の中に戻せます。',
     hRegs: '変数メモリー',
@@ -2034,7 +1975,7 @@ I18N.ja = {
     arcTimeDiv: '角度を時間で、時間を角度で割ることはできません。',
     ratioHint: '× には普通の数を使います。比率は時間 ÷ 時間（÷ 24 h m s）か角度 ÷ 角度です。',
     numByQty: '普通の数を ° ′ ″ や h m s で割ることはできません。',
-    decToFields: u => `小数は ${u} になりません。整数を入力して ${u} を押します。`,
+    decToFields: u => `${u} で入力するには、先に整数を入力して ${u} を押します。`,
     numStays: u => `この数は数のままです。dec で ${u} にします。`,
     signNum: 'サイン表記は弧（°）用です。これは普通の数です。',
     divZero: '0 では割れません。',
@@ -2096,7 +2037,7 @@ const M = () => Object.assign({}, I18N.en.m, L().m);
 const N = s => String(s).replace('.', L().dec);   // results only: 23.43666 → 23,43666 where the language writes a comma
 const keyLabel = k => Object.assign({}, I18N.en.keys, L().keys)[k] || k;
 // ⁻ is in none of the embedded faces, so sin⁻¹ is drawn as sin with a raised −1
-const supHTML = s => esc(s).replace(/⁻¹/g, '<sup>−1</sup>');
+const supHTML = s => esc(s).replace(/⁻¹/g, '<sup>−1</sup>').replace(/\^(−?\d+)/g, '<sup>$1</sup>');
 const LANG_NAMES = [['en','English'],['nb','Norsk bokmål'],['es','Español'],['fr','Français'],['de','Deutsch'],['zh','简体中文'],['ja','日本語']];
 function initialLang(){
   let saved = null;
@@ -2123,7 +2064,7 @@ function applyLang(l, first){
   document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', T[el.dataset.i18nAria]); });
   document.querySelectorAll('.langsel').forEach(sel => { if (sel.value !== LANG) sel.value = LANG; });
   document.querySelectorAll('.k.trig').forEach(b => { b.innerHTML = supHTML(keyLabel(b.dataset.k)); b.setAttribute('aria-label', T.trigA[b.dataset.k]); });
-  document.querySelectorAll('.k[data-reg]').forEach(b => b.setAttribute('aria-label', T.regA(b.dataset.reg)));
+  document.querySelectorAll('.k[data-reg]').forEach(b => b.setAttribute('aria-label', b.dataset.reg === 'φ' ? T.regLatA : T.regA(b.dataset.reg)));
   document.querySelectorAll('[data-keylabel]').forEach(el => { el.innerHTML = supHTML(keyLabel(el.dataset.keylabel)); });
   if (!first){ renderTape(); render(); }
 }
@@ -2182,7 +2123,10 @@ function fmtNum(v){
   if (v === 0) return '0';
   const a = Math.abs(v), whole = String(Math.floor(a)).length;
   let s = truncFixed(a, Math.max(0, Math.min(7, 12 - whole)));
-  if (+s === 0) s = truncFixed(a, 2 - Math.floor(Math.log10(a)));
+  if (a < 1e-7){   // 0.000000000000595 would not fit: 5.953…×10^−13, the exponent drawn raised
+    const e = Math.floor(Math.log10(a)), m = truncFixed(a / Math.pow(10, e), 3);
+    return N((v < 0 ? MINUS : '') + m) + (Math.abs(+m * Math.pow(10, e) - a) > a*1e-9 ? '…' : '') + '×10^' + MINUS + (-e);
+  }
   return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-12 ? '…' : '');
 }
 function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
@@ -2408,7 +2352,11 @@ function evaluate(op, a, b){
       if (res !== raw) notes.push(`${fmtSex(raw, a.mode)} → ${fmtSex(res, a.mode)}`);
       return {val: sex(res, a.mode), notes};
     }
-    if (a.k === 'dec' && b.k === 'dec') return {val: dec(clean(op === '+' ? a.v + b.v : a.v - b.v)), notes: []};
+    if (a.k === 'dec' && b.k === 'dec'){
+      // 0.3 − 0.1 − 0.2 leaves 2.8 × 10⁻¹⁷ of binary residue: drop what is that small beside the operands, and nothing else
+      const y = op === '+' ? a.v + b.v : a.v - b.v;
+      return {val: dec(Math.abs(y) < 1e-12*Math.max(Math.abs(a.v), Math.abs(b.v)) ? 0 : y), notes: []};
+    }
     return refuse(M().decSex(op === '+'));
   }
   if (op === '÷' && (b.k === 'dec' ? b.v === 0 : b.sec === 0)) return refuse(M().divZero);
@@ -2417,7 +2365,7 @@ function evaluate(op, a, b){
     if (a.mode !== b.mode) return refuse(M().arcTimeDiv);
     return {val: dec(a.sec / b.sec), notes: []};   // a ratio, kept at full precision
   }
-  if (a.k === 'dec' && b.k === 'dec') return {val: dec(clean(op === '×' ? a.v*b.v : a.v/b.v)), notes: []};
+  if (a.k === 'dec' && b.k === 'dec') return {val: dec(op === '×' ? a.v*b.v : a.v/b.v), notes: []};
   if (a.k === 'dec'){
     if (op === '÷') return refuse(M().numByQty);
     [a, b] = [b, a];   // ratio × difference, the same as difference × ratio
@@ -2656,7 +2604,7 @@ function renderEntry(e){
   return h;
 }
 function renderVal(v){
-  if (v.k === 'dec') return esc(fmtV(v));
+  if (v.k === 'dec') return supHTML(fmtV(v));
   if (S.view.dec){
     const a = Math.abs(v.sec), d = toDecSteps(parts(a)).result;
     return (v.sec < 0 ? MINUS : '') + N(truncFixed(d, 5)) + (v.mode === TIME ? '<span class="u"> h</span>' : '°');
@@ -2674,7 +2622,7 @@ function render(){
   const e = S.entry, mode = curMode();
   $('#val').innerHTML = e ? renderEntry(e) : renderVal(S.val);
   fit();
-  $('#pending').textContent = S.pending ? `${fmtOperand(S.pending.a)} ${S.pending.op}` : '';
+  $('#pending').innerHTML = S.pending ? supHTML(`${fmtOperand(S.pending.a)} ${S.pending.op}`) : '';
   document.querySelectorAll('#modeSeg button').forEach(b =>
     b.setAttribute('aria-pressed', String(b.dataset.k === 'mode:' + mode)));
   const inds = [];
@@ -2732,9 +2680,10 @@ function openSheet(el, first, behind){
 }
 function openTape(){
   $('#tapeHandle').setAttribute('aria-expanded', 'true'); renderTape(true);
-  if (isPhone()){ $('#tape').setAttribute('role', 'dialog'); $('#tape').setAttribute('aria-modal', 'true'); openSheet($('#tape'), $('#tapeClose'), $('.calc')); }
+  if (isPhone()){ $('#tape').setAttribute('role', 'dialog'); $('#tape').setAttribute('aria-modal', 'true'); openSheet($('#tape'), $('#tapeClose'), $('.calc')); opener = $('#tapeHandle'); }
 }
-function openHelp(){ openSheet($('#help'), $('#helpClose'), $('.page')); }
+// a click keeps focus off the keys, so the sheet remembers its own button to hand focus back to
+function openHelp(){ openSheet($('#help'), $('#helpClose'), $('.page')); opener = $('.helpbtn'); }
 function closeSheets(){
   const was = sheetOpen();
   $('#tape').classList.remove('open'); $('#help').classList.remove('open'); $('#scrim').classList.remove('show');
@@ -2823,6 +2772,8 @@ document.addEventListener('keydown', ev => {
   if (k === 'mode') k = 'mode:' + (curMode() === ARC ? TIME : ARC);
   const b = document.querySelector(`[data-k="${k}"]`);
   if (b){ b.classList.add('flash'); setTimeout(() => b.classList.remove('flash'), 110); }
+  // typing on the calculator takes focus off a button, so the next Enter is = again
+  if (at.closest('button')) document.activeElement.blur();
   press(k);
 });
 window.addEventListener('resize', fit);

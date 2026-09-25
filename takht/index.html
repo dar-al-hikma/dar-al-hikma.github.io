@@ -368,7 +368,7 @@
   </main>
 
   <footer data-i18n-html="foot">
-    Follows Lesson 5, §2 and §6 of Ben Dykes' <em>Traditional Natal Astrology Course</em>. One file, no network.
+    No network, nothing phoning home.
     Fonts: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed and Noto Sans Symbols, SIL Open Font License.
     Part of <a class="dah" href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.
   </footer>
@@ -387,7 +387,7 @@
     <p data-i18n-html="enter2"></p>
     <p data-i18n-html="enter3"></p>
 
-    <h3 data-i18n="hRecipes">Recipes from the lesson</h3>
+    <h3 data-i18n="hRecipes">Recipes</h3>
     <p data-i18n="recipesIntro"></p>
     <div class="recipe">
       <b data-i18n="rLST">Local sidereal time</b>
@@ -627,7 +627,7 @@ function arcToTimeSteps(x){
 
 // ---------- languages ----------
 // Every string the Takht shows lives in I18N.<lang>: `ui` for the page, `m` for the
-// one-line messages. Key labels (sin, dec, sto, LST …) are the lesson's own notation and
+// one-line messages. Key labels (sin, dec, sto, LST …) are the usual chart-work notation and
 // stay as they are in every language. A key missing from a language falls back to English.
 const I18N = {};
 const DAH = '<a class="dah" href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>';
@@ -639,7 +639,7 @@ I18N.en = {
     title: 'The Takht',
     tagline: 'a dust board for chart calculation',
     mastSub: 'Degrees, minutes, seconds · hours, minutes, seconds · nothing else',
-    foot: `Follows Lesson 5, §2 and §6 of Ben Dykes' <em>Traditional Natal Astrology Course</em>. One file, no network. Fonts: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed and Noto Sans Symbols, SIL Open Font License. Part of ${DAH}.`,
+    foot: `No network, nothing phoning home. Fonts: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed and Noto Sans Symbols, SIL Open Font License. Part of ${DAH}.`,
     language: 'Language',
     calc: 'Calculator',
     units: 'Units',
@@ -669,7 +669,7 @@ I18N.en = {
     tape: 'History',
     clearTape: 'clear history',
     close: 'close',
-    tapeEmpty: "Each = writes a line here, in the lesson's notation. Tap a line to bring its result back to the display.",
+    tapeEmpty: 'Each = writes a line here, in standard notation. Tap a line to bring its result back to the display.',
     tapeLineT: 'Tap to bring this result back',
     nothingYet: 'nothing yet',
     regFull: (n, v) => `${n}: ${v} — tap to recall, hold to store`,
@@ -684,7 +684,7 @@ I18N.en = {
     enter1: 'Type the degrees, press <span class="kc m">° ′ ″</span>, type the minutes, press it again, type the seconds: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> is 23° 26′ 12″. Anything you leave out is 00.',
     enter2: 'Tap <span class="kc m">°</span> or <span class="kc m">h</span> at the top left to type arc or time. In time the unit key reads <span class="kc m">h m s</span> and 15:55:00 is typed <b>15 h m s 55</b>.',
     enter3: 'Minutes and seconds run 0–59; the Takht refuses 60 or more rather than carry it for you. For a decimal, press <span class="kc">dec</span> first; <span class="kc o">=</span> turns it back into ° ′ ″.',
-    hRecipes: 'Recipes from the lesson',
+    hRecipes: 'Recipes',
     recipesIntro: 'These are the keys to press. The Takht does not run them for you.',
     rLST: 'Local sidereal time',
     vUT: 'UT',
@@ -715,7 +715,7 @@ I18N.en = {
     kView: 'dec, sign',
     kConv: '×15, ÷15',
     hAbout: 'About',
-    about: `A <i>takht</i> is the dust board the old reckoners worked their sums on. This one follows Lesson 5, §2 and §6 of Ben Dykes' <em>Traditional Natal Astrology Course</em>. Part of ${DAH}. Fonts: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed and Noto Sans Symbols, under the SIL Open Font License.`
+    about: `A <i>takht</i> is the dust board the old reckoners worked their sums on. Part of ${DAH}. Fonts: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed and Noto Sans Symbols, under the SIL Open Font License.`
   },
   m: {
     manyDigits: 'That is as many digits as the Takht will hold.',
@@ -729,7 +729,6 @@ I18N.en = {
     secRange: 'Seconds run 0–59. Sixty is a whole minute.',
     onePoint: 'One decimal point is enough.',
     wholeNumbers: 'Minutes and seconds are whole numbers. For a decimal, press dec first.',
-    pressDec: 'To type a decimal, press dec first.',
     plainAfter: (op, ex) => `${op} takes a plain number after it, like ${ex}.`,
     decNoUnits: 'A decimal has no ° ′ ″. Press = to turn it into ° ′ ″.',
     decOn: 'dec is on, so you are typing a decimal. Press dec to type ° ′ ″.',
@@ -781,7 +780,7 @@ I18N.nb = {
     title: 'Takhten',
     tagline: 'en støvtavle for horoskopberegning',
     mastSub: 'Grader, minutter, sekunder · timer, minutter, sekunder · ikke noe mer',
-    foot: `Følger leksjon 5, §2 og §6 i Ben Dykes' <em>Traditional Natal Astrology Course</em>. Én fil, ingen nettverkstilgang. Skrifter: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed og Noto Sans Symbols, SIL Open Font License. En del av ${DAH}.`,
+    foot: `Ingen nettverkstilgang, ingenting som ringer hjem. Skrifter: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed og Noto Sans Symbols, SIL Open Font License. En del av ${DAH}.`,
     language: 'Språk',
     calc: 'Kalkulator',
     units: 'Enheter',
@@ -811,7 +810,7 @@ I18N.nb = {
     tape: 'Historikk',
     clearTape: 'tøm historikken',
     close: 'lukk',
-    tapeEmpty: 'Hvert = skriver en linje her, med leksjonens notasjon. Trykk på en linje for å hente resultatet tilbake til skjermen.',
+    tapeEmpty: 'Hvert = skriver en linje her, med vanlig notasjon. Trykk på en linje for å hente resultatet tilbake til skjermen.',
     tapeLineT: 'Trykk for å hente dette resultatet tilbake',
     nothingYet: 'ingenting ennå',
     regFull: (n, v) => `${n}: ${v} — trykk for å hente fram, hold inne for å lagre`,
@@ -826,7 +825,7 @@ I18N.nb = {
     enter1: 'Skriv gradene, trykk på <span class="kc m">° ′ ″</span>, skriv minuttene, trykk på den igjen, skriv sekundene: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> er 23° 26′ 12″. Det du utelater, blir 00.',
     enter2: 'Trykk på <span class="kc m">°</span> eller <span class="kc m">h</span> øverst til venstre for å skrive bue eller tid. I tid står det <span class="kc m">h m s</span> på enhetstasten, og 15:55:00 skrives <b>15 h m s 55</b>.',
     enter3: 'Minutter og sekunder går fra 0 til 59; takhten nekter 60 eller mer i stedet for å gjøre det om til en hel grad eller time for deg. For et desimaltall, trykk på <span class="kc">dec</span> først; <span class="kc o">=</span> gjør det om til ° ′ ″ igjen. Du skriver alltid med punktum; resultatene vises med komma.',
-    hRecipes: 'Oppskrifter fra leksjonen',
+    hRecipes: 'Oppskrifter',
     recipesIntro: 'Dette er tastene du skal trykke. Takhten kjører dem ikke for deg.',
     rLST: 'Lokal stjernetid',
     vUT: 'UT',
@@ -857,7 +856,7 @@ I18N.nb = {
     kView: 'dec, sign',
     kConv: '×15, ÷15',
     hAbout: 'Om',
-    about: `En <i>takht</i> er støvtavlen de gamle regnemestrene gjorde utregningene sine på. Denne følger leksjon 5, §2 og §6 i Ben Dykes' <em>Traditional Natal Astrology Course</em>. En del av ${DAH}. Skrifter: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed og Noto Sans Symbols, under SIL Open Font License.`
+    about: `En <i>takht</i> er støvtavlen de gamle regnemestrene gjorde utregningene sine på. En del av ${DAH}. Skrifter: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed og Noto Sans Symbols, under SIL Open Font License.`
   },
   m: {
     manyDigits: 'Takhten har ikke plass til flere sifre.',
@@ -871,7 +870,6 @@ I18N.nb = {
     secRange: 'Sekunder går fra 0 til 59. Seksti er et helt minutt.',
     onePoint: 'Ett desimaltegn er nok.',
     wholeNumbers: 'Minutter og sekunder er hele tall. For et desimaltall, trykk på dec først.',
-    pressDec: 'For å skrive et desimaltall, trykk på dec først.',
     plainAfter: (op, ex) => `Etter ${op} kommer et vanlig tall, som ${ex}.`,
     decNoUnits: 'Et desimaltall har ikke ° ′ ″. Trykk på = for å gjøre det om til ° ′ ″.',
     decOn: 'dec er på, så du skriver et desimaltall. Trykk på dec for å skrive ° ′ ″.',
@@ -924,7 +922,7 @@ I18N.es = {
     title: 'El takht',
     tagline: 'una tabla de polvo para calcular cartas',
     mastSub: 'Grados, minutos, segundos · horas, minutos, segundos · nada más',
-    foot: `Sigue la lección 5, §2 y §6, del <em>Traditional Natal Astrology Course</em> de Ben Dykes. Un solo archivo; no necesita conexión. Fuentes: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed y Noto Sans Symbols, con licencia SIL Open Font License. Forma parte de ${DAH}.`,
+    foot: `Sin conexión; nada se envía a ninguna parte. Fuentes: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed y Noto Sans Symbols, con licencia SIL Open Font License. Forma parte de ${DAH}.`,
     language: 'Idioma',
     calc: 'Calculadora',
     units: 'Unidades',
@@ -954,7 +952,7 @@ I18N.es = {
     tape: 'Historial',
     clearTape: 'borrar el historial',
     close: 'cerrar',
-    tapeEmpty: 'Cada = escribe aquí una línea, con la notación de la lección. Pulse una línea para devolver su resultado a la pantalla.',
+    tapeEmpty: 'Cada = escribe aquí una línea, con la notación habitual. Pulse una línea para devolver su resultado a la pantalla.',
     tapeLineT: 'Pulse para recuperar este resultado',
     nothingYet: 'nada todavía',
     regFull: (n, v) => `${n}: ${v} — pulse para recuperar, mantenga para asignar`,
@@ -969,7 +967,7 @@ I18N.es = {
     enter1: 'Escriba los grados, pulse <span class="kc m">° ′ ″</span>, escriba los minutos, vuelva a pulsar esa tecla y escriba los segundos: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> es 23° 26′ 12″. Lo que omita vale 00.',
     enter2: 'Pulse <span class="kc m">°</span> o <span class="kc m">h</span> arriba a la izquierda para escribir arco o tiempo. En tiempo la tecla de unidades muestra <span class="kc m">h m s</span>, y 15:55:00 se escribe <b>15 h m s 55</b>.',
     enter3: 'Los minutos y los segundos van de 0 a 59; el takht rechaza 60 o más en lugar de hacer el acarreo por usted. Para un decimal, pulse antes <span class="kc">dec</span>; <span class="kc o">=</span> lo vuelve a convertir en ° ′ ″. Los números se escriben siempre con punto; los resultados se muestran con coma.',
-    hRecipes: 'Procedimientos de la lección',
+    hRecipes: 'Procedimientos',
     recipesIntro: 'Estas son las teclas que hay que pulsar. El takht no las ejecuta por usted.',
     rLST: 'Tiempo sidéreo local',
     vUT: 'UT',
@@ -1000,7 +998,7 @@ I18N.es = {
     kView: 'dec, sign',
     kConv: '×15, ÷15',
     hAbout: 'Acerca de',
-    about: `Un <i>takht</i> es la tabla de polvo en la que los antiguos calculistas hacían sus cuentas. Este sigue la lección 5, §2 y §6, del <em>Traditional Natal Astrology Course</em> de Ben Dykes. Forma parte de ${DAH}. Fuentes: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed y Noto Sans Symbols, con licencia SIL Open Font License.`
+    about: `Un <i>takht</i> es la tabla de polvo en la que los antiguos calculistas hacían sus cuentas. Forma parte de ${DAH}. Fuentes: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed y Noto Sans Symbols, con licencia SIL Open Font License.`
   },
   m: {
     manyDigits: 'El takht no admite más cifras.',
@@ -1014,7 +1012,6 @@ I18N.es = {
     secRange: 'Los segundos van de 0 a 59. Sesenta es un minuto entero.',
     onePoint: 'Basta con un separador decimal.',
     wholeNumbers: 'Los minutos y los segundos son números enteros. Para un decimal, pulse antes dec.',
-    pressDec: 'Para escribir un decimal, pulse antes dec.',
     plainAfter: (op, ex) => `Después de ${op} va un número simple, como ${ex}.`,
     decNoUnits: 'Un decimal no tiene ° ′ ″. Pulse = para convertirlo en ° ′ ″.',
     decOn: 'dec está activo, así que está escribiendo un decimal. Pulse dec para escribir ° ′ ″.',
@@ -1066,7 +1063,7 @@ I18N.fr = {
     title: 'Le takht',
     tagline: 'une table à poussière pour le calcul des thèmes',
     mastSub: 'Degrés, minutes, secondes · heures, minutes, secondes · rien de plus',
-    foot: `D’après la leçon 5, §2 et §6, du <em>Traditional Natal Astrology Course</em> de Ben Dykes. Un seul fichier, aucun réseau. Polices : EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed et Noto Sans Symbols, SIL Open Font License. Fait partie de ${DAH}.`,
+    foot: `Aucun réseau, rien n’est envoyé nulle part. Polices : EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed et Noto Sans Symbols, SIL Open Font License. Fait partie de ${DAH}.`,
     language: 'Langue',
     calc: 'Calculatrice',
     units: 'Unités',
@@ -1096,7 +1093,7 @@ I18N.fr = {
     tape: 'Historique',
     clearTape: 'effacer l’historique',
     close: 'fermer',
-    tapeEmpty: 'Chaque = écrit ici une ligne, dans la notation de la leçon. Touchez une ligne pour ramener son résultat à l’affichage.',
+    tapeEmpty: 'Chaque = écrit ici une ligne, dans la notation usuelle. Touchez une ligne pour ramener son résultat à l’affichage.',
     tapeLineT: 'Touchez pour ramener ce résultat',
     nothingYet: 'rien pour l’instant',
     regFull: (n, v) => `${n} : ${v} — toucher pour rappeler, maintenir pour stocker`,
@@ -1111,7 +1108,7 @@ I18N.fr = {
     enter1: 'Tapez les degrés, appuyez sur <span class="kc m">° ′ ″</span>, tapez les minutes, appuyez de nouveau, tapez les secondes : <b>23 ° ′ ″ 26 ° ′ ″ 12</b> donne 23° 26′ 12″. Ce que vous omettez vaut 00.',
     enter2: 'Touchez <span class="kc m">°</span> ou <span class="kc m">h</span> en haut à gauche pour saisir un arc ou un temps. En temps, la touche d’unité affiche <span class="kc m">h m s</span>, et 15:55:00 se tape <b>15 h m s 55</b>.',
     enter3: 'Minutes et secondes vont de 0 à 59 ; le takht refuse 60 ou plus au lieu de faire la retenue à votre place. Pour un décimal, appuyez d’abord sur <span class="kc">dec</span> ; <span class="kc o">=</span> le reconvertit en ° ′ ″. La saisie se fait toujours avec un point ; les résultats s’affichent avec une virgule.',
-    hRecipes: 'Recettes de la leçon',
+    hRecipes: 'Recettes',
     recipesIntro: 'Voici les touches à presser. Le takht ne les exécute pas à votre place.',
     rLST: 'Temps sidéral local',
     vUT: 'TU',
@@ -1142,7 +1139,7 @@ I18N.fr = {
     kView: 'dec, sign',
     kConv: '×15, ÷15',
     hAbout: 'À propos',
-    about: `Le <i>takht</i> est la table à poussière sur laquelle les anciens calculateurs posaient leurs opérations. Celui-ci suit la leçon 5, §2 et §6, du <em>Traditional Natal Astrology Course</em> de Ben Dykes. Fait partie de ${DAH}. Polices : EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed et Noto Sans Symbols, sous SIL Open Font License.`
+    about: `Le <i>takht</i> est la table à poussière sur laquelle les anciens calculateurs posaient leurs opérations. Fait partie de ${DAH}. Polices : EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed et Noto Sans Symbols, sous SIL Open Font License.`
   },
   m: {
     manyDigits: 'Le takht ne peut pas contenir plus de chiffres.',
@@ -1156,7 +1153,6 @@ I18N.fr = {
     secRange: 'Les secondes vont de 0 à 59. Soixante font une minute entière.',
     onePoint: 'Un seul séparateur décimal suffit.',
     wholeNumbers: 'Minutes et secondes sont des nombres entiers. Pour un décimal, appuyez d’abord sur dec.',
-    pressDec: 'Pour taper un décimal, appuyez d’abord sur dec.',
     plainAfter: (op, ex) => `Après ${op} vient un nombre simple, comme ${ex}.`,
     decNoUnits: 'Un décimal n’a pas de ° ′ ″. Appuyez sur = pour le convertir en ° ′ ″.',
     decOn: 'dec est actif : vous tapez un décimal. Appuyez sur dec pour taper des ° ′ ″.',
@@ -1208,7 +1204,7 @@ I18N.de = {
     title: 'Das Takht',
     tagline: 'ein Staubbrett für die Horoskopberechnung',
     mastSub: 'Grad, Minuten, Sekunden · Stunden, Minuten, Sekunden · sonst nichts',
-    foot: `Nach Lektion 5, §2 und §6 von Ben Dykes’ <em>Traditional Natal Astrology Course</em>. Eine Datei, ohne Netzwerkzugriff. Schriften: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, SIL Open Font License. Teil von ${DAH}.`,
+    foot: `Ohne Netzwerkzugriff; nichts telefoniert nach Hause. Schriften: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, SIL Open Font License. Teil von ${DAH}.`,
     language: 'Sprache',
     calc: 'Rechner',
     units: 'Einheiten',
@@ -1238,7 +1234,7 @@ I18N.de = {
     tape: 'Verlauf',
     clearTape: 'Verlauf löschen',
     close: 'schließen',
-    tapeEmpty: 'Jedes = schreibt hier eine Zeile in der Schreibweise der Lektion. Tippen Sie eine Zeile an, um ihr Ergebnis zurück in die Anzeige zu holen.',
+    tapeEmpty: 'Jedes = schreibt hier eine Zeile in der üblichen Schreibweise. Tippen Sie eine Zeile an, um ihr Ergebnis zurück in die Anzeige zu holen.',
     tapeLineT: 'Antippen, um dieses Ergebnis zurückzuholen',
     nothingYet: 'noch nichts',
     regFull: (n, v) => `${n}: ${v} — antippen zum Abrufen, halten zum Speichern`,
@@ -1253,7 +1249,7 @@ I18N.de = {
     enter1: 'Grad eintippen, <span class="kc m">° ′ ″</span> drücken, Minuten eintippen, noch einmal drücken, Sekunden eintippen: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> ist 23° 26′ 12″. Was Sie weglassen, ist 00.',
     enter2: 'Tippen Sie oben links <span class="kc m">°</span> oder <span class="kc m">h</span> an, um einen Winkel oder eine Zeit einzugeben. Im Zeitmodus zeigt die Einheitentaste <span class="kc m">h m s</span>, und 15:55:00 wird als <b>15 h m s 55</b> eingetippt.',
     enter3: 'Minuten und Sekunden reichen von 0 bis 59; das Takht lehnt 60 oder mehr ab, statt den Übertrag für Sie vorzunehmen. Für eine Dezimalzahl zuerst <span class="kc">dec</span> drücken; <span class="kc o">=</span> macht daraus wieder ° ′ ″. Eingegeben wird immer mit Punkt; Ergebnisse erscheinen mit Komma.',
-    hRecipes: 'Rechenwege aus der Lektion',
+    hRecipes: 'Rechenwege',
     recipesIntro: 'Das sind die Tasten, die Sie drücken. Das Takht führt sie nicht für Sie aus.',
     rLST: 'Ortssternzeit',
     vUT: 'UT',
@@ -1284,7 +1280,7 @@ I18N.de = {
     kView: 'dec, sign',
     kConv: '×15, ÷15',
     hAbout: 'Über',
-    about: `Ein <i>Takht</i> ist das Staubbrett, auf dem die alten Rechenmeister ihre Rechnungen ausführten. Dieses folgt Lektion 5, §2 und §6 von Ben Dykes’ <em>Traditional Natal Astrology Course</em>. Teil von ${DAH}. Schriften: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, unter der SIL Open Font License.`
+    about: `Ein <i>Takht</i> ist das Staubbrett, auf dem die alten Rechenmeister ihre Rechnungen ausführten. Teil von ${DAH}. Schriften: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, unter der SIL Open Font License.`
   },
   m: {
     manyDigits: 'Mehr Ziffern fasst das Takht nicht.',
@@ -1298,7 +1294,6 @@ I18N.de = {
     secRange: 'Sekunden reichen von 0 bis 59. Sechzig sind eine ganze Minute.',
     onePoint: 'Ein Dezimaltrennzeichen genügt.',
     wholeNumbers: 'Minuten und Sekunden sind ganze Zahlen. Für eine Dezimalzahl zuerst dec drücken.',
-    pressDec: 'Für eine Dezimalzahl zuerst dec drücken.',
     plainAfter: (op, ex) => `Nach ${op} kommt eine einfache Zahl, etwa ${ex}.`,
     decNoUnits: 'Eine Dezimalzahl hat keine ° ′ ″. Drücken Sie =, um sie in ° ′ ″ umzuwandeln.',
     decOn: 'dec ist an, Sie tippen also eine Dezimalzahl. Drücken Sie dec, um ° ′ ″ einzugeben.',
@@ -1350,7 +1345,7 @@ I18N.zh = {
     title: 'Takht 沙盘',
     tagline: '推算星盘用的尘板',
     mastSub: '度、分、秒 · 时、分、秒 · 别无其他',
-    foot: `依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6。单一文件，无需联网。字体：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed 与 Noto Sans Symbols，采用 SIL Open Font License。属于 ${DAH} 的一部分。`,
+    foot: `无需联网，不向外发送任何数据。字体：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed 与 Noto Sans Symbols，采用 SIL Open Font License。属于 ${DAH} 的一部分。`,
     language: '语言',
     calc: '计算器',
     units: '单位',
@@ -1380,7 +1375,7 @@ I18N.zh = {
     tape: '历史记录',
     clearTape: '清除历史记录',
     close: '关闭',
-    tapeEmpty: '每按一次 =，这里就按课程的记法写下一行。点一行，就把它的结果调回显示屏。',
+    tapeEmpty: '每按一次 =，这里就按通行的记法写下一行。点一行，就把它的结果调回显示屏。',
     tapeLineT: '点此调回这个结果',
     nothingYet: '暂无',
     regFull: (n, v) => `${n}：${v}；点按调用，长按存储`,
@@ -1395,7 +1390,7 @@ I18N.zh = {
     enter1: '先输入度，按 <span class="kc m">° ′ ″</span>，再输入分，再按一次，然后输入秒：<b>23 ° ′ ″ 26 ° ′ ″ 12</b> 就是 23° 26′ 12″。没输入的部分记作 00。',
     enter2: '点左上角的 <span class="kc m">°</span> 或 <span class="kc m">h</span>，选择输入角度还是时间。在时间模式下，单位键显示 <span class="kc m">h m s</span>，15:55:00 要输入 <b>15 h m s 55</b>。',
     enter3: '分和秒只能是 0–59；遇到 60 或以上，Takht 会拒绝，而不是替你进位。要输入小数，先按 <span class="kc">dec</span>；按 <span class="kc o">=</span> 再换回 ° ′ ″。',
-    hRecipes: '课程中的计算步骤',
+    hRecipes: '计算步骤',
     recipesIntro: '以下是要按的键。Takht 不会替你自动执行。',
     rLST: '地方恒星时',
     vUT: 'UT',
@@ -1426,7 +1421,7 @@ I18N.zh = {
     kView: 'dec、sign',
     kConv: '×15、÷15',
     hAbout: '关于',
-    about: `<i>Takht</i> 是古代算家演算用的尘板（沙盘）。本工具依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6。属于 ${DAH} 的一部分。字体：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed 与 Noto Sans Symbols，采用 SIL Open Font License。`
+    about: `<i>Takht</i> 是古代算家演算用的尘板（沙盘）。属于 ${DAH} 的一部分。字体：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed 与 Noto Sans Symbols，采用 SIL Open Font License。`
   },
   m: {
     manyDigits: 'Takht 放不下更多位数了。',
@@ -1440,7 +1435,6 @@ I18N.zh = {
     secRange: '秒只能是 0–59。满六十秒即为 1 分。',
     onePoint: '一个小数点就够了。',
     wholeNumbers: '分和秒都是整数。要输入小数，先按 dec。',
-    pressDec: '要输入小数，先按 dec。',
     plainAfter: (op, ex) => `${op} 后面要跟一个普通的数，例如 ${ex}。`,
     decNoUnits: '小数没有 ° ′ ″。按 = 把它化为 ° ′ ″。',
     decOn: 'dec 已开启，你输入的是小数。按 dec 改为输入 ° ′ ″。',
@@ -1492,7 +1486,7 @@ I18N.ja = {
     title: 'Takht 砂盤',
     tagline: 'ホロスコープを手で計算するための砂の板',
     mastSub: '度・分・秒 ／ 時・分・秒 ／ それ以外はなし',
-    foot: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。ネットワーク不要の単一ファイル。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。${DAH} の一部です。`,
+    foot: `ネットワーク不要で、外部への送信は一切ありません。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。${DAH} の一部です。`,
     language: '言語',
     calc: '電卓',
     units: '単位',
@@ -1522,7 +1516,7 @@ I18N.ja = {
     tape: '履歴',
     clearTape: '履歴を消去',
     close: '閉じる',
-    tapeEmpty: '= を押すたびに、教本と同じ表記でここに 1 行ずつ記録されます。行をタップすると、その結果を表示に呼び出せます。',
+    tapeEmpty: '= を押すたびに、一般的な表記でここに 1 行ずつ記録されます。行をタップすると、その結果を表示に呼び出せます。',
     tapeLineT: 'タップしてこの結果を呼び出す',
     nothingYet: 'まだありません',
     regFull: (n, v) => `${n}：${v} — タップで呼び出し、長押しで登録`,
@@ -1537,7 +1531,7 @@ I18N.ja = {
     enter1: '度を入力して <span class="kc m">° ′ ″</span> を押し、分を入力してもう一度押し、秒を入力します。<b>23 ° ′ ″ 26 ° ′ ″ 12</b> で 23° 26′ 12″ です。入力しなかった欄は 00 になります。',
     enter2: '左上の <span class="kc m">°</span> か <span class="kc m">h</span> で、弧と時間のどちらを入力するか選びます。時間では単位キーが <span class="kc m">h m s</span> になり、15:55:00 は <b>15 h m s 55</b> と入力します。',
     enter3: '分と秒は 0〜59 です。60 以上は繰り上げずに受け付けません。小数を入力するときは先に <span class="kc">dec</span> を押します。<span class="kc o">=</span> で ° ′ ″ に戻ります。',
-    hRecipes: '教本の手順',
+    hRecipes: '計算の手順',
     recipesIntro: '押すキーの順番です。Takht が代わりに実行することはありません。',
     rLST: '地方恒星時',
     vUT: 'UT',
@@ -1568,7 +1562,7 @@ I18N.ja = {
     kView: 'dec、sign',
     kConv: '×15、÷15',
     hAbout: 'このページについて',
-    about: `<i>Takht</i>（タフト）は、昔の計算家が計算に使った砂の板です。本ツールは Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。${DAH} の一部です。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。`
+    about: `<i>Takht</i>（タフト）は、昔の計算家が計算に使った砂の板です。${DAH} の一部です。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。`
   },
   m: {
     manyDigits: 'これ以上の桁は入りません。',
@@ -1582,7 +1576,6 @@ I18N.ja = {
     secRange: '秒は 0〜59 です。60 秒でちょうど 1 分になります。',
     onePoint: '小数点は 1 つしか入力できません。',
     wholeNumbers: '分と秒は整数です。小数を入力するときは先に dec を押します。',
-    pressDec: '小数を入力するときは、先に dec を押します。',
     plainAfter: (op, ex) => `${op} のあとには ${ex} のような普通の数を入力します。`,
     decNoUnits: '小数には ° ′ ″ がありません。= を押すと ° ′ ″ に変わります。',
     decOn: 'dec がオンなので、小数を入力しています。° ′ ″ を入力するには dec を押します。',
@@ -1840,9 +1833,10 @@ function point(){
     if (e.t.includes('.')) return refuse(M().onePoint);
     e.t = (e.t === '' ? '0' : e.t) + '.'; e.touched = true; return;
   }
-  if (e && e.touched) return refuse(M().wholeNumbers);
-  if (expectedKind() === 'dec'){ S.entry = newEntry('dec'); S.entry.t = '0.'; S.entry.touched = true; return; }
-  refuse(M().pressDec);
+  const loneZero = e && e.k === 'sex' && e.i === 0 && e.f[0] === '0';   // 0.5 as on a pocket calculator
+  if (e && e.touched && !loneZero) return refuse(M().wholeNumbers);   // 23. mid-entry stays refused
+  // a point before any digit starts a decimal, as on a pocket calculator: . 5 sin⁻¹ gives 30°
+  S.entry = newEntry('dec'); S.entry.t = '0.'; S.entry.touched = true;
 }
 function unitKey(){
   let e = S.entry;

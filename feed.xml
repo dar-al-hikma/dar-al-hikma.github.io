@@ -9,7 +9,17 @@
     <atom:link href="https://dar-al-hikma.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Small self-contained pieces, each one a single page, made to be opened and used. New pieces as they go on the shelf.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 15:30:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2026 12:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>The Takht</title>
+      <link>https://dar-al-hikma.github.io/takht/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/takht/</guid>
+      <pubDate>Fri, 25 Sep 2026 12:00:00 GMT</pubDate>
+      <category>Calculation</category>
+      <category>Tool</category>
+      <description>A dust board for chart calculation. A calculator in degrees, minutes and seconds with only the keys a hand-cast chart needs: wrap at 360° and 24h, ×15 and ÷15, the acceleration on sidereal time, a ratio that rounds to the second, sign notation, and registers named for the worksheet. Every sum goes on a tape in the lesson's notation. On a phone it fills the screen like a calculator app.</description>
+    </item>
 
     <item>
       <title>Sayyid's Orrery</title>

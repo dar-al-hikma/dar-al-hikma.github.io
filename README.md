@@ -13,7 +13,7 @@ tracking. Save one to disk and it still works.
 | [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic | 7 languages |
 | [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties | 7 languages |
 | [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses | 7 languages |
-| [The Takht](https://dar-al-hikma.github.io/takht/) | A dust board for chart calculation | English |
+| [The Takht](https://dar-al-hikma.github.io/takht/) | A dust board for chart calculation | 7 languages |
 
 ## Layout
 
@@ -24,6 +24,11 @@ tracking. Save one to disk and it still works.
 ├── .nojekyll           serve files as-is, no Jekyll pass
 └── <piece>/index.html  one folder per piece
 ```
+
+A piece that is meant to be added to a phone's home screen (so far only the
+Takht) also keeps a `manifest.webmanifest` and its PNG icons in its folder.
+The page never depends on them: a saved `index.html` still works without them
+and just has no home-screen icon.
 
 ## Adding a piece
 

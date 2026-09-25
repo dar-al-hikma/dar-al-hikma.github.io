@@ -283,6 +283,8 @@
     .val{font-size:34px;line-height:1.1}
     .handle{height:calc(40px + env(safe-area-inset-bottom))}
   }
+  /* the narrowest phones: the sign placeholder gives way before the digits do */
+  @media (max-width:340px){ .val .ph{font-size:.36em;letter-spacing:0} }
   /* desktop: the history takes the calculator's height and scrolls inside it, however long it grows */
   @media (min-width:820px){ .tape{contain:size} }
   /* between phone and desktop: the history goes under the calculator */
@@ -557,7 +559,7 @@ function fmtHMS(x){ return `${pad2(x.d)}:${pad2(x.m)}:${pad2(x.s)}`; }
 function signOf(x){ const t = norm(toSec(x)); const i = Math.floor(t/(30*3600)); const r = fromSec(t - i*30*3600); return {i, r}; }
 function fmtSign(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} <span class="glyph">${SIGNS[i].g}</span>`; }
 function fmtSignText(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} ${SIGNS[i].g}`; }
-function truncFixed(v, p){ const f = Math.pow(10,p); const t = Math.trunc(v*f + 1e-9)/f; let s = t.toFixed(p); s = s.replace(/0+$/,'').replace(/\.$/,''); return s; }
+function truncFixed(v, p){ const f = Math.pow(10,p); const t = Math.trunc(v*f + 1e-9)/f; let s = t.toFixed(p); if (p > 0) s = s.replace(/0+$/,'').replace(/\.$/,''); return s; }
 function fracStr(v, p){ // ".43666" style fraction for staircase display
   const s = truncFixed(v, p); return s.startsWith('0.') ? s.slice(1) : (s==='0' ? '.0' : s); }
 
@@ -695,6 +697,7 @@ I18N.en = {
     close: 'close',
     tapeEmpty: 'Calculations and conversions are listed here. Tap a line to bring its result back to the display.',
     tapeLineT: 'Tap to bring this result back',
+    pow: e => `times 10 to the power ${e}`,
     nothingYet: 'nothing yet',
     regFull: (n, v) => `${n}: ${v} — tap to recall, hold to store`,
     regEmpty: n => `${n}: empty — hold to store`,
@@ -744,7 +747,7 @@ I18N.en = {
     rCusp: 'Interpolating the MC or an ASC',
     rCuspNote: 'Later minus earlier, in that order: the MC and the ASC move forward with sidereal time, so with wrap on this holds across 0° Aries too. A difference close to 360° means the two were swapped. The increment is rounded to the second; the history says so.',
     rLat: 'Latitude ratio',
-    rLatNote: 'The lesson\'s 60′ is 1°; the Takht refuses 60 in the minutes.',
+    rLatNote: 'The lesson\'s 60′ is 1°; the Takht refuses 60 in the minutes. The table\'s latitudes carry no sign: for a southern birth, store <b>φ</b> without <b>±</b>.',
     rAscLat: 'ASC between latitudes',
     rAscLatNote: 'The lesson\'s chart takes the second line: its ASC decreases as latitude increases from 44° to 45° (rows 39–41). If the first line\'s difference comes out close to 360°, use the second. With wrap on, both lines hold across 0° Aries.',
     rBirth: 'Birth-time ratio',
@@ -754,7 +757,7 @@ I18N.en = {
     rSouth: 'Southern births, by the table',
     rSouthNote: 'Look up the new ST and work as usual, then press <b>+180</b> on the MC and on the ASC: both take the opposite sign.',
     rAscDirect: 'Direct ASC',
-    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. If RAMC is also 90° or 270°, the place is on a polar circle, the ecliptic lies along the horizon, and there is no single Ascendant. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. At RAMC 90° or 270° on a polar circle (latitude 90° minus <b>OE</b>), the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Signed values',
     rSignedNote: 'With wrap on, a result stays signed if any value in it was negative; times always wrap. For declinations and latitudes, tap <b>wrap</b> on the display to turn it off. <b>+</b> 360 brings a negative longitude into the circle.',
     hRegs: 'Registers',
@@ -814,6 +817,7 @@ I18N.en = {
     numStays: u => `This number stays a number. Press dec to turn it into ${u}.`,
     signNum: 'Sign notation is for arc (°). This is a plain number.',
     divZero: 'Nothing can be divided by zero.',
+    tooLarge: 'That result is too large for the Takht.',
     nothingYet: 'Nothing to work out yet.',
     nothingToDo: 'Nothing to work out. Type a number and an operation.',
     accelTime: 'accel takes a time: UT in h m s.',
@@ -889,6 +893,7 @@ I18N.nb = {
     close: 'lukk',
     tapeEmpty: 'Beregninger og omregninger vises her. Trykk på en linje for å hente resultatet tilbake til skjermen.',
     tapeLineT: 'Trykk for å hente dette resultatet tilbake',
+    pow: e => `ganger 10 opphøyd i ${e}`,
     nothingYet: 'ingenting ennå',
     regFull: (n, v) => `${n}: ${v} — trykk for å hente fram, hold inne for å lagre`,
     regEmpty: n => `${n}: tomt — hold inne for å lagre`,
@@ -938,7 +943,7 @@ I18N.nb = {
     rCusp: 'Interpolasjon av MC eller AC <span class="gloss" lang="en">(interpolation)</span>',
     rCuspNote: 'Senere minus tidligere, i den rekkefølgen: MC og AC går framover med stjernetiden, så med reduksjon på stemmer dette også over 0° Væren. En differanse nær 360° betyr at de to er byttet om. Tilveksten avrundes til nærmeste sekund; historikken viser eventuell avrunding.',
     rLat: 'Breddegradsforhold <span class="gloss" lang="en">(latitude ratio)</span>',
-    rLatNote: 'Leksjonens 60′ er 1°; takhten nekter 60 i minuttene.',
+    rLatNote: 'Leksjonens 60′ er 1°; takhten nekter 60 i minuttene. Tabellens breddegrader har ikke fortegn; ved et sørlig fødested lagrer du <b>φ</b> uten <b>±</b>.',
     rAscLat: 'AC mellom breddegradene <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
     rAscLatNote: 'Leksjonens horoskop bruker den andre linjen: AC minker når breddegraden øker fra 44° til 45° (radene 39–41). Blir differansen i første linje nær 360°, bruk den andre. Med reduksjon på holder begge linjene også over 0° Væren.',
     rBirth: 'Fødselstidsforhold <span class="gloss" lang="en">(birth-time ratio)</span>',
@@ -948,7 +953,7 @@ I18N.nb = {
     rSouth: 'Sørlige halvkule, med tabellen <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Slå opp den nye ST-en og regn som vanlig, og trykk så på <b>+180</b> for MC og for AC: begge får motsatt tegn.',
     rAscDirect: 'AC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Er RAMC også 90° eller 270°, ligger stedet på en polarsirkel, ekliptikken faller sammen med horisonten, og det finnes ingen entydig ascendant. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Ved RAMC 90° eller 270° på en polarsirkel (breddegrad 90° minus <b>OE</b>) faller ekliptikken sammen med horisonten, og det finnes ingen entydig ascendant, uansett hva trinn 3 gir. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Verdier med fortegn',
     rSignedNote: 'Med reduksjon på beholder et resultat fortegnet hvis en av verdiene i det var negativ; tider reduseres alltid. For deklinasjoner og breddegrader, trykk på <b>reduksjon</b> i skjermen for å slå den av. <b>+</b> 360 bringer en negativ lengde inn i sirkelen.',
     hRegs: 'Variabler',
@@ -1008,6 +1013,7 @@ I18N.nb = {
     numStays: u => `Tallet forblir et tall. Trykk på dec for å gjøre det om til ${u}.`,
     signNum: 'Tegnnotasjon er for bue (°). Dette er et vanlig tall.',
     divZero: 'Ingenting kan deles på null.',
+    tooLarge: 'Resultatet er for stort for takhten.',
     nothingYet: 'Ingenting å regne ut ennå.',
     nothingToDo: 'Ingenting å regne ut. Skriv et tall og en regneart.',
     accelTime: 'accel tar en tid: UT i h m s.',
@@ -1084,6 +1090,7 @@ I18N.es = {
     close: 'cerrar',
     tapeEmpty: 'Aquí se registran los cálculos y las conversiones. Pulse una línea para recuperar su resultado.',
     tapeLineT: 'Pulse para recuperar este resultado',
+    pow: e => `por 10 elevado a ${e}`,
     nothingYet: 'nada todavía',
     regFull: (n, v) => `${n}: ${v} — pulse para recuperar, mantenga para asignar`,
     regEmpty: n => `${n}: vacía — mantenga para asignar`,
@@ -1133,7 +1140,7 @@ I18N.es = {
     rCusp: 'Interpolar el MC o un ASC <span class="gloss" lang="en">(interpolation)</span>',
     rCuspNote: 'Posterior menos anterior, en ese orden: el MC y el ASC avanzan con el tiempo sidéreo, así que con la reducción activada esto vale también al cruzar 0° de Aries. Una diferencia cercana a 360° indica que se invirtieron. El incremento se redondea al segundo más cercano; el historial indica el redondeo.',
     rLat: 'Proporción de latitud <span class="gloss" lang="en">(latitude ratio)</span>',
-    rLatNote: 'Los 60′ de la lección son 1°; el takht rechaza 60 en los minutos.',
+    rLatNote: 'Los 60′ de la lección son 1°; el takht rechaza 60 en los minutos. Las latitudes de la tabla no llevan signo: para un nacimiento en el hemisferio sur, guarde <b>φ</b> sin <b>±</b>.',
     rAscLat: 'ASC entre latitudes <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
     rAscLatNote: 'La carta de la lección usa la segunda línea: su ASC disminuye al pasar de la latitud de 44° a la de 45° (filas 39–41). Si la diferencia de la primera línea sale cercana a 360°, use la segunda. Con la reducción activada, ambas líneas valen también al cruzar 0° de Aries.',
     rBirth: 'Proporción de la hora de nacimiento <span class="gloss" lang="en">(birth-time ratio)</span>',
@@ -1143,7 +1150,7 @@ I18N.es = {
     rSouth: 'Hemisferio sur, con la tabla <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Busque el nuevo TS y calcule como siempre; después pulse <b>+180</b> sobre el MC y sobre el ASC: ambos toman el signo opuesto.',
     rAscDirect: 'ASC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. Si además la RAMC es 90° o 270°, el lugar está en un círculo polar, la eclíptica coincide con el horizonte y no hay un ascendente único. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. Con la RAMC en 90° o 270° en un círculo polar (latitud 90° menos <b>OE</b>), la eclíptica coincide con el horizonte y no hay un ascendente único, dé lo que dé el paso 3. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valores con signo',
     rSignedNote: 'Con la reducción activada, un resultado conserva el signo si alguno de sus valores era negativo; los tiempos se reducen siempre. Para declinaciones y latitudes, pulse <b>reducir</b> en la pantalla para desactivarla. <b>+</b> 360 lleva una longitud negativa al círculo.',
     hRegs: 'Variables',
@@ -1203,6 +1210,7 @@ I18N.es = {
     numStays: u => `Este número sigue siendo un número. Pulse dec para convertirlo en ${u}.`,
     signNum: 'La notación por signos es para arco (°). Esto es un número simple.',
     divZero: 'No se puede dividir entre cero.',
+    tooLarge: 'Ese resultado es demasiado grande para el takht.',
     nothingYet: 'Todavía no hay nada que calcular.',
     nothingToDo: 'No hay nada que calcular. Escriba un número y una operación.',
     accelTime: 'accel requiere un tiempo: UT en h m s.',
@@ -1278,6 +1286,7 @@ I18N.fr = {
     close: 'fermer',
     tapeEmpty: 'Les calculs et les conversions s’inscrivent ici. Touchez une ligne pour rappeler son résultat.',
     tapeLineT: 'Touchez pour ramener ce résultat',
+    pow: e => `fois 10 puissance ${e}`,
     nothingYet: 'rien pour l’instant',
     regFull: (n, v) => `${n} : ${v} — toucher pour rappeler, maintenir pour stocker`,
     regEmpty: n => `${n} : vide — maintenir pour stocker`,
@@ -1327,7 +1336,7 @@ I18N.fr = {
     rCusp: 'Interpoler le MC ou un ASC <span class="gloss" lang="en">(interpolation)</span>',
     rCuspNote: 'Suivante moins précédente, dans cet ordre : le MC et l’ASC avancent avec le temps sidéral, donc, les résultats étant ramenés, cela vaut aussi au passage de 0° du Bélier. Une différence proche de 360° signifie qu’elles ont été inversées. L’incrément est arrondi à la seconde la plus proche ; l’historique indique l’arrondi.',
     rLat: 'Rapport de latitude <span class="gloss" lang="en">(latitude ratio)</span>',
-    rLatNote: 'Les 60′ de la leçon font 1° ; le takht refuse 60 dans les minutes.',
+    rLatNote: 'Les 60′ de la leçon font 1° ; le takht refuse 60 dans les minutes. Les latitudes de la table n’ont pas de signe : pour une naissance dans l’hémisphère sud, stockez <b>φ</b> sans <b>±</b>.',
     rAscLat: 'ASC entre deux latitudes <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
     rAscLatNote: 'Le thème de la leçon prend la seconde ligne : son ASC diminue lorsque la latitude passe de 44° à 45° (lignes 39–41). Si la différence de la première ligne est proche de 360°, prenez la seconde. Les résultats étant ramenés, les deux lignes valent aussi au passage de 0° du Bélier.',
     rBirth: 'Rapport de l’heure de naissance <span class="gloss" lang="en">(birth-time ratio)</span>',
@@ -1337,7 +1346,7 @@ I18N.fr = {
     rSouth: 'Hémisphère sud, avec la table <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Cherchez le nouveau TS et calculez comme d’habitude, puis appuyez sur <b>+180</b> pour le MC et pour l’ASC : tous deux prennent le signe opposé.',
     rAscDirect: 'ASC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Si la RAMC vaut aussi 90° ou 270°, le lieu est sur un cercle polaire, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Avec une RAMC de 90° ou 270° sur un cercle polaire (latitude 90° moins <b>OE</b>), l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valeurs signées',
     rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour désactiver la réduction. <b>+</b> 360 ramène une longitude négative dans le cercle.',
     hRegs: 'Variables',
@@ -1397,6 +1406,7 @@ I18N.fr = {
     numStays: u => `Ce nombre reste un nombre. Appuyez sur dec pour le convertir en ${u}.`,
     signNum: 'La notation par signe vaut pour l’arc (°). C’est un nombre simple.',
     divZero: 'On ne peut pas diviser par zéro.',
+    tooLarge: 'Ce résultat est trop grand pour le takht.',
     nothingYet: 'Rien à calculer pour l’instant.',
     nothingToDo: 'Rien à calculer. Tapez un nombre et une opération.',
     accelTime: 'accel attend un temps : le TU en h m s.',
@@ -1472,6 +1482,7 @@ I18N.de = {
     close: 'schließen',
     tapeEmpty: 'Berechnungen und Umrechnungen erscheinen hier. Tippen Sie eine Zeile an, um ihr Ergebnis abzurufen.',
     tapeLineT: 'Antippen, um dieses Ergebnis zurückzuholen',
+    pow: e => `mal 10 hoch ${e}`,
     nothingYet: 'noch nichts',
     regFull: (n, v) => `${n}: ${v} — antippen zum Abrufen, halten zum Speichern`,
     regEmpty: n => `${n}: leer — halten zum Speichern`,
@@ -1521,7 +1532,7 @@ I18N.de = {
     rCusp: 'MC oder AC interpolieren <span class="gloss" lang="en">(interpolation)</span>',
     rCuspNote: 'Späterer minus früherer Wert, in dieser Reihenfolge: MC und AC laufen mit der Sternzeit vorwärts, daher stimmt das mit Reduktion auch über 0° Widder hinweg. Eine Differenz nahe 360° heißt, dass beide vertauscht wurden. Der Zuwachs wird auf die nächste Bogensekunde gerundet; der Verlauf vermerkt die Rundung.',
     rLat: 'Breitenfaktor <span class="gloss" lang="en">(latitude ratio)</span>',
-    rLatNote: 'Die 60′ der Lektion sind 1°; das Takht lehnt 60 in den Minuten ab.',
+    rLatNote: 'Die 60′ der Lektion sind 1°; das Takht lehnt 60 in den Minuten ab. Die Breiten der Tabelle haben kein Vorzeichen: Für eine Geburt auf der Südhalbkugel <b>φ</b> ohne <b>±</b> speichern.',
     rAscLat: 'AC zwischen den Breiten <span class="gloss" lang="en">(ASC interpolation between latitudes)</span>',
     rAscLatNote: 'Das Horoskop der Lektion nimmt die zweite Zeile: sein AC nimmt beim Übergang von 44° auf 45° geografischer Breite ab (Zeilen 39–41). Liegt die Differenz der ersten Zeile nahe 360°, nehmen Sie die zweite. Mit Reduktion gelten beide Zeilen auch über 0° Widder hinweg.',
     rBirth: 'Geburtszeitfaktor <span class="gloss" lang="en">(birth-time ratio)</span>',
@@ -1531,7 +1542,7 @@ I18N.de = {
     rSouth: 'Südhalbkugel, mit der Tabelle <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Die neue Sternzeit nachschlagen und wie gewohnt rechnen, dann <b>+180</b> auf MC und AC anwenden: beide bekommen das gegenüberliegende Zeichen.',
     rAscDirect: 'AC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Ist auch die RAMC 90° oder 270°, liegt der Ort auf einem Polarkreis, die Ekliptik fällt mit dem Horizont zusammen, und es gibt keinen eindeutigen Aszendenten. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Bei RAMC 90° oder 270° auf einem Polarkreis (Breite 90° minus <b>OE</b>) fällt die Ekliptik mit dem Horizont zusammen, und es gibt keinen eindeutigen Aszendenten, gleich was Schritt 3 ergibt. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Werte mit Vorzeichen',
     rSignedNote: 'Mit Reduktion bleibt ein Ergebnis vorzeichenbehaftet, wenn einer seiner Werte negativ war; Zeiten werden immer reduziert. Für Deklinationen und Breiten tippen Sie <b>Reduktion</b> in der Anzeige an, um sie auszuschalten. <b>+</b> 360 bringt eine negative Länge in den Kreis.',
     hRegs: 'Variablen',
@@ -1591,6 +1602,7 @@ I18N.de = {
     numStays: u => `Diese Zahl bleibt eine Zahl. dec macht daraus ${u}.`,
     signNum: 'Die Zeichenschreibweise gilt für Winkel (°). Das ist eine einfache Zahl.',
     divZero: 'Durch null lässt sich nicht teilen.',
+    tooLarge: 'Dieses Ergebnis ist zu groß für das Takht.',
     nothingYet: 'Noch nichts zu rechnen.',
     nothingToDo: 'Nichts zu rechnen. Zahl und Rechenart eingeben.',
     accelTime: 'accel erwartet eine Zeit: UT in h m s.',
@@ -1666,6 +1678,7 @@ I18N.zh = {
     close: '关闭',
     tapeEmpty: '这里记录计算和换算。点一行，即可把结果调回显示屏。',
     tapeLineT: '点此调回这个结果',
+    pow: e => `乘以 10 的 ${e} 次方`,
     nothingYet: '暂无',
     regFull: (n, v) => `${n}：${v}；点按调用，长按存储`,
     regEmpty: n => `${n}：空；长按存储`,
@@ -1715,7 +1728,7 @@ I18N.zh = {
     rCusp: '插值求 MC 或 ASC<span class="gloss" lang="en">（interpolation）</span>',
     rCuspNote: '按较晚值减较早值的顺序：MC 和 ASC 随恒星时向前推进，所以开启化归时，跨越白羊座 0° 也同样成立。差值接近 360°，说明两者颠倒了。增量舍入到最接近的角秒；历史记录会注明舍入。',
     rLat: '纬度比例<span class="gloss" lang="en">（latitude ratio）</span>',
-    rLatNote: '课文中的 60′ 就是 1°；Takht 不接受分为 60。',
+    rLatNote: '课文中的 60′ 就是 1°；Takht 不接受分为 60。表中的纬度不带正负号；出生地在南半球的，存入 <b>φ</b> 时不要按 <b>±</b>。',
     rAscLat: '两纬度之间的 ASC<span class="gloss" lang="en">（ASC interpolation between latitudes）</span>',
     rAscLatNote: '课文中的星盘用第二行：纬度从 44° 增至 45° 时，ASC 减小（第 39–41 行）。如果第一行的差值接近 360°，就用第二行。开启化归时，两行在跨越白羊座 0° 时都成立。',
     rBirth: '出生时间比例<span class="gloss" lang="en">（birth-time ratio）</span>',
@@ -1725,7 +1738,7 @@ I18N.zh = {
     rSouth: '南半球，查表<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '查新的恒星时，照常计算，然后对 MC 和 ASC 各按一次 <b>+180</b>：两者都取对面的星座。',
     rAscDirect: '直接计算 ASC<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。如果 RAMC 也是 90° 或 270°，该地就在极圈上，黄道与地平线重合，没有唯一的上升点。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
+    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。在极圈上（纬度为 90° 减 <b>OE</b>），RAMC 为 90° 或 270° 时，黄道与地平线重合，无论第 3 步得出什么，都没有唯一的上升点。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
     rSigned: '带正负号的值',
     rSignedNote: '开启化归时，只要参与运算的值有一个是负数，结果就保留正负号；时间总是化归。计算赤纬和纬度时，点显示屏上的 <b>化归</b> 把它关掉。<b>+</b> 360 把负的经度带回圆周之内。',
     hRegs: '变量',
@@ -1785,6 +1798,7 @@ I18N.zh = {
     numStays: u => `这个数仍是普通的数。按 dec 把它化为 ${u}。`,
     signNum: '星座记法只用于角度（°）。这是一个普通的数。',
     divZero: '不能除以零。',
+    tooLarge: '这个结果太大，Takht 无法处理。',
     nothingYet: '还没有可计算的内容。',
     nothingToDo: '没有可计算的内容。请输入一个数和一个运算符。',
     accelTime: 'accel 需要一个时间：以 h m s 表示的 UT。',
@@ -1860,6 +1874,7 @@ I18N.ja = {
     close: '閉じる',
     tapeEmpty: '計算と換算の結果がここに記録されます。行をタップすると、その結果を呼び出せます。',
     tapeLineT: 'タップしてこの結果を呼び出す',
+    pow: e => `かける 10 の ${e} 乗`,
     nothingYet: 'まだありません',
     regFull: (n, v) => `${n}：${v} — タップで呼び出し、長押しで登録`,
     regEmpty: n => `${n}：空 — 長押しで登録`,
@@ -1909,7 +1924,7 @@ I18N.ja = {
     rCusp: 'MC・ASC の補間<span class="gloss" lang="en">（interpolation）</span>',
     rCuspNote: '後の値から前の値を、この順に引きます。MC と ASC は恒星時とともに進むので、範囲補正がオンなら牡羊座 0° をまたいでも成り立ちます。差が 360° 近くになったら、2 つが入れ替わっています。増分は最も近い角秒に丸め、履歴に記録します。',
     rLat: '緯度比<span class="gloss" lang="en">（latitude ratio）</span>',
-    rLatNote: 'レッスンの 60′ は 1° です。分に 60 は入力できません。',
+    rLatNote: 'レッスンの 60′ は 1° です。分に 60 は入力できません。表の緯度には符号がありません。南半球の出生地では、<b>±</b> を使わずに <b>φ</b> に登録します。',
     rAscLat: '緯度の間の ASC<span class="gloss" lang="en">（ASC interpolation between latitudes）</span>',
     rAscLatNote: 'レッスンのチャートは 2 行目です。緯度が 44° から 45° に増えると、ASC は減ります（39〜41 行）。1 行目の差が 360° 近くになったら 2 行目を使います。範囲補正がオンなら、どちらの行も牡羊座 0° をまたいで成り立ちます。',
     rBirth: '出生時刻比<span class="gloss" lang="en">（birth-time ratio）</span>',
@@ -1919,7 +1934,7 @@ I18N.ja = {
     rSouth: '南半球・表を使う場合<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '新しい恒星時で表を引き、いつもどおり計算してから、MC と ASC にそれぞれ <b>+180</b> を押します。どちらも反対側のサインになります。',
     rAscDirect: 'ASC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。RAMC も 90° か 270° なら、その土地は極圏上にあり、黄道が地平線と重なるため、ASC は一つに定まりません。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
+    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。極圏上（緯度が 90° − <b>OE</b>）で RAMC が 90° か 270° のときは、黄道が地平線と重なるため、手順 3 の結果にかかわらず ASC は一つに定まりません。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
     rSigned: '符号つきの値',
     rSignedNote: '範囲補正がオンでも、計算に負の値が含まれていれば結果は符号つきのままです。時間は常に補正されます。赤緯や緯度を扱うときは、表示の <b>範囲補正</b> を押してオフにします。<b>+</b> 360 で負の経度を円の中に戻せます。',
     hRegs: '変数メモリー',
@@ -1979,6 +1994,7 @@ I18N.ja = {
     numStays: u => `この数は数のままです。dec で ${u} にします。`,
     signNum: 'サイン表記は弧（°）用です。これは普通の数です。',
     divZero: '0 では割れません。',
+    tooLarge: '結果が大きすぎて、Takht では扱えません。',
     nothingYet: 'まだ計算するものがありません。',
     nothingToDo: '計算するものがありません。数と演算を入力します。',
     accelTime: 'accel は時間に使います。UT を h m s で入力します。',
@@ -2135,13 +2151,14 @@ function fmtSignPlain(sec){ return fmtSignText(fromSec(norm(sec))); }
 // seven places, fewer when the whole part is long; … when digits were cut; never 0 for a non-zero value
 function fmtNum(v){
   if (v === 0) return '0';
-  const a = Math.abs(v), whole = String(Math.floor(a)).length;
-  let s = truncFixed(a, Math.max(0, Math.min(7, 12 - whole)));
-  if (a < 1e-7){   // 0.000000000000595 would not fit: 5.953…×10^−13, the exponent drawn raised
-    const e = Math.floor(Math.log10(a)), m = truncFixed(a / Math.pow(10, e), 3);
-    return N((v < 0 ? MINUS : '') + m) + (Math.abs(+m * Math.pow(10, e) - a) > a*1e-9 ? '…' : '') + '×10^' + MINUS + (-e);
+  const a = Math.abs(v);
+  if (a < 1e-7 || a >= 1e12){   // 0.000000000000595 would not fit: 5.953…×10^−13, the exponent drawn raised
+    const [f, x] = a.toExponential(12).split('e'), e = +x;   // twelve places keep binary noise out of sight
+    const m = f.slice(0, 5).replace(/\.?0+$/, '');
+    return N((v < 0 ? MINUS : '') + m) + (/[1-9]/.test(f.slice(5)) ? '…' : '') + '×10^' + (e < 0 ? MINUS + (-e) : e);
   }
-  return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-12 ? '…' : '');
+  const s = truncFixed(a, Math.max(0, Math.min(7, 12 - String(Math.floor(a)).length)));
+  return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-14 ? '…' : '');
 }
 function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
 // an operand on the tape: if it was typed in sign notation, give both
@@ -2150,7 +2167,8 @@ function fmtOperand(v){ return (v.k === 'sex' && v.fromSign) ? `${fmtSignPlain(v
 function fmtResult(v){ return (v.k === 'sex' && v.mode === ARC && S.view.sign) ? `${fmtSignPlain(v.sec)} (${fmtSex(v.sec, ARC)})` : fmtV(v); }
 function fmtExact(x, mode){
   const a = Math.abs(x), d = Math.floor(a/3600), m = Math.floor((a - d*3600)/60), s = a - d*3600 - m*60;
-  let ss = N(truncFixed(s, 2)); if (s < 10) ss = '0' + ss;
+  let p = 2; while (p < 8 && s > 0 && +truncFixed(s, p) === Math.floor(s)) p++;   // 0.00036″, not 00″
+  let ss = N(truncFixed(s, p)); if (s < 10) ss = '0' + ss;
   const sg = x < 0 ? MINUS : '';
   return mode === TIME ? `${sg}${pad2(d)}:${pad2(m)}:${ss}` : `${sg}${d}° ${pad2(m)}′ ${ss}″`;
 }
@@ -2300,9 +2318,9 @@ function negKey(){
     if (e.k === 'sex' && e.sign) return refuse(M().negSign);
     e.neg = !e.neg; e.touched = hasTyped(e) || e.neg; return;
   }
+  // a value on the display changes sign as itself, even when it is 0; an empty display holds an entry, as after C
   const v = S.val;
-  if (v.k === 'sex' ? v.sec === 0 : v.v === 0){ S.entry = newEntry(expectedKind()); S.entry.neg = S.entry.touched = true; return; }
-  const out = v.k === 'sex' ? sex(-v.sec, v.mode) : dec(-v.v, null, v.dx != null ? dxNeg(v.dx) : null);
+  const out = v.k === 'sex' ? sex(-v.sec || 0, v.mode) : dec(-v.v || 0, null, v.dx != null ? dxNeg(v.dx) : null);
   setVal(out);
   addTape(`${MINUS}(${fmtOperand(v)}) = ${fmtV(out)}`, [], out);
 }
@@ -2321,8 +2339,8 @@ function backspace(){
 }
 function clearKey(all){
   if (all || S.cArmed){
-    S.pending = null; S.right = false; S.entry = null; S.val = sex(0, curMode());
-    S.view.dec = false; S.cArmed = false; say(M().allClear);
+    S.mode = curMode(); S.pending = null; S.right = false; S.val = sex(0, S.mode);
+    S.view.dec = false; S.cArmed = false; S.entry = newEntry(expectedKind()); say(M().allClear);
     return;
   }
   if (S.pending){ S.val = S.pending.a; S.right = false; }
@@ -2356,7 +2374,13 @@ function setMode(m){
 }
 
 // ---------- arithmetic ----------
+const MAXSEC = 36e9;
+const tooBig = v => v.k === 'sex' ? !(Math.abs(v.sec) < MAXSEC) : !isFinite(v.v);
 function evaluate(op, a, b){
+  const r = evaluate0(op, a, b);
+  return r && tooBig(r.val) ? refuse(M().tooLarge) : r;
+}
+function evaluate0(op, a, b){
   const signed = isNeg(a) || isNeg(b);
   if (op === '+' || op === '−'){
     if (a.k === 'sex' && b.k === 'sex'){
@@ -2385,6 +2409,7 @@ function evaluate(op, a, b){
     [a, b] = [b, a];   // ratio × difference, the same as difference × ratio
   }
   const exact = op === '×' ? a.sec*b.v : a.sec/b.v;
+  if (!(Math.abs(exact) < MAXSEC)) return refuse(M().tooLarge);
   const r = roundSec(exact), res = wrapRes(r, a.mode, signed), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, a.mode)));
   if (res !== r) notes.push(`${fmtSex(r, a.mode)} → ${fmtSex(res, a.mode)}`);
@@ -2421,6 +2446,7 @@ function equals(){
     return;
   }
   const e = S.entry;
+  if (e && !e.touched) return say(M().nothingYet);
   if (e){
     const wasTouched = e.touched;
     if (!commit()) return;
@@ -2437,7 +2463,10 @@ function equals(){
 }
 function convertDec(){
   const v = S.val, mode = S.mode;
-  const exact = v.v*3600, r = decToSec(v.v), res = wrapRes(r, mode, v.v < 0), notes = [];
+  if (!(Math.abs(v.v) < 1e7)) return refuse(M().tooLarge);
+  const exact = v.v*3600, r = decToSec(v.v);
+  if (!(Math.abs(r) < MAXSEC)) return refuse(M().tooLarge);
+  const res = wrapRes(r, mode, v.v < 0), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, mode)));
   if (res !== r) notes.push(`${fmtSex(r, mode)} → ${fmtSex(res, mode)}`);
   const out = sex(res, mode);
@@ -2449,6 +2478,7 @@ function convertDec(){
 function unary(fn){
   const v = operand(); if (!v) return;
   const r = fn(v); if (!r) return;
+  if (tooBig(r.val)) return refuse(M().tooLarge);
   setVal(r.val);
   addTape(r.line, r.notes || [], r.val);
 }
@@ -2462,7 +2492,7 @@ const U = {
     if (v.sec < 0 || v.sec > FULL.time) return refuse(M().accelRange);
     const exact = v.sec/3600*9.86, r = roundSec(exact), out = sex(r, TIME);
     return {val: out, line: `${fmtV(v)} × 9.86 s/h = ${fmtV(out)}`,
-            notes: isInt(exact) ? [] : [M().rounded(N(truncFixed(exact, 2)) + ' s')]};
+            notes: isInt(exact) ? [] : [M().rounded(N(truncFixed(exact, exact < 0.01 ? 4 : 2)) + ' s')]};
   },
   x15(v){
     if (v.k !== 'sex') return refuse(M().x15Dec);
@@ -2501,7 +2531,7 @@ const U = {
 });
 ['asin','acos','atan'].forEach(name => {
   U[name] = v => {
-    if (v.k !== 'dec') return refuse(M().invSex(keyLabel(name), name === 'atan' ? '12.32470' : '0.5'));
+    if (v.k !== 'dec') return refuse(M().invSex(keyLabel(name), N(name === 'atan' ? '12.32470' : '0.5')));
     let x = v.v;
     if (name !== 'atan'){
       if (Math.abs(x) > 1 + 1e-12) return refuse(M().invRange(keyLabel(name)));
@@ -2574,8 +2604,9 @@ function addTape(text, notes, result, cls){
   S.tape.push({text, note: (notes || []).join(' · '), result: copy(result), cls: cls || ''});
   if (S.tape.length > 400) S.tape.shift();
   renderTape(true);
-  $('#live').textContent = text.replace(/⁻¹/g, '−1') + (notes && notes.length ? '. ' + notes.join('. ') : '');
+  $('#live').textContent = spoken(text) + (notes && notes.length ? '. ' + notes.map(spoken).join('. ') : '');
 }
+const spoken = t => t.replace(/⁻¹/g, '−1').replace(/×10\^(−?\d+)/g, (m, e) => ' ' + UI().pow(e));
 function renderTape(scroll){
   const list = $('#tapeList');
   list.innerHTML = S.tape.length
@@ -2630,7 +2661,8 @@ function fit(){
   const el = $('#val');
   el.style.fontSize = '';
   let fs = parseFloat(getComputedStyle(el).fontSize);
-  while (el.scrollWidth > el.clientWidth + 1 && fs > 34){ fs -= 1; el.style.fontSize = fs + 'px'; }
+  // 34 px holds every value the lesson needs; one that would still be cut off (wrap off, thousands of degrees) goes smaller
+  while (el.scrollWidth > el.clientWidth + 1 && fs > 18){ fs -= 1; el.style.fontSize = fs + 'px'; }
 }
 function render(){
   const e = S.entry, mode = curMode();
@@ -2793,6 +2825,7 @@ document.addEventListener('keydown', ev => {
 window.addEventListener('resize', fit);
 
 load();
+S.entry = newEntry(expectedKind());   // the empty display: ± here starts a negative entry
 applyLang(initialLang(), true);
 renderTape();
 render();

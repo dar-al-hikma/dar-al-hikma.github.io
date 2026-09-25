@@ -791,6 +791,7 @@ I18N.en = {
     signNum: 'Sign notation is for arc (°). This is a plain number.',
     divZero: 'Nothing can be divided by zero.',
     tooLarge: 'That result is too large for the Takht.',
+    tooSmall: 'That result is too small for the Takht.',
     nothingYet: 'Nothing to work out yet.',
     nothingToDo: 'Nothing to work out. Type a number and an operation.',
     accelTime: 'accel takes a time: UT in h m s.',
@@ -985,6 +986,7 @@ I18N.nb = {
     signNum: 'Tegnnotasjon er for bue (°). Dette er et vanlig tall.',
     divZero: 'Ingenting kan deles på null.',
     tooLarge: 'Resultatet er for stort for takhten.',
+    tooSmall: 'Resultatet er for lite for takhten.',
     nothingYet: 'Ingenting å regne ut ennå.',
     nothingToDo: 'Ingenting å regne ut. Skriv et tall og en regneart.',
     accelTime: 'accel tar en tid: UT i h m s.',
@@ -1180,6 +1182,7 @@ I18N.es = {
     signNum: 'La notación por signos es para arco (°). Esto es un número simple.',
     divZero: 'No se puede dividir entre cero.',
     tooLarge: 'Ese resultado es demasiado grande para el takht.',
+    tooSmall: 'Ese resultado es demasiado pequeño para el takht.',
     nothingYet: 'Todavía no hay nada que calcular.',
     nothingToDo: 'No hay nada que calcular. Escriba un número y una operación.',
     accelTime: 'accel requiere un tiempo: UT en h m s.',
@@ -1374,6 +1377,7 @@ I18N.fr = {
     signNum: 'La notation par signe vaut pour l’arc (°). C’est un nombre simple.',
     divZero: 'On ne peut pas diviser par zéro.',
     tooLarge: 'Ce résultat est trop grand pour le takht.',
+    tooSmall: 'Ce résultat est trop petit pour le takht.',
     nothingYet: 'Rien à calculer pour l’instant.',
     nothingToDo: 'Rien à calculer. Tapez un nombre et une opération.',
     accelTime: 'accel attend un temps : le TU en h m s.',
@@ -1568,6 +1572,7 @@ I18N.de = {
     signNum: 'Die Zeichenschreibweise gilt für Winkel (°). Das ist eine einfache Zahl.',
     divZero: 'Durch null lässt sich nicht teilen.',
     tooLarge: 'Dieses Ergebnis ist zu groß für das Takht.',
+    tooSmall: 'Dieses Ergebnis ist zu klein für das Takht.',
     nothingYet: 'Noch nichts zu rechnen.',
     nothingToDo: 'Nichts zu rechnen. Zahl und Rechenart eingeben.',
     accelTime: 'accel erwartet eine Zeit: UT in h m s.',
@@ -1762,6 +1767,7 @@ I18N.zh = {
     signNum: '星座记法只用于角度（°）。这是一个普通的数。',
     divZero: '不能除以零。',
     tooLarge: '这个结果太大，Takht 无法处理。',
+    tooSmall: '这个结果太小，Takht 无法处理。',
     nothingYet: '还没有可计算的内容。',
     nothingToDo: '没有可计算的内容。请输入一个数和一个运算符。',
     accelTime: 'accel 需要一个时间：以 h m s 表示的 UT。',
@@ -1956,6 +1962,7 @@ I18N.ja = {
     signNum: 'サイン表記は弧（°）用です。これは普通の数です。',
     divZero: '0 では割れません。',
     tooLarge: '結果が大きすぎて、Takht では扱えません。',
+    tooSmall: '結果が小さすぎて、Takht では扱えません。',
     nothingYet: 'まだ計算するものがありません。',
     nothingToDo: '計算するものがありません。数と演算を入力します。',
     accelTime: 'accel は時間に使います。UT を h m s で入力します。',
@@ -2122,9 +2129,16 @@ function fmtSignPlain(sec){ return fmtSignText(fromSec(norm(sec))); }
 function fmtNum(v, dx){
   if (v === 0) return '0';
   const a = Math.abs(v);
-  if (dx != null && a >= 1e-7 && a < 1e12){   // exact digits: 1 + 1.002 shows 2.002, as it is
-    const [i, f = ''] = dx.replace('-', '').split('.'), p = Math.max(0, Math.min(7, 12 - i.length)), kept = f.slice(0, p).replace(/0+$/, '');
-    return N((v < 0 ? MINUS : '') + i + (kept ? '.' + kept : '')) + (/[1-9]/.test(f.slice(p)) ? '…' : '');
+  if (dx != null){   // exact digits: 1 + 1.002 shows 2.002, as it is; the form is chosen from the digits too
+    const [i, f = ''] = dx.replace('-', '').split('.'), all = (i + f).replace(/^0+/, '');
+    const e = i !== '0' ? i.length - 1 : -(f.length - f.replace(/^0+/, '').length) - 1;   // the exponent, exactly
+    if (e >= -7 && e < 12){
+      const p = Math.max(0, Math.min(7, 12 - i.length)), kept = f.slice(0, p).replace(/0+$/, '');
+      return N((v < 0 ? MINUS : '') + i + (kept ? '.' + kept : '')) + (/[1-9]/.test(f.slice(p)) ? '…' : '');
+    }
+    // 0.0000000999…9 is 9.999…×10^−8, even when its nearest double is 1e-7
+    const fr = all.slice(1, 4).replace(/0+$/, '');
+    return N((v < 0 ? MINUS : '') + all[0] + (fr ? '.' + fr : '')) + (/[1-9]/.test(all.slice(4)) ? '…' : '') + '×10^' + (e < 0 ? MINUS + (-e) : e);
   }
   if (a < 1e-7 || a >= 1e12){   // 0.000000000000595 would not fit: 5.953…×10^−13, the exponent drawn raised
     const [f, x] = a.toExponential(12).split('e'), e = +x;   // twelve places keep binary noise out of sight
@@ -2391,7 +2405,9 @@ function evaluate0(op, a, b){
   }
   if (a.k === 'dec' && b.k === 'dec'){
     const dx = op === '×' && a.dx != null && b.dx != null ? dxMul(a.dx, b.dx) : null;
-    return {val: dx != null ? dec(parseFloat(dx), null, dx) : dec(op === '×' ? a.v*b.v : a.v/b.v), notes: []};
+    const val = dx != null ? dec(parseFloat(dx), null, dx) : dec(op === '×' ? a.v*b.v : a.v/b.v);
+    if (val.v === 0 && a.v !== 0 && b.v !== 0) return refuse(M().tooSmall);   // nothing non-zero becomes 0
+    return {val, notes: []};
   }
   if (a.k === 'dec'){
     if (op === '÷') return refuse(M().numByQty);

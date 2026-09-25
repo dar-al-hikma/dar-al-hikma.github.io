@@ -559,9 +559,7 @@ function fmtHMS(x){ return `${pad2(x.d)}:${pad2(x.m)}:${pad2(x.s)}`; }
 function signOf(x){ const t = norm(toSec(x)); const i = Math.floor(t/(30*3600)); const r = fromSec(t - i*30*3600); return {i, r}; }
 function fmtSign(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} <span class="glyph">${SIGNS[i].g}</span>`; }
 function fmtSignText(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} ${SIGNS[i].g}`; }
-function truncFixed(v, p){ const f = Math.pow(10,p); const t = Math.trunc(v*f + 1e-9)/f; let s = t.toFixed(p); if (p > 0) s = s.replace(/0+$/,'').replace(/\.$/,''); return s; }
-function fracStr(v, p){ // ".43666" style fraction for staircase display
-  const s = truncFixed(v, p); return s.startsWith('0.') ? s.slice(1) : (s==='0' ? '.0' : s); }
+function truncFixed(v, p){ const f = Math.pow(10,p); const t = Math.trunc(v*f*(1 + 4*Number.EPSILON))/f; let s = t.toFixed(p); if (p > 0) s = s.replace(/0+$/,'').replace(/\.$/,''); return s; }
 
 // column addition of n rows -> steps
 function addSteps(rows, opts){ opts = opts || {}; const units = opts.units || ['°','′','″']; const wrap = opts.wrap !== false;
@@ -591,16 +589,6 @@ function addSteps(rows, opts){ opts = opts || {}; const units = opts.units || ['
 }
 
 // DMS -> decimal
-function toDecSteps(x){
-  const f1 = x.s/60; const m2 = x.m + f1; const f2 = m2/60; const dec = x.d + f2;
-  const steps = [
-    {line:1, note:`Start from the right. There are 60″ in a minute, so divide the seconds by 60: <span class="mono">${x.s} ÷ 60 = ${fracStr(f1,5)}</span>. That fraction belongs to the minutes.`},
-    {line:2, note:`Add it to the full minutes: <span class="mono">${x.m}′ + ${fracStr(f1,5)} = ${truncFixed(m2,5)}′</span>. The seconds column is gone.`},
-    {line:3, note:`Now divide the minutes by 60: <span class="mono">${truncFixed(m2,5)} ÷ 60 = ${fracStr(f2,5)}</span>. That fraction belongs to the degrees.`},
-    {line:4, note:`Add it to the full degrees: <span class="mono">${x.d}° + ${fracStr(f2,5)} = ${truncFixed(dec,5)}°</span>. Five decimals are enough; drop the rest.`}
-  ];
-  return {steps, result:dec, f1, m2, f2};
-}
 // decimal -> DMS
 // time -> arc (×15)
 function timeToArcSteps(t){
@@ -2131,9 +2119,13 @@ function parts(sec){ const a = Math.abs(sec); return {d: Math.floor(a/3600), m: 
 function fmtSex(sec, mode){ const x = parts(sec); return (sec < 0 ? MINUS : '') + (mode === TIME ? fmtHMS(x) : fmtDMS(x)); }
 function fmtSignPlain(sec){ return fmtSignText(fromSec(norm(sec))); }
 // seven places, fewer when the whole part is long; … when digits were cut; never 0 for a non-zero value
-function fmtNum(v){
+function fmtNum(v, dx){
   if (v === 0) return '0';
   const a = Math.abs(v);
+  if (dx != null && a >= 1e-7 && a < 1e12){   // exact digits: 1 + 1.002 shows 2.002, as it is
+    const [i, f = ''] = dx.replace('-', '').split('.'), p = Math.max(0, Math.min(7, 12 - i.length)), kept = f.slice(0, p).replace(/0+$/, '');
+    return N((v < 0 ? MINUS : '') + i + (kept ? '.' + kept : '')) + (/[1-9]/.test(f.slice(p)) ? '…' : '');
+  }
   if (a < 1e-7 || a >= 1e12){   // 0.000000000000595 would not fit: 5.953…×10^−13, the exponent drawn raised
     const [f, x] = a.toExponential(12).split('e'), e = +x;   // twelve places keep binary noise out of sight
     const m = f.slice(0, 5).replace(/\.?0+$/, '');
@@ -2142,7 +2134,7 @@ function fmtNum(v){
   const s = truncFixed(a, Math.max(0, Math.min(7, 12 - String(Math.floor(a)).length)));
   return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-14 ? '…' : '');
 }
-function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
+function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v, v.dx)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
 // an operand on the tape: if it was typed in sign notation, give both
 function fmtOperand(v){ return (v.k === 'sex' && v.fromSign) ? `${fmtSignPlain(v.sec)} (${fmtSex(v.sec, ARC)})` : fmtV(v); }
 // a result on the tape: with sign on, the sign form and the absolute value
@@ -2652,8 +2644,9 @@ function renderEntry(e){
 function renderVal(v){
   if (v.k === 'dec') return supHTML(fmtV(v));
   if (S.view.dec){
-    const a = Math.abs(v.sec), d = toDecSteps(parts(a)).result;
-    return (v.sec < 0 ? MINUS : '') + N(truncFixed(d, 5)) + (v.mode === TIME ? '<span class="u"> h</span>' : '°');
+    // five places, cut, worked in whole seconds: 256° 01′ 21″ is 256.0225°, never 256.02249°
+    const a = Math.abs(v.sec), d = (Math.floor(a/3600) + '.' + String(Math.floor(a%3600*100000/3600)).padStart(5, '0')).replace(/\.?0+$/, '');
+    return (v.sec < 0 ? MINUS : '') + N(d) + (v.mode === TIME ? '<span class="u"> h</span>' : '°');
   }
   if (S.view.sign && v.mode === ARC) return fmtSign(fromSec(norm(v.sec)));
   return esc(fmtSex(v.sec, v.mode));

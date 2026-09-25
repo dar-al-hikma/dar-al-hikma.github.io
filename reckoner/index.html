@@ -623,7 +623,7 @@ function toDMSSteps(str){   // str: the decimal as written, "23.43666"
     {line:2, note: T.dms2(MONO(`${f1} × 60 = ${m2}′`))},
     {line:3, note: T.dms3(MONO(`${m}′`), MONO(f2))},
     {line:4, note: T.dms4(MONO(`${f2} × 60 = ${s2}″`))},
-    {line:5, note: T.dms5(MONO(`${s2}″ → ${s}″`), s===60 ? (m===59 ? 2 : 1) : 0, MONO(fmtDMS(res))) + (wrap ? ' ' + T.dmsWrap : '')}
+    {line:5, note: T.dms5(MONO(`${s2}″ → ${s}″`), s===60 ? (m===59 ? 2 : 1) : 0, MONO(fmtDMS(res))) + (wrap ? (/^(zh|ja)$/.test(LANG) ? '' : ' ') + T.dmsWrap : '')}
   ];
   return {steps, result:res, d, f1, m2, m, f2, s2, s};
 }
@@ -686,11 +686,12 @@ function arcToTimeSteps(x){
   const mtot = rd*60 + x.m; const m = Math.floor(mtot/15), rm = mtot - m*15;
   const stot = rm*60 + x.s; const sExact = stot/15; const s = Math.round(sExact);
   let res = {d:h, m, s}; if (s===60) res = fromSec(toSec(res));
+  const carry = s===60 ? (m===59 ? 2 : 1) : 0;   // 60s is a minute; 60m is an hour
   const sTxt = N(numTxt(Math.floor(stot/15), String(Math.floor(stot%15*100/15)).padStart(2, '0')));   // 48″ ÷ 15 = 3.2s
   const steps = [
     {k:1, note: T.time1(MONO(`${x.d}° ÷ 15 = ${h}h`), MONO(`${rd}°`))},
     {k:2, note: T.time2(MONO(`${rd}° = ${rd*60}′; ${rd*60}′ + ${x.m}′ = ${mtot}′`), MONO(`${mtot}′ ÷ 15 = ${m}m`), MONO(`${rm}′`))},
-    {k:3, note: T.time3(MONO(`${rm}′ = ${rm*60}″; ${rm*60}″ + ${x.s}″ = ${stot}″`), MONO(`${stot}″ ÷ 15 = ${sTxt}s`), Number.isInteger(sExact) ? null : `${s}s`)},
+    {k:3, note: T.time3(MONO(`${rm}′ = ${rm*60}″; ${rm*60}″ + ${x.s}″ = ${stot}″`), MONO(`${stot}″ ÷ 15 = ${sTxt}s`), Number.isInteger(sExact) ? null : `${s}s`, carry)},
     {k:4, note: T.time4(MONO(fmtDMS(x)), MONO(fmtHMS(res)))}
   ];
   return {steps, result:res, h, rd, mtot, m, rm, stot, sExact, s, sTxt};
@@ -812,7 +813,7 @@ I18N.en = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Keep ${keep} and carry ${from} as ${to} into the degrees.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Less than 60, so it stays.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Under 360°, so this is the answer.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° is past the end of the circle. Counting starts over at 0° once you reach 360°, so subtract 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° is the whole circle' : `${sum}° is past the end of the circle`}. Counting starts over at 0° once you reach 360°, so subtract 360°: ${calc}.`,
     // subtraction. v carries the pieces, each already with its unit
     subWrap: (a, b, calc) => `${a} is smaller than ${b}, so the top line is smaller than the bottom. Add a full circle first: ${calc}. Now subtract as normal.`,
     subSecBorrow2: v => `${v.a} is less than ${v.b}, but the minutes column is empty and has nothing to lend. So borrow twice: first ${v.oneDeg} from the degrees as ${v.sixtyMin}, then ${v.oneMin} of those as ${v.sixtySec}. That leaves ${v.left}, and the seconds become ${v.top}. Then ${v.calc}.`,
@@ -849,7 +850,7 @@ I18N.en = {
     // arc into time
     time1: (calc, rem) => `Fifteen degrees make an hour. ${calc}, remainder ${rem}.`,
     time2: (conv, calc, rem) => `Turn the leftover degrees into minutes of arc and add the minutes: ${conv}. Then ${calc}, remainder ${rem}.`,
-    time3: (conv, calc, rounded) => `Turn the leftover minutes into seconds of arc and add the seconds: ${conv}. Then ${calc}${rounded ? `, rounded to ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Turn the leftover minutes into seconds of arc and add the seconds: ${conv}. Then ${calc}${rounded ? `, rounded to ${rounded}` : ''}.${carry ? ' Sixty seconds of time make a full minute, so carry it.' : ''}${carry === 2 ? ' That makes sixty minutes, a full hour, so carry again.' : ''}`,
     time4: (arc, time) => `So ${arc} of arc is ${time} of time.`
   },
 
@@ -863,11 +864,11 @@ I18N.en = {
     hmsH: 'The hours are off — degrees ÷ 15, keep the remainder for the minutes.',
     hmsM: 'The minutes are off — remember to turn the leftover degrees into 60′ each.',
     hmsS: 'The seconds are off — leftover minutes become 60″ each, then ÷ 15.',
-    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n} have passed.`,
+    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n == 1 ? 'one has' : `${n} have`} passed.`,
     rightSign: 'Right sign — the degree is the remainder after dividing by 30, with minutes and seconds unchanged.',
     signHow: 'Divide the degrees by 30: the quotient counts signs passed, the remainder is the degree within the next.',
     backPast: 'You have gone backward past 0° Aries — add 360° to the top line first.',
-    circle: 'Off by a full circle: subtract 360° when the degrees pass 360.',
+    circle: 'Off by a full circle: subtract 360° once the degrees reach 360.',
     offBy: deg => `Off by ${deg}° — a sign's starting degree is wrong.`,
     secs: 'Only the seconds are off.',
     mins: 'The minutes are off — did you include the carry or the borrow from the seconds?',
@@ -879,6 +880,8 @@ I18N.en = {
     swapped: 'The subtraction runs the wrong way: take the bottom line from the top one.',
     distCross: 'The count crosses 0° Aries — add 360° to the end point first.',
     range: 'Degrees run from 0 to 359: 360° is the whole circle, which is 0° again.',
+    okRetry: 'Right — but not at the first try, so it does not count. Press N for another.',
+    decPlain: 'Write the decimal with digits and one point only, like 23.43666.',
     form: 'Write whole numbers, with minutes and seconds from 0 to 59.',
     roundUp: 'One second short: the fraction is half a second or more, so round up.',
     roundDown: 'One second over: the fraction is under half a second, so round down.',
@@ -1062,7 +1065,7 @@ I18N.nb = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Behold ${keep} og før ${from} over til gradene som ${to}.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Under 60, så det blir stående.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Under 360°, så dette er svaret.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° er forbi slutten av sirkelen. Tellingen begynner på 0° igjen når du når 360°, så trekk fra 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° er hele sirkelen' : `${sum}° er forbi slutten av sirkelen`}. Tellingen begynner på 0° igjen når du når 360°, så trekk fra 360°: ${calc}.`,
     subWrap: (a, b, calc) => `${a} er mindre enn ${b}, så den øverste linjen er mindre enn den nederste. Legg først til en hel sirkel: ${calc}. Trekk så fra som vanlig.`,
     subSecBorrow2: v => `${v.a} er mindre enn ${v.b}, men minuttkolonnen er tom og har ingenting å låne ut. Lån derfor to ganger: først ${v.oneDeg} fra gradene som ${v.sixtyMin}, så ${v.oneMin} av dem som ${v.sixtySec}. Da blir ${v.left} igjen, og sekundene blir ${v.top}. Så regner vi ${v.calc}.`,
     subSecBorrow: v => `${v.a} er mindre enn ${v.b}, så vi kan ikke trekke fra direkte. Lån ${v.oneMin} — det er ${v.sixtySec} — fra minuttene: ${v.a} blir ${v.top}, og minuttene synker til ${v.min}. Så regner vi ${v.calc}.`,
@@ -1093,7 +1096,7 @@ I18N.nb = {
     arc3: (calc, conv) => `Tidssekunder: ${calc} i bue${conv ? `, som er ${conv}` : ''}.`,
     time1: (calc, rem) => `Femten grader utgjør en time. ${calc}, rest ${rem}.`,
     time2: (conv, calc, rem) => `Gjør de overskytende gradene om til bueminutter og legg til minuttene: ${conv}. Deretter ${calc}, rest ${rem}.`,
-    time3: (conv, calc, rounded) => `Gjør de overskytende minuttene om til buesekunder og legg til sekundene: ${conv}. Deretter ${calc}${rounded ? `, avrundet til ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Gjør de overskytende minuttene om til buesekunder og legg til sekundene: ${conv}. Deretter ${calc}${rounded ? `, avrundet til ${rounded}` : ''}.${carry ? ' Seksti tidssekunder er et helt minutt, så før det over.' : ''}${carry === 2 ? ' Da blir det seksti minutter, en hel time, så før over igjen.' : ''}`,
     time4: (arc, time) => `${arc} i bue er altså ${time} i tid.`
   },
 
@@ -1110,7 +1113,7 @@ I18N.nb = {
     rightSign: 'Riktig tegn — graden er resten etter deling på 30, med minutter og sekunder uendret.',
     signHow: 'Del gradene på 30: kvotienten teller tegnene som er passert, resten er graden innenfor det neste.',
     backPast: 'Du har gått baklengs forbi 0° Væren — legg først 360° til den øverste linjen.',
-    circle: 'En hel sirkel feil: trekk fra 360° når gradene går over 360.',
+    circle: 'En hel sirkel feil: trekk fra 360° når gradene når 360.',
     offBy: deg => `${deg}° feil — et tegns startgrad er gal.`,
     secs: 'Bare sekundene er feil.',
     mins: 'Minuttene er feil — tok du med menten eller lånet fra sekundene?',
@@ -1122,6 +1125,8 @@ I18N.nb = {
     swapped: 'Subtraksjonen går feil vei: trekk den nederste linjen fra den øverste.',
     distCross: 'Tellingen krysser 0° Væren — legg først 360° til sluttpunktet.',
     range: 'Gradene går fra 0 til 359: 360° er hele sirkelen, og det er 0° igjen.',
+    okRetry: 'Riktig — men ikke på første forsøk, så det teller ikke. Trykk på N for en ny.',
+    decPlain: 'Skriv desimaltallet bare med sifre og ett komma, som 23,43666.',
     form: 'Skriv hele tall, med minutter og sekunder fra 0 til 59.',
     roundUp: 'Ett sekund for lite: brøken er et halvt sekund eller mer, så rund opp.',
     roundDown: 'Ett sekund for mye: brøken er under et halvt sekund, så rund ned.',
@@ -1304,7 +1309,7 @@ I18N.es = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Quédese con ${keep} y lleve ${from}, como ${to}, a los grados.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Menos de 60, así que se queda así.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Menos de 360°, así que esta es la respuesta.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° sobrepasa el final del círculo. Al llegar a 360° la cuenta vuelve a empezar en 0°, así que reste 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° es el círculo completo' : `${sum}° sobrepasa el final del círculo`}. Al llegar a 360° la cuenta vuelve a empezar en 0°, así que reste 360°: ${calc}.`,
     subWrap: (a, b, calc) => `${a} es menor que ${b}, así que la línea de arriba es menor que la de abajo. Sume primero una vuelta completa: ${calc}. Ahora reste como siempre.`,
     subSecBorrow2: v => `${v.a} es menor que ${v.b}, pero la columna de los minutos está vacía y no tiene nada que prestar. Así que hay que pedir prestado dos veces: primero ${v.oneDeg} a los grados, como ${v.sixtyMin}; luego ${v.oneMin} de esos, como ${v.sixtySec}. Quedan ${v.left}, y los segundos pasan a ser ${v.top}. Después, ${v.calc}.`,
     subSecBorrow: v => `${v.a} es menor que ${v.b}, así que no se puede restar directamente. Pida prestado ${v.oneMin} —es decir, ${v.sixtySec}— a los minutos: ${v.a} pasa a ser ${v.top}, y los minutos bajan a ${v.min}. Después, ${v.calc}.`,
@@ -1335,7 +1340,7 @@ I18N.es = {
     arc3: (calc, conv) => `Segundos de tiempo: ${calc} de arco${conv ? `, que son ${conv}` : ''}.`,
     time1: (calc, rem) => `Quince grados hacen una hora. ${calc}, resto ${rem}.`,
     time2: (conv, calc, rem) => `Convierta los grados sobrantes en minutos de arco y súmeles los minutos: ${conv}. Después, ${calc}, resto ${rem}.`,
-    time3: (conv, calc, rounded) => `Convierta los minutos sobrantes en segundos de arco y súmeles los segundos: ${conv}. Después, ${calc}${rounded ? `, redondeado a ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Convierta los minutos sobrantes en segundos de arco y súmeles los segundos: ${conv}. Después, ${calc}${rounded ? `, redondeado a ${rounded}` : ''}.${carry ? ' Sesenta segundos de tiempo son un minuto entero, así que llévelo a los minutos.' : ''}${carry === 2 ? ' Eso da sesenta minutos, una hora entera, así que vuelva a llevar.' : ''}`,
     time4: (arc, time) => `Así que ${arc} de arco son ${time} de tiempo.`
   },
 
@@ -1348,11 +1353,11 @@ I18N.es = {
     hmsH: 'Las horas no cuadran: grados ÷ 15; guarde el resto para los minutos.',
     hmsM: 'Los minutos no cuadran: recuerde convertir cada grado sobrante en 60′.',
     hmsS: 'Los segundos no cuadran: cada minuto sobrante se convierte en 60″, y luego ÷ 15.',
-    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; han pasado ${n}.`,
+    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; ${n == 1 ? 'ha' : 'han'} pasado ${n}.`,
     rightSign: 'Signo correcto: el grado es el resto de dividir entre 30, con los minutos y los segundos sin cambiar.',
     signHow: 'Divida los grados entre 30: el cociente cuenta los signos que han pasado; el resto es el grado dentro del siguiente.',
     backPast: 'Ha retrocedido más allá de 0° de Aries: sume primero 360° a la línea de arriba.',
-    circle: 'Difiere en una vuelta completa: reste 360° cuando los grados pasen de 360.',
+    circle: 'Difiere en una vuelta completa: reste 360° cuando los grados lleguen a 360.',
     offBy: deg => `Difiere en ${deg}°: el grado inicial de un signo está mal.`,
     secs: 'Solo fallan los segundos.',
     mins: 'Los minutos no cuadran: ¿ha tenido en cuenta el acarreo o el préstamo de los segundos?',
@@ -1364,6 +1369,8 @@ I18N.es = {
     swapped: 'La resta va al revés: reste la línea de abajo de la de arriba.',
     distCross: 'La cuenta cruza 0° de Aries: sume primero 360° al punto final.',
     range: 'Los grados van de 0 a 359: 360° es el círculo completo, que vuelve a ser 0°.',
+    okRetry: 'Correcto, pero no al primer intento, así que no cuenta. Pulse N para otro.',
+    decPlain: 'Escriba el decimal solo con cifras y una coma, como 23,43666.',
     form: 'Escriba números enteros, con minutos y segundos de 0 a 59.',
     roundUp: 'Falta un segundo: la fracción es de medio segundo o más, así que redondee hacia arriba.',
     roundDown: 'Sobra un segundo: la fracción es de menos de medio segundo, así que redondee hacia abajo.',
@@ -1546,7 +1553,7 @@ I18N.fr = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Gardez ${keep} et reportez ${from} dans les degrés, sous forme de ${to}.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Moins de 60 : on n'y touche pas.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final?" Moins de 360° : c'est la réponse.":''}`,
-    addWrap: (sum, calc) => `${sum}° dépasse la fin du cercle. Une fois arrivé à 360°, on recommence à compter à 0° ; retranchez donc 360° : ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° est le cercle entier' : `${sum}° dépasse la fin du cercle`}. Une fois arrivé à 360°, on recommence à compter à 0° ; retranchez donc 360° : ${calc}.`,
     subWrap: (a, b, calc) => `${a} est plus petit que ${b} : la ligne du haut est plus petite que celle du bas. Ajoutez d'abord un cercle complet : ${calc}. Puis soustrayez normalement.`,
     subSecBorrow2: v => `${v.a} est inférieur à ${v.b}, mais la colonne des minutes est vide et n'a rien à prêter. Il faut donc emprunter deux fois : d'abord ${v.oneDeg} aux degrés, soit ${v.sixtyMin}, puis ${v.oneMin} de ces minutes, soit ${v.sixtySec}. Il reste ${v.left}, et les secondes deviennent ${v.top}. Ensuite, ${v.calc}.`,
     subSecBorrow: v => `${v.a} est inférieur à ${v.b}, on ne peut donc pas soustraire directement. Empruntez ${v.oneMin} — soit ${v.sixtySec} — aux minutes : ${v.a} devient ${v.top}, et les minutes tombent à ${v.min}. Ensuite, ${v.calc}.`,
@@ -1577,7 +1584,7 @@ I18N.fr = {
     arc3: (calc, conv) => `Secondes de temps : ${calc} d'arc${conv?`, soit ${conv}`:''}.`,
     time1: (calc, rem) => `Quinze degrés font une heure. ${calc}, reste ${rem}.`,
     time2: (conv, calc, rem) => `Convertissez les degrés restants en minutes d'arc et ajoutez les minutes : ${conv}. Puis ${calc}, reste ${rem}.`,
-    time3: (conv, calc, rounded) => `Convertissez les minutes restantes en secondes d'arc et ajoutez les secondes : ${conv}. Puis ${calc}${rounded?`, arrondi à ${rounded}`:''}.`,
+    time3: (conv, calc, rounded, carry) => `Convertissez les minutes restantes en secondes d'arc et ajoutez les secondes : ${conv}. Puis ${calc}${rounded?`, arrondi à ${rounded}`:''}.${carry ? ' Soixante secondes de temps font une minute entière : reportez-la.' : ''}${carry === 2 ? ' Cela fait soixante minutes, une heure entière : reportez encore.' : ''}`,
     time4: (arc, time) => `Ainsi, ${arc} d'arc valent ${time} de temps.`
   },
 
@@ -1594,7 +1601,7 @@ I18N.fr = {
     rightSign: 'Bon signe — le degré est le reste de la division par 30, minutes et secondes inchangées.',
     signHow: 'Divisez les degrés par 30 : le quotient compte les signes passés, le reste est le degré dans le signe suivant.',
     backPast: "Vous êtes repassé en arrière par 0° du Bélier — ajoutez d'abord 360° à la ligne du haut.",
-    circle: "Écart d'un cercle entier : retranchez 360° quand les degrés dépassent 360.",
+    circle: 'Écart d\'un cercle entier : retranchez 360° dès que les degrés atteignent 360.',
     offBy: deg => `Écart de ${deg}° — le degré de début d'un signe est erroné.`,
     secs: 'Seules les secondes sont fausses.',
     mins: "Les minutes sont fausses — avez-vous compté la retenue ou l'emprunt des secondes ?",
@@ -1606,6 +1613,8 @@ I18N.fr = {
     swapped: 'La soustraction est à l’envers : ôtez la ligne du bas de celle du haut.',
     distCross: 'Le compte franchit 0° du Bélier — ajoutez d’abord 360° au point d’arrivée.',
     range: 'Les degrés vont de 0 à 359 : 360° est le cercle entier, qui redevient 0°.',
+    okRetry: 'Juste — mais pas du premier coup, donc cela ne compte pas. Appuyez sur N pour un autre.',
+    decPlain: 'Écrivez le nombre décimal avec des chiffres et une seule virgule, comme 23,43666.',
     form: 'Écrivez des nombres entiers, avec des minutes et des secondes de 0 à 59.',
     roundUp: 'Il manque une seconde : la fraction vaut une demi-seconde ou plus, donc arrondissez vers le haut.',
     roundDown: 'Une seconde de trop : la fraction vaut moins d’une demi-seconde, donc arrondissez vers le bas.',
@@ -1788,7 +1797,7 @@ I18N.de = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. ${keep} behalten und ${from} als ${to} in die Gradspalte übertragen.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Weniger als 60, also bleibt es.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Unter 360°, also ist das das Ergebnis.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° liegt jenseits des Kreisendes. Ab 360° beginnt die Zählung wieder bei 0°, also 360° abziehen: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° ist der ganze Kreis' : `${sum}° liegt jenseits des Kreisendes`}. Ab 360° beginnt die Zählung wieder bei 0°, also 360° abziehen: ${calc}.`,
     subWrap: (a, b, calc) => `${a} ist kleiner als ${b}, die obere Zeile also kleiner als die untere. Zuerst einen vollen Kreis addieren: ${calc}. Jetzt wie gewohnt subtrahieren.`,
     subSecBorrow2: v => `${v.a} ist weniger als ${v.b}, aber die Minutenspalte ist leer und hat nichts zu verleihen. Also zweimal borgen: zuerst ${v.oneDeg} von den Graden als ${v.sixtyMin}, dann ${v.oneMin} davon als ${v.sixtySec}. Übrig bleiben ${v.left}, und aus den Sekunden werden ${v.top}. Dann ${v.calc}.`,
     subSecBorrow: v => `${v.a} ist weniger als ${v.b}, also lässt sich nicht direkt subtrahieren. Borgen Sie ${v.oneMin} — das sind ${v.sixtySec} — von den Minuten: Aus ${v.a} werden ${v.top}, und die Minuten sinken auf ${v.min}. Dann ${v.calc}.`,
@@ -1819,7 +1828,7 @@ I18N.de = {
     arc3: (calc, conv) => `Zeitsekunden: ${calc} Bogen${conv ? `, also ${conv}` : ''}.`,
     time1: (calc, rem) => `Fünfzehn Grad ergeben eine Stunde. ${calc}, Rest ${rem}.`,
     time2: (conv, calc, rem) => `Die übrigen Grade in Bogenminuten umwandeln und die Minuten addieren: ${conv}. Dann ${calc}, Rest ${rem}.`,
-    time3: (conv, calc, rounded) => `Die übrigen Minuten in Bogensekunden umwandeln und die Sekunden addieren: ${conv}. Dann ${calc}${rounded ? `, gerundet ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Die übrigen Minuten in Bogensekunden umwandeln und die Sekunden addieren: ${conv}. Dann ${calc}${rounded ? `, gerundet auf ${rounded}` : ''}.${carry ? ' Sechzig Zeitsekunden sind eine volle Minute, also übertragen.' : ''}${carry === 2 ? ' Das ergibt sechzig Minuten, eine volle Stunde, also noch einmal übertragen.' : ''}`,
     time4: (arc, time) => `${arc} Bogen entsprechen also ${time} Zeit.`
   },
 
@@ -1836,7 +1845,7 @@ I18N.de = {
     rightSign: 'Richtiges Zeichen — der Grad ist der Rest nach der Division durch 30, Minuten und Sekunden unverändert.',
     signHow: 'Teilen Sie die Grade durch 30: Der Quotient zählt die vergangenen Zeichen, der Rest ist der Grad im nächsten.',
     backPast: 'Sie sind rückwärts über 0° Widder hinausgegangen — addieren Sie zuerst 360° zur oberen Zeile.',
-    circle: 'Um einen vollen Kreis daneben: Ziehen Sie 360° ab, wenn die Grade 360 überschreiten.',
+    circle: 'Um einen vollen Kreis daneben: Ziehen Sie 360° ab, sobald die Grade 360 erreichen.',
     offBy: deg => `Um ${deg}° daneben — der Anfangsgrad eines Zeichens stimmt nicht.`,
     secs: 'Nur die Sekunden stimmen nicht.',
     mins: 'Die Minuten stimmen nicht — haben Sie den Übertrag oder das Borgen aus den Sekunden berücksichtigt?',
@@ -1848,6 +1857,8 @@ I18N.de = {
     swapped: 'Die Subtraktion läuft falsch herum: Ziehen Sie die untere Zeile von der oberen ab.',
     distCross: 'Die Zählung überquert 0° Widder — addieren Sie zuerst 360° zum Endpunkt.',
     range: 'Die Grade laufen von 0 bis 359: 360° ist der ganze Kreis, also wieder 0°.',
+    okRetry: 'Richtig — aber nicht beim ersten Versuch, darum zählt es nicht. Drücken Sie N für eine neue.',
+    decPlain: 'Schreiben Sie die Dezimalzahl nur mit Ziffern und einem Komma, etwa 23,43666.',
     form: 'Schreiben Sie ganze Zahlen, Minuten und Sekunden von 0 bis 59.',
     roundUp: 'Eine Sekunde zu wenig: Der Bruchteil ist eine halbe Sekunde oder mehr, also aufrunden.',
     roundDown: 'Eine Sekunde zu viel: Der Bruchteil ist kleiner als eine halbe Sekunde, also abrunden.',
@@ -2030,7 +2041,7 @@ I18N.zh = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}。留下 ${keep}，把 ${from} 化作 ${to}，进到度那一列。`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}。不足 60，不变。`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}。${final ? '不到 360°，这就是答案。' : ''}`,
-    addWrap: (sum, calc) => `${sum}° 已经越过了圆周的终点。数到 360° 就从 0° 重新开始，所以减去 360°：${calc}。`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° 正好是一整圈' : `${sum}° 已经越过了圆周的终点`}。数到 360° 就从 0° 重新开始，所以减去 360°：${calc}。`,
     subWrap: (a, b, calc) => `${a} 比 ${b} 小，所以上一行比下一行小。先加上一整圈：${calc}。然后照常相减。`,
     subSecBorrow2: v => `${v.a} 小于 ${v.b}，可分那一列是空的，没有东西可借。所以要借两次：先从度借 ${v.oneDeg}，化作 ${v.sixtyMin}；再从中借 ${v.oneMin}，化作 ${v.sixtySec}。这样剩下 ${v.left}，秒变成 ${v.top}。然后 ${v.calc}。`,
     subSecBorrow: v => `${v.a} 小于 ${v.b}，不能直接相减。从分那一列借 ${v.oneMin}——也就是 ${v.sixtySec}：${v.a} 变成 ${v.top}，分降为 ${v.min}。然后 ${v.calc}。`,
@@ -2061,7 +2072,7 @@ I18N.zh = {
     arc3: (calc, conv) => `时间的秒：${calc}（角秒）${conv ? `，即 ${conv}` : ''}。`,
     time1: (calc, rem) => `十五度合一小时。${calc}，余 ${rem}。`,
     time2: (conv, calc, rem) => `把剩下的度化为角分，加上原有的分：${conv}。然后 ${calc}，余 ${rem}。`,
-    time3: (conv, calc, rounded) => `把剩下的分化为角秒，加上原有的秒：${conv}。然后 ${calc}${rounded ? `，取整为 ${rounded}` : ''}。`,
+    time3: (conv, calc, rounded, carry) => `把剩下的分化为角秒，加上原有的秒：${conv}。然后 ${calc}${rounded ? `，取整为 ${rounded}` : ''}。${carry ? '六十时秒是整整一分，所以进位。' : ''}${carry === 2 ? '这样就有六十分，正好一小时，所以再进位。' : ''}`,
     time4: (arc, time) => `所以角度 ${arc} 合时间 ${time}。`
   },
 
@@ -2078,7 +2089,7 @@ I18N.zh = {
     rightSign: '星座对了——度数是除以 30 后的余数，分和秒不变。',
     signHow: '把度数除以 30：商是已经过去的星座数，余数是在下一个星座内的度数。',
     backPast: '你已经倒退越过了白羊座 0°——先给上一行加上 360°。',
-    circle: '差了一整圈：度数超过 360 时要减去 360°。',
+    circle: '差了一整圈：度数达到 360 时要减去 360°。',
     offBy: deg => `差了 ${deg}°——某个星座的起始度数错了。`,
     secs: '只有秒不对。',
     mins: '分不对——你算上从秒那一列来的进位或借位了吗？',
@@ -2090,6 +2101,8 @@ I18N.zh = {
     swapped: '减反了：应当用上面一行减去下面一行。',
     distCross: '这段计数跨过了白羊座 0°——先给终点加上 360°。',
     range: '度数从 0 到 359：360° 是一整圈，也就是又回到 0°。',
+    okRetry: '对了——不过不是第一次就答对，所以不计分。按 N 换一道。',
+    decPlain: '小数只写数字和一个小数点，例如 23.43666。',
     form: '请写整数，分和秒在 0 到 59 之间。',
     roundUp: '少了一秒：零头有半秒或更多，所以要向上取整。',
     roundDown: '多了一秒：零头不到半秒，所以要向下取整。',
@@ -2267,12 +2280,12 @@ I18N.ja = {
 
   note: {
     carried: x => ` + 繰り上がりの ${x}`,
-    addSecCarry: (lhs, sum, full, keep, from, to) => `${lhs} = ${sum}。${full ? '60 ちょうど' : '60 を超えている'}ので、${keep} を残し、${from} を ${to} として分の桁へ繰り上げます。`,
+    addSecCarry: (lhs, sum, full, keep, from, to) => `${lhs} = ${sum}。${full ? 'ちょうど 60 な' : '60 を超えている'}ので、${keep} を残し、${from} を ${to} として分の桁へ繰り上げます。`,
     addSecNo: (lhs, sum) => `${lhs} = ${sum}。60 未満なので、そのままです。`,
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}。${keep} を残し、${from} を ${to} として度の桁へ繰り上げます。`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}。60 未満なので、そのままです。`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}。${final ? '360° 未満なので、これが答えです。' : ''}`,
-    addWrap: (sum, calc) => `${sum}° は円の終わりを越えています。360° に達すると数えるのは 0° からやり直しなので、360° を引きます：${calc}。`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° はちょうど一周です' : `${sum}° は円の終わりを越えています`}。360° に達すると数えるのは 0° からやり直しなので、360° を引きます：${calc}。`,
     subWrap: (a, b, calc) => `${a} は ${b} より小さいので、上の行が下の行より小さくなっています。先に一周分を加えます：${calc}。あとは通常どおり引きます。`,
     subSecBorrow2: v => `${v.a} は ${v.b} より小さいのですが、分の桁は空で、貸せるものがありません。そこで二度借ります。まず度から ${v.oneDeg} を ${v.sixtyMin} として、次にそのうち ${v.oneMin} を ${v.sixtySec} として。残りは ${v.left} となり、秒は ${v.top} になります。そして ${v.calc}。`,
     subSecBorrow: v => `${v.a} は ${v.b} より小さいので、そのままでは引けません。分から ${v.oneMin}——つまり ${v.sixtySec}——を借ります。${v.a} は ${v.top} になり、分は ${v.min} に減ります。そして ${v.calc}。`,
@@ -2303,7 +2316,7 @@ I18N.ja = {
     arc3: (calc, conv) => `時間の秒を角度に：${calc}${conv ? `、すなわち ${conv}` : ''}。`,
     time1: (calc, rem) => `15° で 1 時間です。${calc}、余り ${rem}。`,
     time2: (conv, calc, rem) => `余った度を角度の分に直し、分を加えます：${conv}。そして ${calc}、余り ${rem}。`,
-    time3: (conv, calc, rounded) => `余った分を角度の秒に直し、秒を加えます：${conv}。そして ${calc}${rounded ? `、四捨五入して ${rounded}` : ''}。`,
+    time3: (conv, calc, rounded, carry) => `余った分を角度の秒に直し、秒を加えます：${conv}。そして ${calc}${rounded ? `、四捨五入して ${rounded}` : ''}。${carry ? '60 秒はちょうど 1 分なので、繰り上げます。' : ''}${carry === 2 ? 'これで 60 分、ちょうど 1 時間になるので、もう一度繰り上げます。' : ''}`,
     time4: (arc, time) => `つまり角度の ${arc} は、時間にして ${time} です。`
   },
 
@@ -2320,7 +2333,7 @@ I18N.ja = {
     rightSign: 'サインは合っています——度数は 30 で割った余りで、分と秒はそのままです。',
     signHow: '度数を 30 で割ります。商が経過したサインの数、余りが次のサインの中の度数です。',
     backPast: '牡羊座 0° を越えて後ろへ戻っています——先に上の行に 360° を加えてください。',
-    circle: 'ちょうど一周ずれています。度数が 360 を超えたら 360° を引きます。',
+    circle: 'ちょうど一周ずれています。度数が 360 に達したら 360° を引きます。',
     offBy: deg => `${deg}° ずれています——サインの始まりの度数が間違っています。`,
     secs: '秒だけが違います。',
     mins: '分が違います——秒からの繰り上がりや借りを入れましたか？',
@@ -2332,6 +2345,8 @@ I18N.ja = {
     swapped: '引き算が逆です。上の行から下の行を引いてください。',
     distCross: '数える途中で牡羊座 0° を越えます——先に終点に 360° を加えてください。',
     range: '度数は 0 から 359 までです。360° はちょうど一周で、0° に戻ります。',
+    okRetry: '正解です。ただ、1 回目ではなかったので数えません。N で次へ。',
+    decPlain: '小数は数字と小数点ひとつだけで書いてください。例：23.43666。',
     form: '整数で書いてください。分と秒は 0〜59 です。',
     roundUp: '1 秒足りません。端数が 0.5 秒以上なので、切り上げます。',
     roundDown: '1 秒多すぎます。端数が 0.5 秒未満なので、切り捨てます。',
@@ -2440,7 +2455,8 @@ function makeProblem(mode, level){
       if (level===3 && toSec(a) === toSec(b)){ a.d = rnd(0, 358); b.d = rnd(a.d+1, 359); }
       return {mode, a, b, ask:'dms'}; }
     case 'todec': { const x = rDMS(level, 359); if (level===1) x.s = 0; return {mode, x, ask:'dec'}; }
-    case 'todms': { const x = rDMS(level, 359); if (level===1) x.s = 0; return {mode, decStr: decStrOf(x), ask:'dms'}; }
+    case 'todms': { const x = rDMS(level, 359); if (level===1){ x.s = 0; x.m = 3*rnd(0,19); }   // Gentle: m/60 ends within five places
+      return {mode, decStr: decStrOf(x), ask:'dms'}; }
     case 'signs': {
       const kinds = level===1 ? ['toAbs','toSign'] : level===2 ? ['toAbs','toSign','dist'] : ['dist','dist','toSign'];
       const kind = kinds[rnd(0,kinds.length-1)];
@@ -2667,7 +2683,10 @@ function paintWalk(){
   const T = L(), w = T.walk[walkIdx];
   $('#stepCount').textContent = T.stepOf(walkIdx+1, WALK.length);
   $('#stepTitle').textContent = w.title; $('#stepBody').innerHTML = w.body; $('#stepTry').innerHTML = w.try;
+  const had = document.activeElement;
   $('#prevBtn').disabled = walkIdx===0; $('#nextBtn').disabled = walkIdx===WALK.length-1;
+  if (had === $('#prevBtn') && walkIdx===0) $('#nextBtn').focus({preventScroll:true});
+  else if (had === $('#nextBtn') && walkIdx===WALK.length-1) $('#prevBtn').focus({preventScroll:true});
   document.querySelectorAll('#pips button').forEach((b,j)=>b.setAttribute('aria-current', j===walkIdx?'true':'false'));
 }
 let parked = null;   // the practice problem the walkthrough took the slate from
@@ -2691,7 +2710,10 @@ $('#toPracticeBtn').addEventListener('click',()=>{ selectTab('tabPractice'); new
 function selectTab(id){
   document.querySelectorAll('.tabs [role=tab]').forEach(t=>{ const on = t.id===id; t.setAttribute('aria-selected', on?'true':'false'); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
 }
-document.querySelectorAll('.tabs [role=tab]').forEach(t=>t.addEventListener('click',()=>{ selectTab(t.id); if (t.id==='tabPractice' && !state.practising && parked) resumePractice(); }));
+document.querySelectorAll('.tabs [role=tab]').forEach(t=>t.addEventListener('click',()=>{ selectTab(t.id);
+  if (t.id==='tabWalk' && state.practising) showWalk(walkIdx);   // the step's own example, under the step's own text
+  else if (t.id==='tabPractice' && !state.practising && parked){ if (parked.p.mode === state.mode) resumePractice(); else { parked = null; newProblem(state.mode); } }
+}));
 function resumePractice(){
   const {p, reveal} = parked, cls = $('#ansWrap').className; parked = null;
   load(p, reveal, true); $('#qline').innerHTML = question(p);
@@ -2713,15 +2735,16 @@ document.querySelectorAll('.modes .btn').forEach(b=>b.addEventListener('click',(
 
 // ---------- practice ----------
 const stats = {right:0, streak:0, best:0};
-try{ stats.best = Number(localStorage.getItem('reckoner.best')||0) || 0; }catch(e){}
+try{ const b = Number(localStorage.getItem('reckoner.best')); stats.best = Number.isInteger(b) && b > 0 ? b : 0; }catch(e){}
 function paintStats(){ $('#stRight').textContent = stats.right; $('#stStreak').textContent = stats.streak; $('#stBest').textContent = stats.best; }
 paintStats();
-// credit for a problem: 'open' until it is answered or its working seen, then 'done' or 'shown';
+// credit for a problem: 'open' until it is answered or its working seen, then 'done', 'shown' or 'tried' (a wrong Check);
 // 'own' for your own numbers, which are checked but never scored. solved: answered right.
 state.credit = 'open'; state.solved = false; state.okFb = null;
 let fbKey = null, ownFbKey = null;   // what the two feedback lines say, so a language switch can repaint them
 function newProblem(mode){
   const level = Number($('#diffSel').value);
+  if (state.practising && state.credit === 'open' && !state.solved && stats.streak){ stats.streak = 0; paintStats(); }   // a skip ends the run
   const p = makeProblem(mode, level); state.credit = 'open'; state.solved = false;
   load(p, 0, true);
   $('#qline').innerHTML = question(p);
@@ -2741,7 +2764,7 @@ function buildAnswer(ask){
   else if (ask==='dec') w.innerHTML = `<input type="text" inputmode="decimal" class="wide" id="adec" aria-label="${L().ui.decimalDegrees}" placeholder="${N('0.00000')}"><span class="u">°</span>`;
   else if (ask==='hms') w.innerHTML = dmsInputs('a', ['h','m','s']);
   else if (ask==='signpos') w.innerHTML = dmsInputs('a', ['°','′','″']) + signSelect('asign');
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); check(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); check(); } }));
 }
 // a blank box is 0; anything that is not a plain number ("-", "1-", "7.1e1") is NaN
 function readField(id){ const el = $('#'+id); if (el.validity && el.validity.badInput) return NaN;
@@ -2754,7 +2777,9 @@ const whole = v => [v.d, v.m, v.s].every(n => Number.isInteger(n) && n >= 0);
 function fbText(f){ if (!f) return ''; const T = L();
   if (f.k==='ok') return T.praise[f.i % T.praise.length] + T.pressN;
   const h = T.hint[f.k]; return typeof h === 'function' ? h(f.arg) : h; }
-function setFb(f){ fbKey = f; const fb = $('#fb'); fb.textContent = fbText(f); fb.className = 'fb' + (!f || f.k==='already' || f.k==='empty' ? '' : f.k==='ok' || f.k==='okShown' ? ' ok' : ' no'); }
+function setFb(f){ fbKey = f; const fb = $('#fb'); fb.textContent = fbText(f); fb.className = 'fb' + (!f || f.k==='already' || f.k==='empty' ? '' : f.k==='ok' || f.k==='okShown' || f.k==='okRetry' ? ' ok' : ' no'); }
+// a typed decimal as plain ASCII: full-width digits (from a CJK keyboard) and a leading + are accepted
+const plainDec = t => t.trim().replace(/[０-９．，＋]/g, c => c === '．' ? '.' : c === '，' ? ',' : c === '＋' ? '+' : String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).replace(/^\+/, '');
 // A decimal answer is right when it is the true value cut or rounded: to five places, or more if more are written.
 function decRight(typed, sec){
   let t = typed.trim().replace(',', '.'); if (t.startsWith('.')) t = '0' + t;
@@ -2774,10 +2799,10 @@ function check(){
   if (blank('#ansWrap')) return setFb({k:'empty'});
   let ok = false, hint = null;
   if (p.ask==='dec'){
-    const t = $('#adec').value, v = Number(t.trim().replace(',', '.'));
+    const t = plainDec($('#adec').value), v = Number(t.replace(',', '.'));
     ok = decRight(t, toSec(p.x));   // 23.43666 and 23.43667 for 23.436666…; 44.98 for 44.98 exactly
     if (!ok){
-      if (!Number.isFinite(v)) hint = {k:'decHow'};
+      if (!/^\d*[.,]?\d*$/.test(t) || !/\d/.test(t)) hint = {k:'decPlain'};
       else if (Math.abs(v - (p.x.d + p.x.m/100 + p.x.s/10000)) < 1e-9) hint = {k:'decPoint'};
       else if (Math.abs(v - sol.result) < 0.01) hint = {k:'decClose'};
       else hint = {k:'decHow'};
@@ -2800,7 +2825,9 @@ function check(){
     } else { // dms
       ok = diff === 0;
       if (!ok){
+        const carries = p.mode==='add' || p.mode==='sub' || p.kind==='dist' || p.kind==='toArc';   // modes with a carry or a borrow to miss
         if (p.mode==='sub' && neg) hint = toSec(p.a) < toSec(p.b) ? {k:'backPast'} : val === -toSec(exp) ? {k:'swapped'} : {k:'range'};
+        else if (p.mode==='sub' && toSec(p.a) < toSec(p.b) && val === toSec(p.b) - toSec(p.a)) hint = {k:'swapped'};   // 279° − 16° for 16° − 279°
         else if (neg) hint = p.kind==='dist' && diff === -CIRC ? {k:'distCross'} : {k:'range'};
         else if (diff === CIRC) hint = {k:'circle'};
         else if (v.d > 359) hint = {k:'range'};
@@ -2808,6 +2835,7 @@ function check(){
         else if (p.mode==='todms' && near === 1 && secFrac(p) === 1) hint = {k:'roundDown'};
         else if (p.mode==='signs' && diff % (30*3600) === 0) hint = {k:'offBy', arg:Math.abs(diff)/3600};   // only where a sign's start was used
         else if (v.s !== exp.s && v.m === exp.m && v.d === exp.d) hint = {k:'secs'};
+        else if (!carries) hint = {k:'notYet'};
         else if (v.s === exp.s && v.d === exp.d) hint = {k:'mins'};
         else if (v.m === exp.m && v.s === exp.s) hint = {k:'degs'};
         else if (Math.abs(diff)===60 || Math.abs(diff)===3600) hint = {k:'oneUnit'};
@@ -2820,11 +2848,12 @@ function check(){
     if (state.credit === 'open'){ stats.right++; stats.streak++; if (stats.streak>stats.best){ stats.best = stats.streak; try{ localStorage.setItem('reckoner.best', String(stats.best)); }catch(e){} }
       f = {k:'ok', i:rnd(0,4)}; state.credit = 'done'; }
     else if (state.credit === 'shown') f = {k:'okShown'};   // right, but the working was already showing
+    else if (state.credit === 'tried') f = {k:'okRetry'};   // right, but not at the first try
     else f = {k:'ok', i:rnd(0,4)};   // your own numbers: checked, not scored
     state.solved = true; state.okFb = f; setFb(f);
     w.classList.add('good'); w.classList.remove('bad');
     state.reveal = state.sol.steps.length; render(); }
-  else { if (state.credit !== 'own') stats.streak = 0; setFb(hint); w.classList.add('bad'); w.classList.remove('good'); }
+  else { if (state.credit !== 'own') stats.streak = 0; if (state.credit === 'open') state.credit = 'tried'; setFb(hint); w.classList.add('bad'); w.classList.remove('good'); }
   paintStats();
 }
 // Stepping through the working, like showing it all, gives the answer away: no point for this problem.
@@ -2862,7 +2891,7 @@ function workOwn(){
     case 'add': case 'sub': { const a = readDMS('o1'), b = readDMS('o2'); if(!validDMS(a,359)||!validDMS(b,359)) return bad('badDms'); p = {mode:m, a, b, ask:'dms'}; break; }
     case 'todec': { const x = readDMS('o1'); if(!validDMS(x,359)) return bad('badDms'); p = {mode:m, x, ask:'dec'}; break; }
     case 'todms': { // the decimal as typed, digits and all
-      let t = ($('#odec').value||'').trim().replace(',','.'); if (t.startsWith('.')) t = '0' + t; if (t.endsWith('.')) t = t.slice(0, -1);
+      let t = plainDec($('#odec').value||'').replace(',','.'); if (t.startsWith('.')) t = '0' + t; if (t.endsWith('.')) t = t.slice(0, -1);
       if (!/^\d+(\.\d+)?$/.test(t) || !(Number(t.split('.')[0]) < 360)) return bad('badDec');
       t = t.replace(/^0+(?=\d)/, ''); p = {mode:m, decStr:t, ask:'dms'}; break; }
     case 'signs': { const kind = $('#okind').value; const r1 = readDMS('o1'), s1 = Number($('#o1sign').value); const r2 = readDMS('o2'), s2 = Number($('#o2sign').value);
@@ -2890,14 +2919,15 @@ function paintSignTable(){
 
 // ---------- keys ----------
 document.addEventListener('keydown', e => {
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing || e.keyCode === 229) return;
   const tag = (e.target.tagName||'').toLowerCase(); const typing = tag==='input' || tag==='select' || tag==='textarea';
   const isN = e.key==='n' || e.key==='N', practice = !$('#panePractice').hidden;
   // once a problem is answered, N in its answer box moves on, as the message says
   if (typing && isN && practice && state.solved && e.target.closest('#ansWrap')){ e.preventDefault(); newProblem(state.mode); return; }
   if (typing) return;
   // the arrows turn the walkthrough's pages from anywhere but a tab
-  if ((e.key==='ArrowRight' || e.key==='ArrowLeft') && !$('#paneWalk').hidden && !e.target.closest('[role=tab]')){ showWalk(walkIdx + (e.key==='ArrowRight' ? 1 : -1)); return; }
+  if ((e.key==='ArrowRight' || e.key==='ArrowLeft') && !$('#paneWalk').hidden && !e.target.closest('[role=tab]')){
+    const j = walkIdx + (e.key==='ArrowRight' ? 1 : -1); if (j >= 0 && j < WALK.length) showWalk(j); return; }
   if (isN){ if (practice) newProblem(state.mode); return; }
   // Space steps the slate, unless a focused control wants it
   if (e.key===' ' && !e.target.closest('button, a, summary, [role=tab]')){ e.preventDefault(); $('#stepBtn').click(); }
@@ -2933,7 +2963,7 @@ function applyLang(l, first){
   paintWalk();
   // the worked steps carry their words, so solve again; the problem itself is unchanged
   if (state.problem){ state.sol = solve(state.problem); render(); if (state.practising) $('#qline').innerHTML = question(state.problem); }
-  if (state.problem && state.practising) keepInputs('#ansWrap', () => buildAnswer(state.problem.ask));
+  if (state.problem && state.practising){ const cls = $('#ansWrap').className; keepInputs('#ansWrap', () => buildAnswer(state.problem.ask)); $('#ansWrap').className = cls; }
   keepInputs('#ownWrap', () => buildOwn(state.mode));
   setFb(fbKey); if (ownFbKey) setOwnFb(ownFbKey, ownFbKey==='ok');
 }

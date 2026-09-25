@@ -13,6 +13,7 @@ tracking. Save one to disk and it still works.
 | [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic | 7 languages |
 | [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties | 7 languages |
 | [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses | 7 languages |
+| [The Takht](https://dar-al-hikma.github.io/takht/) | A dust board for chart calculation | 7 languages |
 
 ## Layout
 
@@ -40,7 +41,8 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 
 - **One file per piece, and no network at all.** Fonts are embedded as base64
   `woff2`; see [FONT-LICENSES.md](FONT-LICENSES.md). Save a page to disk and it
-  renders exactly the same with the network off.
+  renders exactly the same with the network off. A piece may keep its own
+  home-screen icons and manifest beside its `index.html`; it works without them.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.

@@ -105,6 +105,8 @@
   .ind.brass{color:var(--brass);border-color:rgba(227,170,62,.45)}
   .ind.steel{color:var(--steel);border-color:rgba(127,182,224,.45)}
   .ind.madder{color:var(--madder);border-color:rgba(228,103,76,.45)}
+  button.ind{touch-action:manipulation;user-select:none;-webkit-user-select:none}
+  button.ind:hover{border-color:var(--brass)}
   .helpbtn{
     flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
     color:var(--muted);font-size:15px;font-weight:600;touch-action:manipulation;
@@ -120,6 +122,7 @@
   .val .cur{box-shadow:inset 0 -3px 0 var(--brass)}
   .val .ph{font-family:var(--f-ui);font-size:.5em;letter-spacing:.1em;text-transform:uppercase;vertical-align:middle}
   .val .u{color:var(--muted)}
+  .val .neg{color:var(--brass)}
   .val.shake{animation:shake .32s ease}
   @keyframes shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
   .msg{font-size:.84rem;min-height:20px;line-height:20px;text-align:right;color:var(--muted);opacity:0;transition:opacity .4s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -130,6 +133,7 @@
   .row{display:grid;gap:6px;height:var(--key-h)}
   .r6{grid-template-columns:repeat(6,minmax(0,1fr))}
   .r4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .r7{grid-template-columns:repeat(7,minmax(0,1fr))}
   .k{
     position:relative;min-width:0;height:100%;
     background:var(--panel-2);border:1px solid var(--line);border-radius:10px;color:var(--vellum);
@@ -293,7 +297,8 @@
       </div>
 
       <div class="keys">
-        <div class="row r6" data-i18n-aria="regs" aria-label="Registers">
+        <div class="row r7" data-i18n-aria="regs" aria-label="Registers">
+          <button type="button" class="k reg sto" data-k="sto" id="kSto" data-i18n-title="stoT" title="Store: then tap a register">sto</button>
           <button type="button" class="k reg" data-k="reg:LST" data-reg="LST">LST</button>
           <button type="button" class="k reg" data-k="reg:RAMC" data-reg="RAMC">RAMC</button>
           <button type="button" class="k reg" data-k="reg:OE" data-reg="OE">OE</button>
@@ -321,7 +326,7 @@
           <div class="row r4">
             <button type="button" class="k ctl" data-k="C" id="kC" data-i18n-title="cT" title="Clear (Esc); hold or press twice to clear all">C</button>
             <button type="button" class="k ctl" data-k="bs" data-i18n-aria="bsA" aria-label="Delete last digit" data-i18n-title="bsT" title="Backspace">⌫</button>
-            <button type="button" class="k ctl sto" data-k="sto" id="kSto" data-i18n-title="stoT" title="Store: then tap a register">sto</button>
+            <button type="button" class="k ctl" data-k="neg" id="kNeg" data-i18n-aria="negA" aria-label="change sign" data-i18n-title="negT" title="Change sign (N)">±</button>
             <button type="button" class="k op" data-k="÷" data-i18n-aria="divA" aria-label="divide">÷</button>
           </div>
           <div class="row r4">
@@ -664,6 +669,8 @@ I18N.en = {
     minusA: 'minus',
     plusA: 'plus',
     pointA: 'decimal point',
+    negA: 'change sign',
+    negT: 'Change sign (N)',
     unitT: "Next field (' \" or Space)",
     eqA: 'equals',
     tape: 'History',
@@ -678,6 +685,7 @@ I18N.en = {
     indSign: 'sign',
     indSto: 'sto → register',
     indNoWrap: 'no wrap',
+    indWrap: 'wrap',
     signPh: 'sign',
     helpHead: 'How the Takht works',
     hEnter: 'Entering a number',
@@ -720,9 +728,12 @@ I18N.en = {
   m: {
     manyDigits: 'That is as many digits as the Takht will hold.',
     signDigits: u => `Digits go in the degrees, minutes and seconds. ${u} steps through the signs.`,
-    hours: 'Hours run 0–23.',
+    hours: 'Hours run 0–24.',
     degSign: 'Within a sign, degrees run 0–29.',
-    degrees: 'Degrees run 0–359.',
+    degrees: 'Degrees run 0–360.',
+    fullDay: '24:00:00 is a whole day; nothing goes past it.',
+    fullCircle: '360° is the whole circle; nothing goes past it.',
+    negSign: "A position within a sign can't be negative.",
     minTwo: u => `Minutes take two digits. Press ${u} for the seconds.`,
     secTwo: 'Seconds take two digits.',
     minRange: time => `Minutes run 0–59. Sixty is a whole ${time ? 'hour' : 'degree'}.`,
@@ -738,17 +749,24 @@ I18N.en = {
     allClear: 'All clear.',
     decRead: arc => arc ? 'The decimal will be read as degrees.' : 'The decimal will be read as hours.',
     noUnits: op => `The number after ${op} is a plain number; it has no units.`,
-    notHour: d => `Hours run 0–23; ${d} cannot be an hour. Use ÷15 to turn arc into time.`,
+    notHour: d => `Hours run 0–24; ${d} cannot be an hour. Use ÷15 to turn arc into time.`,
     modeSet: arc => arc ? 'Arc: degrees, minutes, seconds.' : 'Time: hours, minutes, seconds.',
     modeFresh: arc => (arc ? 'Arc: degrees, minutes, seconds.' : 'Time: hours, minutes, seconds.') + ' Type the value.',
     chooseSign: u => `Choose the sign: after the seconds, press ${u} until it shows.`,
     typeAfter: op => `Type the number after ${op} first.`,
     arcTime: add => `Arc and time cannot be ${add ? 'added' : 'subtracted'}. ×15 or ÷15 brings them together.`,
     decSex: add => `A decimal and ° ′ ″ cannot be ${add ? 'added' : 'subtracted'}. Press dec on the decimal to turn it into ° ′ ″.`,
+    arcTimeDiv: "An angle can't be divided by a time, or a time by an angle.",
+    ratioHint: '× takes a plain number, like 0.98. A ratio is a time ÷ a time (÷ 24 h m s) or an angle ÷ an angle.',
+    numByQty: "A plain number can't be divided by ° ′ ″ or h m s.",
+    decToFields: u => `A decimal can't become ${u}. Type a whole number, then press ${u}.`,
+    numStays: u => `This number stays a number. Press dec to turn it into ${u}.`,
+    signNum: 'Sign notation is for arc (°). This is a plain number.',
     divZero: 'Nothing can be divided by zero.',
     nothingYet: 'Nothing to work out yet.',
     nothingToDo: 'Nothing to work out. Type a number and an operation.',
     accelTime: 'accel takes a time: UT in h m s.',
+    accelRange: 'accel takes UT between 00:00:00 and 24:00:00.',
     x15Dec: '×15 takes a time in h m s, not a decimal.',
     x15Arc: '×15 turns time into arc. This is already arc; ÷15 goes the other way.',
     d15Dec: '÷15 takes an arc in ° ′ ″, not a decimal.',
@@ -1692,6 +1710,9 @@ const isInt = x => Math.abs(x - Math.round(x)) < 1e-6;
 const roundSec = x => x < 0 ? -Math.round(-x) : Math.round(x);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const isScalarOp = op => op === '×' || op === '÷';
+// the right-hand value starts as a plain number after × and ÷, and after + or − when the left is a number
+const slotIsNumber = () => !!S.pending && (isScalarOp(S.pending.op) || S.pending.a.k === 'dec');
+const isNeg = v => v.k === 'sex' ? v.sec < 0 : v.v < 0;
 
 const S = {
   mode: ARC,
@@ -1727,7 +1748,14 @@ function saveWrap(){ try { localStorage.setItem(LS_WRAP, S.wrap ? 'on' : 'off');
 function parts(sec){ const a = Math.abs(sec); return {d: Math.floor(a/3600), m: Math.floor(a%3600/60), s: a%60}; }
 function fmtSex(sec, mode){ const x = parts(sec); return (sec < 0 ? MINUS : '') + (mode === TIME ? fmtHMS(x) : fmtDMS(x)); }
 function fmtSignPlain(sec){ return fmtSignText(fromSec(norm(sec))); }
-function fmtNum(v){ return N(v < 0 ? MINUS + truncFixed(-v, 5) : truncFixed(v, 5)); }
+// seven places, fewer when the whole part is long; … when digits were cut; never 0 for a non-zero value
+function fmtNum(v){
+  if (v === 0) return '0';
+  const a = Math.abs(v), whole = String(Math.floor(a)).length;
+  let s = truncFixed(a, Math.max(0, Math.min(7, 13 - whole)));
+  if (+s === 0) s = truncFixed(a, 2 - Math.floor(Math.log10(a)));
+  return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-12 ? '…' : '');
+}
 function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
 // an operand on the tape: if it was typed in sign notation, give both
 function fmtOperand(v){ return (v.k === 'sex' && v.fromSign) ? `${fmtSignPlain(v.sec)} (${fmtSex(v.sec, ARC)})` : fmtV(v); }
@@ -1742,6 +1770,8 @@ function fmtExact(x, mode){
 const unitLabel = mode => (mode || curMode()) === TIME ? 'h m s' : '° ′ ″';
 const curMode = () => (S.entry && S.entry.k === 'sex') ? S.entry.mode : S.mode;
 function wrapSec(sec, mode){ if (!S.wrap) return sec; const F = FULL[mode]; return ((sec % F) + F) % F; }
+// times always wrap; an arc stays signed when a value that went into it was negative
+const wrapRes = (sec, mode, signed) => (mode === ARC && signed) ? sec : wrapSec(sec, mode);
 function decToSec(x){ // decimal degrees (or hours) to whole seconds, via the Reckoner's conversion
   return x < 0 ? -toSec(toDMSSteps(-x).result) : toSec(toDMSSteps(x).result);
 }
@@ -1761,23 +1791,25 @@ const refuse = t => say(t, true);
 
 // ---------- entry ----------
 function expectedKind(){
-  if (S.pending && isScalarOp(S.pending.op)) return 'dec';
+  if (slotIsNumber()) return 'dec';
   return S.view.dec ? 'dec' : 'sex';
 }
 function newEntry(kind){
-  if (kind === 'dec') return {k:'dec', t:'', touched:false, scalar: !!(S.pending && isScalarOp(S.pending.op))};
-  return {k:'sex', mode:S.mode, f:['','',''], i:0, sign: S.view.sign && S.mode === ARC, sg:null, touched:false};
+  if (kind === 'dec') return {k:'dec', t:'', touched:false, neg:false, scalar: slotIsNumber()};
+  return {k:'sex', mode:S.mode, f:['','',''], i:0, sign: S.view.sign && S.mode === ARC, sg:null, touched:false, neg:false};
 }
+const hasTyped = e => e.k === 'dec' ? e.t !== '' : (e.i > 0 || e.f.some(Boolean) || e.sg != null);
 function entryValue(e){
   if (e.k === 'dec'){
     let t = e.t; if (t === '' || t === '.') t = '0';
     if (t.startsWith('.')) t = '0' + t;
     if (t.endsWith('.')) t = t.slice(0, -1);
-    return dec(parseFloat(t), t);
+    return e.neg ? dec(-parseFloat(t), '-' + t) : dec(parseFloat(t), t);
   }
   const d = +e.f[0] || 0, m = +e.f[1] || 0, s = +e.f[2] || 0;
   if (e.sign) return sex(((((e.sg || 0)*30 + d)*60) + m)*60 + s, ARC, {fromSign: e.sg != null});
-  return sex((d*60 + m)*60 + s, e.mode);
+  const sec = (d*60 + m)*60 + s;
+  return sex(e.neg ? -sec : sec, e.mode);
 }
 // fold what is being typed into the value; false if the entry cannot stand yet
 function commit(){
@@ -1817,13 +1849,18 @@ function digit(ch){
   const cur = e.f[e.i];
   const t = (e.i === 0 && cur === '0') ? ch : cur + ch;
   const n = +t;
+  // 24:00:00 and 360° 00′ 00″ can be typed, as the whole of a day or a circle, and nothing past them
+  const top = e.mode === TIME ? 24 : 360;
+  const full = () => refuse(e.mode === TIME ? M().fullDay : M().fullCircle);
   if (e.i === 0){
-    if (e.mode === TIME){ if (t.length > 2 || n >= 24) return refuse(M().hours); }
+    if (e.mode === TIME){ if (t.length > 2 || n > 24) return refuse(M().hours); }
     else if (e.sign){ if (t.length > 2 || n >= 30) return refuse(M().degSign); }
-    else if (t.length > 3 || n >= 360) return refuse(M().degrees);
+    else if (t.length > 3 || n > 360) return refuse(M().degrees);
+    if (!e.sign && n === top && (+e.f[1] || +e.f[2])) return full();
   } else {
     if (t.length > 2) return refuse(e.i === 1 ? M().minTwo(unitLabel()) : M().secTwo);
     if (n >= 60) return refuse(e.i === 1 ? M().minRange(e.mode === TIME) : M().secRange);
+    if (!e.sign && n > 0 && +e.f[0] === top) return full();
   }
   e.f[e.i] = t; e.touched = true;
 }
@@ -1834,14 +1871,15 @@ function point(){
     e.t = (e.t === '' ? '0' : e.t) + '.'; e.touched = true; return;
   }
   const loneZero = e && e.k === 'sex' && e.i === 0 && e.f[0] === '0';   // 0.5 as on a pocket calculator
-  if (e && e.touched && !loneZero) return refuse(M().wholeNumbers);   // 23. mid-entry stays refused
+  if (e && hasTyped(e) && !loneZero) return refuse(M().wholeNumbers);   // 23. mid-entry stays refused
   // a point before any digit starts a decimal, as on a pocket calculator: . 5 sin⁻¹ gives 30°
-  S.entry = newEntry('dec'); S.entry.t = '0.'; S.entry.touched = true;
+  const neg = !!(e && e.neg);
+  S.entry = newEntry('dec'); S.entry.t = '0.'; S.entry.touched = true; S.entry.neg = neg;
 }
 function unitKey(){
   let e = S.entry;
   if (e && e.k === 'dec'){
-    if (e.scalar) return refuse(M().plainAfter(S.pending.op, '0.98'));
+    if (e.scalar) return slotToFields(S.mode, true);
     return refuse(M().decNoUnits);
   }
   if (!e){
@@ -1856,14 +1894,43 @@ function unitKey(){
   }
   e.sg = (e.sg + 1) % 12;
 }
+// a number slot becomes ° ′ ″ or h m s: how 00:03:47 is divided by 00:04:00, or 15:55:00 by 24:00:00
+function slotToFields(m, advance){
+  const e = S.entry, {op, a} = S.pending;
+  if (op === '×' && a.k === 'sex') return refuse(M().ratioHint);
+  if (op === '÷' && a.k === 'dec') return refuse(M().numByQty);
+  if (op === '+' || op === '−') return refuse(M().decSex(op === '+'));
+  if (op === '÷' && a.mode !== m) return refuse(M().arcTimeDiv);
+  if (e.t.includes('.')) return refuse(M().decToFields(unitLabel(m)));
+  const f0 = e.t.replace(/^0+(?=\d)/, '');
+  if (+f0 > (m === TIME ? 24 : 360)) return refuse(m === TIME ? M().hours : M().degrees);
+  S.entry = {k:'sex', mode:m, f:[f0,'',''], i: advance ? 1 : 0, sign:false, sg:null, touched:true, neg:e.neg};
+  S.mode = m;
+}
+function negKey(){
+  const e = S.entry;
+  if (e){
+    if (e.k === 'sex' && e.sign) return refuse(M().negSign);
+    e.neg = !e.neg; e.touched = hasTyped(e) || e.neg; return;
+  }
+  const v = S.val;
+  if (v.k === 'sex' ? v.sec === 0 : v.v === 0){ S.entry = newEntry(expectedKind()); S.entry.neg = S.entry.touched = true; return; }
+  const out = v.k === 'sex' ? sex(-v.sec, v.mode) : dec(-v.v);
+  setVal(out);
+  addTape(`${MINUS}(${fmtOperand(v)}) = ${fmtV(out)}`, [], out);
+}
 function backspace(){
   const e = S.entry;
   if (!e || !e.touched) return refuse(M().bsNothing);
-  if (e.k === 'dec'){ e.t = e.t.slice(0, -1); e.touched = e.t !== ''; return; }
+  if (e.k === 'dec'){
+    if (e.t === '' && e.neg) e.neg = false; else e.t = e.t.slice(0, -1);
+    e.touched = e.t !== '' || e.neg; return;
+  }
   if (e.i === 3){ e.i = 2; e.sg = null; }
   else if (e.f[e.i]) e.f[e.i] = e.f[e.i].slice(0, -1);
   else if (e.i > 0) e.i--;
-  e.touched = e.i > 0 || e.f.some(Boolean);
+  else if (e.neg) e.neg = false;
+  e.touched = hasTyped(e) || e.neg;
 }
 function clearKey(all){
   if (all || S.cArmed){
@@ -1880,19 +1947,21 @@ function clearKey(all){
 function setMode(m){
   const e = S.entry;
   if (e && e.k === 'dec'){
-    if (!e.scalar){ S.mode = m; say(M().decRead(m === ARC)); }
-    else say(M().noUnits(S.pending.op));
+    if (e.scalar) return slotToFields(m, false);
+    S.mode = m; say(M().decRead(m === ARC));
     return;
   }
   if (e){
     if (e.mode === m) return;
     const d = +e.f[0] || 0;
-    if (m === TIME && d >= 24) return refuse(M().notHour(d));
+    if (m === TIME && (d > 24 || (d === 24 && (+e.f[1] || +e.f[2])))) return refuse(M().notHour(d));
     e.mode = m; S.mode = m;
     e.sign = S.view.sign && m === ARC && d < 30;
     if (!e.sign){ if (e.i === 3) e.i = 2; e.sg = null; }
     say(M().modeSet(m === ARC)); return;
   }
+  // a number on the display stays: ° or h only says what dec will turn it into
+  if (S.val.k === 'dec'){ S.mode = m; say(M().decRead(m === ARC)); return; }
   // start afresh in the chosen units; a result stays on the tape
   S.mode = m;
   S.entry = newEntry('sex'); S.entry.touched = true;
@@ -1901,22 +1970,31 @@ function setMode(m){
 
 // ---------- arithmetic ----------
 function evaluate(op, a, b){
+  const signed = isNeg(a) || isNeg(b);
   if (op === '+' || op === '−'){
     if (a.k === 'sex' && b.k === 'sex'){
       if (a.mode !== b.mode) return refuse(M().arcTime(op === '+'));
       const raw = op === '+' ? a.sec + b.sec : a.sec - b.sec;
-      const res = wrapSec(raw, a.mode), notes = [];
+      const res = wrapRes(raw, a.mode, signed), notes = [];
       if (res !== raw) notes.push(`${fmtSex(raw, a.mode)} → ${fmtSex(res, a.mode)}`);
       return {val: sex(res, a.mode), notes};
     }
     if (a.k === 'dec' && b.k === 'dec') return {val: dec(clean(op === '+' ? a.v + b.v : a.v - b.v)), notes: []};
     return refuse(M().decSex(op === '+'));
   }
-  if (b.k !== 'dec') return refuse(M().plainAfter(op, '0.98'));
-  if (op === '÷' && b.v === 0) return refuse(M().divZero);
-  if (a.k === 'dec') return {val: dec(clean(op === '×' ? a.v*b.v : a.v/b.v)), notes: []};
+  if (op === '÷' && (b.k === 'dec' ? b.v === 0 : b.sec === 0)) return refuse(M().divZero);
+  if (a.k === 'sex' && b.k === 'sex'){
+    if (op === '×') return refuse(M().ratioHint);
+    if (a.mode !== b.mode) return refuse(M().arcTimeDiv);
+    return {val: dec(a.sec / b.sec), notes: []};   // a ratio, kept at full precision
+  }
+  if (a.k === 'dec' && b.k === 'dec') return {val: dec(clean(op === '×' ? a.v*b.v : a.v/b.v)), notes: []};
+  if (a.k === 'dec'){
+    if (op === '÷') return refuse(M().numByQty);
+    [a, b] = [b, a];   // ratio × difference, the same as difference × ratio
+  }
   const exact = op === '×' ? a.sec*b.v : a.sec/b.v;
-  const r = roundSec(exact), res = wrapSec(r, a.mode), notes = [];
+  const r = roundSec(exact), res = wrapRes(r, a.mode, signed), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, a.mode)));
   if (res !== r) notes.push(`${fmtSex(r, a.mode)} → ${fmtSex(res, a.mode)}`);
   return {val: sex(res, a.mode), notes};
@@ -1957,16 +2035,18 @@ function equals(){
     if (!commit()) return;
     if (S.val.k === 'dec') return convertDec();
     S.view.dec = false;
-    if (!wasTouched) say(M().nothingYet);
+    if (S.val.fromSign && wasTouched) addTape(`${fmtSignPlain(S.val.sec)} = ${fmtSex(S.val.sec, ARC)}`, [], S.val);
+    else if (!wasTouched) say(M().nothingYet);
     return;
   }
-  if (S.val.k === 'dec') return convertDec();
+  // a computed number stays a number; dec converts it
+  if (S.val.k === 'dec') return say(M().numStays(unitLabel()));
   if (S.view.dec){ S.view.dec = false; return; }
   say(M().nothingToDo);
 }
 function convertDec(){
   const v = S.val, mode = S.mode;
-  const exact = v.v*3600, r = decToSec(v.v), res = wrapSec(r, mode), notes = [];
+  const exact = v.v*3600, r = decToSec(v.v), res = wrapRes(r, mode, v.v < 0), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, mode)));
   if (res !== r) notes.push(`${fmtSex(r, mode)} → ${fmtSex(res, mode)}`);
   const out = sex(res, mode);
@@ -1988,6 +2068,7 @@ const needArc = (name, v) =>
 const U = {
   accel(v){
     if (v.k !== 'sex' || v.mode !== TIME) return refuse(M().accelTime);
+    if (v.sec < 0 || v.sec > FULL.time) return refuse(M().accelRange);
     const exact = v.sec/3600*9.86, r = roundSec(exact), out = sex(r, TIME);
     return {val: out, line: `${fmtV(v)} × 9.86 s/h = ${fmtV(out)}`,
             notes: isInt(exact) ? [] : [M().rounded(N(truncFixed(exact, 2)) + ' s')]};
@@ -1995,26 +2076,25 @@ const U = {
   x15(v){
     if (v.k !== 'sex') return refuse(M().x15Dec);
     if (v.mode !== TIME) return refuse(M().x15Arc);
+    // a conversion: never wrapped, so the sign and the size carry through
     let raw = v.sec*15;
     if (v.sec >= 0 && v.sec < FULL.time) raw = toSec(timeToArcSteps(fromSec(v.sec)).result);
-    const res = wrapSec(raw, ARC), out = sex(res, ARC), notes = [];
-    if (res !== raw) notes.push(`${fmtSex(raw, ARC)} → ${fmtSex(res, ARC)}`);
-    return {val: out, line: `${fmtV(v)} × 15 = ${fmtResult(out)}`, notes};
+    const out = sex(raw, ARC);
+    return {val: out, line: `${fmtV(v)} × 15 = ${fmtResult(out)}`, notes: []};
   },
   d15(v){
     if (v.k !== 'sex') return refuse(M().d15Dec);
     if (v.mode !== ARC) return refuse(M().d15Time);
     const exact = v.sec/15;
     const r = v.sec < 0 ? -toSec(arcToTimeSteps(fromSec(-v.sec)).result) : toSec(arcToTimeSteps(fromSec(v.sec)).result);
-    const res = wrapSec(r, TIME), out = sex(res, TIME), notes = [];
+    const out = sex(r, TIME), notes = [];   // a conversion: never wrapped (−93° 15′ 48″ is −06:13:03, as row 12 has it)
     if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, TIME)));
-    if (res !== r) notes.push(`${fmtSex(r, TIME)} → ${fmtSex(res, TIME)}`);
     return {val: out, line: `${fmtOperand(v)} ÷ 15 = ${fmtV(out)}`, notes};
   },
   p180(v){
     if (v.k !== 'sex') return refuse(M().p180Dec);
     if (v.mode !== ARC) return refuse(M().p180Time);
-    const raw = v.sec + 180*3600, res = wrapSec(raw, ARC), out = sex(res, ARC), notes = [];
+    const raw = v.sec + 180*3600, res = wrapRes(raw, ARC, v.sec < 0), out = sex(res, ARC), notes = [];
     if (res !== raw) notes.push(`${fmtSex(raw, ARC)} → ${fmtSex(res, ARC)}`);
     return {val: out, line: `${fmtOperand(v)} + 180° = ${fmtResult(out)}`, notes};
   }
@@ -2036,9 +2116,12 @@ const U = {
       if (Math.abs(x) > 1 + 1e-12) return refuse(M().invRange(keyLabel(name)));
       x = Math.max(-1, Math.min(1, x));
     }
-    const exact = Math[name](x)*180/Math.PI*3600, r = roundSec(exact), out = sex(r, ARC);
-    return {val: out, line: `${keyLabel(name)} ${fmtV(v)} = ${fmtResult(out)}`,
-            notes: isInt(exact) ? [] : [M().rounded(fmtExact(exact, ARC))]};
+    const exact = Math[name](x)*180/Math.PI*3600, r = roundSec(exact);
+    // tan⁻¹ gives a longitude in every chart formula, so it wraps; then "+180 if far from the RAMC" holds in all four quadrants
+    const res = name === 'atan' && S.wrap ? norm(r) : r, out = sex(res, ARC);
+    const notes = isInt(exact) ? [] : [M().rounded(fmtExact(exact, ARC))];
+    if (res !== r) notes.push(`${fmtSex(r, ARC)} → ${fmtSex(res, ARC)}`);
+    return {val: out, line: `${keyLabel(name)} ${fmtV(v)} = ${fmtResult(out)}`, notes};
   };
 });
 
@@ -2054,7 +2137,7 @@ function decKey(){
   if (e && e.k === 'dec'){ if (e.scalar) return scalarMsg(); if (!commit()) return; return convertDec(); }
   if (e){ if (!commit()) return; S.view.dec = true; S.view.sign = false; return; }
   if (S.val.k === 'dec'){
-    if (S.pending && isScalarOp(S.pending.op) && S.right) return scalarMsg();
+    if (slotIsNumber() && S.right) return scalarMsg();
     return convertDec();
   }
   S.view.dec = !S.view.dec;
@@ -2062,6 +2145,7 @@ function decKey(){
 }
 function signKey(){
   if (curMode() === TIME && !S.view.sign) return refuse(M().signTime);
+  if (!S.entry && S.val.k === 'dec' && !S.view.sign) return refuse(M().signNum);
   const e = S.entry;
   if (e && !e.touched){
     S.view.sign = !S.view.sign; if (S.view.sign) S.view.dec = false;
@@ -2121,18 +2205,18 @@ function tapeRecall(i){
 
 // ---------- render ----------
 function renderEntry(e){
-  if (e.k === 'dec'){
+  const minus = e.neg ? `<span class="neg">${MINUS}</span>` : '';
+  if (e.k === 'dec'){   // a number carries no unit
     const t = e.t === '' ? '<span class="dim">0</span>' : esc(e.t);
-    const u = e.scalar ? '' : `<span class="u">${S.mode === TIME ? ' h' : '°'}</span>`;
-    return `<span class="cur">${t}</span>${u}`;
+    return `${minus}<span class="cur">${t}</span>`;
   }
   const field = (idx, emptyTxt) => {
     const f = e.f[idx], cls = (idx === e.i ? 'cur' : '') + (f === '' ? ' dim' : '');
     return `<span class="${cls.trim()}">${f === '' ? emptyTxt : f}</span>`;
   };
-  let h;
-  if (e.mode === TIME) h = `${field(0,'00')}<span class="u">:</span>${field(1,'00')}<span class="u">:</span>${field(2,'00')}`;
-  else h = `${field(0,'0')}<span class="u">°</span> ${field(1,'00')}<span class="u">′</span> ${field(2,'00')}<span class="u">″</span>`;
+  let h = minus;
+  if (e.mode === TIME) h += `${field(0,'00')}<span class="u">:</span>${field(1,'00')}<span class="u">:</span>${field(2,'00')}`;
+  else h += `${field(0,'0')}<span class="u">°</span> ${field(1,'00')}<span class="u">′</span> ${field(2,'00')}<span class="u">″</span>`;
   if (e.sign){
     const c = e.i === 3 ? 'cur' : '';
     h += ' ' + (e.sg == null ? `<span class="dim ph ${c}">${esc(UI().signPh)}</span>` : `<span class="glyph ${c}">${SIGNS[e.sg].g}</span>`);
@@ -2165,7 +2249,7 @@ function render(){
   if (S.view.dec || (e && e.k === 'dec' && !e.scalar)) inds.push(`<span class="ind brass">${esc(UI().indDec)}</span>`);
   if (S.view.sign) inds.push(`<span class="ind brass"${mode === TIME ? ' style="opacity:.45"' : ''}>${esc(UI().indSign)}</span>`);
   if (S.sto) inds.push(`<span class="ind steel">${esc(UI().indSto)}</span>`);
-  if (!S.wrap) inds.push(`<span class="ind madder">${esc(UI().indNoWrap)}</span>`);
+  inds.push(`<button type="button" class="ind${S.wrap ? '' : ' madder'}" id="wrapChip" aria-pressed="${S.wrap}" title="${esc(UI().wrapLabel)}">${esc(S.wrap ? UI().indWrap : UI().indNoWrap)}</button>`);
   $('#inds').innerHTML = inds.join('');
   $('#kUnit').textContent = unitLabel(mode);
   $('#kC').textContent = S.cArmed ? 'AC' : 'C';
@@ -2197,6 +2281,7 @@ function press(k){
     case 'C': clearKey(false); break;
     case 'AC': clearKey(true); break;
     case 'bs': backspace(); break;
+    case 'neg': negKey(); break;
     case 'dec': decKey(); break;
     case 'sign': signKey(); break;
     case 'sto': S.sto = !S.sto; say(S.sto ? M().stoArm : M().stoCancel); break;
@@ -2254,18 +2339,22 @@ $('#tapeHandle').addEventListener('pointerdown', ev => { swipeY = ev.clientY; })
 $('#tapeHandle').addEventListener('click', openTape);
 $('#tape').addEventListener('pointerdown', ev => { if (ev.target.closest('.tape-head')) swipeY = ev.clientY; });
 $('#tape').addEventListener('pointerup', ev => { if (swipeY != null && ev.clientY - swipeY > 50 && isPhone()) closeSheets(); swipeY = null; });
-$('#wrapSwitch').addEventListener('click', () => {
+function toggleWrap(){
   S.wrap = !S.wrap; saveWrap();
   say(S.wrap ? M().wrapOn : M().wrapOff);
   render();
-});
+}
+$('#wrapSwitch').addEventListener('click', toggleWrap);
+// the chip on the display: a tap keeps focus where it was, so Enter stays =
+$('#inds').addEventListener('pointerdown', ev => { if (ev.target.closest('#wrapChip')) ev.preventDefault(); });
+$('#inds').addEventListener('click', ev => { if (ev.target.closest('#wrapChip')) toggleWrap(); });
 
 const KEYMAP = {'+':'+', '-':'−', '*':'×', '/':'÷', '=':'=', 'Enter':'=', 'Backspace':'bs', 'Escape':'C',
-  "'":'unit', '"':'unit', ' ':'unit', '.':'.', ',':'.', 's':'sign', 'd':'dec', 't':'x15', 'T':'d15', 'm':'mode', 'M':'mode', '?':'help'};
+  "'":'unit', '"':'unit', ' ':'unit', '.':'.', ',':'.', 's':'sign', 'd':'dec', 't':'x15', 'T':'d15', 'm':'mode', 'M':'mode', 'n':'neg', '?':'help'};
 document.addEventListener('keydown', ev => {
   if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
   if (sheetOpen()){ if (ev.key === 'Escape'){ ev.preventDefault(); closeSheets(); } return; }
-  if (ev.target.closest && ev.target.closest('.tl, .help, .tbtn, .switch, .langsel')) return;
+  if (ev.target.closest && ev.target.closest('.tl, .help, .tbtn, .switch, .langsel, #wrapChip')) return;
   let k = /^[0-9]$/.test(ev.key) ? ev.key : KEYMAP[ev.key];
   if (!k) return;
   ev.preventDefault();

@@ -2392,7 +2392,9 @@ function evaluate0(op, a, b){
     }
     if (a.k === 'dec' && b.k === 'dec'){
       // typed numbers add and subtract in their decimal digits; anything computed keeps its binary result as it is
-      if (a.dx != null && b.dx != null){ const dx = dxAdd(a.dx, b.dx, op === '−'); return {val: dec(parseFloat(dx), null, dx), notes: []}; }
+      if (a.dx != null && b.dx != null){ const dx = dxAdd(a.dx, b.dx, op === '−'), v = parseFloat(dx);
+        if (v === 0 && /[1-9]/.test(dx)) return refuse(M().tooSmall);   // a non-zero sum too small for a double is refused, as for × and ÷
+        return {val: dec(v, null, dx), notes: []}; }
       return {val: dec(op === '+' ? a.v + b.v : a.v - b.v), notes: []};
     }
     return refuse(M().decSex(op === '+'));

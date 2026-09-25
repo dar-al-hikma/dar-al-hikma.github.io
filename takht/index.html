@@ -284,7 +284,7 @@
     .handle{height:calc(40px + env(safe-area-inset-bottom))}
   }
   /* narrow phones: the sign placeholder gives way before the digits do */
-  @media (max-width:359px){ .val .ph{font-size:.36em;letter-spacing:0} }
+  @media (max-width:389px){ .val .ph{font-size:.36em;letter-spacing:0;text-transform:none} }
   /* desktop: the history takes the calculator's height and scrolls inside it, however long it grows */
   @media (min-width:820px){ .tape{contain:size} }
   /* between phone and desktop: the history goes under the calculator */
@@ -2159,12 +2159,18 @@ const curMode = () => (S.entry && S.entry.k === 'sex') ? S.entry.mode : S.mode;
 function wrapSec(sec, mode){ if (!S.wrap) return sec; const F = FULL[mode]; return ((sec % F) + F) % F; }
 // times always wrap; an arc stays signed when a value that went into it was negative
 const wrapRes = (sec, mode, signed) => (mode === ARC && signed) ? sec : wrapSec(sec, mode);
-// decimal degrees (or hours) to whole seconds, the lesson's way: whole units, then minutes, then seconds rounded;
-// 60″ carries into the minute and nothing is wrapped here, so 359.999999999 comes to 360°, not 0°
-function decToSec(x){
-  const a = Math.abs(x), d = Math.floor(a), m2 = (a - d)*60, m = Math.floor(m2 + 1e-9), sec = (d*60 + m)*60 + Math.round((m2 - m)*60);
-  return x < 0 ? -sec : sec;
+// seconds × or ÷ a number carrying exact digits, rounded half away from zero in those digits:
+// 0.00375° is exactly 13.5″ and comes to 14″, while 0.00374999999° stays 13″
+function dxScale(sec, dx, div){
+  const neg = (sec < 0) !== (dx[0] === '-'), [i, f = ''] = dx.replace('-', '').split('.');
+  const N = BigInt(i + f), K = 10n ** BigInt(f.length), S = BigInt(Math.abs(sec));
+  const [n, d] = div ? [S * K, N] : [S * N, K];
+  const q = Number(n / d + ((n % d) * 2n >= d ? 1n : 0n));
+  return neg && q ? -q : q;
 }
+// decimal degrees (or hours) to whole seconds, by the same rule as 1° × the number; nothing is wrapped here,
+// so 359.999999999 comes to 360°, not 0°
+const decToSec = (x, dx) => dx != null ? dxScale(3600, dx, false) : roundSec(x*3600);
 
 // ---------- messages ----------
 let msgTimer = 0;
@@ -2400,7 +2406,7 @@ function evaluate0(op, a, b){
     [a, b] = [b, a];   // ratio × difference, the same as difference × ratio
   }
   const exact = op === '×' ? a.sec*b.v : a.sec/b.v;
-  const r = roundSec(exact);
+  const r = b.dx != null ? dxScale(a.sec, b.dx, op === '÷') : roundSec(exact);
   if (over(r)) return refuse(M().tooLarge);
   const res = wrapRes(r, a.mode, signed), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, a.mode)));
@@ -2456,7 +2462,7 @@ function equals(){
 function convertDec(){
   const v = S.val, mode = S.mode;
   if (!(Math.abs(v.v) < 1e7)) return refuse(M().tooLarge);
-  const exact = v.v*3600, r = decToSec(v.v);
+  const exact = v.v*3600, r = decToSec(v.v, v.dx);
   if (over(r)) return refuse(M().tooLarge);
   const res = wrapRes(r, mode, v.v < 0), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, mode)));
@@ -2517,8 +2523,9 @@ const U = {
 ['sin','cos','tan'].forEach(name => {
   U[name] = v => {
     if (needArc(keyLabel(name), v) !== true) return null;
-    const rad = v.sec/3600*Math.PI/180;
-    if (name === 'tan' && Math.abs(Math.cos(rad)) < 1e-12) return refuse(M().tanInf);
+    const r0 = v.sec % CIRC;   // whole turns off, exact in seconds; an angle within one turn is worked as it is
+    if (name === 'tan' && Math.abs(r0) % (180*3600) === 90*3600) return refuse(M().tanInf);
+    const rad = r0/3600*Math.PI/180;
     const y = clean(Math[name](rad));
     return {val: dec(y), line: `${keyLabel(name)} ${fmtOperand(v)} = ${fmtNum(y)}`, notes: []};
   };
@@ -2766,10 +2773,16 @@ document.querySelectorAll('[data-k]').forEach(b => {
   b.addEventListener('pointerleave', cancel);
   b.addEventListener('pointercancel', cancel);
   b.addEventListener('contextmenu', ev => ev.preventDefault());
-  b.addEventListener('click', () => { clearTimeout(holdTimer); if (held){ held = false; return; } press(k); });
+  b.addEventListener('click', () => {
+    clearTimeout(holdTimer);
+    // a clicked calculator key takes the keyboard back from a history line or control that kept focus
+    const a = document.activeElement; if (a && a !== document.body && a !== b) a.blur();
+    if (held){ held = false; return; } press(k);
+  });
 });
 
-$('#tapeList').addEventListener('click', ev => { const li = ev.target.closest('.tl'); if (li) tapeRecall(+li.dataset.i); });
+// a line taken by pointer gives the keyboard straight back to the calculator; Enter on a focused line keeps its place
+$('#tapeList').addEventListener('click', ev => { const li = ev.target.closest('.tl'); if (!li) return; tapeRecall(+li.dataset.i); if (ev.detail > 0 && !isPhone()) li.blur(); });
 $('#tapeList').addEventListener('keydown', ev => {
   if (ev.key !== 'Enter' && ev.key !== ' ') return;
   const li = ev.target.closest('.tl'); if (li){ ev.preventDefault(); ev.stopPropagation(); tapeRecall(+li.dataset.i); }

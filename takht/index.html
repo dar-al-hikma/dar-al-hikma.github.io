@@ -283,8 +283,8 @@
     .val{font-size:34px;line-height:1.1}
     .handle{height:calc(40px + env(safe-area-inset-bottom))}
   }
-  /* the narrowest phones: the sign placeholder gives way before the digits do */
-  @media (max-width:340px){ .val .ph{font-size:.36em;letter-spacing:0} }
+  /* narrow phones: the sign placeholder gives way before the digits do */
+  @media (max-width:359px){ .val .ph{font-size:.36em;letter-spacing:0} }
   /* desktop: the history takes the calculator's height and scrolls inside it, however long it grows */
   @media (min-width:820px){ .tape{contain:size} }
   /* between phone and desktop: the history goes under the calculator */
@@ -602,19 +602,6 @@ function toDecSteps(x){
   return {steps, result:dec, f1, m2, f2};
 }
 // decimal -> DMS
-function toDMSSteps(dec){
-  const d = Math.floor(dec); const f1 = dec - d; const m2 = f1*60; const m = Math.floor(m2 + 1e-9); const f2 = m2 - m; const s2 = f2*60; let s = Math.round(s2);
-  let res = {d, m, s}; if (s===60){ res = fromSec(norm(toSec({d,m,s}))); }
-  const steps = [
-    {line:1, note:`Start from the left. Set aside the whole degrees, <span class="mono">${d}°</span>, and keep the fraction <span class="mono">${fracStr(f1,5)}</span> to work on.`},
-    {line:2, note:`Multiply the fraction by 60 to turn it into minutes: <span class="mono">${fracStr(f1,5)} × 60 = ${truncFixed(m2,4)}′</span>.`},
-    {line:3, note:`Set aside the whole minutes, <span class="mono">${m}′</span>, and keep the new fraction <span class="mono">${fracStr(f2,4)}</span>.`},
-    {line:4, note:`Multiply that by 60 to turn it into seconds: <span class="mono">${fracStr(f2,4)} × 60 = ${truncFixed(s2,3)}″</span>.`},
-    {line:5, note:`Round to the nearest second: <span class="mono">${truncFixed(s2,3)}″ → ${s}″</span>.${s===60?' Sixty seconds is a full minute, so carry it.':''} The answer is <span class="mono">${fmtDMS(res)}</span>.`}
-  ];
-  return {steps, result:res, d, f1, m2, m, f2, s2, s};
-}
-
 // time -> arc (×15)
 function timeToArcSteps(t){
   const hd = t.d*15; const mm = t.m*15; const md = Math.floor(mm/60), mr = mm%60; const ss = t.s*15; const sm = Math.floor(ss/60), sr = ss%60;
@@ -722,8 +709,6 @@ I18N.en = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: 'longitude',
-    vDiff: 'difference',
-    vRatio: 'ratio',
     vLocal: 'local time',
     vZone: 'zone',
     vEarlierST: 'earlier ST',
@@ -757,7 +742,7 @@ I18N.en = {
     rSouth: 'Southern births, by the table',
     rSouthNote: 'Look up the new ST and work as usual, then press <b>+180</b> on the MC and on the ASC: both take the opposite sign.',
     rAscDirect: 'Direct ASC',
-    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. At RAMC 90° or 270° on a polar circle (latitude 90° minus <b>OE</b>), the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. At the northern polar circle (latitude 90° minus <b>OE</b>) with RAMC 270°, or the southern one with RAMC 90°, the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Signed values',
     rSignedNote: 'With wrap on, a result stays signed if any value in it was negative; times always wrap. For declinations and latitudes, tap <b>wrap</b> on the display to turn it off. <b>+</b> 360 brings a negative longitude into the circle.',
     hRegs: 'Registers',
@@ -918,8 +903,6 @@ I18N.nb = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: 'lengdegrad',
-    vDiff: 'differanse',
-    vRatio: 'forhold',
     vLocal: 'lokal tid',
     vZone: 'tidssone',
     vEarlierST: 'tidligere ST',
@@ -953,7 +936,7 @@ I18N.nb = {
     rSouth: 'Sørlige halvkule, med tabellen <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Slå opp den nye ST-en og regn som vanlig, og trykk så på <b>+180</b> for MC og for AC: begge får motsatt tegn.',
     rAscDirect: 'AC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Ved RAMC 90° eller 270° på en polarsirkel (breddegrad 90° minus <b>OE</b>) faller ekliptikken sammen med horisonten, og det finnes ingen entydig ascendant, uansett hva trinn 3 gir. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. Ved RAMC 270° på den nordlige polarsirkelen (breddegrad 90° minus <b>OE</b>), eller RAMC 90° på den sørlige, faller ekliptikken sammen med horisonten. Da finnes det ingen entydig ascendant, uansett hva trinn 3 gir. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Verdier med fortegn',
     rSignedNote: 'Med reduksjon på beholder et resultat fortegnet hvis en av verdiene i det var negativ; tider reduseres alltid. For deklinasjoner og breddegrader, trykk på <b>reduksjon</b> i skjermen for å slå den av. <b>+</b> 360 bringer en negativ lengde inn i sirkelen.',
     hRegs: 'Variabler',
@@ -1115,8 +1098,6 @@ I18N.es = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: 'longitud',
-    vDiff: 'diferencia',
-    vRatio: 'proporción',
     vLocal: 'hora local',
     vZone: 'huso horario',
     vEarlierST: 'TS anterior',
@@ -1150,7 +1131,7 @@ I18N.es = {
     rSouth: 'Hemisferio sur, con la tabla <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Busque el nuevo TS y calcule como siempre; después pulse <b>+180</b> sobre el MC y sobre el ASC: ambos toman el signo opuesto.',
     rAscDirect: 'ASC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. Con la RAMC en 90° o 270° en un círculo polar (latitud 90° menos <b>OE</b>), la eclíptica coincide con el horizonte y no hay un ascendente único, dé lo que dé el paso 3. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. En el círculo polar ártico (latitud 90° menos <b>OE</b>) con RAMC de 270°, o en el antártico con RAMC de 90°, la eclíptica coincide con el horizonte y no hay un ascendente único, dé lo que dé el paso 3. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valores con signo',
     rSignedNote: 'Con la reducción activada, un resultado conserva el signo si alguno de sus valores era negativo; los tiempos se reducen siempre. Para declinaciones y latitudes, pulse <b>reducir</b> en la pantalla para desactivarla. <b>+</b> 360 lleva una longitud negativa al círculo.',
     hRegs: 'Variables',
@@ -1311,8 +1292,6 @@ I18N.fr = {
     vUT: 'TU',
     vGST: 'TSG',
     vLong: 'longitude',
-    vDiff: 'différence',
-    vRatio: 'rapport',
     vLocal: 'heure locale',
     vZone: 'fuseau',
     vEarlierST: 'TS antérieur',
@@ -1346,7 +1325,7 @@ I18N.fr = {
     rSouth: 'Hémisphère sud, avec la table <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Cherchez le nouveau TS et calculez comme d’habitude, puis appuyez sur <b>+180</b> pour le MC et pour l’ASC : tous deux prennent le signe opposé.',
     rAscDirect: 'ASC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Avec une RAMC de 90° ou 270° sur un cercle polaire (latitude 90° moins <b>OE</b>), l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Sur le cercle polaire arctique (latitude 90° moins <b>OE</b>) avec une RAMC de 270°, ou sur le cercle polaire antarctique avec une RAMC de 90°, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valeurs signées',
     rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour désactiver la réduction. <b>+</b> 360 ramène une longitude négative dans le cercle.',
     hRegs: 'Variables',
@@ -1507,8 +1486,6 @@ I18N.de = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: 'Länge',
-    vDiff: 'Differenz',
-    vRatio: 'Faktor',
     vLocal: 'Ortszeit',
     vZone: 'Zeitzone',
     vEarlierST: 'frühere Sternzeit',
@@ -1542,7 +1519,7 @@ I18N.de = {
     rSouth: 'Südhalbkugel, mit der Tabelle <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Die neue Sternzeit nachschlagen und wie gewohnt rechnen, dann <b>+180</b> auf MC und AC anwenden: beide bekommen das gegenüberliegende Zeichen.',
     rAscDirect: 'AC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Bei RAMC 90° oder 270° auf einem Polarkreis (Breite 90° minus <b>OE</b>) fällt die Ekliptik mit dem Horizont zusammen, und es gibt keinen eindeutigen Aszendenten, gleich was Schritt 3 ergibt. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf den MC folgen. Bei RAMC 270° am nördlichen Polarkreis (Breite 90° minus <b>OE</b>) oder RAMC 90° am südlichen Polarkreis fällt die Ekliptik mit dem Horizont zusammen. Dann gibt es keinen eindeutigen Aszendenten, unabhängig vom Ergebnis in Schritt 3. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Werte mit Vorzeichen',
     rSignedNote: 'Mit Reduktion bleibt ein Ergebnis vorzeichenbehaftet, wenn einer seiner Werte negativ war; Zeiten werden immer reduziert. Für Deklinationen und Breiten tippen Sie <b>Reduktion</b> in der Anzeige an, um sie auszuschalten. <b>+</b> 360 bringt eine negative Länge in den Kreis.',
     hRegs: 'Variablen',
@@ -1703,8 +1680,6 @@ I18N.zh = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: '经度',
-    vDiff: '差值',
-    vRatio: '比例',
     vLocal: '当地时间',
     vZone: '时区',
     vEarlierST: '较早的恒星时',
@@ -1738,7 +1713,7 @@ I18N.zh = {
     rSouth: '南半球，查表<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '查新的恒星时，照常计算，然后对 MC 和 ASC 各按一次 <b>+180</b>：两者都取对面的星座。',
     rAscDirect: '直接计算 ASC<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。在极圈上（纬度为 90° 减 <b>OE</b>），RAMC 为 90° 或 270° 时，黄道与地平线重合，无论第 3 步得出什么，都没有唯一的上升点。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
+    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。位于北极圈上（纬度为 90° 减 <b>OE</b>）且 RAMC 为 270°，或位于南极圈上且 RAMC 为 90° 时，黄道与地平线重合；无论第 3 步得出什么，都没有唯一的上升点。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
     rSigned: '带正负号的值',
     rSignedNote: '开启化归时，只要参与运算的值有一个是负数，结果就保留正负号；时间总是化归。计算赤纬和纬度时，点显示屏上的 <b>化归</b> 把它关掉。<b>+</b> 360 把负的经度带回圆周之内。',
     hRegs: '变量',
@@ -1899,8 +1874,6 @@ I18N.ja = {
     vUT: 'UT',
     vGST: 'GST',
     vLong: '経度',
-    vDiff: '差',
-    vRatio: '比率',
     vLocal: '現地時刻',
     vZone: 'タイムゾーン',
     vEarlierST: '前の恒星時',
@@ -1934,7 +1907,7 @@ I18N.ja = {
     rSouth: '南半球・表を使う場合<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '新しい恒星時で表を引き、いつもどおり計算してから、MC と ASC にそれぞれ <b>+180</b> を押します。どちらも反対側のサインになります。',
     rAscDirect: 'ASC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。極圏上（緯度が 90° − <b>OE</b>）で RAMC が 90° か 270° のときは、黄道が地平線と重なるため、手順 3 の結果にかかわらず ASC は一つに定まりません。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
+    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。北極圏の境界（緯度 90° − <b>OE</b>）で RAMC が 270°、または南極圏の境界で RAMC が 90° のときは、黄道が地平線と重なり、手順 3 の結果にかかわらず ASC は一つに定まりません。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。レッスンのチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
     rSigned: '符号つきの値',
     rSignedNote: '範囲補正がオンでも、計算に負の値が含まれていれば結果は符号つきのままです。時間は常に補正されます。赤緯や緯度を扱うときは、表示の <b>範囲補正</b> を押してオフにします。<b>+</b> 360 で負の経度を円の中に戻せます。',
     hRegs: '変数メモリー',
@@ -2105,6 +2078,15 @@ function dxAdd(x, y, sub){
   const out = (k ? d.slice(0, -k) + '.' + d.slice(-k) : d).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
   return (neg && out !== '0' ? '-' : '') + out;
 }
+// 0.7 × 3 likewise comes to 2.1; a product past 30 digits keeps only its binary value
+function dxMul(x, y){
+  const part = s => { const neg = s[0] === '-'; const [i, f = ''] = (neg ? s.slice(1) : s).split('.'); return {neg, n: BigInt(i + f), k: f.length}; };
+  const A = part(x), B = part(y), k = A.k + B.k;
+  const d = (A.n * B.n).toString().padStart(k + 1, '0');
+  if (d.replace(/^0+/, '').length > 30) return null;
+  const out = (k ? d.slice(0, -k) + '.' + d.slice(-k) : d).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  return (A.neg !== B.neg && out !== '0' ? '-' : '') + out;
+}
 const clean = y => Math.abs(y) < 1e-12 ? 0 : y;
 const isInt = x => Math.abs(x - Math.round(x)) < 1e-6;
 const roundSec = x => x < 0 ? -Math.round(-x) : Math.round(x);
@@ -2177,8 +2159,11 @@ const curMode = () => (S.entry && S.entry.k === 'sex') ? S.entry.mode : S.mode;
 function wrapSec(sec, mode){ if (!S.wrap) return sec; const F = FULL[mode]; return ((sec % F) + F) % F; }
 // times always wrap; an arc stays signed when a value that went into it was negative
 const wrapRes = (sec, mode, signed) => (mode === ARC && signed) ? sec : wrapSec(sec, mode);
-function decToSec(x){ // decimal degrees (or hours) to whole seconds, via the Reckoner's conversion
-  return x < 0 ? -toSec(toDMSSteps(-x).result) : toSec(toDMSSteps(x).result);
+// decimal degrees (or hours) to whole seconds, the lesson's way: whole units, then minutes, then seconds rounded;
+// 60″ carries into the minute and nothing is wrapped here, so 359.999999999 comes to 360°, not 0°
+function decToSec(x){
+  const a = Math.abs(x), d = Math.floor(a), m2 = (a - d)*60, m = Math.floor(m2 + 1e-9), sec = (d*60 + m)*60 + Math.round((m2 - m)*60);
+  return x < 0 ? -sec : sec;
 }
 
 // ---------- messages ----------
@@ -2223,6 +2208,7 @@ function commit(){
     if (S.pending && !S.right) return true; // placeholder for the second number
     S.val = entryValue(e); S.entry = null; return true;
   }
+  if (e.k === 'sex' && e.sign && e.neg) return !!refuse(M().negSign);
   if (e.k === 'sex' && e.sign && e.sg == null)
     return !!refuse(M().chooseSign(unitLabel(ARC)));
   S.val = entryValue(e);
@@ -2361,7 +2347,7 @@ function setMode(m){
     const d = +e.f[0] || 0;
     if (m === TIME && (d > 24 || (d === 24 && (+e.f[1] || +e.f[2])))) return refuse(M().notHour(d));
     e.mode = m; S.mode = m;
-    e.sign = S.view.sign && m === ARC && d < 30;
+    e.sign = S.view.sign && m === ARC && d < 30 && !e.neg;
     if (!e.sign){ if (e.i === 3) e.i = 2; e.sg = null; }
     say(M().modeSet(m === ARC)); return;
   }
@@ -2374,8 +2360,9 @@ function setMode(m){
 }
 
 // ---------- arithmetic ----------
-const MAXSEC = 36e9;
-const tooBig = v => v.k === 'sex' ? !(Math.abs(v.sec) < MAXSEC) : !isFinite(v.v);
+const MAXSEC = 36e9;   // 10,000,000° or h: past that a result is refused, before or after any wrap
+const over = sec => !(Math.abs(sec) < MAXSEC);
+const tooBig = v => v.k === 'sex' ? over(v.sec) : !isFinite(v.v);
 function evaluate(op, a, b){
   const r = evaluate0(op, a, b);
   return r && tooBig(r.val) ? refuse(M().tooLarge) : r;
@@ -2386,6 +2373,7 @@ function evaluate0(op, a, b){
     if (a.k === 'sex' && b.k === 'sex'){
       if (a.mode !== b.mode) return refuse(M().arcTime(op === '+'));
       const raw = op === '+' ? a.sec + b.sec : a.sec - b.sec;
+      if (over(raw)) return refuse(M().tooLarge);
       const res = wrapRes(raw, a.mode, signed), notes = [];
       if (res !== raw) notes.push(`${fmtSex(raw, a.mode)} → ${fmtSex(res, a.mode)}`);
       return {val: sex(res, a.mode), notes};
@@ -2403,14 +2391,18 @@ function evaluate0(op, a, b){
     if (a.mode !== b.mode) return refuse(M().arcTimeDiv);
     return {val: dec(a.sec / b.sec), notes: []};   // a ratio, kept at full precision
   }
-  if (a.k === 'dec' && b.k === 'dec') return {val: dec(op === '×' ? a.v*b.v : a.v/b.v), notes: []};
+  if (a.k === 'dec' && b.k === 'dec'){
+    const dx = op === '×' && a.dx != null && b.dx != null ? dxMul(a.dx, b.dx) : null;
+    return {val: dx != null ? dec(parseFloat(dx), null, dx) : dec(op === '×' ? a.v*b.v : a.v/b.v), notes: []};
+  }
   if (a.k === 'dec'){
     if (op === '÷') return refuse(M().numByQty);
     [a, b] = [b, a];   // ratio × difference, the same as difference × ratio
   }
   const exact = op === '×' ? a.sec*b.v : a.sec/b.v;
-  if (!(Math.abs(exact) < MAXSEC)) return refuse(M().tooLarge);
-  const r = roundSec(exact), res = wrapRes(r, a.mode, signed), notes = [];
+  const r = roundSec(exact);
+  if (over(r)) return refuse(M().tooLarge);
+  const res = wrapRes(r, a.mode, signed), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, a.mode)));
   if (res !== r) notes.push(`${fmtSex(r, a.mode)} → ${fmtSex(res, a.mode)}`);
   return {val: sex(res, a.mode), notes};
@@ -2465,7 +2457,7 @@ function convertDec(){
   const v = S.val, mode = S.mode;
   if (!(Math.abs(v.v) < 1e7)) return refuse(M().tooLarge);
   const exact = v.v*3600, r = decToSec(v.v);
-  if (!(Math.abs(r) < MAXSEC)) return refuse(M().tooLarge);
+  if (over(r)) return refuse(M().tooLarge);
   const res = wrapRes(r, mode, v.v < 0), notes = [];
   if (!isInt(exact)) notes.push(M().rounded(fmtExact(exact, mode)));
   if (res !== r) notes.push(`${fmtSex(r, mode)} → ${fmtSex(res, mode)}`);
@@ -2515,7 +2507,9 @@ const U = {
   p180(v){
     if (v.k !== 'sex') return refuse(M().p180Dec);
     if (v.mode !== ARC) return refuse(M().p180Time);
-    const raw = v.sec + 180*3600, res = wrapRes(raw, ARC, v.sec < 0), out = sex(res, ARC), notes = [];
+    const raw = v.sec + 180*3600;
+    if (over(raw)) return refuse(M().tooLarge);
+    const res = wrapRes(raw, ARC, v.sec < 0), out = sex(res, ARC), notes = [];
     if (res !== raw) notes.push(`${fmtSex(raw, ARC)} → ${fmtSex(res, ARC)}`);
     return {val: out, line: `${fmtOperand(v)} + 180° = ${fmtResult(out)}`, notes};
   }

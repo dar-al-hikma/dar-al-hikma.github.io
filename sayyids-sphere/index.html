@@ -84,16 +84,17 @@
   #view canvas{display:block;width:100%;height:100%}
   /* the view's focus ring is drawn inside it, where nothing can clip it */
   #view canvas:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
-  /* turn and tilt buttons for touch screens, where a vertical swipe scrolls the page */
-  .pad{position:absolute;right:8px;bottom:8px;z-index:3;display:none;
-    grid-template-columns:repeat(4,30px);grid-template-rows:30px;gap:3px;
-    grid-template-areas:"left up down right";pointer-events:none}
-  .pad button{pointer-events:auto;touch-action:manipulation;padding:0;display:grid;place-items:center;
-    background:rgba(13,18,32,.82);border:1px solid var(--line);border-radius:3px;color:var(--brass);cursor:pointer}
-  .pad button svg{width:12px;height:12px;fill:currentColor}
-  .pad [data-cam=up]{grid-area:up}.pad [data-cam=down]{grid-area:down}
-  .pad [data-cam=left]{grid-area:left}.pad [data-cam=right]{grid-area:right}
-  @media (pointer:coarse){ .pad{display:grid} }
+  /* stacked layout: the walkthrough is below the sphere, out of sight, so a cue in the view's corner leads to it */
+  .jump{display:none}
+  .jump[hidden]{display:none!important}
+  @media (max-width:980px){
+    .jump{display:inline-flex;align-items:center;gap:6px;position:absolute;left:8px;bottom:8px;z-index:3;
+      min-height:30px;padding:0 10px;background:rgba(13,18,32,.82);border:1px solid var(--line);border-radius:3px;
+      color:var(--brass);font-family:var(--f-ui);font-size:.78rem;font-weight:500;letter-spacing:.04em;text-decoration:none;
+      touch-action:manipulation}
+    .jump:hover{border-color:var(--brass)}
+    .jump:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+  }
 
   /* ---------- masthead over the stage ---------- */
   .masthead{
@@ -394,8 +395,8 @@
     .shell{grid-template-columns:minmax(0,1fr);height:auto;min-height:100dvh}
     .stage{border-right:none;border-bottom:1px solid var(--line-soft)}
     .viewport{display:block;flex:none}
-    /* the page scrolls here: vertical swipes scroll it, sideways drags turn the sphere */
-    #view{min-height:0;aspect-ratio:1/1;flex:none;touch-action:pan-y}
+    /* the page scrolls here, from anywhere off the sphere; on the sphere a finger turns and tilts it, as a mouse does */
+    #view{min-height:0;aspect-ratio:1/1;flex:none}
     /* title above the sphere and plate below it, so neither covers it */
     .masthead{position:static;background:none;padding-block:14px 4px;padding-left:16px;padding-right:16px}
     .plate{position:static;width:auto;margin:0 16px 14px;backdrop-filter:none}
@@ -452,12 +453,7 @@
         <p class="visually-hidden" id="sceneKeys" data-i18n="a11y.keys">Arrow keys turn the sphere as dragging does; + and − zoom.</p>
         <p class="visually-hidden" id="sceneDesc"></p>
         <p class="visually-hidden" id="sceneLive" aria-live="polite" aria-atomic="true"></p>
-        <div class="pad" id="camPad" role="group" data-i18n-aria="ui.pad" aria-label="Turn and tilt the sphere">
-          <button type="button" data-cam="up" data-i18n-aria="ui.camUp" aria-label="Tilt up"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 3 13 11H1z"/></svg></button>
-          <button type="button" data-cam="left" data-i18n-aria="ui.camLeft" aria-label="Turn left"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7 11 1v12z"/></svg></button>
-          <button type="button" data-cam="right" data-i18n-aria="ui.camRight" aria-label="Turn right"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M11 7 3 13V1z"/></svg></button>
-          <button type="button" data-cam="down" data-i18n-aria="ui.camDown" aria-label="Tilt down"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 11 1 3h12z"/></svg></button>
-        </div>
+        <a class="jump" id="jumpWalk" href="#paneLesson"><span data-i18n="ui.tabWalk">Walkthrough</span><span aria-hidden="true">↓</span></a>
       </div>
       <div class="plate" id="plate">
         <h2><span data-i18n="ui.probe">Probe</span><em id="probeName">Aldebaran</em></h2>
@@ -645,7 +641,6 @@
       "ui.language":"Language","ui.oblTrue":"J2000 value",
       "ui.noWebGL":"This browser can't draw the sphere (WebGL unavailable).",
       "ui.pip":"Step %1 of %2: %3",
-      "ui.pad":"Turn and tilt the sphere","ui.camUp":"Tilt up","ui.camDown":"Tilt down","ui.camLeft":"Turn left","ui.camRight":"Turn right",
       "a11y.latN":"%1° N","a11y.latS":"%1° S","a11y.time":"%1h %2m",
       "a11y.sphere":"Celestial sphere","a11y.wheel":"Chart wheel",
       "a11y.keys":"Arrow keys turn the sphere as dragging does; + and − zoom.",
@@ -703,7 +698,6 @@
     "ui.language":"Språk","ui.oblTrue":"J2000-verdi",
     "ui.noWebGL":"Denne nettleseren kan ikke tegne kulen (WebGL er ikke tilgjengelig).",
     "ui.pip":"Steg %1 av %2: %3",
-    "ui.pad":"Drei og vipp kulen","ui.camUp":"Vipp opp","ui.camDown":"Vipp ned","ui.camLeft":"Drei mot venstre","ui.camRight":"Drei mot høyre",
     "a11y.sphere":"Himmelkulen","a11y.wheel":"Horoskophjulet",
     "a11y.keys":"Piltastene dreier kulen slik det å dra i den gjør; + og − zoomer.",
     "a11y.state":"Breddegrad %1, stjernetid %2. %3. %4: asimut %5, høyde %6, i den %7 kvadranten.",
@@ -731,8 +725,8 @@
     "ui.plateNote":"Un punto del cielo, nombrado de tres maneras a la vez.",
     "ui.above":"Sobre el horizonte, en el cuadrante %1.",
     "ui.below":"Bajo la tierra. El acimut y la altura cambian sin cesar; la AR, la declinación y la longitud no.",
-    "ui.zenith":"En el cenit, justo encima: aquí el acimut no tiene valor, y el punto está sobre el meridiano, donde se juntan los cuadrantes oriental y meridional.",
-    "ui.nadir":"En el nadir, justo debajo: aquí el acimut no tiene valor, y el punto está sobre el meridiano, donde se juntan los cuadrantes occidental y septentrional.",
+    "ui.zenith":"En el cenit, justo sobre la cabeza: aquí el acimut no tiene valor, y el punto está sobre el meridiano, donde se juntan los cuadrantes oriental y meridional.",
+    "ui.nadir":"En el nadir, justo bajo los pies: aquí el acimut no tiene valor, y el punto está sobre el meridiano, donde se juntan los cuadrantes occidental y septentrional.",
     "q.east":"oriental","q.south":"meridional","q.west":"occidental","q.north":"septentrional",
     "ui.turn":"Girar la esfera","ui.hold":"Detener la esfera",
     "ui.lst":"Tiempo sidéreo","ui.lat":"Latitud","ui.equator":"Ecuador",
@@ -760,7 +754,6 @@
     "ui.language":"Idioma","ui.oblTrue":"Valor J2000",
     "ui.noWebGL":"Este navegador no puede dibujar la esfera (WebGL no está disponible).",
     "ui.pip":"Paso %1 de %2: %3",
-    "ui.pad":"Girar e inclinar la esfera","ui.camUp":"Inclinar hacia arriba","ui.camDown":"Inclinar hacia abajo","ui.camLeft":"Girar a la izquierda","ui.camRight":"Girar a la derecha",
     "a11y.sphere":"Esfera celeste","a11y.wheel":"Rueda de la carta",
     "a11y.keys":"Las flechas giran la esfera igual que al arrastrarla; + y − acercan y alejan.",
     "a11y.state":"Latitud %1, tiempo sidéreo %2. %3. %4: acimut %5, altura %6, en el cuadrante %7.",
@@ -816,7 +809,6 @@
     "ui.language":"Langue","ui.oblTrue":"Valeur J2000",
     "ui.noWebGL":"Ce navigateur ne peut pas dessiner la sphère (WebGL indisponible).",
     "ui.pip":"Étape %1 sur %2 : %3",
-    "ui.pad":"Tourner et incliner la sphère","ui.camUp":"Incliner vers le haut","ui.camDown":"Incliner vers le bas","ui.camLeft":"Tourner vers la gauche","ui.camRight":"Tourner vers la droite",
     "a11y.sphere":"Sphère céleste","a11y.wheel":"Roue du thème",
     "a11y.keys":"Les flèches font tourner la sphère comme quand on la fait glisser ; + et − zooment.",
     "a11y.state":"Latitude %1, temps sidéral %2. %3. %4 : azimut %5, hauteur %6, dans le quadrant %7.",
@@ -872,7 +864,6 @@
     "ui.language":"Sprache","ui.oblTrue":"J2000-Wert",
     "ui.noWebGL":"Dieser Browser kann die Sphäre nicht zeichnen (WebGL nicht verfügbar).",
     "ui.pip":"Schritt %1 von %2: %3",
-    "ui.pad":"Sphäre drehen und kippen","ui.camUp":"Nach oben kippen","ui.camDown":"Nach unten kippen","ui.camLeft":"Nach links drehen","ui.camRight":"Nach rechts drehen",
     "a11y.sphere":"Himmelssphäre","a11y.wheel":"Horoskoprad",
     "a11y.keys":"Die Pfeiltasten drehen die Sphäre wie das Ziehen mit der Maus; + und − zoomen.",
     "a11y.state":"Breite %1, Sternzeit %2. %3. %4: Azimut %5, Höhe %6, im %7 Quadranten.",
@@ -899,8 +890,8 @@
     "ui.plateNote":"天上的同一个点，同时用三种方式命名。",
     "ui.above":"在地平圈之上——位于%1象限。",
     "ui.below":"在地平之下。方位角与高度不断变化；赤经、赤纬与黄经则不变。",
-    "ui.zenith":"位于天顶，正在头顶：此处方位角没有定值，此点位于子午圈上，正是东象限与南象限的交界。",
-    "ui.nadir":"位于天底，正在脚下：此处方位角没有定值，此点位于子午圈上，正是西象限与北象限的交界。",
+    "ui.zenith":"在天顶，正当头顶：这里的方位角没有定值；此点在子午圈上，恰是东象限与南象限的交界。",
+    "ui.nadir":"在天底，正当脚下：这里的方位角没有定值；此点在子午圈上，恰是西象限与北象限的交界。",
     "q.east":"东","q.south":"南","q.west":"西","q.north":"北",
     "ui.turn":"转动天球","ui.hold":"停住天球",
     "ui.lst":"恒星时","ui.lat":"纬度","ui.equator":"赤道",
@@ -928,7 +919,6 @@
     "ui.language":"语言","ui.oblTrue":"J2000 值",
     "ui.noWebGL":"此浏览器无法绘制天球（WebGL 不可用）。",
     "ui.pip":"第 %1 步，共 %2 步：%3",
-    "ui.pad":"转动和倾斜天球","ui.camUp":"向上倾斜","ui.camDown":"向下倾斜","ui.camLeft":"向左转","ui.camRight":"向右转",
     "a11y.latN":"北纬 %1°","a11y.latS":"南纬 %1°","a11y.time":"%1时%2分",
     "a11y.sphere":"天球","a11y.wheel":"星盘圆图",
     "a11y.keys":"方向键可像拖动一样转动天球；按 + 与 − 缩放。",
@@ -956,8 +946,8 @@
     "ui.plateNote":"空の一点を、三通りの名で同時に言い表す。",
     "ui.above":"地平圏より上——%1象限にあります。",
     "ui.below":"地平下。方位角と高度は絶えず変わりますが、赤経・赤緯・黄経は変わりません。",
-    "ui.zenith":"天頂、真上にあります。ここでは方位角は定まらず、この点は子午圏の上、東象限と南象限の境にあります。",
-    "ui.nadir":"天底、真下にあります。ここでは方位角は定まらず、この点は子午圏の上、西象限と北象限の境にあります。",
+    "ui.zenith":"天頂、つまり真上にあります。ここでは方位角が定まらず、この点は子午圏上の、東象限と南象限の境にあります。",
+    "ui.nadir":"天底、つまり真下にあります。ここでは方位角が定まらず、この点は子午圏上の、西象限と北象限の境にあります。",
     "q.east":"東","q.south":"南","q.west":"西","q.north":"北",
     "ui.turn":"天球をまわす","ui.hold":"天球を止める",
     "ui.lst":"恒星時","ui.lat":"緯度","ui.equator":"赤道",
@@ -985,7 +975,6 @@
     "ui.language":"言語","ui.oblTrue":"J2000 の値",
     "ui.noWebGL":"このブラウザーでは天球を描画できません（WebGL が使えません）。",
     "ui.pip":"ステップ %1 / %2：%3",
-    "ui.pad":"天球を回す・傾ける","ui.camUp":"上に傾ける","ui.camDown":"下に傾ける","ui.camLeft":"左に回す","ui.camRight":"右に回す",
     "a11y.latN":"北緯 %1°","a11y.latS":"南緯 %1°","a11y.time":"%1時%2分",
     "a11y.sphere":"天球","a11y.wheel":"チャートの円",
     "a11y.keys":"矢印キーでドラッグと同じように天球を回せます。+ と − で拡大・縮小します。",
@@ -1676,7 +1665,7 @@
       on:["horizon","ground","cardinals","starfield","brightStars"],
       cam:[3.4,0.72,1.07], spin:false,
       b:"<p>An astrological chart is cast from one spot on earth, and from that spot the earth is not a globe you stand on — it is a <em>point</em>. The heavens are the sphere. They turn; you do not.</p><p>The flat disc is the <span class='term'>horizon</span>, stretching out in every direction to the edge of the universe. Everything above it is above the earth; everything below it is below the earth. That is the whole of it, for now.</p>",
-      try:"Drag the sphere to turn it; on a touch screen, drag sideways, or use the arrows in its corner to turn and tilt it. You are looking at the universe from outside, but every measurement you are about to meet is taken from the dot at the centre." },
+      try:"Drag the sphere to turn it. You are looking at the universe from outside, but every measurement you are about to meet is taken from the dot at the centre." },
 
     { t:"Three great circles, six directions", on:["horizon","ground","cardinals","meridian","primeVertical","zenith","starfield","brightStars"],
       c:"hor", cam:[3.3,0.62,1.02], spin:false,
@@ -1734,7 +1723,7 @@
   var STEP_NB = [
     { t:"Et punkt i sentrum av alt",
       b:"<p>Et horoskop settes opp for ett bestemt sted på jorden, og fra det stedet er jorden ikke en klode du står på — den er et <em>punkt</em>. Det er himmelen som er kulen. Den dreier; det gjør ikke du.</p><p>Den flate skiven er <span class='term'>horisonten</span>, som strekker seg i alle retninger helt ut til universets ytterkant. Alt over den er over jorden; alt under den er under jorden. Mer er det ikke, foreløpig.</p>",
-      try:"Dra i kulen for å dreie den; på en berøringsskjerm drar du sidelengs, eller bruker pilene i hjørnet for å dreie og vippe den. Du ser universet utenfra, men hver eneste måling du nå skal møte, tas fra prikken i sentrum." },
+      try:"Dra i kulen for å dreie den. Du ser universet utenfra, men hver eneste måling du nå skal møte, tas fra prikken i sentrum." },
 
     { t:"Tre storsirkler, seks retninger",
       b:"<p>Still deg i sentrum med ansiktet mot sør. Loddrett gjennom nord og sør går <span class='term'>meridianen</span>; på tvers av den, fra øst til vest, går <span class='term'>førstevertikalen</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, den minst viktige av de tre. Hver av dem er en <em>storsirkel</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>, med sentrum i universets sentrum.</p><p>Skjæringspunktene gir seks retninger: øst, sør, vest, nord, <span class='term'>senit</span> <span class=\"gloss\" lang=\"en\">(zenith)</span> rett over deg og <span class='term'>nadir</span> rett under. Dette er <span class='term'>horisontrammen</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, og den beveger seg aldri. Den er det eneste faste i hele apparatet.</p>",
@@ -1783,7 +1772,7 @@
   STEP_TX.es = [
     { t:"Un punto en el centro de todo",
       b:"<p>Una carta astrológica se levanta desde un único lugar de la tierra, y desde ese lugar la tierra no es un globo que uno pisa: es un <em>punto</em>. La esfera es el cielo. Gira él; usted no.</p><p>El disco plano es el <span class='term'>horizonte</span>, que se extiende en todas direcciones hasta el confín del universo. Cuanto está por encima está sobre la tierra; cuanto está por debajo, bajo la tierra. Por ahora, eso es todo.</p>",
-      try:"Arrastre la esfera para hacerla girar; en una pantalla táctil, arrástrela de lado o use las flechas de su esquina para girarla e inclinarla. Está viendo el universo desde fuera, pero todas las medidas que va a conocer se toman desde el punto del centro." },
+      try:"Arrastre la esfera para hacerla girar. Está viendo el universo desde fuera, pero todas las medidas que va a conocer se toman desde el punto del centro." },
     { t:"Tres círculos máximos, seis direcciones",
       b:"<p>Sitúese en el centro, mirando al sur. El <span class='term'>meridiano</span> se alza en vertical por el norte y el sur; el <span class='term'>primer vertical</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span> lo cruza de este a oeste y es el menos importante de los tres. Cada uno es un <em>círculo máximo</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>: su centro es el centro del universo.</p><p>Sus intersecciones dan seis direcciones: este, sur, oeste, norte, el <span class='term'>cenit</span> <span class=\"gloss\" lang=\"en\">(zenith)</span> en lo alto y el <span class='term'>nadir</span> abajo. Este es el <span class='term'>sistema horizontal</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, y jamás se mueve. Es lo único fijo de todo el aparato.</p>",
       try:"Mueva el control de latitud. Aquí nada se inmuta: dondequiera que esté, está sobre un horizonte atravesado por un meridiano." },
@@ -1819,7 +1808,7 @@
   STEP_TX.fr = [
     { t:"Un point au centre de tout",
       b:"<p>Un thème astrologique se dresse depuis un seul lieu de la terre, et depuis ce lieu la terre n'est pas un globe sur lequel on se tient : elle est un <em>point</em>. La sphère, c'est le ciel. Lui tourne ; vous, non.</p><p>Le disque plat est l'<span class='term'>horizon</span>, qui s'étend dans toutes les directions jusqu'au bord de l'univers. Tout ce qui est au-dessus est au-dessus de la terre ; tout ce qui est en dessous, au-dessous. Pour l'instant, c'est tout.</p>",
-      try:"Faites glisser la sphère pour la tourner ; sur un écran tactile, faites-la glisser de côté, ou utilisez les flèches de son coin pour la tourner et l'incliner. Vous voyez l'univers du dehors, mais chaque mesure que vous allez rencontrer se prend depuis le point du centre." },
+      try:"Faites glisser la sphère pour la tourner. Vous voyez l'univers du dehors, mais chaque mesure que vous allez rencontrer se prend depuis le point du centre." },
     { t:"Trois grands cercles, six directions",
       b:"<p>Tenez-vous au centre, face au sud. Dressé à la verticale par le nord et le sud, voici le <span class='term'>méridien</span> <span class=\"gloss\" lang=\"en\">(meridian)</span> ; le croisant d'est en ouest, le <span class='term'>premier vertical</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, le moins important des trois. Chacun est un <em>grand cercle</em> <span class=\"gloss\" lang=\"en\">(great circle)</span> : son centre est le centre de l'univers.</p><p>Leurs intersections donnent six directions : est, sud, ouest, nord, le <span class='term'>zénith</span> au-dessus et le <span class='term'>nadir</span> au-dessous. Voilà le <span class='term'>repère horizontal</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, et il ne bouge jamais. C'est la seule chose fixe de tout l'appareil.</p>",
       try:"Déplacez le curseur de latitude. Ici rien ne frémit — où que vous soyez, vous êtes sur un horizon traversé d'un méridien." },
@@ -1856,7 +1845,7 @@
   STEP_TX.de = [
     { t:"Ein Punkt in der Mitte von allem",
       b:"<p>Ein astrologisches Horoskop wird von einem einzigen Ort der Erde aus gestellt, und von diesem Ort aus ist die Erde keine Kugel, auf der man steht — sie ist ein <em>Punkt</em>. Der Himmel ist die Sphäre. Er dreht sich; Sie nicht.</p><p>Die flache Scheibe ist der <span class='term'>Horizont</span>, der sich nach allen Seiten bis an den Rand des Weltalls erstreckt. Alles darüber ist über der Erde, alles darunter unter der Erde. Das ist vorerst alles.</p>",
-      try:"Ziehen Sie die Sphäre, um sie zu drehen; auf einem Touchscreen ziehen Sie seitwärts oder nutzen die Pfeile in ihrer Ecke, um sie zu drehen und zu kippen. Sie sehen das Weltall von außen — doch jede Messung, die nun folgt, wird vom Punkt in der Mitte aus vorgenommen." },
+      try:"Ziehen Sie die Sphäre, um sie zu drehen. Sie sehen das Weltall von außen — doch jede Messung, die nun folgt, wird vom Punkt in der Mitte aus vorgenommen." },
     { t:"Drei Großkreise, sechs Richtungen",
       b:"<p>Stellen Sie sich in die Mitte, das Gesicht nach Süden. Senkrecht durch Nord und Süd steigt der <span class='term'>Meridian</span> auf; quer dazu, von Ost nach West, verläuft der <span class='term'>Erste Vertikal</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, der unwichtigste der drei. Jeder ist ein <em>Großkreis</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>: Sein Mittelpunkt ist der Mittelpunkt des Weltalls.</p><p>Ihre Schnittpunkte ergeben sechs Richtungen: Ost, Süd, West, Nord, den <span class='term'>Zenit</span> über und den <span class='term'>Nadir</span> unter Ihnen. Das ist das <span class='term'>Horizontsystem</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, und es bewegt sich nie. Es ist das einzig Feste am ganzen Apparat.</p>",
       try:"Bewegen Sie den Breitenregler. Hier rührt sich nichts, nicht einmal ein Zucken — wo Sie auch stehen, Sie stehen auf einem Horizont, durch den ein Meridian läuft." },
@@ -1893,7 +1882,7 @@
   STEP_TX.zh = [
     { t:"万物中心的一个点",
       b:"<p>星盘是从地球上某一个地点起出来的；而从那个地点看去，大地并不是你脚下的球体，它只是一个<em>点</em>。诸天才是那个球。转动的是它，不是你。</p><p>那片平面的圆盘就是<span class='term'>地平圈</span>，向四面八方一直伸展到宇宙的尽头。凡在其上者为地平之上，凡在其下者为地平之下。眼下，就只有这些。</p>",
-      try:"拖动天球即可转动它；在触摸屏上请横向拖动，或用角落里的箭头来转动和倾斜它。你是从外面看这个宇宙的；但接下来的每一次测量，都是从正中心那个点量出去的。" },
+      try:"拖动天球即可转动它。你是从外面看这个宇宙的；但接下来的每一次测量，都是从正中心那个点量出去的。" },
     { t:"三个大圆，六个方向",
       b:"<p>站在中心，面向南方。穿过正北与正南垂直立起的是<span class='term'>子午圈</span><span class=\"gloss\" lang=\"en\">（meridian）</span>；东西向横穿它的是<span class='term'>卯酉圈</span><span class=\"gloss\" lang=\"en\">（prime vertical）</span>，三者之中最次要的一个。每一个都是<em>大圆</em><span class=\"gloss\" lang=\"en\">（great circle）</span>——圆心即宇宙的中心。</p><p>它们相交，给出六个方向：东、南、西、北，头顶的<span class='term'>天顶</span><span class=\"gloss\" lang=\"en\">（zenith）</span>与脚下的<span class='term'>天底</span><span class=\"gloss\" lang=\"en\">（nadir）</span>。这便是<span class='term'>地平坐标系</span><span class=\"gloss\" lang=\"en\">（horizonal frame）</span>，它永远不动，是整套装置里唯一固定的东西。</p>",
       try:"拖动纬度滑块。这里纹丝不动——无论你站在哪里，脚下总有一个地平圈，头顶总有一条子午圈穿过。" },
@@ -1929,7 +1918,7 @@
   STEP_TX.ja = [
     { t:"すべての中心にある一点",
       b:"<p>チャートは地上のただ一点から立てられます。そしてその一点から見るとき、地球は自分が立っている球体ではなく、ひとつの<em>点</em>にすぎません。球をなしているのは天のほうです。めぐるのは天で、あなたではありません。</p><p>この平らな円盤が<span class='term'>地平圏</span>で、あらゆる方角へ宇宙の果てまで広がっています。その上にあるものはすべて地上に、下にあるものはすべて地下にあります。いまのところ、それだけです。</p>",
-      try:"天球をドラッグすると回せます。タッチ画面では横にドラッグするか、隅の矢印ボタンで回したり傾けたりしてください。あなたは宇宙を外側から眺めていますが、これから出てくる測定はすべて、中心の点から測られたものです。" },
+      try:"天球をドラッグすると回せます。あなたは宇宙を外側から眺めていますが、これから出てくる測定はすべて、中心の点から測られたものです。" },
     { t:"三つの大円、六つの方向",
       b:"<p>中心に立ち、南を向いてください。北と南を通って垂直に立ち上がるのが<span class='term'>子午圏</span><span class=\"gloss\" lang=\"en\">（meridian）</span>、それを東西に横切るのが<span class='term'>卯酉圏</span><span class=\"gloss\" lang=\"en\">（prime vertical）</span>で、三つのうち最も出番の少ない円です。いずれも<em>大円</em><span class=\"gloss\" lang=\"en\">（great circle）</span>——その中心は宇宙の中心です。</p><p>交点から六つの方向が生まれます。東・南・西・北、頭上の<span class='term'>天頂</span><span class=\"gloss\" lang=\"en\">（zenith）</span>、足下の<span class='term'>天底</span><span class=\"gloss\" lang=\"en\">（nadir）</span>。これが<span class='term'>地平座標系</span><span class=\"gloss\" lang=\"en\">（horizonal frame）</span>で、これだけは決して動きません。この装置全体のなかで唯一動かないものです。</p>",
       try:"緯度スライダーを動かしてみてください。ここは微動だにしません——どこに立とうと、足下には地平圏があり、そこに子午圏が通っています。" },
@@ -2117,6 +2106,18 @@
     paintChart(true);          // a wheel that has just come into view is drawn at once
   }
   document.getElementById("tabLesson").addEventListener("click", function(){ selectTab("Lesson"); });
+  // the cue under the sphere (stacked layout only): open the walkthrough, bring it into view and put focus on its tab
+  var jump = document.getElementById("jumpWalk");
+  try { if(localStorage.getItem("sphere.walkCue") === "used") jump.hidden = true; } catch(e){}
+  jump.addEventListener("click", function(e){
+    e.preventDefault();
+    jump.hidden = true;
+    try { localStorage.setItem("sphere.walkCue", "used"); } catch(err){}
+    var t = document.getElementById("tabLesson");
+    selectTab("Lesson");
+    t.closest(".side").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    t.focus({ preventScroll: true });
+  });
   document.getElementById("tabLayers").addEventListener("click", function(){ selectTab("Layers"); syncToggles(); });
   document.getElementById("tabChart").addEventListener("click", function(){ selectTab("Chart"); });
 
@@ -2140,18 +2141,11 @@
       if(!ptrs[e.pointerId]){ ptrs[e.pointerId] = true; nptr++; }
       active = nptr === 1 ? e.pointerId : null;
       lx = sx = e.clientX; ly = sy = e.clientY; view.classList.add("dragging");
-      // a finger's direction is not known yet: wait before turning, and leave a vertical swipe to the page
-      lock = e.pointerType === "touch" ? "" : "turn";
+      lock = "turn";
       view.setPointerCapture && view.setPointerCapture(e.pointerId);
     });
     view.addEventListener("pointermove", function(e){
       if(active === null || e.pointerId !== active) return;
-      if(lock === ""){
-        var ddx = e.clientX - sx, ddy = e.clientY - sy;
-        if(Math.abs(ddx) + Math.abs(ddy) < 8) return;
-        if(Math.abs(ddy) > Math.abs(ddx)){ lock = "page"; return; }
-        lock = "turn"; lx = sx; ly = e.clientY;            // sideways: turn from where the finger started
-      }
       if(lock !== "turn") return;
       cam.tth -= (e.clientX - lx)*0.006;
       cam.tph = clamp(cam.tph - (e.clientY - ly)*0.006, 0.12, Math.PI-0.12);
@@ -2196,10 +2190,6 @@
     });
     // the view is described afresh whenever it takes the focus
     glc.addEventListener("focus", function(){ describe(false); });
-    // on touch screens, buttons in the view's corner turn and tilt it
-    Array.prototype.forEach.call(document.querySelectorAll("#camPad [data-cam]"), function(b){
-      b.addEventListener("click", function(){ stepCam(b.getAttribute("data-cam"), 0.15); });
-    });
   })();
 
   // ---- resize ------------------------------------------------------------

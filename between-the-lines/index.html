@@ -299,8 +299,10 @@
     .say .tv{grid-template-columns:minmax(0,1fr)}
     .say .v,.say .v small{text-align:left}
   }
-  /* values beside the sliders and on the plate keep one width, so nothing beside them moves */
-  .rail .val{display:inline-block;min-width:5.4em}
+  /* values beside the sliders and on the plate keep one width, so nothing beside them moves. The times never
+     change width (tabular figures); the latitude slot is as wide as its widest form, 00° 00′ 00″ N (5.19em). */
+  .rail .val{display:inline-block}
+  #latOut{min-width:5.18em}
   .plate .row span{min-width:8.5em}                  /* the widest value, 11° 59′ 59″ N, is 7.9em */
   /* two columns: the stage never scrolls; the strip has one height for every step, and a longer text scrolls
      inside it under its step label; the rail stays at the bottom and the drawing takes the rest */
@@ -316,6 +318,8 @@
     .say .cue::before{content:"";position:absolute;left:-16px;right:-16px;bottom:-13px;height:calc(13px + var(--say-lh));background:linear-gradient(to bottom, rgba(12,16,29,0), rgba(12,16,29,.85) calc(100% - 13px), var(--say-bg) calc(100% - 12px));opacity:0}
     .say .cue::after{content:"\25BE";position:absolute;right:-12px;bottom:-12px;font:15px/1 var(--f-ui);color:var(--brass);opacity:0}
     .say.more .cue::before,.say.more .cue::after{opacity:1}
+    /* Start over, Next step and All always at the rail's right end, in every mode */
+    .rail .steps{margin-left:auto}
   }
   @media (min-width:1280px) and (min-height:540px){
     .say{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;align-items:baseline;padding-top:12px;height:calc(30px + 3 * var(--say-lh))}
@@ -323,6 +327,18 @@
     .say .v{top:12px}
     .say .cue{grid-column:1 / -1}
   }
+  /* one column: Start over, Next step and All in a bar fixed to the foot of the screen, so they never move and are
+     always in reach; the page ends with room for the bar, and a focused control is never scrolled under it */
+  @media (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px){
+    :root{--bar-h:calc(51px + env(safe-area-inset-bottom, 0px))}
+    html{scroll-padding-bottom:var(--bar-h)}
+    body{padding-bottom:var(--bar-h)}
+    .rail{padding-bottom:calc(12px + var(--bar-h))}          /* the rail can always be scrolled whole above the bar */
+    .rail .spacer{display:none}
+    .rail .grp.steps{position:fixed;left:0;right:0;bottom:0;z-index:5;margin:0;display:flex;flex-wrap:nowrap;justify-content:flex-end;align-items:center;gap:6px;
+      padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0px));background:var(--panel);border-top:1px solid var(--line-soft)}
+  }
+  @media (max-width:400px){ .rail .grp.steps .btn{padding-left:8px;padding-right:8px;letter-spacing:.04em} }   /* all three fit a 320 px screen */
   /* one column on a wide but short screen: the drawing keeps to part of the height */
   @media (min-width:981px) and (max-width:1179.98px) and (max-height:639.98px), (min-width:981px) and (max-width:1279.98px) and (max-height:619.98px), (min-width:981px) and (max-height:539.98px){
     #view svg{max-height:max(280px, 60vh)}
@@ -336,8 +352,12 @@
     .say{height:auto!important;max-height:none!important;overflow:visible!important}
     .say .k,.say .v{position:static!important}
     .say .cue{display:none!important}
+    .say{min-height:0!important}
     .side{min-height:0}
     .pane{overflow:visible}
+    body{padding-bottom:0}
+    .rail{padding-bottom:12px}
+    .rail .grp.steps{position:static;padding:0;border:0;background:none}
   }
 </style>
 
@@ -389,8 +409,8 @@
         <input type="range" id="utRange" min="0" max="1439" step="1" value="955" aria-label="Universal time" data-i18n-aria="utRange">
         <span class="val st" id="utOut">15:55</span>
       </div>
-      <span style="flex:1"></span>
-      <div class="grp" role="group" aria-label="Steps" data-i18n-aria="steps">
+      <span class="spacer" style="flex:1"></span>
+      <div class="grp steps" role="group" aria-label="Steps" data-i18n-aria="steps">
         <button class="btn sm" id="resetBtn" title="Back to the example, from the first step" data-i18n="startOver" data-i18n-title="startOverTitle">Start over</button>
         <button class="btn primary" id="stepBtn" title="Next step (Space)" data-i18n="nextStep" data-i18n-title="nextStepTitle">Next step</button>
         <button class="btn sm" id="allBtn" title="Show every step" data-i18n="all" data-i18n-title="allTitle">All</button>
@@ -2455,7 +2475,15 @@ function renderWs(){
   if (open) h += '</tbody>';
   const ws = $('#ws'); ws.innerHTML = h; ws.setAttribute('aria-label', U.worksheet);
   $('#wsnote').textContent = state.mode==='planet' ? planetNote() : houseNote();
-  if (state.reveal < ALL && shown>0 && !$('#paneWs').hidden){ const act = $('#ws tr.act'); if (act) act.scrollIntoView({block:'nearest'}); }
+  if (state.reveal < ALL && shown>0 && !$('#paneWs').hidden){ const act = $('#ws tr.act'); if (act) inPane($('#paneWs'), act); }
+}
+// Bring a row into view inside its pane where the pane scrolls (two columns). The page itself is never scrolled
+// for it: in one column that would move the controls away from the pointer.
+function inPane(pane, el){
+  if (pane.scrollHeight <= pane.clientHeight + 1) return;
+  const p = pane.getBoundingClientRect(), r = el.getBoundingClientRect();
+  if (r.top < p.top) pane.scrollTop -= p.top - r.top;
+  else if (r.bottom > p.bottom) pane.scrollTop += Math.min(r.bottom - p.bottom, r.top - p.top);
 }
 
 // ---------- narration strip ----------
@@ -2485,22 +2513,25 @@ function sayFit(){
   el.tabIndex = scrollable ? 0 : -1;
   el.classList.toggle('more', hidden > 0.5);
 }
-// One column: nothing scrolls inside the strip, so it keeps the height of the longest step of this calculation,
-// and the rail under it stays where it is from step to step.
-let sayKey = '', sayMin = 0;
+// One column: the strip takes the height of what it says. While its step stays the same (a slider, ◀ ▶ or ▲ ▼
+// changes only the numbers) it never gets shorter, so the rail under it does not ride up and down.
+let holdKey = '', holdH = 0;
 function sayHold(){
   const el = $('#say');
-  if (!oneCol()){ if (sayKey){ el.style.minHeight = ''; sayKey = ''; } return; }
-  const T = L(), rows = dataRows(), n = rows.length, w = el.getBoundingClientRect().width;
-  const key = [LANG, state.mode, H.south, Math.round(w)].join('|');
-  const box = document.createElement('div'); box.setAttribute('aria-hidden', 'true');
-  box.style.cssText = `position:absolute;left:-10000px;top:0;width:${w}px;visibility:hidden`;
-  box.innerHTML = [null].concat(rows).map((r, i) => `<div class="say" style="margin:0;min-height:0">${sayHTML(T, r, i, n)}</div>`).join('');
-  el.parentNode.appendChild(box);
-  let m = 0; for (const c of box.children) m = Math.max(m, c.getBoundingClientRect().height);
-  box.remove();
-  sayMin = key === sayKey ? Math.max(sayMin, m) : m; sayKey = key;
-  el.style.minHeight = Math.ceil(sayMin) + 'px';
+  if (!oneCol()){ if (holdKey){ el.style.minHeight = ''; holdKey = ''; } return; }
+  const key = [LANG, state.mode, H.south, shownCount(), Math.round(el.getBoundingClientRect().width)].join('|');
+  el.style.minHeight = '';
+  const h = el.getBoundingClientRect().height;
+  holdH = key === holdKey ? Math.max(holdH, h) : h; holdKey = key;
+  if (holdH > h + 0.5) el.style.minHeight = Math.ceil(holdH) + 'px';
+}
+// One column: a control used on the rail stays under the pointer. If what lies above it changes height (the
+// drawing, the strip), the page scrolls by as much; nothing else ever scrolls the page.
+function still(el, fn){
+  if (!oneCol()) return fn();
+  const y0 = el.getBoundingClientRect().top; fn();
+  const d = el.getBoundingClientRect().top - y0;
+  if (Math.abs(d) > 0.5) window.scrollTo(window.scrollX, window.scrollY + d);
 }
 $('#say').addEventListener('scroll', sayFit, {passive: true});
 
@@ -2755,10 +2786,9 @@ function noteText(n){
 function renderNote(){
   const pl = state.mode==='planet';
   notes = notes.filter(n => n.on.every((k, i) => state[k] === n.at[i] && PLANET_VALUES.includes(k) === pl));
-  $('#inote').textContent = notes.map(noteText).join(' ');
+  $('#inote').textContent = notes.map(noteText).join(SP());      // no space between sentences in Chinese and Japanese
 }
 function setNote(){ notes = []; renderNote(); }
-const snapshot = () => [state.lst, state.latSec, state.hemi, state.oblSec, state.ut, state.p0, state.p1].join(',');
 function syncInputs(){
   const t = fromSec(state.lst); $('#lstH').value = t.d; $('#lstM').value = t.m; $('#lstS').value = t.s;
   const la = fromSec(state.latSec); $('#latD').value = la.d; $('#latM').value = la.m; $('#latS').value = la.s; $('#latNS').value = state.hemi<0?'-1':'1';
@@ -2769,7 +2799,7 @@ function syncInputs(){
 }
 function readInputs(){
   const found = [], v = {};
-  let latHigh = false, utLate = false; const before = snapshot();
+  let latHigh = false, utLate = false;
   for (const id in FIELDS){
     const raw = String($('#'+id).value).trim(), [lo, hi] = FIELDS[id];
     let x;
@@ -2792,8 +2822,11 @@ function readInputs(){
   state.p1 = norm(Number($('#p1G').value)*30*3600 + toSec({d:v.p1D, m:v.p1M, s:v.p1S}));
   // a planet that moves more than about 20° in a day is almost certainly a typing slip: say so, but calculate
   if (state.mode==='planet' && Math.abs(sdiff(state.p1, state.p0)) > 20*3600) found.push({k:'noteFast', on:['p0','p1']});
-  // nothing wrong and nothing changed (a second change event as focus leaves): the last notes still describe the fields
-  if (found.length || snapshot() !== before) notes = found.map(n => { const on = n.on || [fieldValue(n.id)]; return Object.assign(n, {on, at: on.map(k => state[k])}); });
+  // the new notes join those still standing: each older note stays until its own value changes (see renderNote),
+  // and a new note on the same field and matter takes the place of the old one
+  found.forEach(n => { n.on = n.on || [fieldValue(n.id)]; n.at = n.on.map(k => state[k]); });
+  const topic = n => n.k + '|' + (n.id || n.on.join(','));
+  notes = notes.filter(n => !found.some(f => topic(f) === topic(n))).concat(found);
   render();   // writes the values used back into the fields
 }
 function nameFields(){ const T = L(), U = T.ui; document.querySelectorAll('#paneWs [data-name]').forEach(el => el.setAttribute('aria-label', T.fieldName(U[el.dataset.name], U[el.dataset.unit]))); }
@@ -2811,11 +2844,11 @@ function setLatWithin(ratio){ const r = Math.min(1, Math.max(0, ratio)); state.l
 function shiftRow(dir){ // move to the neighbouring latitude row, keeping the place within it
   const i = TABLE_LATS.indexOf(H.lo); const j = Math.min(TABLE_LATS.length-2, Math.max(0, i+dir)); if (j===i) return;
   const lo = TABLE_LATS[j], step = (TABLE_LATS[j+1]-lo)*3600; state.loHint = lo; state.latSec = Math.round(lo*3600 + H.latRatio*step); state.flash = true; render(); state.flash = false; }
-$('#lstRange').addEventListener('input', e => setLstWithin(Number(e.target.value)));
-$('#latRange').addEventListener('input', e => setLatWithin(Number(e.target.value)));
-$('#utRange').addEventListener('input', e => { state.ut = Math.round(Number(e.target.value))*60; render(); });
-$('#colPrev').addEventListener('click', () => shiftColumn(-1)); $('#colNext').addEventListener('click', () => shiftColumn(1));
-$('#rowPrev').addEventListener('click', () => shiftRow(-1)); $('#rowNext').addEventListener('click', () => shiftRow(1));
+$('#lstRange').addEventListener('input', e => still(e.target, () => setLstWithin(Number(e.target.value))));
+$('#latRange').addEventListener('input', e => still(e.target, () => setLatWithin(Number(e.target.value))));
+$('#utRange').addEventListener('input', e => still(e.target, () => { state.ut = Math.round(Number(e.target.value))*60; render(); }));
+[['#colPrev', () => shiftColumn(-1)], ['#colNext', () => shiftColumn(1)], ['#rowPrev', () => shiftRow(-1)], ['#rowNext', () => shiftRow(1)]]
+  .forEach(([id, fn]) => { const b = $(id); b.addEventListener('click', () => still(b, fn)); });
 
 // Each preset remembers itself, so Start over can go back to the last one loaded for this kind of calculation.
 const PRESETS = {
@@ -2825,7 +2858,7 @@ const PRESETS = {
   saturn: () => { Object.assign(state, {ut:57300, p0:toSec({d:169,m:2,s:56}), p1:toSec({d:169,m:0,s:40})}); state.last.planet = 'saturn'; }
 };
 document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => { PRESETS[b.dataset.preset](); state.reveal = ALL; setNote(''); render(); }));
-document.querySelectorAll('.rail [data-mode]').forEach(b => b.addEventListener('click', () => { state.mode = b.dataset.mode; state.reveal = 0; render(); }));
+document.querySelectorAll('.rail [data-mode]').forEach(b => b.addEventListener('click', () => still(b, () => { state.mode = b.dataset.mode; state.reveal = 0; render(); })));
 
 // steps
 $('#stepBtn').addEventListener('click', () => { if (state.reveal>=ALL) state.reveal = 0; if (state.reveal < dataRows().length) state.reveal++; render(); });
@@ -2931,7 +2964,7 @@ let figFrame = 0;
 const refit = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(() => { if (sizeSig() !== figSig) drawFig(); sayHold(); sayFit(); }); };
 addEventListener('resize', refit);
 if (window.ResizeObserver){ const ro = new ResizeObserver(refit); ro.observe($('#view')); ro.observe($('#say')); }
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { drawFig(); sayHold(); sayFit(); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { holdKey = ''; drawFig(); sayHold(); sayFit(); });   // measured again in the real fonts
 </script>
 </body>
 </html>

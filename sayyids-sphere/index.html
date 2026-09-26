@@ -82,6 +82,18 @@
   #view{position:relative;flex:1;min-height:0;touch-action:none;cursor:grab}
   #view.dragging{cursor:grabbing}
   #view canvas{display:block;width:100%;height:100%}
+  /* the view's focus ring is drawn inside it, where nothing can clip it */
+  #view canvas:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+  /* turn and tilt buttons for touch screens, where a vertical swipe scrolls the page */
+  .pad{position:absolute;right:8px;bottom:8px;z-index:3;display:none;
+    grid-template-columns:repeat(4,30px);grid-template-rows:30px;gap:3px;
+    grid-template-areas:"left up down right";pointer-events:none}
+  .pad button{pointer-events:auto;touch-action:manipulation;padding:0;display:grid;place-items:center;
+    background:rgba(13,18,32,.82);border:1px solid var(--line);border-radius:3px;color:var(--brass);cursor:pointer}
+  .pad button svg{width:12px;height:12px;fill:currentColor}
+  .pad [data-cam=up]{grid-area:up}.pad [data-cam=down]{grid-area:down}
+  .pad [data-cam=left]{grid-area:left}.pad [data-cam=right]{grid-area:right}
+  @media (pointer:coarse){ .pad{display:grid} }
 
   /* ---------- masthead over the stage ---------- */
   .masthead{
@@ -289,7 +301,7 @@
   }
   /* step 11 carries the chart it talks about */
   .stepfig{margin-top:16px}
-  .stepfig canvas{display:block;width:100%;max-width:260px;height:auto;margin:0 auto}
+  .stepfig canvas{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
   .stepfig p{margin:10px 0 0;font-size:.92rem;color:#CFC9BA}
   .stepfig p span{font-family:var(--f-mono);color:var(--brass);font-variant-numeric:tabular-nums}
   .pips button i{display:block;width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .15s}
@@ -390,6 +402,17 @@
     .rail{padding-left:16px;padding-right:16px;gap:14px}
     .pane{padding-left:18px;padding-right:18px}
     .side{min-height:70vh}
+    /* never taller than the screen, so the whole sphere is always in view */
+    #view{max-height:calc(100vh - 4.5rem);max-height:calc(100svh - 4.5rem)}
+  }
+  /* phones and small windows held sideways: title across the top, the sphere filling the
+     rest of the screen's height, and the plate beside it, so all three are seen at once */
+  @media (max-width:980px) and (orientation:landscape){
+    .viewport{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr);
+      height:100vh;height:100svh}
+    .masthead{grid-column:1/-1;grid-row:1}
+    #view{grid-column:1;grid-row:2;aspect-ratio:auto;height:auto;max-height:none}
+    .plate{grid-column:2;grid-row:2;align-self:center;width:min(290px,44vw);margin:0 16px 0 0}
   }
   @media (max-width:430px){
     .plate{font-size:.7rem}
@@ -427,7 +450,14 @@
       <div id="view">
         <div id="boot" data-i18n="ui.boot">Raising the sphere…</div>
         <p class="visually-hidden" id="sceneKeys" data-i18n="a11y.keys">Arrow keys turn the sphere as dragging does; + and − zoom.</p>
-        <p class="visually-hidden" id="sceneDesc" aria-live="polite" aria-atomic="true"></p>
+        <p class="visually-hidden" id="sceneDesc"></p>
+        <p class="visually-hidden" id="sceneLive" aria-live="polite" aria-atomic="true"></p>
+        <div class="pad" id="camPad" role="group" data-i18n-aria="ui.pad" aria-label="Turn and tilt the sphere">
+          <button type="button" data-cam="up" data-i18n-aria="ui.camUp" aria-label="Tilt up"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 3 13 11H1z"/></svg></button>
+          <button type="button" data-cam="left" data-i18n-aria="ui.camLeft" aria-label="Turn left"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7 11 1v12z"/></svg></button>
+          <button type="button" data-cam="right" data-i18n-aria="ui.camRight" aria-label="Turn right"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M11 7 3 13V1z"/></svg></button>
+          <button type="button" data-cam="down" data-i18n-aria="ui.camDown" aria-label="Tilt down"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 11 1 3h12z"/></svg></button>
+        </div>
       </div>
       <div class="plate" id="plate">
         <h2><span data-i18n="ui.probe">Probe</span><em id="probeName">Aldebaran</em></h2>
@@ -504,8 +534,8 @@
         <div class="field">
           <label for="oblRange" data-i18n="ui.obliquity">Obliquity</label>
           <input type="range" id="oblRange" min="0" max="50" step="0.5" value="23.5">
-          <output id="oblOut">23° 26′ 21″</output>
-          <button class="btn" id="oblTrueBtn" type="button" data-i18n="ui.oblTrue">True value</button>
+          <output id="oblOut">23° 26′ 21″ (J2000)</output>
+          <button class="btn" id="oblTrueBtn" type="button" data-i18n="ui.oblTrue">J2000 value</button>
         </div>
         <p id="oblNote" style="margin:6px 0 0;font-size:.84rem;color:var(--muted-2);font-style:italic"></p>
       </div>
@@ -602,17 +632,19 @@
       "lay.ecliptic":"Ecliptic","lay.zodiacBand":"Zodiac band ±8°","lay.signGlyphs":"Sign glyphs","lay.sun":"Sun",
       "lay.starfield":"Star field","lay.brightStars":"Bright stars","lay.starNames":"Star names","lay.probeMark":"Probe marker",
       "cap.great":"great circle",
-      "layers.oblNote":"True value is 23° 26′. Wind it up to see what obliquity actually does; wind it to 0° and the two frames collapse into one.",
+      "layers.oblNote":"The J2000 value is 23° 26′ 21″. Wind it up to see what obliquity actually does; wind it to 0° and the two frames collapse into one.",
       "layers.foot":"Star positions are J2000 equatorial coordinates, rounded — close enough to recognise the sky, not close enough to cast a chart from.",
       "chart.qtitle":"The quadrant problem",
       "chart.measure":"MC round to ASC measures %1 of zodiac; ASC round to IC measures %2. In the horizonal frame those two quadrants are both exactly 90°. The slanted zodiac sits squarely on them only now and then — when 0° Aries or 0° Libra is rising, for instance.",
       "chart.poleAlt":"Pole alt.","chart.eqAlt":"Equator alt.",
       "chart.foot":"<b style=\"color:var(--muted)\">OA</b> is the degree of right ascension standing on the eastern horizon, <b style=\"color:var(--muted)\">OD</b> the degree on the western. Both are fixed 90° from the RA on the meridian, always, at every latitude: the equator always meets the horizon at the east and west points, and those points are the poles of the meridian, 90° from every point on it.",
       "chart.ascUndef":"The ecliptic lies in the plane of the horizon here (to within 1′), so no single degree of it is on the eastern horizon: the Ascendant and Descendant are undefined.",
-      "chart.mcBelow":"The MC — the degree of the zodiac at the RAMC — lies below the horizon here, because the obliquity is greater than the equator's altitude.",
-      "ui.language":"Language","ui.oblTrue":"True value",
+      "chart.mcBelow":"The MC — the degree of the zodiac at the RAMC — lies below the horizon here, because the obliquity is greater than the equator's altitude. The degree crossing the meridian above the earth is then the one shown as the IC.",
+      "ui.language":"Language","ui.oblTrue":"J2000 value",
       "ui.noWebGL":"This browser can't draw the sphere (WebGL unavailable).",
       "ui.pip":"Step %1 of %2: %3",
+      "ui.pad":"Turn and tilt the sphere","ui.camUp":"Tilt up","ui.camDown":"Tilt down","ui.camLeft":"Turn left","ui.camRight":"Turn right",
+      "a11y.latN":"%1° N","a11y.latS":"%1° S","a11y.time":"%1h %2m",
       "a11y.sphere":"Celestial sphere","a11y.wheel":"Chart wheel",
       "a11y.keys":"Arrow keys turn the sphere as dragging does; + and − zoom.",
       "a11y.state":"Latitude %1, sidereal time %2. %3. %4: azimuth %5, altitude %6, in the %7 quadrant.",
@@ -655,17 +687,18 @@
     "lay.ecliptic":"Ekliptikken","lay.zodiacBand":"Dyrekretsbåndet ±8°","lay.signGlyphs":"Tegnsymboler","lay.sun":"Solen",
     "lay.starfield":"Stjernefelt","lay.brightStars":"Lyssterke stjerner","lay.starNames":"Stjernenavn","lay.probeMark":"Markør for målepunktet",
     "cap.great":"storsirkel",
-    "layers.oblNote":"Den sanne verdien er 23° 26′. Skru den opp for å se hva skjevheten faktisk gjør; skru den ned til 0°, og de to rammene faller sammen til én.",
+    "layers.oblNote":"J2000-verdien er 23° 26′ 21″. Skru den opp for å se hva skjevheten faktisk gjør; skru den ned til 0°, og de to rammene faller sammen til én.",
     "layers.foot":"Stjerneposisjonene er ekvatorkoordinater for J2000, avrundet — nøyaktige nok til å kjenne igjen himmelen, ikke nøyaktige nok til å sette opp et horoskop etter.",
     "chart.qtitle":"Kvadrantproblemet",
     "chart.measure":"Buen fra MC rundt til AC <span class=\"gloss\" lang=\"en\">(ASC)</span> måler %1 av dyrekretsen; fra AC rundt til IC måler den %2. I horisontrammen er begge disse kvadrantene nøyaktig 90°. Den skrå dyrekretsen legger seg bare av og til jevnt over dem — for eksempel når 0° Væren eller 0° Vekten stiger opp.",
     "chart.poleAlt":"Polhøyde","chart.eqAlt":"Ekvatorhøyde",
     "chart.foot":"<b style=\"color:var(--muted)\">OA</b> er den graden av rektascensjonen som står i den østlige horisonten, <b style=\"color:var(--muted)\">OD</b> graden i den vestlige. Begge ligger fast 90° fra rektascensjonen på meridianen, alltid og på enhver breddegrad: ekvator skjærer alltid horisonten i øst- og vestpunktet, og de punktene er meridianens poler, 90° fra hvert punkt på den.",
     "chart.ascUndef":"Ekliptikken ligger her i horisontens plan (innenfor 1′), så ingen enkelt grad av den står i den østlige horisonten: ascendanten og descendanten er udefinerte.",
-    "chart.mcBelow":"MC — dyrekretsgraden ved RAMC — ligger her under horisonten, fordi skjevheten er større enn ekvators høyde.",
-    "ui.language":"Språk","ui.oblTrue":"Sann verdi",
+    "chart.mcBelow":"MC — dyrekretsgraden ved RAMC — ligger her under horisonten, fordi skjevheten er større enn ekvators høyde. Graden som krysser meridianen over jorden, er da den som vises som IC.",
+    "ui.language":"Språk","ui.oblTrue":"J2000-verdi",
     "ui.noWebGL":"Denne nettleseren kan ikke tegne kulen (WebGL er ikke tilgjengelig).",
     "ui.pip":"Steg %1 av %2: %3",
+    "ui.pad":"Drei og vipp kulen","ui.camUp":"Vipp opp","ui.camDown":"Vipp ned","ui.camLeft":"Drei mot venstre","ui.camRight":"Drei mot høyre",
     "a11y.sphere":"Himmelkulen","a11y.wheel":"Horoskophjulet",
     "a11y.keys":"Piltastene dreier kulen slik det å dra i den gjør; + og − zoomer.",
     "a11y.state":"Breddegrad %1, stjernetid %2. %3. %4: asimut %5, høyde %6, i den %7 kvadranten.",
@@ -708,17 +741,18 @@
     "lay.ecliptic":"Eclíptica","lay.zodiacBand":"Franja zodiacal ±8°","lay.signGlyphs":"Glifos de los signos","lay.sun":"Sol",
     "lay.starfield":"Campo de estrellas","lay.brightStars":"Estrellas brillantes","lay.starNames":"Nombres de estrellas","lay.probeMark":"Marcador de la sonda",
     "cap.great":"círculo máximo",
-    "layers.oblNote":"El valor real es 23° 26′. Súbala para ver qué hace de verdad la oblicuidad; bájela a 0° y los dos sistemas se funden en uno solo.",
+    "layers.oblNote":"El valor J2000 es 23° 26′ 21″. Súbala para ver qué hace de verdad la oblicuidad; bájela a 0° y los dos sistemas se funden en uno solo.",
     "layers.foot":"Las posiciones estelares son coordenadas ecuatoriales J2000, redondeadas: bastan para reconocer el cielo, no para levantar una carta.",
     "chart.qtitle":"El problema de los cuadrantes",
     "chart.measure":"Del MC al ASC hay %1 de zodíaco; del ASC al IC hay %2. En el sistema horizontal esos dos cuadrantes miden exactamente 90°. El zodíaco inclinado solo encaja a escuadra en ellos de vez en cuando: por ejemplo, cuando sale 0° de Aries o 0° de Libra.",
     "chart.poleAlt":"Alt. del polo","chart.eqAlt":"Alt. del ecuador",
     "chart.foot":"<b style=\"color:var(--muted)\">AO</b> <span class=\"gloss\" lang=\"en\">(OA)</span> es el grado de ascensión recta que está en el horizonte oriental; <b style=\"color:var(--muted)\">DO</b> <span class=\"gloss\" lang=\"en\">(OD)</span>, el que está en el occidental. Ambos quedan fijos a 90° de la AR del meridiano, siempre, en cualquier latitud: el ecuador corta siempre el horizonte en los puntos este y oeste, y esos puntos son los polos del meridiano, a 90° de cada uno de sus puntos.",
     "chart.ascUndef":"Aquí la eclíptica yace en el plano del horizonte (con menos de 1′ de diferencia), así que ningún grado suyo en concreto está en el horizonte oriental: el Ascendente y el Descendente quedan indefinidos.",
-    "chart.mcBelow":"El MC —el grado del zodíaco en la ARMC <span class=\"gloss\" lang=\"en\">(RAMC)</span>— queda aquí bajo el horizonte, porque la oblicuidad supera la altura del ecuador.",
-    "ui.language":"Idioma","ui.oblTrue":"Valor real",
+    "chart.mcBelow":"El MC —el grado del zodíaco en la ARMC <span class=\"gloss\" lang=\"en\">(RAMC)</span>— queda aquí bajo el horizonte, porque la oblicuidad supera la altura del ecuador. El grado que cruza el meridiano por encima de la tierra es entonces el que aparece como IC.",
+    "ui.language":"Idioma","ui.oblTrue":"Valor J2000",
     "ui.noWebGL":"Este navegador no puede dibujar la esfera (WebGL no está disponible).",
     "ui.pip":"Paso %1 de %2: %3",
+    "ui.pad":"Girar e inclinar la esfera","ui.camUp":"Inclinar hacia arriba","ui.camDown":"Inclinar hacia abajo","ui.camLeft":"Girar a la izquierda","ui.camRight":"Girar a la derecha",
     "a11y.sphere":"Esfera celeste","a11y.wheel":"Rueda de la carta",
     "a11y.keys":"Las flechas giran la esfera igual que al arrastrarla; + y − acercan y alejan.",
     "a11y.state":"Latitud %1, tiempo sidéreo %2. %3. %4: acimut %5, altura %6, en el cuadrante %7.",
@@ -760,17 +794,18 @@
     "lay.ecliptic":"Écliptique","lay.zodiacBand":"Bande zodiacale ±8°","lay.signGlyphs":"Glyphes des signes","lay.sun":"Soleil",
     "lay.starfield":"Champ d'étoiles","lay.brightStars":"Étoiles brillantes","lay.starNames":"Noms des étoiles","lay.probeMark":"Marqueur de la sonde",
     "cap.great":"grand cercle",
-    "layers.oblNote":"La valeur réelle est 23° 26′. Montez-la pour voir ce que fait vraiment l'obliquité ; ramenez-la à 0° et les deux repères se confondent.",
+    "layers.oblNote":"La valeur J2000 est 23° 26′ 21″. Montez-la pour voir ce que fait vraiment l'obliquité ; ramenez-la à 0° et les deux repères se confondent.",
     "layers.foot":"Les positions stellaires sont des coordonnées équatoriales J2000, arrondies — assez justes pour reconnaître le ciel, pas assez pour dresser un thème.",
     "chart.qtitle":"Le problème des quadrants",
     "chart.measure":"Du MC à l'ASC : %1 de zodiaque ; de l'ASC au FC <span class=\"gloss\" lang=\"en\">(IC)</span> : %2. Dans le repère horizontal, ces deux quadrants font exactement 90°. Le zodiaque, incliné, ne s'y pose d'équerre que de temps à autre — par exemple quand 0° du Bélier ou 0° de la Balance se lève.",
     "chart.poleAlt":"Haut. du pôle","chart.eqAlt":"Haut. de l'équateur",
     "chart.foot":"<b style=\"color:var(--muted)\">AO</b> <span class=\"gloss\" lang=\"en\">(OA)</span> est le degré d'ascension droite posé sur l'horizon oriental, <b style=\"color:var(--muted)\">DO</b> <span class=\"gloss\" lang=\"en\">(OD)</span> le degré posé sur l'horizon occidental. Tous deux restent à 90° de l'AD du méridien, toujours, sous toute latitude : l'équateur coupe toujours l'horizon aux points est et ouest, et ces points sont les pôles du méridien, à 90° de chacun de ses points.",
     "chart.ascUndef":"Ici, l'écliptique se confond avec le plan de l'horizon (à moins de 1′ près) : aucun de ses degrés n'est seul sur l'horizon oriental, et l'Ascendant comme le Descendant sont indéfinis.",
-    "chart.mcBelow":"Le MC — le degré du zodiaque à l'ARMC <span class=\"gloss\" lang=\"en\">(RAMC)</span> — se trouve ici sous l'horizon, car l'obliquité dépasse la hauteur de l'équateur.",
-    "ui.language":"Langue","ui.oblTrue":"Valeur réelle",
+    "chart.mcBelow":"Le MC — le degré du zodiaque à l'ARMC <span class=\"gloss\" lang=\"en\">(RAMC)</span> — se trouve ici sous l'horizon, car l'obliquité dépasse la hauteur de l'équateur. Le degré qui franchit le méridien au-dessus de la terre est alors celui qui figure comme FC <span class=\"gloss\" lang=\"en\">(IC)</span>.",
+    "ui.language":"Langue","ui.oblTrue":"Valeur J2000",
     "ui.noWebGL":"Ce navigateur ne peut pas dessiner la sphère (WebGL indisponible).",
     "ui.pip":"Étape %1 sur %2 : %3",
+    "ui.pad":"Tourner et incliner la sphère","ui.camUp":"Incliner vers le haut","ui.camDown":"Incliner vers le bas","ui.camLeft":"Tourner vers la gauche","ui.camRight":"Tourner vers la droite",
     "a11y.sphere":"Sphère céleste","a11y.wheel":"Roue du thème",
     "a11y.keys":"Les flèches font tourner la sphère comme quand on la fait glisser ; + et − zooment.",
     "a11y.state":"Latitude %1, temps sidéral %2. %3. %4 : azimut %5, hauteur %6, dans le quadrant %7.",
@@ -812,17 +847,18 @@
     "lay.ecliptic":"Ekliptik","lay.zodiacBand":"Tierkreisband ±8°","lay.signGlyphs":"Zeichensymbole","lay.sun":"Sonne",
     "lay.starfield":"Sternfeld","lay.brightStars":"Helle Sterne","lay.starNames":"Sternnamen","lay.probeMark":"Messpunktmarke",
     "cap.great":"Großkreis",
-    "layers.oblNote":"Der wahre Wert ist 23° 26′. Drehen Sie ihn hoch, um zu sehen, was die Schiefe wirklich bewirkt; drehen Sie ihn auf 0°, und die beiden Systeme fallen zu einem zusammen.",
+    "layers.oblNote":"Der J2000-Wert ist 23° 26′ 21″. Drehen Sie ihn hoch, um zu sehen, was die Schiefe wirklich bewirkt; drehen Sie ihn auf 0°, und die beiden Systeme fallen zu einem zusammen.",
     "layers.foot":"Die Sternpositionen sind gerundete Äquatorialkoordinaten für J2000 — genau genug, um den Himmel wiederzuerkennen, nicht genau genug, um ein Horoskop daraus zu stellen.",
     "chart.qtitle":"Das Quadrantenproblem",
     "chart.measure":"Vom MC bis zum AC misst der Tierkreis %1; vom AC bis zum IC %2. Im Horizontsystem messen beide Quadranten exakt 90°. Der schiefe Tierkreis liegt nur hin und wieder im rechten Winkel darauf — etwa wenn 0° Widder oder 0° Waage aufsteigt.",
     "chart.poleAlt":"Polhöhe","chart.eqAlt":"Äquatorhöhe",
     "chart.foot":"<b style=\"color:var(--muted)\">AO</b> <span class=\"gloss\" lang=\"en\">(OA)</span> ist der Grad der Rektaszension, der am östlichen Horizont steht, <b style=\"color:var(--muted)\">DO</b> <span class=\"gloss\" lang=\"en\">(OD)</span> der Grad am westlichen. Beide stehen stets 90° von der Rektaszension des Meridians entfernt, in jeder Breite: Der Äquator schneidet den Horizont immer im Ost- und im Westpunkt, und diese Punkte sind die Pole des Meridians, 90° von jedem seiner Punkte entfernt.",
     "chart.ascUndef":"Die Ekliptik liegt hier in der Ebene des Horizonts (bis auf weniger als 1′), daher steht kein einzelner ihrer Grade am östlichen Horizont: Aszendent und Deszendent sind nicht definiert.",
-    "chart.mcBelow":"Das MC — der Tierkreisgrad bei der RAMC — liegt hier unter dem Horizont, weil die Schiefe größer ist als die Höhe des Äquators.",
-    "ui.language":"Sprache","ui.oblTrue":"Wahrer Wert",
+    "chart.mcBelow":"Das MC — der Tierkreisgrad bei der RAMC — liegt hier unter dem Horizont, weil die Schiefe größer ist als die Höhe des Äquators. Der Grad, der den Meridian über der Erde kreuzt, ist dann der als IC angezeigte.",
+    "ui.language":"Sprache","ui.oblTrue":"J2000-Wert",
     "ui.noWebGL":"Dieser Browser kann die Sphäre nicht zeichnen (WebGL nicht verfügbar).",
     "ui.pip":"Schritt %1 von %2: %3",
+    "ui.pad":"Sphäre drehen und kippen","ui.camUp":"Nach oben kippen","ui.camDown":"Nach unten kippen","ui.camLeft":"Nach links drehen","ui.camRight":"Nach rechts drehen",
     "a11y.sphere":"Himmelssphäre","a11y.wheel":"Horoskoprad",
     "a11y.keys":"Die Pfeiltasten drehen die Sphäre wie das Ziehen mit der Maus; + und − zoomen.",
     "a11y.state":"Breite %1, Sternzeit %2. %3. %4: Azimut %5, Höhe %6, im %7 Quadranten.",
@@ -864,20 +900,22 @@
     "lay.ecliptic":"黄道","lay.zodiacBand":"黄道带 ±8°","lay.signGlyphs":"星座符号","lay.sun":"太阳",
     "lay.starfield":"星场","lay.brightStars":"亮星","lay.starNames":"星名","lay.probeMark":"测点标记",
     "cap.great":"大圆",
-    "layers.oblNote":"真实值为 23° 26′。把它调大，可以看清黄赤交角究竟起了什么作用；调到 0°，两套坐标系便合而为一。",
+    "layers.oblNote":"J2000 值为 23° 26′ 21″。把它调大，可以看清黄赤交角究竟起了什么作用；调到 0°，两套坐标系便合而为一。",
     "layers.foot":"星位采用四舍五入后的 J2000 赤道坐标——足以辨认星空，但不足以据此起盘。",
     "chart.qtitle":"象限难题",
     "chart.measure":"从 MC 绕到 ASC，跨过黄道 %1；从 ASC 绕到 IC，跨过 %2。在地平坐标系中，这两个象限都恰好是 90°。倾斜的黄道只是偶尔才端端正正地落在上面——例如白羊座 0° 或天秤座 0° 正在上升之时。",
     "chart.poleAlt":"天极高度","chart.eqAlt":"赤道高度",
     "chart.foot":"<b style=\"color:var(--muted)\">斜升（OA）</b>是立于东地平上的那一度赤经，<b style=\"color:var(--muted)\">斜降（OD）</b>则是西方地平上的那一度。无论在哪一纬度，二者与子午圈上的赤经永远相距 90°：赤道总在正东点与正西点与地平圈相交，而这两点正是子午圈的极，与子午圈上每一点都相距 90°。",
     "chart.ascUndef":"此时黄道几乎落在地平面上（相差不到 1′），东地平上没有唯一的一度黄道：上升点与下降点无从定义。",
-    "chart.mcBelow":"此时 MC（位于 RAMC 处的那一度黄道）在地平之下，因为黄赤交角大于赤道的高度。",
-    "ui.language":"语言","ui.oblTrue":"真实值",
+    "chart.mcBelow":"此时 MC（位于 RAMC 处的那一度黄道）在地平之下，因为黄赤交角大于赤道的高度。此时在地平之上穿过子午圈的那一度黄道，正是显示为 IC 的那一度。",
+    "ui.language":"语言","ui.oblTrue":"J2000 值",
     "ui.noWebGL":"此浏览器无法绘制天球（WebGL 不可用）。",
     "ui.pip":"第 %1 步，共 %2 步：%3",
+    "ui.pad":"转动和倾斜天球","ui.camUp":"向上倾斜","ui.camDown":"向下倾斜","ui.camLeft":"向左转","ui.camRight":"向右转",
+    "a11y.latN":"北纬 %1°","a11y.latS":"南纬 %1°","a11y.time":"%1时%2分",
     "a11y.sphere":"天球","a11y.wheel":"星盘圆图",
     "a11y.keys":"方向键可像拖动一样转动天球；按 + 与 − 缩放。",
-    "a11y.state":"纬度 %1，恒星时 %2。%3。%4：方位角 %5，高度 %6，位于%7象限。",
+    "a11y.state":"%1，恒星时 %2。%3。%4：方位角 %5，高度 %6，位于%7象限。",
     "lbl.N":"北","lbl.E":"东","lbl.S":"南","lbl.W":"西",
     "lbl.zenith":"天顶","lbl.nadir":"天底","lbl.meridian":"子午圈","lbl.pv":"卯酉圈",
     "lbl.equator":"天赤道","lbl.npole":"北天极","lbl.spole":"南天极","lbl.sun":"太阳",
@@ -916,20 +954,22 @@
     "lay.ecliptic":"黄道","lay.zodiacBand":"獣帯 ±8°","lay.signGlyphs":"サイン記号","lay.sun":"太陽",
     "lay.starfield":"星野","lay.brightStars":"明るい星","lay.starNames":"星の名","lay.probeMark":"測定点マーカー",
     "cap.great":"大円",
-    "layers.oblNote":"実際の値は 23° 26′ です。大きくすれば傾斜角の働きがはっきり見え、0° にすれば二つの座標系はひとつに重なります。",
+    "layers.oblNote":"J2000 の値は 23° 26′ 21″ です。大きくすれば傾斜角の働きがはっきり見え、0° にすれば二つの座標系はひとつに重なります。",
     "layers.foot":"星の位置は J2000 の赤道座標を丸めたものです——空を見分けるには十分ですが、これでチャートを立てるには足りません。",
     "chart.qtitle":"象限の問題",
     "chart.measure":"MC から ASC までは黄道で %1、ASC から IC までは %2 です。地平座標系では、この二つの象限はどちらもきっかり 90°。傾いた黄道がその上にまっすぐ載るのは、ときたまのことです——たとえば牡羊座 0° か天秤座 0° が昇っているときです。",
     "chart.poleAlt":"天の極の高度","chart.eqAlt":"赤道の高度",
     "chart.foot":"<b style=\"color:var(--muted)\">OA</b>（斜上昇）は東の地平に立つ赤経の度、<b style=\"color:var(--muted)\">OD</b>（斜下降）は西の地平に立つ度です。どの緯度でも、両者は子午圏上の赤経から常に 90° 離れています。赤道は必ず東点と西点で地平圏と交わり、この二点は子午圏の極、つまり子午圏上のどの点からも 90° 離れた点だからです。",
     "chart.ascUndef":"ここでは黄道が地平面とほぼ重なっている（差は 1′ 未満）ため、東の地平にかかる黄道の度がひとつに決まりません。アセンダントとディセンダントは定義できません。",
-    "chart.mcBelow":"ここでは MC（RAMC にあたる黄道の度）が地平の下にあります。黄道傾斜角が赤道の高度より大きいためです。",
-    "ui.language":"言語","ui.oblTrue":"実際の値",
+    "chart.mcBelow":"ここでは MC（RAMC にあたる黄道の度）が地平の下にあります。黄道傾斜角が赤道の高度より大きいためです。このとき地平の上で子午圏を横切る黄道の度は、IC として表示されている度です。",
+    "ui.language":"言語","ui.oblTrue":"J2000 の値",
     "ui.noWebGL":"このブラウザーでは天球を描画できません（WebGL が使えません）。",
     "ui.pip":"ステップ %1 / %2：%3",
+    "ui.pad":"天球を回す・傾ける","ui.camUp":"上に傾ける","ui.camDown":"下に傾ける","ui.camLeft":"左に回す","ui.camRight":"右に回す",
+    "a11y.latN":"北緯 %1°","a11y.latS":"南緯 %1°","a11y.time":"%1時%2分",
     "a11y.sphere":"天球","a11y.wheel":"チャートの円",
     "a11y.keys":"矢印キーでドラッグと同じように天球を回せます。+ と − で拡大・縮小します。",
-    "a11y.state":"緯度 %1、恒星時 %2。%3。%4：方位角 %5、高度 %6、%7象限にあります。",
+    "a11y.state":"%1、恒星時 %2。%3。%4：方位角 %5、高度 %6、%7象限にあります。",
     "lbl.N":"北","lbl.E":"東","lbl.S":"南","lbl.W":"西",
     "lbl.zenith":"天頂","lbl.nadir":"天底","lbl.meridian":"子午圏","lbl.pv":"卯酉圏",
     "lbl.equator":"天の赤道","lbl.npole":"天の北極","lbl.spole":"天の南極","lbl.sun":"太陽",
@@ -1160,12 +1200,18 @@
     ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.shadowColor = "rgba(0,0,0,.95)"; ctx.shadowBlur = 8;
     ctx.fillStyle = cssColor; ctx.fillText(text, w/2, h/2);
+    // where the ink lies inside the texture (fractions), so labels can keep clear of each other
+    var mt = ctx.measureText(text), ink = [8/w, 0.17, 1-8/w, 0.83];
+    if(mt.actualBoundingBoxAscent != null){
+      ink = [(w/2 - mt.actualBoundingBoxLeft)/w, (h/2 - mt.actualBoundingBoxAscent)/h, (w/2 + mt.actualBoundingBoxRight)/w, (h/2 + mt.actualBoundingBoxDescent)/h];
+    }
     var tex = new THREE.CanvasTexture(cv);
     tex.minFilter = THREE.LinearFilter;
     var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map:tex, transparent:true, depthTest:false }));
     var k = 0.0016;
     sp.scale.set(w*k, h*k, 1);
     sp.renderOrder = 20;
+    sp.userData.ink = ink;
     return sp;
   }
   var LABELS = [];
@@ -1183,16 +1229,16 @@
     sp.material.needsUpdate = true;
     made.material.dispose();
     sp.scale.copy(made.scale);
+    sp.userData.ink = made.userData.ink;
   }
   function relabelAll(){ LABELS.forEach(redrawLabel); }
   // in the southern hemisphere the south pole is the raised one, and gets the bright label;
-  // that label then stands a little further out and just above the end of the axis, and the
-  // meridian's name crosses to the north side, so that neither prints over the other or the W
+  // that label then stands a little further out, and the meridian's name crosses to the
+  // north side, so that neither prints over the other or the W
   var poleSouth = false;
   function setPoleLabels(south){
     poleSouth = south;
     L.spoleLbl.position.set(0, 0, -(south ? 1.36 : 1.24));
-    if(south) L.spoleLbl.center.set(0.35, -0.5); else L.spoleLbl.center.set(0.5, 0.5);
     L.meridianLbl.position.copy(MERIDIAN_LBL).multiplyScalar(1.02);
     if(south) L.meridianLbl.position.z = -L.meridianLbl.position.z;
     [[L.npoleLbl, south ? POLE_DOWN : POLE_UP], [L.spoleLbl, south ? POLE_UP : POLE_DOWN]].forEach(function(o){
@@ -1210,6 +1256,9 @@
     var g = new THREE.Group(); g.visible = !!visible; parent.add(g); L[name] = g; return g;
   }
 
+  // Label colours: the dim ones (lower pole, nadir, the quadrants below the earth) are
+  // still at least 4.5:1 on the sky; the bright ones are well above that.
+  var DIM_BRASS = "#AD8638";
   // -- horizon frame ------------------------------------------------------
   // Where the meridian and prime-vertical names sit: low on their own circles, 20° above
   // the south and east points, clear of the cardinal letters in every walkthrough view
@@ -1246,15 +1295,15 @@
     var z = group(horGroup, "zenith", false);
     z.add(seg([vNad.clone().multiplyScalar(R), vZen.clone().multiplyScalar(R)], C.brassDim, 0.8));
     z.add(put(tlabel("lbl.zenith", "#E3AA3E", 38), vZen, 1.10));
-    z.add(put(tlabel("lbl.nadir", "#8A6A2A", 34), vNad, 1.10));
+    z.add(put(tlabel("lbl.nadir", DIM_BRASS, 34), vNad, 1.10));
 
     var q = group(horGroup, "quadrants", false);
     // each label inside its quadrant (Lesson 4, Fig. 10): eastern above and east, southern above and west,
     // western below and west, northern below and east
     var qn = [["lbl.qe","#C79433",new THREE.Vector3(0.709,0.50,0.497)],
               ["lbl.qs","#C79433",new THREE.Vector3(-0.62,0.50,0.60)],
-              ["lbl.qw","#8A6A2A",new THREE.Vector3(-0.62,-0.50,0.60)],
-              ["lbl.qn","#8A6A2A",new THREE.Vector3(0.62,-0.50,-0.60)]];
+              ["lbl.qw","#AD8638",new THREE.Vector3(-0.62,-0.50,0.60)],
+              ["lbl.qn","#AD8638",new THREE.Vector3(0.62,-0.50,-0.60)]];
     qn.forEach(function(o){ q.add(put(tlabel(o[0], o[1], 28), o[2].normalize(), 1.0)); });
 
     L.almucantar = new THREE.Group(); L.almucantar.visible = false; horGroup.add(L.almucantar);
@@ -1262,14 +1311,14 @@
   })();
 
   // -- equatorial frame ---------------------------------------------------
-  var POLE_UP = ["#7FB6E0", 36], POLE_DOWN = ["#3F5E7C", 32];
+  var POLE_UP = ["#7FB6E0", 36], POLE_DOWN = ["#678DB4", 32];
   // RA figures sit a little south of the equator and outside the ticks, so the one
   // standing at the east or west point does not print over the cardinal letter there
-  var RA_LBL_DEC = -7, RA_LBL_R = 1.22;
+  var RA_LBL_DEC = -7, RA_LBL_R = 1.22, RA_LBLS = [];
   (function(){
     var e = group(equGroup, "equator", false);
     var er = ring(R, 0.0075, C.steel, 1); e.add(er);
-    e.add(put(tlabel("lbl.equator", "#7FB6E0", 36), new THREE.Vector3(-0.86,-0.51,0).normalize(), 1.05));
+    L.equatorLbl = put(tlabel("lbl.equator", "#7FB6E0", 36), new THREE.Vector3(-0.86,-0.51,0).normalize(), 1.05); e.add(L.equatorLbl);
 
     var p = group(equGroup, "poles", false);
     p.add(seg([new THREE.Vector3(0,0,-R*1.18), new THREE.Vector3(0,0,R*1.18)], C.steel, 0.85));
@@ -1289,7 +1338,8 @@
       t.add(seg([v.clone().multiplyScalar(R*(big?1.0:1.0)), v.clone().multiplyScalar(R*(big?1.085:1.04))], big?C.steel:C.steelDim, big?1:0.6));
     }
     [[0,"0° RA"],[90,"90°"],[180,"180°"],[270,"270°"]].forEach(function(o){
-      t.add(put(label(o[1], "#7FB6E0", 28), equLocal(o[0],RA_LBL_DEC), RA_LBL_R));
+      var sp = put(label(o[1], "#7FB6E0", 28), equLocal(o[0],RA_LBL_DEC), RA_LBL_R);
+      RA_LBLS.push(sp); t.add(sp);
     });
   })();
 
@@ -1476,7 +1526,8 @@
     return !document.getElementById("paneLesson").hidden && !document.getElementById("stepFig").hidden;
   }
   function paintChart(force){
-    var key = [LANG, axial.asc, axial.mc, S.lat, S.lst, wheelShown(wheel), wheelShown(wheelStep)].join("|");
+    var key = [LANG, axial.asc, axial.mc, axial.mcAlt, S.lat, S.lst, S.obl, wheelShown(wheel), wheelShown(wheelStep),
+               wheel.clientWidth, wheelStep.clientWidth].join("|");
     if(!force && key === chartKey) return;
     chartKey = key;
     paintChartText();
@@ -1514,8 +1565,12 @@
     var asc = und ? norm360(axial.mc + 90) : axial.asc;
     var mc = axial.mc, desc = norm360(asc+180), ic = norm360(mc+180);
     var mcAsc = norm360(asc - mc);
-    var W = cv.width, cx = W/2, cy = W/2, R1 = W*0.425, R2 = W*0.335, R3 = W*0.232;
+    // rings leave room outside for the axis names, drawn clear of the sign glyphs
+    var W = cv.width, cx = W/2, cy = W/2, R1 = W*0.38, R2 = W*0.30, R3 = W*0.208;
     var ctx = cv.getContext("2d");
+    // canvas pixels per CSS pixel: keep every name and number at least 12 px on screen
+    var kpx = cv.clientWidth ? W/cv.clientWidth : 1;
+    var fNum = Math.max(20, Math.ceil(12*kpx)), fName = Math.max(22, Math.ceil(12*kpx)), fGlyph = Math.max(34, Math.ceil(14*kpx));
     ctx.clearRect(0,0,W,W);
     function pt(lon, rad){
       var a = Math.PI + (lon - asc)*D2R;
@@ -1542,22 +1597,25 @@
       ctx.beginPath(); ctx.moveTo(p1[0],p1[1]); ctx.lineTo(p2[0],p2[1]);
       ctx.strokeStyle = "#2A3450"; ctx.lineWidth = 1.5; ctx.stroke();
       var g = pt(lon+15, (R1+R2)/2);
-      ctx.fillStyle = "#E4674C"; ctx.font = '400 34px '+SYMFONT;
+      ctx.fillStyle = "#E4674C"; ctx.font = '400 '+fGlyph+'px '+SYMFONT;
       ctx.fillText(GLYPH[s], g[0], g[1]);
       if(und) continue;
       var hnum = pt(lon+15, (R2+R3)/2);
-      ctx.fillStyle = "#8288A0"; ctx.font = '500 20px "IBM Plex Sans Condensed", sans-serif';
+      ctx.fillStyle = "#8288A0"; ctx.font = '500 '+fNum+'px "IBM Plex Sans Condensed", sans-serif';
       ctx.fillText(String(((s - ascSign)%12+12)%12 + 1), hnum[0], hnum[1]);
     }
     // axial pointers; names kept inside the canvas
     function axis(lon, color, textColor, name){
-      var p1 = pt(lon, 0), p2 = pt(lon, R1), lp = pt(lon, R1*1.11);
+      var p1 = pt(lon, 0), p2 = pt(lon, R1);
       ctx.beginPath(); ctx.moveTo(p1[0],p1[1]); ctx.lineTo(p2[0],p2[1]);
       ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
-      ctx.font = '600 22px "IBM Plex Sans Condensed", sans-serif';
-      var hw = ctx.measureText(name).width/2 + 4;
+      ctx.font = '600 '+fName+'px "IBM Plex Sans Condensed", sans-serif';
+      // the name sits just outside the outer ring, on the axis's own line
+      var hw = ctx.measureText(name).width/2 + 2, hh = fName*0.55;
+      var a = Math.PI + (lon - asc)*D2R, ca = Math.cos(a), sa = Math.sin(a);
+      var d = R1 + 6 + Math.abs(ca)*hw + Math.abs(sa)*hh;
       ctx.fillStyle = textColor;
-      ctx.fillText(name, clamp(lp[0], hw, W-hw), clamp(lp[1], 16, W-16));
+      ctx.fillText(name, clamp(cx + d*ca, hw + 2, W-hw-2), clamp(cy - d*sa, hh + 2, W-hh-2));
     }
     if(!und){ axis(asc, "#E3AA3E", "#E3AA3E", T("chart.asc")); axis(desc, "#8A6A2A", "#B08432", T("chart.desc")); }
     axis(mc, "#7FB6E0", "#7FB6E0", T("chart.mc"));   axis(ic, "#3F5E7C", "#5F86AD", T("chart.ic"));
@@ -1571,7 +1629,7 @@
       on:["horizon","ground","cardinals","starfield","brightStars"],
       cam:[3.4,0.72,1.07], spin:false,
       b:"<p>An astrological chart is cast from one spot on earth, and from that spot the earth is not a globe you stand on — it is a <em>point</em>. The heavens are the sphere. They turn; you do not.</p><p>The flat disc is the <span class='term'>horizon</span>, stretching out in every direction to the edge of the universe. Everything above it is above the earth; everything below it is below the earth. That is the whole of it, for now.</p>",
-      try:"Drag the sphere to turn it. You are looking at the universe from outside, but every measurement you are about to meet is taken from the dot at the centre." },
+      try:"Drag the sphere to turn it; on a touch screen, drag sideways, or use the arrows in its corner to turn and tilt it. You are looking at the universe from outside, but every measurement you are about to meet is taken from the dot at the centre." },
 
     { t:"Three great circles, six directions", on:["horizon","ground","cardinals","meridian","primeVertical","zenith","starfield","brightStars"],
       c:"hor", cam:[3.3,0.62,1.02], spin:false,
@@ -1610,7 +1668,7 @@
 
     { t:"Obliquity: the slant that spoils everything", on:["horizon","ground","cardinals","equator","poles","raTicks","ecliptic","zodiacBand","signGlyphs","sun","starfield"],
       c:"ecl", cam:[3.2,0.5,0.95], spin:true,
-      b:"<p>The ecliptic is glued to the equatorial frame and turns with it — but its pole is tilted away from the equatorial pole by 23° 26′. That slant is the <span class='term ecl'>obliquity of the ecliptic</span>, and nearly every awkwardness in astrology descends from it.</p><p>Longitude and RA are numbered from the same starting point, 0° Aries on the equator's 0° RA. Yet because the ecliptic is slanted, the two scales only agree at four places: 0° Aries, Cancer, Libra and Capricorn. Everywhere between, they part company: the degree of the ecliptic at 30° of RA lies at about 32° 11′ of longitude, some 2° into Taurus, while 0° Taurus itself stands at about 27° 55′ of RA.</p>",
+      b:"<p>The ecliptic is glued to the equatorial frame and turns with it — but its pole is tilted away from the equatorial pole by 23° 26′. That slant is the <span class='term ecl'>obliquity of the ecliptic</span>, and nearly every awkwardness in astrology descends from it. It drifts slowly, about 47″ a century at present, so the lessons' figures differ a little with their dates.</p><p>Longitude and RA are numbered from the same starting point, 0° Aries on the equator's 0° RA. Yet because the ecliptic is slanted, the two scales only agree at four places: 0° Aries, Cancer, Libra and Capricorn. Everywhere between, they part company: the degree of the ecliptic at 30° of RA lies at about 32° 11′ of longitude, some 2° into Taurus, while 0° Taurus itself stands at about 27° 55′ of RA.</p>",
       try:"Open Layers and wind the obliquity slider up to 45°, then down to 0°. At zero the ecliptic lies flat on the equator and every difficulty in this lesson vanishes." },
 
     { t:"All three frames, and the axial degrees", on:ALL_ON,
@@ -1629,7 +1687,7 @@
   var STEP_NB = [
     { t:"Et punkt i sentrum av alt",
       b:"<p>Et horoskop settes opp for ett bestemt sted på jorden, og fra det stedet er jorden ikke en klode du står på — den er et <em>punkt</em>. Det er himmelen som er kulen. Den dreier; det gjør ikke du.</p><p>Den flate skiven er <span class='term'>horisonten</span>, som strekker seg i alle retninger helt ut til universets ytterkant. Alt over den er over jorden; alt under den er under jorden. Mer er det ikke, foreløpig.</p>",
-      try:"Dra i kulen for å dreie den. Du ser universet utenfra, men hver eneste måling du nå skal møte, tas fra prikken i sentrum." },
+      try:"Dra i kulen for å dreie den; på en berøringsskjerm drar du sidelengs, eller bruker pilene i hjørnet for å dreie og vippe den. Du ser universet utenfra, men hver eneste måling du nå skal møte, tas fra prikken i sentrum." },
 
     { t:"Tre storsirkler, seks retninger",
       b:"<p>Still deg i sentrum med ansiktet mot sør. Loddrett gjennom nord og sør går <span class='term'>meridianen</span>; på tvers av den, fra øst til vest, går <span class='term'>førstevertikalen</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, den minst viktige av de tre. Hver av dem er en <em>storsirkel</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>, med sentrum i universets sentrum.</p><p>Skjæringspunktene gir seks retninger: øst, sør, vest, nord, <span class='term'>senit</span> <span class=\"gloss\" lang=\"en\">(zenith)</span> rett over deg og <span class='term'>nadir</span> rett under. Dette er <span class='term'>horisontrammen</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, og den beveger seg aldri. Den er det eneste faste i hele apparatet.</p>",
@@ -1660,7 +1718,7 @@
       try:"I tradisjonelle tekster betyr «lengde» og «bredde» uten videre denne rammen, med mindre teksten uttrykkelig snakker om horoskopets sted på jorden. Flytt Solen og se at den holder seg på linjen." },
 
     { t:"Skjevheten som ødelegger alt",
-      b:"<p>Ekliptikken er limt fast til ekvatorrammen og dreier med den — men polen dens er vippet 23° 26′ bort fra ekvatorpolen. Denne helningen er <span class='term ecl'>ekliptikkens skjevhet</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, og nesten hver eneste vanskelighet i astrologien stammer fra den.</p><p>Lengde og rektascensjon telles fra samme startpunkt: 0° Væren, som ligger på ekvators 0° RA. Men fordi ekliptikken står skrått, stemmer de to skalaene overens bare fire steder: 0° Væren, Krepsen, Vekten og Steinbukken. Overalt imellom går de fra hverandre: den graden av ekliptikken som ligger på 30° rektascensjon, har omtrent 32° 11′ lengde, rundt 2° inn i Tyren, mens 0° Tyren selv står på omtrent 27° 55′ rektascensjon.</p>",
+      b:"<p>Ekliptikken er limt fast til ekvatorrammen og dreier med den — men polen dens er vippet 23° 26′ bort fra ekvatorpolen. Denne helningen er <span class='term ecl'>ekliptikkens skjevhet</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, og nesten hver eneste vanskelighet i astrologien stammer fra den. Den endrer seg langsomt, for tiden med omtrent 47″ i hundreåret, så tallene i leksjonene varierer litt med datoen de gjelder for.</p><p>Lengde og rektascensjon telles fra samme startpunkt: 0° Væren, som ligger på ekvators 0° RA. Men fordi ekliptikken står skrått, stemmer de to skalaene overens bare fire steder: 0° Væren, Krepsen, Vekten og Steinbukken. Overalt imellom går de fra hverandre: den graden av ekliptikken som ligger på 30° rektascensjon, har omtrent 32° 11′ lengde, rundt 2° inn i Tyren, mens 0° Tyren selv står på omtrent 27° 55′ rektascensjon.</p>",
       try:"Åpne Lag og skru skjevheten opp til 45°, så ned til 0°. Ved null ligger ekliptikken flatt på ekvator, og hver eneste vanskelighet i denne leksjonen forsvinner." },
 
     { t:"Alle tre rammene, og aksegradene",
@@ -1678,7 +1736,7 @@
   STEP_TX.es = [
     { t:"Un punto en el centro de todo",
       b:"<p>Una carta astrológica se levanta desde un único lugar de la tierra, y desde ese lugar la tierra no es un globo que uno pisa: es un <em>punto</em>. La esfera es el cielo. Gira él; usted no.</p><p>El disco plano es el <span class='term'>horizonte</span>, que se extiende en todas direcciones hasta el confín del universo. Cuanto está por encima está sobre la tierra; cuanto está por debajo, bajo la tierra. Por ahora, eso es todo.</p>",
-      try:"Arrastre la esfera para hacerla girar. Está viendo el universo desde fuera, pero todas las medidas que va a conocer se toman desde el punto del centro." },
+      try:"Arrastre la esfera para hacerla girar; en una pantalla táctil, arrástrela de lado o use las flechas de su esquina para girarla e inclinarla. Está viendo el universo desde fuera, pero todas las medidas que va a conocer se toman desde el punto del centro." },
     { t:"Tres círculos máximos, seis direcciones",
       b:"<p>Sitúese en el centro, mirando al sur. El <span class='term'>meridiano</span> se alza en vertical por el norte y el sur; el <span class='term'>primer vertical</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span> lo cruza de este a oeste y es el menos importante de los tres. Cada uno es un <em>círculo máximo</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>: su centro es el centro del universo.</p><p>Sus intersecciones dan seis direcciones: este, sur, oeste, norte, el <span class='term'>cenit</span> <span class=\"gloss\" lang=\"en\">(zenith)</span> en lo alto y el <span class='term'>nadir</span> abajo. Este es el <span class='term'>sistema horizontal</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, y jamás se mueve. Es lo único fijo de todo el aparato.</p>",
       try:"Mueva el control de latitud. Aquí nada se inmuta: dondequiera que esté, está sobre un horizonte atravesado por un meridiano." },
@@ -1701,20 +1759,20 @@
       b:"<p>El tercer sistema se construye igual, sobre un tercer círculo máximo: la <span class='term ecl'>eclíptica</span> <span class=\"gloss\" lang=\"en\">(ecliptic)</span>, la línea que recorre el Sol. Cuente 360° a su alrededor para la <span class='term ecl'>longitud</span> <span class=\"gloss\" lang=\"en\">(longitude)</span>, empezando en 0° de Aries, y arriba o abajo para la <span class='term ecl'>latitud</span> <span class=\"gloss\" lang=\"en\">(latitude)</span>.</p><p>El Sol está siempre exactamente sobre ella, a 0° de latitud: la eclíptica se <em>define</em> por él. Los demás planetas se desvían un poco al norte y al sur, dentro de una franja que, según se entiende, llega a 8° a cada lado de la eclíptica, sombreada aquí; Venus puede salirse un poco de ella. Esa franja es el zodíaco propiamente dicho.</p>",
       try:"En los textos tradicionales, «longitud» y «latitud» a secas remiten a este sistema, salvo que el texto hable expresamente del lugar de la carta en la tierra. Mueva el Sol y verá que no se despega de la línea." },
     { t:"La oblicuidad: la inclinación que lo estropea todo",
-      b:"<p>La eclíptica está soldada al sistema ecuatorial y gira con él, pero su polo se inclina 23° 26′ respecto del polo ecuatorial. Esa inclinación es la <span class='term ecl'>oblicuidad de la eclíptica</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, y de ella nacen casi todas las complicaciones de la astrología.</p><p>Longitud y ascensión recta se cuentan desde el mismo origen: 0° de Aries, en los 0° de AR del ecuador. Y sin embargo, como la eclíptica está inclinada, ambas escalas solo coinciden en cuatro puntos: 0° de Aries, Cáncer, Libra y Capricornio. En todos los demás se separan: el grado de la eclíptica que está a 30° de AR tiene unos 32° 11′ de longitud, unos 2° dentro de Tauro, mientras que 0° de Tauro está a unos 27° 55′ de AR.</p>",
+      b:"<p>La eclíptica está soldada al sistema ecuatorial y gira con él, pero su polo se inclina 23° 26′ respecto del polo ecuatorial. Esa inclinación es la <span class='term ecl'>oblicuidad de la eclíptica</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, y de ella nacen casi todas las complicaciones de la astrología. Varía lentamente, hoy unos 47″ por siglo, así que las cifras de las lecciones difieren un poco según su fecha.</p><p>Longitud y ascensión recta se cuentan desde el mismo origen: 0° de Aries, en los 0° de AR del ecuador. Y sin embargo, como la eclíptica está inclinada, ambas escalas solo coinciden en cuatro puntos: 0° de Aries, Cáncer, Libra y Capricornio. En todos los demás se separan: el grado de la eclíptica que está a 30° de AR tiene unos 32° 11′ de longitud, unos 2° dentro de Tauro, mientras que 0° de Tauro está a unos 27° 55′ de AR.</p>",
       try:"Abra Capas y suba la oblicuidad hasta 45°; luego bájela a 0°. En cero, la eclíptica queda tendida sobre el ecuador y desaparecen todas las dificultades de esta lección." },
     { t:"Los tres sistemas y los grados axiales",
       b:"<p>Junte los tres. Ahora pueden definirse los cuatro <span class='term'>grados axiales</span> <span class=\"gloss\" lang=\"en\">(axial degrees)</span>, y cada uno se define por un <em>cruce</em>: el grado del zodíaco que está en el horizonte oriental es el <span class='term'>Ascendente</span> <span class=\"gloss\" lang=\"en\">(Ascendant)</span>; en el occidental, el <span class='term'>Descendente</span> <span class=\"gloss\" lang=\"en\">(Descendant)</span>; en el meridiano superior, el <span class='term'>Medio Cielo</span> <span class=\"gloss\" lang=\"en\">(Midheaven)</span>; en el inferior, el <span class='term'>Fondo del Cielo</span> <span class=\"gloss\" lang=\"en\">(Imum Coeli, IC)</span>.</p><p>No pertenecen a ningún sistema en particular. Son el sistema eclíptico leído sobre el horizontal, con un ángulo que fija el ecuatorial; y justo por eso se comportan de un modo tan extraño.</p>",
       try:"Gire la esfera despacio y siga las lecturas de ASC y MC en la pestaña Carta. No avanzan al mismo paso." },
     { t:"Por qué la rueda nunca cuadra",
-      b:"<p>Los cuadrantes del sistema horizontal miden siempre 90°. Pero la distancia zodiacal del Ascendente al Medio Cielo casi nunca es de 90°: se estira y se encoge toda la noche, y cuanto más lejos del ecuador se esté, al norte o al sur, más se desboca.</p><p>Esa misma inclinación hace que los signos salgan con ángulos distintos, de modo que cada uno tarda su propio <span class='term equ'>tiempo de ascensión</span> <span class=\"gloss\" lang=\"en\">(ascensional time)</span> en atravesar el horizonte. Fuera del ecuador, un signo septentrional y el signo meridional opuesto nunca salen en el mismo tiempo: a 40° norte, Libra tarda casi el doble que Aries. Esta es la raíz del problema de la domificación, y ningún reparto en doce casas iguales se libra de él, salvo el de los propios signos, que son las casas de esta rueda.</p>",
+      b:"<p>Los cuadrantes del sistema horizontal miden siempre 90°. Pero la distancia zodiacal del Ascendente al Medio Cielo casi nunca es de 90°: se estira y se encoge toda la noche, y cuanto más lejos del ecuador se esté, al norte o al sur, más se desboca.</p><p>Esa misma inclinación hace que los signos salgan con ángulos distintos, de modo que cada uno tarda su propio <span class='term equ'>tiempo de ascensión</span> <span class=\"gloss\" lang=\"en\">(ascensional time)</span> en atravesar el horizonte. Fuera del ecuador, un signo septentrional y el signo meridional opuesto nunca salen en el mismo tiempo: a 40° norte, Libra tarda aproximadamente el doble que Aries. Esta es la raíz del problema de la domificación, y ningún reparto en doce casas iguales se libra de él, salvo el de los propios signos, que son las casas de esta rueda.</p>",
       try:"Lleve la latitud a Reikiavik y deje girar la esfera. Observe cómo oscila la cifra de ASC a MC: ahí tiene todo el debate sobre las casas, ante sus ojos." }
   ];
 
   STEP_TX.fr = [
     { t:"Un point au centre de tout",
       b:"<p>Un thème astrologique se dresse depuis un seul lieu de la terre, et depuis ce lieu la terre n'est pas un globe sur lequel on se tient : elle est un <em>point</em>. La sphère, c'est le ciel. Lui tourne ; vous, non.</p><p>Le disque plat est l'<span class='term'>horizon</span>, qui s'étend dans toutes les directions jusqu'au bord de l'univers. Tout ce qui est au-dessus est au-dessus de la terre ; tout ce qui est en dessous, au-dessous. Pour l'instant, c'est tout.</p>",
-      try:"Faites glisser la sphère pour la tourner. Vous voyez l'univers du dehors, mais chaque mesure que vous allez rencontrer se prend depuis le point du centre." },
+      try:"Faites glisser la sphère pour la tourner ; sur un écran tactile, faites-la glisser de côté, ou utilisez les flèches de son coin pour la tourner et l'incliner. Vous voyez l'univers du dehors, mais chaque mesure que vous allez rencontrer se prend depuis le point du centre." },
     { t:"Trois grands cercles, six directions",
       b:"<p>Tenez-vous au centre, face au sud. Dressé à la verticale par le nord et le sud, voici le <span class='term'>méridien</span> <span class=\"gloss\" lang=\"en\">(meridian)</span> ; le croisant d'est en ouest, le <span class='term'>premier vertical</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, le moins important des trois. Chacun est un <em>grand cercle</em> <span class=\"gloss\" lang=\"en\">(great circle)</span> : son centre est le centre de l'univers.</p><p>Leurs intersections donnent six directions : est, sud, ouest, nord, le <span class='term'>zénith</span> au-dessus et le <span class='term'>nadir</span> au-dessous. Voilà le <span class='term'>repère horizontal</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, et il ne bouge jamais. C'est la seule chose fixe de tout l'appareil.</p>",
       try:"Déplacez le curseur de latitude. Ici rien ne frémit — où que vous soyez, vous êtes sur un horizon traversé d'un méridien." },
@@ -1737,7 +1795,7 @@
       b:"<p>Le troisième repère se bâtit pareillement sur un troisième grand cercle : l'<span class='term ecl'>écliptique</span> <span class=\"gloss\" lang=\"en\">(ecliptic)</span>, la ligne que parcourt le Soleil. Comptez 360° autour de lui pour la <span class='term ecl'>longitude</span>, à partir de 0° du Bélier, et vers le haut ou le bas pour la <span class='term ecl'>latitude</span>.</p><p>Le Soleil y est toujours exactement, à 0° de latitude — l'écliptique est <em>défini</em> par lui. Les autres planètes errent un peu au nord et au sud, dans une bande censée s'étendre à 8° de part et d'autre de l'écliptique, ombrée ici ; Vénus peut en sortir un peu. Cette bande est le zodiaque <span class=\"gloss\" lang=\"en\">(zodiac)</span> proprement dit.</p>",
       try:"Dans les textes traditionnels, « longitude » et « latitude » tout court désignent ce repère, sauf quand le texte parle expressément du lieu terrestre du thème. Déplacez le Soleil : il ne quitte pas la ligne." },
     { t:"L'obliquité : l'inclinaison qui gâche tout",
-      b:"<p>L'écliptique est soudé au repère équatorial et tourne avec lui — mais son pôle penche de 23° 26′ par rapport au pôle équatorial. Cette inclinaison est l'<span class='term ecl'>obliquité de l'écliptique</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, et presque toutes les difficultés de l'astrologie en découlent.</p><p>Longitude et ascension droite se comptent depuis le même départ : 0° du Bélier sur les 0° d'AD de l'équateur. Pourtant, l'écliptique étant incliné, les deux échelles ne s'accordent qu'en quatre points : 0° du Bélier, du Cancer, de la Balance et du Capricorne. Partout ailleurs, elles divergent : le degré de l'écliptique situé à 30° d'AD a environ 32° 11′ de longitude, quelque 2° dans le Taureau, tandis que 0° du Taureau lui-même se trouve à environ 27° 55′ d'AD.</p>",
+      b:"<p>L'écliptique est soudé au repère équatorial et tourne avec lui — mais son pôle penche de 23° 26′ par rapport au pôle équatorial. Cette inclinaison est l'<span class='term ecl'>obliquité de l'écliptique</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, et presque toutes les difficultés de l'astrologie en découlent. Elle varie lentement, d'environ 47″ par siècle à notre époque, si bien que les valeurs des leçons diffèrent un peu selon leur date.</p><p>Longitude et ascension droite se comptent depuis le même départ : 0° du Bélier sur les 0° d'AD de l'équateur. Pourtant, l'écliptique étant incliné, les deux échelles ne s'accordent qu'en quatre points : 0° du Bélier, du Cancer, de la Balance et du Capricorne. Partout ailleurs, elles divergent : le degré de l'écliptique situé à 30° d'AD a environ 32° 11′ de longitude, quelque 2° dans le Taureau, tandis que 0° du Taureau lui-même se trouve à environ 27° 55′ d'AD.</p>",
       try:"Ouvrez Calques et montez l'obliquité à 45°, puis descendez-la à 0°. À zéro, l'écliptique repose à plat sur l'équateur et toute difficulté de cette leçon s'évanouit." },
     { t:"Les trois repères, et les degrés axiaux",
       b:"<p>Réunissez les trois. On peut maintenant définir les quatre <span class='term'>degrés axiaux</span> <span class=\"gloss\" lang=\"en\">(axial degrees)</span>, et chacun se définit par un <em>croisement</em> : le degré du zodiaque sur l'horizon oriental est l'<span class='term'>Ascendant</span> ; sur l'occidental, le <span class='term'>Descendant</span> ; au méridien supérieur, le <span class='term'>Milieu du Ciel</span> <span class=\"gloss\" lang=\"en\">(Midheaven)</span> ; à l'inférieur, le <span class='term'>Fond du Ciel</span> (FC) <span class=\"gloss\" lang=\"en\">(Imum Coeli, IC)</span>.</p><p>Ils n'appartiennent à aucun repère unique. Ils sont le repère écliptique lu sur le repère horizontal, sous un angle que fixe le repère équatorial — d'où leur conduite si déroutante.</p>",
@@ -1751,7 +1809,7 @@
   STEP_TX.de = [
     { t:"Ein Punkt in der Mitte von allem",
       b:"<p>Ein astrologisches Horoskop wird von einem einzigen Ort der Erde aus gestellt, und von diesem Ort aus ist die Erde keine Kugel, auf der man steht — sie ist ein <em>Punkt</em>. Der Himmel ist die Sphäre. Er dreht sich; Sie nicht.</p><p>Die flache Scheibe ist der <span class='term'>Horizont</span>, der sich nach allen Seiten bis an den Rand des Weltalls erstreckt. Alles darüber ist über der Erde, alles darunter unter der Erde. Das ist vorerst alles.</p>",
-      try:"Ziehen Sie die Sphäre, um sie zu drehen. Sie sehen das Weltall von außen — doch jede Messung, die nun folgt, wird vom Punkt in der Mitte aus vorgenommen." },
+      try:"Ziehen Sie die Sphäre, um sie zu drehen; auf einem Touchscreen ziehen Sie seitwärts oder nutzen die Pfeile in ihrer Ecke, um sie zu drehen und zu kippen. Sie sehen das Weltall von außen — doch jede Messung, die nun folgt, wird vom Punkt in der Mitte aus vorgenommen." },
     { t:"Drei Großkreise, sechs Richtungen",
       b:"<p>Stellen Sie sich in die Mitte, das Gesicht nach Süden. Senkrecht durch Nord und Süd steigt der <span class='term'>Meridian</span> auf; quer dazu, von Ost nach West, verläuft der <span class='term'>Erste Vertikal</span> <span class=\"gloss\" lang=\"en\">(prime vertical)</span>, der unwichtigste der drei. Jeder ist ein <em>Großkreis</em> <span class=\"gloss\" lang=\"en\">(great circle)</span>: Sein Mittelpunkt ist der Mittelpunkt des Weltalls.</p><p>Ihre Schnittpunkte ergeben sechs Richtungen: Ost, Süd, West, Nord, den <span class='term'>Zenit</span> über und den <span class='term'>Nadir</span> unter Ihnen. Das ist das <span class='term'>Horizontsystem</span> <span class=\"gloss\" lang=\"en\">(horizonal frame)</span>, und es bewegt sich nie. Es ist das einzig Feste am ganzen Apparat.</p>",
       try:"Bewegen Sie den Breitenregler. Hier rührt sich nichts, nicht einmal ein Zucken — wo Sie auch stehen, Sie stehen auf einem Horizont, durch den ein Meridian läuft." },
@@ -1774,7 +1832,7 @@
       b:"<p>Das dritte System entsteht ebenso auf einem dritten Großkreis: der <span class='term ecl'>Ekliptik</span> <span class=\"gloss\" lang=\"en\">(ecliptic)</span>, der Bahn, auf der die Sonne wandert. Zählen Sie 360° um sie herum für die <span class='term ecl'>Länge</span> <span class=\"gloss\" lang=\"en\">(longitude)</span>, beginnend bei 0° Widder, und hinauf oder hinab für die <span class='term ecl'>Breite</span> <span class=\"gloss\" lang=\"en\">(latitude)</span>.</p><p>Die Sonne liegt immer genau darauf, bei 0° Breite — die Ekliptik ist durch sie <em>definiert</em>. Die übrigen Planeten schweifen ein wenig nach Norden und Süden, in einem Band, das nach überliefertem Verständnis 8° zu jeder Seite der Ekliptik reicht und hier schattiert ist; die Venus kann ein wenig darüber hinausgehen. Dieses Band ist der eigentliche Tierkreis <span class=\"gloss\" lang=\"en\">(zodiac)</span>.</p>",
       try:"In den überlieferten Texten meinen „Länge“ und „Breite“ ohne Zusatz dieses System, es sei denn, der Text spricht ausdrücklich vom Ort des Horoskops auf der Erde. Verschieben Sie die Sonne und sehen Sie, wie sie an der Linie haften bleibt." },
     { t:"Die Schiefe, die alles verdirbt",
-      b:"<p>Die Ekliptik ist am Äquatorsystem festgemacht und dreht sich mit ihm — doch ihr Pol neigt sich 23° 26′ vom Äquatorpol fort. Diese Neigung ist die <span class='term ecl'>Schiefe der Ekliptik</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, und fast jede Umständlichkeit der Astrologie geht auf sie zurück.</p><p>Länge und Rektaszension werden vom selben Ausgangspunkt gezählt: 0° Widder auf 0° Rektaszension des Äquators. Weil die Ekliptik aber schief steht, stimmen beide Skalen nur an vier Stellen überein: 0° Widder, Krebs, Waage und Steinbock. Überall sonst gehen sie auseinander: Der Grad der Ekliptik bei 30° Rektaszension hat etwa 32° 11′ Länge, rund 2° im Stier, während 0° Stier selbst bei etwa 27° 55′ Rektaszension steht.</p>",
+      b:"<p>Die Ekliptik ist am Äquatorsystem festgemacht und dreht sich mit ihm — doch ihr Pol neigt sich 23° 26′ vom Äquatorpol fort. Diese Neigung ist die <span class='term ecl'>Schiefe der Ekliptik</span> <span class=\"gloss\" lang=\"en\">(obliquity of the ecliptic)</span>, und fast jede Umständlichkeit der Astrologie geht auf sie zurück. Sie ändert sich langsam, derzeit um etwa 47″ pro Jahrhundert, daher weichen die Werte der Lektionen je nach Datum leicht voneinander ab.</p><p>Länge und Rektaszension werden vom selben Ausgangspunkt gezählt: 0° Widder auf 0° Rektaszension des Äquators. Weil die Ekliptik aber schief steht, stimmen beide Skalen nur an vier Stellen überein: 0° Widder, Krebs, Waage und Steinbock. Überall sonst gehen sie auseinander: Der Grad der Ekliptik bei 30° Rektaszension hat etwa 32° 11′ Länge, rund 2° im Stier, während 0° Stier selbst bei etwa 27° 55′ Rektaszension steht.</p>",
       try:"Öffnen Sie den Reiter Ebenen und drehen Sie den Regler Schiefe auf 45° hoch, dann auf 0° herunter. Bei null liegt die Ekliptik flach auf dem Äquator, und jede Schwierigkeit dieser Lektion löst sich auf." },
     { t:"Alle drei Systeme und die Achsgrade",
       b:"<p>Legen Sie die drei zusammen. Nun lassen sich die vier <span class='term'>Achsgrade</span> <span class=\"gloss\" lang=\"en\">(axial degrees)</span> bestimmen, und jeder ist durch einen <em>Schnittpunkt</em> bestimmt: Der Tierkreisgrad am östlichen Horizont ist der <span class='term'>Aszendent</span> <span class=\"gloss\" lang=\"en\">(Ascendant, ASC)</span>; am westlichen der <span class='term'>Deszendent</span> <span class=\"gloss\" lang=\"en\">(Descendant, DESC)</span>; am oberen Meridian das <span class='term'>Medium Coeli</span> <span class=\"gloss\" lang=\"en\">(Midheaven, MC)</span>; am unteren das <span class='term'>Imum Coeli</span>.</p><p>Sie gehören keinem einzelnen System an. Sie sind das Ekliptiksystem, abgelesen am Horizontsystem, unter einem Winkel, den das Äquatorsystem vorgibt — und genau darum verhalten sie sich so eigensinnig.</p>",
@@ -1788,7 +1846,7 @@
   STEP_TX.zh = [
     { t:"万物中心的一个点",
       b:"<p>星盘是从地球上某一个地点起出来的；而从那个地点看去，大地并不是你脚下的球体，它只是一个<em>点</em>。诸天才是那个球。转动的是它，不是你。</p><p>那片平面的圆盘就是<span class='term'>地平圈</span>，向四面八方一直伸展到宇宙的尽头。凡在其上者为地平之上，凡在其下者为地平之下。眼下，就只有这些。</p>",
-      try:"拖动天球即可转动它。你是从外面看这个宇宙的；但接下来的每一次测量，都是从正中心那个点量出去的。" },
+      try:"拖动天球即可转动它；在触摸屏上请横向拖动，或用角落里的箭头来转动和倾斜它。你是从外面看这个宇宙的；但接下来的每一次测量，都是从正中心那个点量出去的。" },
     { t:"三个大圆，六个方向",
       b:"<p>站在中心，面向南方。穿过正北与正南垂直立起的是<span class='term'>子午圈</span><span class=\"gloss\" lang=\"en\">（meridian）</span>；东西向横穿它的是<span class='term'>卯酉圈</span><span class=\"gloss\" lang=\"en\">（prime vertical）</span>，三者之中最次要的一个。每一个都是<em>大圆</em><span class=\"gloss\" lang=\"en\">（great circle）</span>——圆心即宇宙的中心。</p><p>它们相交，给出六个方向：东、南、西、北，头顶的<span class='term'>天顶</span><span class=\"gloss\" lang=\"en\">（zenith）</span>与脚下的<span class='term'>天底</span><span class=\"gloss\" lang=\"en\">（nadir）</span>。这便是<span class='term'>地平坐标系</span><span class=\"gloss\" lang=\"en\">（horizonal frame）</span>，它永远不动，是整套装置里唯一固定的东西。</p>",
       try:"拖动纬度滑块。这里纹丝不动——无论你站在哪里，脚下总有一个地平圈，头顶总有一条子午圈穿过。" },
@@ -1811,7 +1869,7 @@
       b:"<p>第三套坐标系建在第三个大圆上，造法相同：<span class='term ecl'>黄道</span><span class=\"gloss\" lang=\"en\">（ecliptic）</span>，太阳行走的那条线。绕它数 360° 得<span class='term ecl'>黄经</span><span class=\"gloss\" lang=\"en\">（longitude）</span>，自白羊座 0° 起算；上下各数则得<span class='term ecl'>黄纬</span><span class=\"gloss\" lang=\"en\">（latitude）</span>。</p><p>太阳永远精确地落在这条线上，黄纬为 0°——黄道本就是由它<em>定义</em>的。其余行星则南北略有游移，行于一条按传统理解在黄道南北各延伸 8° 的带子之中，即此处着色的部分；金星偶尔会稍稍越出。这条带子才是严格意义上的黄道带<span class=\"gloss\" lang=\"en\">（zodiac）</span>。</p>",
       try:"在传统文献里，单说“经度”“纬度”指的是这套坐标系，除非文中明确在谈星盘在地球上的地点。移动太阳，看它如何寸步不离那条线。" },
     { t:"黄赤交角：毁掉一切的那点倾斜",
-      b:"<p>黄道像是粘死在赤道坐标系上，随之同转——但它的极偏离赤道极足足 23° 26′。这点倾斜就是<span class='term ecl'>黄赤交角</span><span class=\"gloss\" lang=\"en\">（obliquity of the ecliptic）</span>，而占星学里几乎每一处别扭，都由此而来。</p><p>黄经与赤经本是同一起点：白羊座 0° 位于赤道的赤经 0° 处。然而黄道既然是斜的，两把尺子就只在四处刻度相合：白羊座、巨蟹座、天秤座、摩羯座各自的 0°。此外处处不合：位于赤经 30° 的那一度黄道，黄经约为 32° 11′，已进入金牛座约 2°；而金牛座 0° 本身只在赤经约 27° 55′ 处。</p>",
+      b:"<p>黄道像是粘死在赤道坐标系上，随之同转——但它的极偏离赤道极足足 23° 26′。这点倾斜就是<span class='term ecl'>黄赤交角</span><span class=\"gloss\" lang=\"en\">（obliquity of the ecliptic）</span>，而占星学里几乎每一处别扭，都由此而来。它在缓慢变化，目前每世纪约变 47″，所以课程中的数值因日期不同而略有出入。</p><p>黄经与赤经本是同一起点：白羊座 0° 位于赤道的赤经 0° 处。然而黄道既然是斜的，两把尺子就只在四处刻度相合：白羊座、巨蟹座、天秤座、摩羯座各自的 0°。此外处处不合：位于赤经 30° 的那一度黄道，黄经约为 32° 11′，已进入金牛座约 2°；而金牛座 0° 本身只在赤经约 27° 55′ 处。</p>",
       try:"打开“图层”，把黄赤交角调到 45°，再调到 0°。归零时，黄道平平贴在赤道上，本课中的一切麻烦也随之烟消云散。" },
     { t:"三系合一，与轴点度数",
       b:"<p>把三套坐标系叠在一起。现在可以定义四个<span class='term'>轴点度数</span><span class=\"gloss\" lang=\"en\">（axial degrees）</span>了，而每一个都由一次<em>相交</em>所定：东地平上的那一度黄道，是<span class='term'>上升点</span><span class=\"gloss\" lang=\"en\">（Ascendant）</span>；西地平上的，是<span class='term'>下降点</span><span class=\"gloss\" lang=\"en\">（Descendant）</span>；上子午圈上的，是<span class='term'>中天</span><span class=\"gloss\" lang=\"en\">（Midheaven）</span>；下子午圈上的，是<span class='term'>下中天</span><span class=\"gloss\" lang=\"en\">（Imum Coeli, IC）</span>，星盘软件中多标作“天底”。</p><p>它们不属于任何单独一套坐标系。它们是黄道坐标系在地平坐标系上的读数，而读取的角度由赤道坐标系决定——它们之所以行为古怪，缘由正在于此。</p>",
@@ -1824,7 +1882,7 @@
   STEP_TX.ja = [
     { t:"すべての中心にある一点",
       b:"<p>チャートは地上のただ一点から立てられます。そしてその一点から見るとき、地球は自分が立っている球体ではなく、ひとつの<em>点</em>にすぎません。球をなしているのは天のほうです。めぐるのは天で、あなたではありません。</p><p>この平らな円盤が<span class='term'>地平圏</span>で、あらゆる方角へ宇宙の果てまで広がっています。その上にあるものはすべて地上に、下にあるものはすべて地下にあります。いまのところ、それだけです。</p>",
-      try:"天球をドラッグすると回せます。あなたは宇宙を外側から眺めていますが、これから出てくる測定はすべて、中心の点から測られたものです。" },
+      try:"天球をドラッグすると回せます。タッチ画面では横にドラッグするか、隅の矢印ボタンで回したり傾けたりしてください。あなたは宇宙を外側から眺めていますが、これから出てくる測定はすべて、中心の点から測られたものです。" },
     { t:"三つの大円、六つの方向",
       b:"<p>中心に立ち、南を向いてください。北と南を通って垂直に立ち上がるのが<span class='term'>子午圏</span><span class=\"gloss\" lang=\"en\">（meridian）</span>、それを東西に横切るのが<span class='term'>卯酉圏</span><span class=\"gloss\" lang=\"en\">（prime vertical）</span>で、三つのうち最も出番の少ない円です。いずれも<em>大円</em><span class=\"gloss\" lang=\"en\">（great circle）</span>——その中心は宇宙の中心です。</p><p>交点から六つの方向が生まれます。東・南・西・北、頭上の<span class='term'>天頂</span><span class=\"gloss\" lang=\"en\">（zenith）</span>、足下の<span class='term'>天底</span><span class=\"gloss\" lang=\"en\">（nadir）</span>。これが<span class='term'>地平座標系</span><span class=\"gloss\" lang=\"en\">（horizonal frame）</span>で、これだけは決して動きません。この装置全体のなかで唯一動かないものです。</p>",
       try:"緯度スライダーを動かしてみてください。ここは微動だにしません——どこに立とうと、足下には地平圏があり、そこに子午圏が通っています。" },
@@ -1847,7 +1905,7 @@
       b:"<p>三つめの座標系も同じ作りで、三つめの大円の上に立ちます。<span class='term ecl'>黄道</span><span class=\"gloss\" lang=\"en\">（ecliptic）</span>——太陽が進む線です。これを 360° 数えたものが<span class='term ecl'>黄経</span><span class=\"gloss\" lang=\"en\">（longitude）</span>で、牡羊座 0° から始まります。上下に数えたものが<span class='term ecl'>黄緯</span><span class=\"gloss\" lang=\"en\">（latitude）</span>です。</p><p>太陽はつねにこの線のちょうど上、黄緯 0° にあります。黄道はそもそも太陽によって<em>定義</em>されているのです。他の惑星は南北に少しさまよい、黄道の南北 8° まで広がるとされる帯（ここで陰をつけた部分）の中を進みます。金星はわずかにはみ出すこともあります。この帯こそが本来の獣帯<span class=\"gloss\" lang=\"en\">（zodiac）</span>です。</p>",
       try:"伝統的な文献で単に「経度」「緯度」といえば、この座標系のことです。ただし、チャートの地上の場所をはっきり話題にしている場合は別です。太陽を動かして、線から離れないさまを見てください。" },
     { t:"黄道傾斜：すべてを狂わせる傾き",
-      b:"<p>黄道は赤道座標系に溶接されたように固定され、ともに回ります——が、その極は赤道の極から 23° 26′ だけ傾いています。この傾きが<span class='term ecl'>黄道傾斜角</span><span class=\"gloss\" lang=\"en\">（obliquity of the ecliptic）</span>であり、占星術の厄介ごとのほとんどは、ここから流れ出してきます。</p><p>黄経と赤経は同じ起点から数えられます。赤道の赤経 0° にある牡羊座 0° です。それでも黄道が傾いているために、二つの目盛りが一致するのは四か所だけ——牡羊座・蟹座・天秤座・山羊座の各 0° です。それ以外では両者はずれます。赤経 30° にある黄道の度は黄経でおよそ 32° 11′、牡牛座に 2° ほど入ったところです。一方、牡牛座 0° そのものは赤経およそ 27° 55′ にあります。</p>",
+      b:"<p>黄道は赤道座標系に溶接されたように固定され、ともに回ります——が、その極は赤道の極から 23° 26′ だけ傾いています。この傾きが<span class='term ecl'>黄道傾斜角</span><span class=\"gloss\" lang=\"en\">（obliquity of the ecliptic）</span>であり、占星術の厄介ごとのほとんどは、ここから流れ出してきます。この角度はゆっくり変化しており（現在は一世紀におよそ 47″）、そのため講義に出てくる値も日付によって少しずつ異なります。</p><p>黄経と赤経は同じ起点から数えられます。赤道の赤経 0° にある牡羊座 0° です。それでも黄道が傾いているために、二つの目盛りが一致するのは四か所だけ——牡羊座・蟹座・天秤座・山羊座の各 0° です。それ以外では両者はずれます。赤経 30° にある黄道の度は黄経でおよそ 32° 11′、牡牛座に 2° ほど入ったところです。一方、牡牛座 0° そのものは赤経およそ 27° 55′ にあります。</p>",
       try:"「レイヤー」を開き、「黄道傾斜角」スライダーを 45° まで上げ、次に 0° まで下げてみてください。ゼロでは黄道が赤道の上に平らに重なり、この課の難しさはすべて消えてしまいます。" },
     { t:"三つの座標系と、四つの軸の度数",
       b:"<p>三つを重ねます。これで四つの<span class='term'>軸の度数</span><span class=\"gloss\" lang=\"en\">（axial degrees）</span>を定義できます。いずれも<em>交点</em>によって定まります。東の地平にかかる黄道の度が<span class='term'>アセンダント</span><span class=\"gloss\" lang=\"en\">（Ascendant）</span>、西の地平にかかる度が<span class='term'>ディセンダント</span><span class=\"gloss\" lang=\"en\">（Descendant, DESC）</span>、上の子午圏にかかる度が<span class='term'>中天</span><span class=\"gloss\" lang=\"en\">（Midheaven, MC）</span>、下の子午圏にかかる度が<span class='term'>イムム・コエリ</span><span class=\"gloss\" lang=\"en\">（Imum Coeli, IC）</span>です。</p><p>これらはどの座標系にも属しません。赤道座標系が決めた角度のもとで、黄道座標系を地平座標系に照らして読んだ値です——だからこそ、あれほど奇妙にふるまうのです。</p>",
@@ -1857,7 +1915,7 @@
       try:"緯度をレイキャビクにして、天球を回してみてください。ASC から MC までの数値が大きく揺れます——ハウス論争のすべてが、目の前で起きています。" }
   ];
 
-  var step = 0, playing = false;
+  var step = 0, playing = false, booted = false;
   function stepText(i){ var set = STEP_TX[LANG]; return (set && set[i]) ? set[i] : STEPS[i]; }
   function fill(tpl, args){ return tpl.replace(/%(\d)/g, function(m, n){ return args[n-1] != null ? String(args[n-1]) : m; }); }
   function stepLabel(i){ return fill(T("ui.pip"), [i+1, STEPS.length, stepText(i).t]); }
@@ -1905,6 +1963,7 @@
     syncToggles();
     paintChart(true);
     kick();
+    if(booted) describe(true);     // name the new step at once, spinning or not
   }
   function setLayers(on){
     ALL_ON.concat(["quadrants","starNames"]).forEach(function(k){
@@ -2014,9 +2073,17 @@
   document.getElementById("tabLayers").addEventListener("click", function(){ selectTab("Layers"); syncToggles(); });
   document.getElementById("tabChart").addEventListener("click", function(){ selectTab("Chart"); });
 
-  // ---- pointer, wheel and keys ---------------------------------------------
+  // ---- pointer, wheel, keys and the touch pad ----------------------------------
+  // turn and tilt by a fixed step: the arrow keys and the on-screen pad do the same as a drag
+  function stepCam(dir, a){
+    if(dir === "left") cam.tth += a;
+    else if(dir === "right") cam.tth -= a;
+    else if(dir === "up") cam.tph = clamp(cam.tph + a, 0.12, Math.PI-0.12);
+    else if(dir === "down") cam.tph = clamp(cam.tph - a, 0.12, Math.PI-0.12);
+    kick();
+  }
   (function(){
-    var ptrs = {}, nptr = 0, active = null, lx = 0, ly = 0, pinch = 0;
+    var ptrs = {}, nptr = 0, active = null, lx = 0, ly = 0, sx = 0, sy = 0, lock = "", pinch = 0;
     // below 980px the page scrolls, so a plain wheel scrolls it and ctrl+wheel (or a trackpad pinch) zooms
     var narrow = window.matchMedia("(max-width:980px)");
     view.addEventListener("pointerdown", function(e){
@@ -2025,11 +2092,20 @@
       if(!(e.target === view || (e.target.tagName && e.target.tagName.toUpperCase() === "CANVAS"))) return;
       if(!ptrs[e.pointerId]){ ptrs[e.pointerId] = true; nptr++; }
       active = nptr === 1 ? e.pointerId : null;
-      lx = e.clientX; ly = e.clientY; view.classList.add("dragging");
+      lx = sx = e.clientX; ly = sy = e.clientY; view.classList.add("dragging");
+      // a finger's direction is not known yet: wait before turning, and leave a vertical swipe to the page
+      lock = e.pointerType === "touch" ? "" : "turn";
       view.setPointerCapture && view.setPointerCapture(e.pointerId);
     });
     view.addEventListener("pointermove", function(e){
       if(active === null || e.pointerId !== active) return;
+      if(lock === ""){
+        var ddx = e.clientX - sx, ddy = e.clientY - sy;
+        if(Math.abs(ddx) + Math.abs(ddy) < 8) return;
+        if(Math.abs(ddy) > Math.abs(ddx)){ lock = "page"; return; }
+        lock = "turn"; lx = sx; ly = e.clientY;            // sideways: turn from where the finger started
+      }
+      if(lock !== "turn") return;
       cam.tth -= (e.clientX - lx)*0.006;
       cam.tph = clamp(cam.tph - (e.clientY - ly)*0.006, 0.12, Math.PI-0.12);
       lx = e.clientX; ly = e.clientY;
@@ -2060,18 +2136,22 @@
     }, { passive:false });
     view.addEventListener("touchend", function(){ pinch = 0; });
     // arrow keys turn the view as a drag would; + and − zoom
+    var KEYDIR = { ArrowLeft:"left", ArrowRight:"right", ArrowUp:"up", ArrowDown:"down" };
     glc.addEventListener("keydown", function(e){
       if(e.altKey || e.ctrlKey || e.metaKey) return;
-      var k = e.key, a = 0.1;
-      if(k === "ArrowLeft") cam.tth += a;
-      else if(k === "ArrowRight") cam.tth -= a;
-      else if(k === "ArrowUp") cam.tph = clamp(cam.tph + a, 0.12, Math.PI-0.12);
-      else if(k === "ArrowDown") cam.tph = clamp(cam.tph - a, 0.12, Math.PI-0.12);
+      var k = e.key;
+      if(KEYDIR[k]) stepCam(KEYDIR[k], 0.1);
       else if(k === "+" || k === "=") cam.tr = clamp(cam.tr - 0.3, 1.7, 9);
       else if(k === "-" || k === "_" || k === "−") cam.tr = clamp(cam.tr + 0.3, 1.7, 9);
       else return;
       e.preventDefault();
       kick();
+    });
+    // the view is described afresh whenever it takes the focus
+    glc.addEventListener("focus", function(){ describe(false); });
+    // on touch screens, buttons in the view's corner turn and tilt it
+    Array.prototype.forEach.call(document.querySelectorAll("#camPad [data-cam]"), function(b){
+      b.addEventListener("click", function(){ stepCam(b.getAttribute("data-cam"), 0.15); });
     });
   })();
 
@@ -2084,6 +2164,67 @@
     kick();
   }
   if(window.ResizeObserver){ new ResizeObserver(resize).observe(view); } else { window.addEventListener("resize", resize); }
+  // the wheels' lettering is sized to the wheel as displayed
+  window.addEventListener("resize", function(){ paintChart(true); });
+
+  // ---- labels that turn with the sky keep clear of the others --------------------
+  // The cardinal points, zenith, nadir and the horizon frame's names stand still in a
+  // given view. The Sun's label, the poles, the RA figures and the equator's name turn
+  // with the sky, so before each frame any of these whose box would meet another label's
+  // is moved aside, in screen space (by its sprite's anchor), to the nearest free place.
+  var FIXED_LBLS = null, MOVING_LBLS = null, _lv = new THREE.Vector3(), _lc = new THREE.Vector3();
+  var NUDGES = [[0,0]];
+  [0.7, 1.1, 1.6, 2.2].forEach(function(m){
+    [[0,-1],[0,1],[1,0],[-1,0],[1,-1],[-1,-1],[1,1],[-1,1]].forEach(function(d){ NUDGES.push([d[0]*m, d[1]*m]); });
+  });
+  function shown(o){ for(; o; o = o.parent) if(!o.visible) return false; return true; }
+  function screenBox(sp, W, H, tanH){
+    sp.getWorldPosition(_lv);
+    _lc.copy(_lv).applyMatrix4(camera.matrixWorldInverse);
+    var depth = -_lc.z; if(depth <= 0) return null;
+    var ppw = H/(2*depth*tanH);
+    _lv.project(camera);
+    var x = (_lv.x+1)/2*W, y = (1-_lv.y)/2*H, w = sp.scale.x*ppw, h = sp.scale.y*ppw, k = sp.userData.ink || [0,0,1,1];
+    return { x0:x-w/2+k[0]*w, y0:y-h/2+k[1]*h, x1:x-w/2+k[2]*w, y1:y-h/2+k[3]*h, w:w, h:h };
+  }
+  function layoutLabels(){
+    if(!FIXED_LBLS){
+      FIXED_LBLS = LABELS.filter(function(sp){ return /^lbl\.(N|E|S|W|zenith|nadir|meridian|pv|q[eswn])$/.test(sp.userData.i18n.key); });
+      MOVING_LBLS = [L.sunLabel, L.npoleLbl, L.spoleLbl].concat(RA_LBLS, [L.equatorLbl]);
+    }
+    var W = view.clientWidth, H = view.clientHeight, G = 3;
+    if(!W || !H) return;
+    camera.updateMatrixWorld();
+    var tanH = Math.tan(camera.fov*D2R/2), placed = [];
+    function cost(b){
+      var c = 0;
+      for(var i=0;i<placed.length;i++){
+        var p = placed[i], ox = Math.min(b.x1, p.x1) - Math.max(b.x0, p.x0) + G, oy = Math.min(b.y1, p.y1) - Math.max(b.y0, p.y0) + G;
+        if(ox > 0 && oy > 0) c += ox*oy;
+      }
+      var ex = Math.max(0, -b.x0) + Math.max(0, b.x1 - W), ey = Math.max(0, -b.y0) + Math.max(0, b.y1 - H);
+      return c + 50*(ex + ey);
+    }
+    FIXED_LBLS.forEach(function(sp){ if(shown(sp)){ var b = screenBox(sp, W, H, tanH); if(b) placed.push(b); } });
+    MOVING_LBLS.forEach(function(sp){
+      if(!shown(sp)) return;
+      var base = screenBox(sp, W, H, tanH); if(!base) return;
+      var bw = base.x1 - base.x0, bh = base.y1 - base.y0, prev = sp.userData.nudge || 0;
+      var order = [0]; if(prev) order.push(prev);
+      for(var i=1;i<NUDGES.length;i++) if(i !== prev) order.push(i);
+      var best = 0, bestBox = base, bestCost = Infinity;
+      for(var j=0;j<order.length;j++){
+        var n = NUDGES[order[j]], dx = n[0]*(bw*0.6 + G), dy = n[1]*(bh + G);
+        var b = { x0:base.x0+dx, x1:base.x1+dx, y0:base.y0+dy, y1:base.y1+dy, dx:dx, dy:dy };
+        var c = cost(b);
+        if(c < bestCost){ bestCost = c; best = order[j]; bestBox = b; }
+        if(c === 0) break;
+      }
+      sp.userData.nudge = best;
+      sp.center.set(0.5 - (bestBox.dx||0)/base.w, 0.5 + (bestBox.dy||0)/base.h);
+      placed.push(bestBox);
+    });
+  }
 
   // ---- loop: frames run only while something moves --------------------------
   var rafId = 0, prevT = 0;
@@ -2108,27 +2249,41 @@
 
     txt("latOut", dec(Math.abs(S.lat).toFixed(1))+"° "+(S.lat<0?"S":"N"));
     txt("lstOut", fmtHours(S.lst));
-    txt("oblOut", fmtDMS(S.obl));          // the exact value in force, to the second
+    txt("oblOut", fmtDMS(S.obl)+(S.obl === OBL_TRUE ? " (J2000)" : ""));   // the exact value in force, to the second
     txt("sunOut", fmtZod(S.sunLon));
 
     update();
+    layoutLabels();
     renderer.render(scene, camera);
-    describeLater();
+    describeLater(playing || moving);
     if((playing || moving) && !rafId) rafId = requestAnimationFrame(frame);
   }
 
-  // ---- a short spoken description of the view, once it comes to rest --------
-  var descTimer = 0;
-  function describeLater(){
-    clearTimeout(descTimer);
-    if(!playing) descTimer = setTimeout(describe, 600);
+  // ---- a short description of the view ----------------------------------------
+  // #sceneDesc, read with the view, always names the current step and state: it is
+  // rewritten at once on every change, on a change of step and when the view takes the
+  // focus, and quietly once a second while the sphere turns (the time changes every frame).
+  // #sceneLive speaks it aloud, but only on a change of step and when the view has been
+  // at rest for a moment (so stepping a slider by keyboard is not read out at every press).
+  var descTimer = 0, descQuiet = 0, lastSaid = "";
+  function describeText(){
+    var h = probeHor, m = Math.round(norm360(S.lst)/15*60) % 1440;
+    return fill(T("a11y.state"), [
+      fill(T(S.lat < 0 ? "a11y.latS" : "a11y.latN"), [dec(Math.abs(S.lat).toFixed(1))]),
+      fill(T("a11y.time"), [pad(Math.floor(m/60),2), pad(m % 60,2)]),
+      stepLabel(step), probeLabel(S.probe), fmtAz(h.az), fmtDeg(h.alt,1), T(quadrantName(h.az, h.alt))
+    ]);
   }
-  function describe(){
-    var h = probeHor;
-    txt("sceneDesc", fill(T("a11y.state"), [
-      dec(Math.abs(S.lat).toFixed(1))+"° "+(S.lat<0?"S":"N"), fmtHours(S.lst), stepLabel(step),
-      probeLabel(S.probe), fmtAz(h.az), fmtDeg(h.alt,1), T(quadrantName(h.az, h.alt))
-    ]));
+  function describe(announce){
+    var s = describeText();
+    txt("sceneDesc", s);
+    if(announce && s !== lastSaid){ lastSaid = s; txt("sceneLive", s); }
+  }
+  function describeLater(inMotion){
+    clearTimeout(descTimer);
+    var now = performance.now();
+    if(!playing || now - descQuiet > 1000){ descQuiet = now; describe(false); }
+    if(!inMotion) descTimer = setTimeout(function(){ describe(true); }, 1200);
   }
 
 
@@ -2143,6 +2298,9 @@
 
     Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"), function(el){
       el.textContent = T(el.getAttribute("data-i18n"));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-aria]"), function(el){
+      el.setAttribute("aria-label", T(el.getAttribute("data-i18n-aria")));
     });
     document.getElementById("oblNote").textContent = T("layers.oblNote");
     document.getElementById("layersFoot").textContent = T("layers.foot");
@@ -2168,6 +2326,7 @@
     relabelAll();
     noteHtml = null;
     paintChart(true);
+    if(booted) describe(false);
     kick();
   }
   document.getElementById("langSel").addEventListener("change", function(e){ applyLang(e.target.value); });
@@ -2194,6 +2353,7 @@
   applyStep(0);
   applyLang(initialLang());
   document.getElementById("boot").hidden = true;
+  booted = true;
   kick();
 })();
 </script>

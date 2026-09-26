@@ -2420,7 +2420,7 @@ function buildRows(){
     const corr = h.corr ? ` + ${h.corr}°` : '';
     row('14', lab.ramc, fmtSec(rsec(h.ramc)), {say:say.ramc(M(fmtT(h.lst)+' × 15 = '+fmtSec(rsec(h.ramc))))});
     row('15', lab.obl, fmtSec(h.oblSec), {say:say.obl(M(fmtSec(h.oblSec)))});
-    row('16', lab.arctan, `${fmtSigned(h.raw)}${corr}`, {say:say.arctan(M(fmtSigned(h.raw)), h.corr)});
+    row('16', lab.arctan, fmtSigned(h.raw), {say:say.arctan(M(fmtSigned(h.raw)), h.corr)});   // the correction is added once, in the next row
     row('', lab.mcDirect + small('16'+corr), fmtSec(h.mcD), {cls:'res', key:'direct', sub:signStr(h.mcD), say:say.mcDirect(M(signStr(h.mcD)), M(fmtGap(h.gapMc.tot)))});
     row('', lab.atTableObl(fmtSec(TOBL_SEC)), fmtSec(h.mcDT), {key:'directT', sub:signStr(h.mcDT), say:say.atTableObl(M(fmtSec(TOBL_SEC)), M(signStr(h.mcDT))) + SP() + gapText(h.gapMc)});
   } else {

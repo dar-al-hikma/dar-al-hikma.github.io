@@ -95,6 +95,9 @@
     display:flex;flex-direction:column;align-items:center;gap:18px;
   }
   .work.top{margin:0}
+  /* a line wider than the slate scrolls inside it, starting at its left edge; nothing is pushed off the page */
+  .work > *{max-width:100%;min-width:0}
+  .work .cols, .work .stair, .work .ringwrap{overflow-x:auto;overscroll-behavior-x:contain}
   .prob{
     font-family:var(--f-display);font-size:1.05rem;color:var(--muted);
     text-align:center;max-width:56ch;text-wrap:balance;
@@ -166,7 +169,7 @@
 
   /* narration */
   .say{
-    max-width:60ch;text-align:center;font-size:1.08rem;line-height:1.5;color:#D6D0C1;
+    max-width:min(60ch, 100%);text-align:center;font-size:1.08rem;line-height:1.5;color:#D6D0C1;
     min-height:2.4em;
   }
   .say.done{color:var(--verdigris)}
@@ -321,9 +324,15 @@
     .pane{padding-left:18px;padding-right:18px}
     .side{min-height:60vh}
   }
+  @media (max-width:980px) and (max-height:640px){ .rail{position:static} }
   @media (max-width:430px){
     .cols{grid-template-columns:auto repeat(3, minmax(56px, auto));font-size:1.15rem;column-gap:4px}
     .stair{font-size:1.05rem;column-gap:14px}
+    .stair{grid-template-columns:minmax(0,1fr);row-gap:0}
+    .stair .n{white-space:normal}
+    .stair .eq{white-space:nowrap}
+    .stair .w{white-space:normal;margin:0 0 .7em}
+    .say .mono{white-space:normal}
   }
   @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
 </style>
@@ -429,7 +438,7 @@
           <button class="btn primary" id="checkBtn" data-i18n="check">Check</button>
           <button class="btn" id="showBtn" data-i18n="showWorking">Show the working</button>
         </div>
-        <p class="fb" id="fb"></p>
+        <p class="fb" id="fb" role="status" aria-live="polite"></p>
         <div class="streak">
           <div><b data-i18n="right">Right</b><span id="stRight">0</span></div>
           <div><b data-i18n="streak">Streak</b><span id="stStreak">0</span></div>
@@ -442,7 +451,7 @@
           <summary data-i18n="ownSummary">Work a problem of mine</summary>
           <div class="own" id="ownWrap"></div>
           <div class="field"><button class="btn" id="ownBtn" data-i18n="workIt">Work it</button></div>
-          <p class="fb" id="ownFb"></p>
+          <p class="fb" id="ownFb" role="status" aria-live="polite"></p>
         </details>
       </div>
       <div class="foot">
@@ -503,9 +512,16 @@ function fmtHMS(x){ return `${pad2(x.d)}:${pad2(x.m)}:${pad2(x.s)}`; }
 function signOf(x){ const t = norm(toSec(x)); const i = Math.floor(t/(30*3600)); const r = fromSec(t - i*30*3600); return {i, r}; }
 function fmtSign(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} <span class="glyph">${SIGNS[i].g}</span>`; }
 function fmtSignText(x){ const {i,r} = signOf(x); return `${fmtDMS(r)} ${SIGNS[i].g}`; }
-function truncFixed(v, p){ const f = Math.pow(10,p); const t = Math.trunc(v*f + 1e-9)/f; let s = t.toFixed(p); s = s.replace(/0+$/,'').replace(/\.$/,''); return s; }
-function fracStr(v, p){ // ".43666" style fraction for staircase display
-  const s = truncFixed(v, p); return s.startsWith('0.') ? s.slice(1) : (s==='0' ? '.0' : s); }
+// exact decimals: a decimal keeps its digits, so every line of the working can be done by hand
+const numTxt = (w, f) => { const t = f.replace(/0+$/, ''); return t ? `${w}.${t}` : String(w); };   // 26.1996, 30
+const fracTxt = f => { const t = f.replace(/0+$/, ''); return t ? '.' + t : '.0'; };                   // .225, .0
+function times60(f){ // the fraction .f × 60, exactly: whole units and a fraction of the same length
+  const k = f.length; if (!k) return {w:0, f:''};
+  const n = BigInt(f) * 60n, K = 10n ** BigInt(k);
+  return {w: Number(n / K), f: (n % K).toString().padStart(k, '0')};
+}
+// whole seconds (of arc or time) as a decimal of degrees or hours, cut to p places, in integers
+const decOf = (sec, p) => numTxt(Math.floor(sec/3600), String(Math.floor(sec%3600 * 10**p / 3600)).padStart(p, '0'));
 
 // ---------- language ----------
 let LANG = 'en';
@@ -551,7 +567,7 @@ function subSteps(a, b, opts){ opts = opts || {}; const units = opts.units || ['
   const steps = []; const top = {d:a.d, m:a.m, s:a.s}; const hist = {d:[a.d], m:[a.m], s:[a.s]}; const res = {};
   if (wrap && toSec(a) < toSec(b)){
     top.d += 360; hist.d.push(top.d);
-    steps.push({col:'d', rev:{d:[...hist.d]}, note: T.subWrap(`${a.d}°`, `${b.d}°`, MONO(`${a.d}° + 360° = ${top.d}°`))});
+    steps.push({col:'d', rev:{d:[...hist.d]}, note: T.subWrap(fmtDMS(a), fmtDMS(b), MONO(`${a.d}° + 360° = ${top.d}°`))});
   }
   // seconds
   let borrowedS = false, emptyM = false;
@@ -579,26 +595,35 @@ function subSteps(a, b, opts){ opts = opts || {}; const units = opts.units || ['
 // DMS -> decimal
 function toDecSteps(x){
   const T = L().note;
-  const f1 = x.s/60; const m2 = x.m + f1; const f2 = m2/60; const dec = x.d + f2;
+  // five places, cut, in integers: 256° 01′ 21″ is 256.0225°, never 256.02249°
+  const five = n => String(n).padStart(5, '0'), ms = x.m*60 + x.s;
+  const f1 = FR(fracTxt(five(Math.floor(x.s*100000/60))));
+  const m2n = Math.floor(ms*100000/60), m2 = N(numTxt(Math.floor(m2n/100000), five(m2n%100000)));
+  const f2 = FR(fracTxt(five(Math.floor(ms*100000/3600))));
+  const decs = N(decOf(toSec(x), 5));
   const steps = [
-    {line:1, note: T.dec1(MONO(`${x.s} ÷ 60 = ${FR(fracStr(f1,5))}`))},
-    {line:2, note: T.dec2(MONO(`${x.m}′ + ${FR(fracStr(f1,5))} = ${N(truncFixed(m2,5))}′`))},
-    {line:3, note: T.dec3(MONO(`${N(truncFixed(m2,5))} ÷ 60 = ${FR(fracStr(f2,5))}`))},
-    {line:4, note: T.dec4(MONO(`${x.d}° + ${FR(fracStr(f2,5))} = ${N(truncFixed(dec,5))}°`))}
+    {line:1, note: T.dec1(MONO(`${x.s} ÷ 60 = ${f1}`))},
+    {line:2, note: T.dec2(MONO(`${x.m}′ + ${f1} = ${m2}′`))},
+    {line:3, note: T.dec3(MONO(`${m2} ÷ 60 = ${f2}`))},
+    {line:4, note: T.dec4(MONO(`${x.d}° + ${f2} = ${decs}°`))}
   ];
-  return {steps, result:dec, f1, m2, f2};
+  return {steps, result: x.d + ms/3600, f1, m2, f2, decs};
 }
 // decimal -> DMS
-function toDMSSteps(dec){
+function toDMSSteps(str){   // str: the decimal as written, "23.43666"
   const T = L().note;
-  const d = Math.floor(dec); const f1 = dec - d; const m2 = f1*60; const m = Math.floor(m2 + 1e-9); const f2 = m2 - m; const s2 = f2*60; let s = Math.round(s2);
-  let res = {d, m, s}; if (s===60){ res = fromSec(norm(toSec({d,m,s}))); }
+  const [iw, fr = ''] = str.split('.'); const d = Number(iw || 0);
+  const a = times60(fr), b = times60(a.f), m = a.w, k = b.f.length;
+  const s = b.w + (k && BigInt(b.f) * 2n >= 10n ** BigInt(k) ? 1 : 0);   // half a second or more rounds up, exactly
+  const f1 = FR(fracTxt(fr)), m2 = N(numTxt(a.w, a.f)), f2 = FR(fracTxt(a.f)), s2 = N(numTxt(b.w, b.f));
+  let res = {d, m, s}, wrap = false;
+  if (s === 60){ res = fromSec(toSec(res)); if (res.d >= 360){ res.d -= 360; wrap = true; } }
   const steps = [
-    {line:1, note: T.dms1(MONO(`${d}°`), MONO(FR(fracStr(f1,5))))},
-    {line:2, note: T.dms2(MONO(`${FR(fracStr(f1,5))} × 60 = ${N(truncFixed(m2,4))}′`))},
-    {line:3, note: T.dms3(MONO(`${m}′`), MONO(FR(fracStr(f2,4))))},
-    {line:4, note: T.dms4(MONO(`${FR(fracStr(f2,4))} × 60 = ${N(truncFixed(s2,3))}″`))},
-    {line:5, note: T.dms5(MONO(`${N(truncFixed(s2,3))}″ → ${s}″`), s===60, MONO(fmtDMS(res)))}
+    {line:1, note: T.dms1(MONO(`${d}°`), MONO(f1))},
+    {line:2, note: T.dms2(MONO(`${f1} × 60 = ${m2}′`))},
+    {line:3, note: T.dms3(MONO(`${m}′`), MONO(f2))},
+    {line:4, note: T.dms4(MONO(`${f2} × 60 = ${s2}″`))},
+    {line:5, note: T.dms5(MONO(`${s2}″ → ${s}″`), s===60 ? (m===59 ? 2 : 1) : 0, MONO(fmtDMS(res))) + (wrap ? (/^(zh|ja)$/.test(LANG) ? '' : ' ') + T.dmsWrap : '')}
   ];
   return {steps, result:res, d, f1, m2, m, f2, s2, s};
 }
@@ -661,13 +686,15 @@ function arcToTimeSteps(x){
   const mtot = rd*60 + x.m; const m = Math.floor(mtot/15), rm = mtot - m*15;
   const stot = rm*60 + x.s; const sExact = stot/15; const s = Math.round(sExact);
   let res = {d:h, m, s}; if (s===60) res = fromSec(toSec(res));
+  const carry = s===60 ? (m===59 ? 2 : 1) : 0;   // 60s is a minute; 60m is an hour
+  const sTxt = N(numTxt(Math.floor(stot/15), String(Math.floor(stot%15*100/15)).padStart(2, '0')));   // 48″ ÷ 15 = 3.2s
   const steps = [
     {k:1, note: T.time1(MONO(`${x.d}° ÷ 15 = ${h}h`), MONO(`${rd}°`))},
     {k:2, note: T.time2(MONO(`${rd}° = ${rd*60}′; ${rd*60}′ + ${x.m}′ = ${mtot}′`), MONO(`${mtot}′ ÷ 15 = ${m}m`), MONO(`${rm}′`))},
-    {k:3, note: T.time3(MONO(`${rm}′ = ${rm*60}″; ${rm*60}″ + ${x.s}″ = ${stot}″`), MONO(`${stot}″ ÷ 15 = ${N(truncFixed(sExact,2))}s`), Number.isInteger(sExact) ? null : `${s}s`)},
+    {k:3, note: T.time3(MONO(`${rm}′ = ${rm*60}″; ${rm*60}″ + ${x.s}″ = ${stot}″`), MONO(`${stot}″ ÷ 15 = ${sTxt}s`), Number.isInteger(sExact) ? null : `${s}s`, carry)},
     {k:4, note: T.time4(MONO(fmtDMS(x)), MONO(fmtHMS(res)))}
   ];
-  return {steps, result:res, h, rd, mtot, m, rm, stot, sExact, s};
+  return {steps, result:res, h, rd, mtot, m, rm, stot, sExact, s, sTxt};
 }
 /*@endcore*/
 
@@ -722,7 +749,7 @@ I18N.en = {
     whySixty: 'Why sixty',
     why1: 'The Babylonians counted in sixties, and every astronomer since has inherited it: a circle of 360°, a degree of 60 minutes, a minute of 60 seconds. Sixty divides evenly by 2, 3, 4, 5, 6, 10, 12, 15, 20 and 30, so fractions of a circle rarely leave a remainder. The zījes of Baghdad were written in this notation, in letters of the alphabet rather than numerals, and a chart drawn by hand today still is.',
     why2: 'You will not often add longitudes on a printed chart. But Lots are distances between two points, a table of houses is entered by sidereal time, and a longitude becomes a time correction only by dividing it by fifteen — and then the calculator comes out.',
-    foot1: `Follows Lesson 5, §2 and §6 of Ben Dykes' <em>Traditional Natal Astrology Course</em>. The examples in the walkthrough are his (Figures 1, 4 and 5, and the worksheet native born in Minneapolis).`,
+    foot1: `Follows Lesson 5, §2 and §6 of Ben Dykes' <em>Traditional Natal Astrology Course</em>. The walkthrough uses his examples: Figures 1, 3, 4 and 5, the subtraction 16° − 279° from §2, and the worksheet native born in Minneapolis. Step 3’s 371° is his; the two numbers that add up to it are ours.`,
     foot2: 'One file, no network. Fonts: EB Garamond, IBM Plex Mono and IBM Plex Sans Condensed, SIL Open Font License. Part of <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
     // input labels for screen readers
     degrees: 'degrees', minutes: 'minutes', seconds: 'seconds', hours: 'hours',
@@ -786,7 +813,7 @@ I18N.en = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Keep ${keep} and carry ${from} as ${to} into the degrees.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Less than 60, so it stays.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Under 360°, so this is the answer.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° is past the end of the circle. Counting starts over at 0° once you reach 360°, so subtract 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° is the whole circle' : `${sum}° is past the end of the circle`}. Counting starts over at 0° once you reach 360°, so subtract 360°: ${calc}.`,
     // subtraction. v carries the pieces, each already with its unit
     subWrap: (a, b, calc) => `${a} is smaller than ${b}, so the top line is smaller than the bottom. Add a full circle first: ${calc}. Now subtract as normal.`,
     subSecBorrow2: v => `${v.a} is less than ${v.b}, but the minutes column is empty and has nothing to lend. So borrow twice: first ${v.oneDeg} from the degrees as ${v.sixtyMin}, then ${v.oneMin} of those as ${v.sixtySec}. That leaves ${v.left}, and the seconds become ${v.top}. Then ${v.calc}.`,
@@ -805,7 +832,8 @@ I18N.en = {
     dms2: calc => `Multiply the fraction by 60 to turn it into minutes: ${calc}.`,
     dms3: (m, f) => `Set aside the whole minutes, ${m}, and keep the new fraction ${f}.`,
     dms4: calc => `Multiply that by 60 to turn it into seconds: ${calc}.`,
-    dms5: (calc, carry, ans) => `Round to the nearest second: ${calc}.${carry ? ' Sixty seconds is a full minute, so carry it.' : ''} The answer is ${ans}.`,
+    dms5: (calc, carry, ans) => `Round to the nearest second: ${calc}.${carry ? ' Sixty seconds is a full minute, so carry it.' : ''}${carry === 2 ? ' That makes sixty minutes, a full degree, so carry again.' : ''} The answer is ${ans}.`,
+    dmsWrap: 'The carry reaches 360°, the whole circle, which is 0° again.',
     // signs. i is the sign's index, 0 = Aries; sign is its glyph and name
     abs1: (sign, i, calc) => `${sign} is the ${I18N.en.ord[i]} sign, so ${i} full sign${i===1?'':'s'} of 30° come before it. Its first degree is ${calc} of absolute longitude.`,
     abs2: calc => `Add the degrees within the sign to the sign's starting degree: ${calc}.`,
@@ -822,7 +850,7 @@ I18N.en = {
     // arc into time
     time1: (calc, rem) => `Fifteen degrees make an hour. ${calc}, remainder ${rem}.`,
     time2: (conv, calc, rem) => `Turn the leftover degrees into minutes of arc and add the minutes: ${conv}. Then ${calc}, remainder ${rem}.`,
-    time3: (conv, calc, rounded) => `Turn the leftover minutes into seconds of arc and add the seconds: ${conv}. Then ${calc}${rounded ? `, rounded to ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Turn the leftover minutes into seconds of arc and add the seconds: ${conv}. Then ${calc}${rounded ? `, rounded to ${rounded}` : ''}.${carry ? ' Sixty seconds of time make a full minute, so carry it.' : ''}${carry === 2 ? ' That makes sixty minutes, a full hour, so carry again.' : ''}`,
     time4: (arc, time) => `So ${arc} of arc is ${time} of time.`
   },
 
@@ -836,18 +864,33 @@ I18N.en = {
     hmsH: 'The hours are off — degrees ÷ 15, keep the remainder for the minutes.',
     hmsM: 'The minutes are off — remember to turn the leftover degrees into 60′ each.',
     hmsS: 'The seconds are off — leftover minutes become 60″ each, then ÷ 15.',
-    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n} have passed.`,
+    wrongSign: n => `Right degree, wrong sign: count the full signs again — ${n == 0 ? 'none has' : n == 1 ? 'one has' : `${n} have`} passed.`,
     rightSign: 'Right sign — the degree is the remainder after dividing by 30, with minutes and seconds unchanged.',
     signHow: 'Divide the degrees by 30: the quotient counts signs passed, the remainder is the degree within the next.',
     backPast: 'You have gone backward past 0° Aries — add 360° to the top line first.',
-    circle: 'Off by a full circle: subtract 360° when the degrees pass 360.',
+    circle: 'Off by a full circle: subtract 360° once the degrees reach 360.',
     offBy: deg => `Off by ${deg}° — a sign's starting degree is wrong.`,
     secs: 'Only the seconds are off.',
     mins: 'The minutes are off — did you include the carry or the borrow from the seconds?',
     degs: 'The degrees are off — check the carry or borrow from the minutes.',
     oneUnit: 'Off by exactly one unit — a carry or a borrow was missed.',
     over60: 'A column is 60 or more — carry it leftward.',
-    notYet: 'Not yet. Step through the working on the slate to find the slip.'
+    notYet: 'Not yet. Step through the working on the slate to find the slip.',
+    empty: 'Write your answer in the boxes first.',
+    swapped: 'The subtraction runs the wrong way: take the bottom line from the top one.',
+    distCross: 'The count crosses 0° Aries — add 360° to the end point first.',
+    range: 'Degrees run from 0 to 359: 360° is the whole circle, which is 0° again.',
+    okRetry: 'Right — but not at the first try, so it does not count. Press N for another.',
+    decPlain: 'Write the decimal with digits and one point only, like 23.43666.',
+    minsOnly: 'Only the minutes are off.',
+    degsOnly: 'Only the degrees are off.',
+    offMin: 'Off by exactly one minute — go through each column again.',
+    offDeg: 'Off by exactly one degree — go through each column again.',
+    form: 'Write whole numbers, with minutes and seconds from 0 to 59.',
+    roundUp: 'One second short: the fraction is half a second or more, so round up.',
+    roundDown: 'One second over: the fraction is under half a second, so round down.',
+    already: 'Already counted. Press N for a new problem.',
+    okShown: 'Right — but the working was showing, so it does not count. Press N for another.'
   },
   own: {
     first: 'First', second: 'Second', from: 'From', subtract: 'Subtract', position: 'Position',
@@ -908,7 +951,7 @@ I18N.en = {
      try:`Reveal all. Then in Practice, at the <em>Gentle</em> level, do five of these until the sign's starting degrees come without thinking.`},
     {title:'Distance across 0° Aries',
      body:`<p>Sometimes you need the exact distance between two points in the zodiac, and all you know are their positions within their signs. Convert both to absolute longitude and subtract. Lots are calculated this way.</p>
-         <p>But if you are measuring from a position late in the zodiac to one that is early — here from late Aquarius forward to a degree in Aries — you cross the 0° Aries line. Add 360° to the end point first, then subtract as normal.</p>
+         <p>But if you are measuring from a position late in the zodiac to one that is early — here, as in the lesson’s Figure 3, from 17° Aquarius forward to 23° Aries — you cross the 0° Aries line. Add 360° to the end point first, then subtract as normal.</p>
          <p>If you're unsure, count forward in increments of 5° on a chart wheel to get close. If you're off by 30°, you've done something wrong.</p>`,
      try:`Step through and watch the brass arc on the ring cross the red Aries line. The subtraction underneath is the same column work as before.`},
     {title:'Time into arc',
@@ -919,7 +962,7 @@ I18N.en = {
     {title:'Arc into time',
      body:`<p>The reverse is needed for the longitude correction: a birthplace's longitude, divided by 15, is the difference between Greenwich sidereal time and local sidereal time.</p>
          <p>Minneapolis lies at 93° 15′ 48″ W. 93° ÷ 15 = 6h with 3° left over; 3° is 180′, plus 15′ is 195′, and 195′ ÷ 15 = 13m exactly; 48″ ÷ 15 = 3.2s. So the correction is 6h 13m 03s, subtracted because the city is west of Greenwich.</p>
-         <p>That is every calculation in §2 and the first worksheet of §6. The rest of the lesson is looking things up in tables — and this arithmetic, done carefully.</p>`,
+         <p>That covers the arithmetic of §2 and the conversions in the first worksheet of §6. The worksheet’s sums of hours, minutes and seconds follow the same column rules; its acceleration (9.86 seconds per hour) is a multiplication this page does not work. The rest of the lesson is looking things up in tables — and this arithmetic, done carefully.</p>`,
      try:`Reveal all. Then go to Practice and work each mode at the <em>Ordinary</em> level until you can do a run of five without a slip.`}
   ]
 };
@@ -968,7 +1011,7 @@ I18N.nb = {
     whySixty: 'Hvorfor seksti',
     why1: 'Babylonerne regnet i seksti, og alle astronomer siden har arvet det: en sirkel på 360°, en grad på 60 minutter, et minutt på 60 sekunder. Seksti går opp i 2, 3, 4, 5, 6, 10, 12, 15, 20 og 30, så brøkdeler av en sirkel etterlater sjelden en rest. Zījene fra Bagdad ble skrevet i denne notasjonen, med bokstaver i stedet for tallsifre, og et horoskop som tegnes for hånd i dag, skrives fortsatt slik.',
     why2: 'Du kommer ikke ofte til å legge sammen lengder på et trykt horoskop. Men lodd er avstander mellom to punkter, en hustabell slås opp etter stjernetid, og en lengde blir en tidskorreksjon bare ved å deles på femten — og da kommer kalkulatoren fram.',
-    foot1: `Følger leksjon 5, §2 og §6 i Ben Dykes' <em>Traditional Natal Astrology Course</em>. Eksemplene i gjennomgangen er hans (figur 1, 4 og 5, og personen i arbeidsarket, født i Minneapolis).`,
+    foot1: `Følger leksjon 5, §2 og §6 i Ben Dykes' <em>Traditional Natal Astrology Course</em>. Gjennomgangen bruker eksemplene hans: figur 1, 3, 4 og 5, subtraksjonen 16° − 279° fra §2 og personen i arbeidsarket, født i Minneapolis. De 371° i trinn 3 er hans; de to tallene som til sammen blir 371°, er våre.`,
     foot2: 'Én fil, ingen nettverkstilgang. Skrifter: EB Garamond, IBM Plex Mono og IBM Plex Sans Condensed, SIL Open Font License. En del av <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
     degrees: 'grader', minutes: 'minutter', seconds: 'sekunder', hours: 'timer',
     minutesTime: 'minutter', secondsTime: 'sekunder', decimalDegrees: 'desimalgrader', sign: 'tegn'
@@ -1026,7 +1069,7 @@ I18N.nb = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Behold ${keep} og før ${from} over til gradene som ${to}.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Under 60, så det blir stående.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Under 360°, så dette er svaret.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° er forbi slutten av sirkelen. Tellingen begynner på 0° igjen når du når 360°, så trekk fra 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° er hele sirkelen' : `${sum}° er forbi slutten av sirkelen`}. Tellingen begynner på 0° igjen når du når 360°, så trekk fra 360°: ${calc}.`,
     subWrap: (a, b, calc) => `${a} er mindre enn ${b}, så den øverste linjen er mindre enn den nederste. Legg først til en hel sirkel: ${calc}. Trekk så fra som vanlig.`,
     subSecBorrow2: v => `${v.a} er mindre enn ${v.b}, men minuttkolonnen er tom og har ingenting å låne ut. Lån derfor to ganger: først ${v.oneDeg} fra gradene som ${v.sixtyMin}, så ${v.oneMin} av dem som ${v.sixtySec}. Da blir ${v.left} igjen, og sekundene blir ${v.top}. Så regner vi ${v.calc}.`,
     subSecBorrow: v => `${v.a} er mindre enn ${v.b}, så vi kan ikke trekke fra direkte. Lån ${v.oneMin} — det er ${v.sixtySec} — fra minuttene: ${v.a} blir ${v.top}, og minuttene synker til ${v.min}. Så regner vi ${v.calc}.`,
@@ -1042,7 +1085,8 @@ I18N.nb = {
     dms2: calc => `Gang brøkdelen med 60 for å gjøre den om til minutter: ${calc}.`,
     dms3: (m, f) => `Legg de hele minuttene, ${m}, til side, og behold den nye brøkdelen ${f}.`,
     dms4: calc => `Gang den med 60 for å gjøre den om til sekunder: ${calc}.`,
-    dms5: (calc, carry, ans) => `Rund av til nærmeste sekund: ${calc}.${carry ? ' Seksti sekunder er et helt minutt, så før det over.' : ''} Svaret er ${ans}.`,
+    dms5: (calc, carry, ans) => `Rund av til nærmeste sekund: ${calc}.${carry ? ' Seksti sekunder er et helt minutt, så før det over.' : ''}${carry === 2 ? ' Da blir det seksti minutter, en hel grad, så før over igjen.' : ''} Svaret er ${ans}.`,
+    dmsWrap: 'Menten når 360°, hele sirkelen, og det er 0° igjen.',
     abs1: (sign, i, calc) => `${sign} er det ${I18N.nb.ord[i]} tegnet, så ${i} ${i===1?'helt':'hele'} tegn på 30° kommer før det. Tegnets første grad ligger på ${calc} i absolutt lengde.`,
     abs2: calc => `Legg gradene innenfor tegnet til tegnets startgrad: ${calc}.`,
     sign1: (calc, rem, q) => `Del gradene på 30 for å telle de hele tegnene: ${calc}, rest ${rem}. ${q} ${q===1?'helt':'hele'} tegn er passert.`,
@@ -1056,7 +1100,7 @@ I18N.nb = {
     arc3: (calc, conv) => `Tidssekunder: ${calc} i bue${conv ? `, som er ${conv}` : ''}.`,
     time1: (calc, rem) => `Femten grader utgjør en time. ${calc}, rest ${rem}.`,
     time2: (conv, calc, rem) => `Gjør de overskytende gradene om til bueminutter og legg til minuttene: ${conv}. Deretter ${calc}, rest ${rem}.`,
-    time3: (conv, calc, rounded) => `Gjør de overskytende minuttene om til buesekunder og legg til sekundene: ${conv}. Deretter ${calc}${rounded ? `, avrundet til ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Gjør de overskytende minuttene om til buesekunder og legg til sekundene: ${conv}. Deretter ${calc}${rounded ? `, avrundet til ${rounded}` : ''}.${carry ? ' Seksti tidssekunder er et helt minutt, så før det over.' : ''}${carry === 2 ? ' Da blir det seksti minutter, en hel time, så før over igjen.' : ''}`,
     time4: (arc, time) => `${arc} i bue er altså ${time} i tid.`
   },
 
@@ -1069,18 +1113,33 @@ I18N.nb = {
     hmsH: 'Timene er feil — grader ÷ 15, og behold resten til minuttene.',
     hmsM: 'Minuttene er feil — husk å gjøre de overskytende gradene om til 60′ hver.',
     hmsS: 'Sekundene er feil — overskytende minutter blir 60″ hver, deretter ÷ 15.',
-    wrongSign: n => `Riktig grad, feil tegn: tell de hele tegnene på nytt — ${n} er passert.`,
+    wrongSign: n => `Riktig grad, feil tegn: tell de hele tegnene på nytt — ${n == 0 ? 'ingen' : n} er passert.`,
     rightSign: 'Riktig tegn — graden er resten etter deling på 30, med minutter og sekunder uendret.',
     signHow: 'Del gradene på 30: kvotienten teller tegnene som er passert, resten er graden innenfor det neste.',
     backPast: 'Du har gått baklengs forbi 0° Væren — legg først 360° til den øverste linjen.',
-    circle: 'En hel sirkel feil: trekk fra 360° når gradene går over 360.',
+    circle: 'En hel sirkel feil: trekk fra 360° når gradene når 360.',
     offBy: deg => `${deg}° feil — et tegns startgrad er gal.`,
     secs: 'Bare sekundene er feil.',
     mins: 'Minuttene er feil — tok du med menten eller lånet fra sekundene?',
     degs: 'Gradene er feil — sjekk menten eller lånet fra minuttene.',
     oneUnit: 'Nøyaktig én enhet feil — en mente eller et lån er glemt.',
     over60: 'En kolonne er 60 eller mer — før den over mot venstre.',
-    notYet: 'Ikke ennå. Gå gjennom utregningen på tavlen for å finne feilen.'
+    notYet: 'Ikke ennå. Gå gjennom utregningen på tavlen for å finne feilen.',
+    empty: 'Skriv svaret i boksene først.',
+    swapped: 'Subtraksjonen går feil vei: trekk den nederste linjen fra den øverste.',
+    distCross: 'Tellingen krysser 0° Væren — legg først 360° til sluttpunktet.',
+    range: 'Gradene går fra 0 til 359: 360° er hele sirkelen, og det er 0° igjen.',
+    okRetry: 'Riktig — men ikke på første forsøk, så det teller ikke. Trykk på N for en ny.',
+    decPlain: 'Skriv desimaltallet bare med sifre og ett komma, som 23,43666.',
+    minsOnly: 'Bare minuttene er feil.',
+    degsOnly: 'Bare gradene er feil.',
+    offMin: 'Nøyaktig ett minutt feil — gå gjennom hver kolonne på nytt.',
+    offDeg: 'Nøyaktig én grad feil — gå gjennom hver kolonne på nytt.',
+    form: 'Skriv hele tall, med minutter og sekunder fra 0 til 59.',
+    roundUp: 'Ett sekund for lite: brøken er et halvt sekund eller mer, så rund opp.',
+    roundDown: 'Ett sekund for mye: brøken er under et halvt sekund, så rund ned.',
+    already: 'Allerede telt med. Trykk på N for en ny oppgave.',
+    okShown: 'Riktig — men utregningen var synlig, så det teller ikke. Trykk på N for en ny.'
   },
   own: {
     first: 'Første', second: 'Andre', from: 'Fra', subtract: 'Trekk fra', position: 'Posisjon',
@@ -1140,7 +1199,7 @@ I18N.nb = {
      try:`Vis alle. Gjør så fem slike oppgaver i Øving, på nivået <em>Lett</em>, til tegnenes startgrader sitter uten at du må tenke.`},
     {title:'Avstand over 0° Væren',
      body:`<p>Noen ganger trenger du den nøyaktige avstanden mellom to punkter i dyrekretsen, og alt du vet, er posisjonene deres innenfor tegnene. Gjør begge om til absolutt lengde og trekk fra. Lodd <span class="gloss" lang="en">(Lots)</span> regnes ut på denne måten.</p>
-         <p>Men måler du fra en posisjon sent i dyrekretsen til en som ligger tidlig — her fra sent i Vannmannen forover til en grad i Væren — krysser du 0° Væren. Legg da først 360° til sluttpunktet, og trekk så fra som vanlig.</p>
+         <p>Men måler du fra en posisjon sent i dyrekretsen til en som ligger tidlig — her, som i leksjonens figur 3, fra 17° Vannmannen forover til 23° Væren — krysser du 0° Væren. Legg da først 360° til sluttpunktet, og trekk så fra som vanlig.</p>
          <p>Er du usikker, kan du telle forover i trinn på 5° på et horoskophjul for å komme i nærheten. Bommer du med 30°, har du gjort noe feil.</p>`,
      try:`Gå gjennom stegene og se messingbuen på ringen krysse den røde Væren-linjen. Subtraksjonen under er det samme kolonnearbeidet som før.`},
     {title:'Tid til bue',
@@ -1151,7 +1210,7 @@ I18N.nb = {
     {title:'Bue til tid',
      body:`<p>Den omvendte regningen trengs til lengdekorreksjonen <span class="gloss" lang="en">(longitude correction)</span>: fødestedets geografiske lengde, delt på 15, er forskjellen mellom stjernetiden i Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> og den lokale stjernetiden <span class="gloss" lang="en">(local sidereal time)</span>.</p>
          <p>Minneapolis ligger på 93° 15′ 48″ V. 93° ÷ 15 = 6h med 3° til overs; 3° er 180′, pluss 15′ blir 195′, og 195′ ÷ 15 = nøyaktig 13m; 48″ ÷ 15 = 3,2s. Korreksjonen er altså 6h 13m 03s, og den trekkes fra fordi byen ligger vest for Greenwich.</p>
-         <p>Det er alle beregningene i §2 og det første arbeidsarket i §6. Resten av leksjonen er å slå opp i tabeller — og denne regningen, gjort nøye.</p>`,
+         <p>Det dekker regningen i §2 og omregningene i det første arbeidsarket i §6. Arbeidsarkets summer av timer, minutter og sekunder følger de samme kolonnereglene; akselerasjonen (9,86 sekunder per time) er en multiplikasjon som denne siden ikke regner ut. Resten av leksjonen er å slå opp i tabeller — og denne regningen, gjort nøye.</p>`,
      try:`Vis alle. Gå så til Øving og regn hver modus på nivået <em>Vanlig</em> til du klarer fem på rad uten en eneste feil.`}
   ]
 };
@@ -1200,7 +1259,7 @@ I18N.es = {
     whySixty: 'Por qué sesenta',
     why1: 'Los babilonios contaban de sesenta en sesenta, y todos los astrónomos posteriores lo han heredado: un círculo de 360°, un grado de 60 minutos, un minuto de 60 segundos. Sesenta es divisible entre 2, 3, 4, 5, 6, 10, 12, 15, 20 y 30, así que las fracciones del círculo rara vez dejan resto. Los zījes de Bagdad se escribieron en esta notación, con letras del alfabeto en lugar de cifras, y una carta levantada a mano hoy se sigue escribiendo así.',
     why2: 'No sumará longitudes a menudo sobre una carta impresa. Pero las Partes son distancias entre dos puntos, en una tabla de casas se entra por el tiempo sidéreo, y una longitud solo se convierte en una corrección horaria dividiéndola entre quince; y entonces toca sacar la calculadora.',
-    foot1: `Sigue la lección 5, §2 y §6, del <em>Traditional Natal Astrology Course</em> de Ben Dykes. Los ejemplos de la guía son suyos (las figuras 1, 4 y 5, y la nativa de la hoja de trabajo, nacida en Minneapolis).`,
+    foot1: `Sigue la lección 5, §2 y §6, del <em>Traditional Natal Astrology Course</em> de Ben Dykes. La guía usa sus ejemplos: las figuras 1, 3, 4 y 5, la resta 16° − 279° del §2 y la nativa de la hoja de trabajo, nacida en Minneapolis. Los 371° del paso 3 son suyos; los dos números que suman 371° son nuestros.`,
     foot2: 'Un solo archivo, sin conexión. Fuentes: EB Garamond, IBM Plex Mono e IBM Plex Sans Condensed, con licencia SIL Open Font License. Forma parte de <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
     degrees: 'grados', minutes: 'minutos', seconds: 'segundos', hours: 'horas',
     minutesTime: 'minutos', secondsTime: 'segundos', decimalDegrees: 'grados decimales', sign: 'signo'
@@ -1258,7 +1317,7 @@ I18N.es = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Quédese con ${keep} y lleve ${from}, como ${to}, a los grados.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Menos de 60, así que se queda así.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Menos de 360°, así que esta es la respuesta.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° sobrepasa el final del círculo. Al llegar a 360° la cuenta vuelve a empezar en 0°, así que reste 360°: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° es el círculo completo' : `${sum}° sobrepasa el final del círculo`}. Al llegar a 360° la cuenta vuelve a empezar en 0°, así que reste 360°: ${calc}.`,
     subWrap: (a, b, calc) => `${a} es menor que ${b}, así que la línea de arriba es menor que la de abajo. Sume primero una vuelta completa: ${calc}. Ahora reste como siempre.`,
     subSecBorrow2: v => `${v.a} es menor que ${v.b}, pero la columna de los minutos está vacía y no tiene nada que prestar. Así que hay que pedir prestado dos veces: primero ${v.oneDeg} a los grados, como ${v.sixtyMin}; luego ${v.oneMin} de esos, como ${v.sixtySec}. Quedan ${v.left}, y los segundos pasan a ser ${v.top}. Después, ${v.calc}.`,
     subSecBorrow: v => `${v.a} es menor que ${v.b}, así que no se puede restar directamente. Pida prestado ${v.oneMin} —es decir, ${v.sixtySec}— a los minutos: ${v.a} pasa a ser ${v.top}, y los minutos bajan a ${v.min}. Después, ${v.calc}.`,
@@ -1274,7 +1333,8 @@ I18N.es = {
     dms2: calc => `Multiplique la fracción por 60 para convertirla en minutos: ${calc}.`,
     dms3: (m, f) => `Aparte los minutos enteros, ${m}, y quédese con la nueva fracción, ${f}.`,
     dms4: calc => `Multiplíquela por 60 para convertirla en segundos: ${calc}.`,
-    dms5: (calc, carry, ans) => `Redondee al segundo más próximo: ${calc}.${carry ? ' Sesenta segundos son un minuto entero, así que llévelo a los minutos.' : ''} La respuesta es ${ans}.`,
+    dms5: (calc, carry, ans) => `Redondee al segundo más próximo: ${calc}.${carry ? ' Sesenta segundos son un minuto entero, así que llévelo a los minutos.' : ''}${carry === 2 ? ' Eso da sesenta minutos, un grado entero, así que vuelva a llevar.' : ''} La respuesta es ${ans}.`,
+    dmsWrap: 'Lo que se lleva llega a 360°, el círculo completo, que vuelve a ser 0°.',
     abs1: (sign, i, calc) => `${sign} es el ${String(I18N.es.ord[i] || '').replace(/^(prim|terc)ero$/, '$1er')} signo, así que ${i===1 ? `lo precede ${i} signo completo` : `lo preceden ${i} signos completos`} de 30°. Su primer grado es ${calc} de longitud absoluta.`,
     abs2: calc => `Sume los grados dentro del signo al grado inicial del signo: ${calc}.`,
     sign1: (calc, rem, q) => `Divida los grados entre 30 para contar los signos completos: ${calc}, resto ${rem}. ${q===1 ? `Ha pasado ${q} signo completo.` : `Han pasado ${q} signos completos.`}`,
@@ -1288,7 +1348,7 @@ I18N.es = {
     arc3: (calc, conv) => `Segundos de tiempo: ${calc} de arco${conv ? `, que son ${conv}` : ''}.`,
     time1: (calc, rem) => `Quince grados hacen una hora. ${calc}, resto ${rem}.`,
     time2: (conv, calc, rem) => `Convierta los grados sobrantes en minutos de arco y súmeles los minutos: ${conv}. Después, ${calc}, resto ${rem}.`,
-    time3: (conv, calc, rounded) => `Convierta los minutos sobrantes en segundos de arco y súmeles los segundos: ${conv}. Después, ${calc}${rounded ? `, redondeado a ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Convierta los minutos sobrantes en segundos de arco y súmeles los segundos: ${conv}. Después, ${calc}${rounded ? `, redondeado a ${rounded}` : ''}.${carry ? ' Sesenta segundos de tiempo son un minuto entero, así que llévelo a los minutos.' : ''}${carry === 2 ? ' Eso da sesenta minutos, una hora entera, así que vuelva a llevar.' : ''}`,
     time4: (arc, time) => `Así que ${arc} de arco son ${time} de tiempo.`
   },
 
@@ -1301,18 +1361,33 @@ I18N.es = {
     hmsH: 'Las horas no cuadran: grados ÷ 15; guarde el resto para los minutos.',
     hmsM: 'Los minutos no cuadran: recuerde convertir cada grado sobrante en 60′.',
     hmsS: 'Los segundos no cuadran: cada minuto sobrante se convierte en 60″, y luego ÷ 15.',
-    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; han pasado ${n}.`,
+    wrongSign: n => `Grado correcto, signo equivocado: vuelva a contar los signos completos; ${n == 0 ? 'no ha pasado ninguno' : `${n == 1 ? 'ha' : 'han'} pasado ${n}`}.`,
     rightSign: 'Signo correcto: el grado es el resto de dividir entre 30, con los minutos y los segundos sin cambiar.',
     signHow: 'Divida los grados entre 30: el cociente cuenta los signos que han pasado; el resto es el grado dentro del siguiente.',
     backPast: 'Ha retrocedido más allá de 0° de Aries: sume primero 360° a la línea de arriba.',
-    circle: 'Difiere en una vuelta completa: reste 360° cuando los grados pasen de 360.',
+    circle: 'Difiere en una vuelta completa: reste 360° cuando los grados lleguen a 360.',
     offBy: deg => `Difiere en ${deg}°: el grado inicial de un signo está mal.`,
     secs: 'Solo fallan los segundos.',
     mins: 'Los minutos no cuadran: ¿ha tenido en cuenta el acarreo o el préstamo de los segundos?',
     degs: 'Los grados no cuadran: revise el acarreo o el préstamo de los minutos.',
     oneUnit: 'Difiere exactamente en una unidad: falta un acarreo o un préstamo.',
     over60: 'Hay una columna con 60 o más: lleve a la izquierda.',
-    notYet: 'Todavía no. Recorra el desarrollo en la pizarra para encontrar el desliz.'
+    notYet: 'Todavía no. Recorra el desarrollo en la pizarra para encontrar el desliz.',
+    empty: 'Escriba primero su respuesta en las casillas.',
+    swapped: 'La resta va al revés: reste la línea de abajo de la de arriba.',
+    distCross: 'La cuenta cruza 0° de Aries: sume primero 360° al punto final.',
+    range: 'Los grados van de 0 a 359: 360° es el círculo completo, que vuelve a ser 0°.',
+    okRetry: 'Correcto, pero no al primer intento, así que no cuenta. Pulse N para otro.',
+    decPlain: 'Escriba el decimal solo con cifras y una coma, como 23,43666.',
+    minsOnly: 'Solo fallan los minutos.',
+    degsOnly: 'Solo fallan los grados.',
+    offMin: 'Difiere en un minuto exacto: repase cada columna.',
+    offDeg: 'Difiere en un grado exacto: repase cada columna.',
+    form: 'Escriba números enteros, con minutos y segundos de 0 a 59.',
+    roundUp: 'Falta un segundo: la fracción es de medio segundo o más, así que redondee hacia arriba.',
+    roundDown: 'Sobra un segundo: la fracción es de menos de medio segundo, así que redondee hacia abajo.',
+    already: 'Ya está contado. Pulse N para un nuevo problema.',
+    okShown: 'Correcto, pero la solución estaba a la vista, así que no cuenta. Pulse N para otro.'
   },
   own: {
     first: 'Primero', second: 'Segundo', from: 'De', subtract: 'Restar', position: 'Posición',
@@ -1372,7 +1447,7 @@ I18N.es = {
      try:`Muéstrelo todo. Luego, en Práctica, en el nivel <em>Fácil</em>, haga cinco de estos hasta que los grados iniciales de los signos le salgan sin pensar.`},
     {title:'Distancias a través de 0° de Aries',
      body:`<p>A veces hace falta la distancia exacta entre dos puntos del zodíaco, y solo se conocen sus posiciones dentro de sus signos. Convierta ambas a longitud absoluta y reste. Así se calculan las Partes <span class="gloss" lang="en">(Lots)</span>.</p>
-         <p>Pero si mide desde una posición avanzada del zodíaco hasta una temprana —aquí, desde el final de Acuario hacia delante hasta un grado de Aries—, cruza la línea de 0° de Aries. Sume primero 360° al punto final y luego reste como siempre.</p>
+         <p>Pero si mide desde una posición avanzada del zodíaco hasta una temprana —aquí, como en la figura 3 de la lección, desde 17° de Acuario hacia delante hasta 23° de Aries—, cruza la línea de 0° de Aries. Sume primero 360° al punto final y luego reste como siempre.</p>
          <p>Si tiene dudas, cuente hacia delante de 5° en 5° sobre una rueda zodiacal para acercarse. Si el resultado difiere en 30°, algo ha hecho mal.</p>`,
      try:`Recórralo y vea cómo el arco de latón del anillo cruza la línea roja de Aries. La resta de debajo es el mismo trabajo por columnas de antes.`},
     {title:'Del tiempo al arco',
@@ -1383,7 +1458,7 @@ I18N.es = {
     {title:'Del arco al tiempo',
      body:`<p>El camino inverso hace falta para la corrección por longitud <span class="gloss" lang="en">(longitude correction)</span>: la longitud del lugar de nacimiento, dividida entre 15, es la diferencia entre el tiempo sidéreo de Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> y el tiempo sidéreo local.</p>
          <p>Minneapolis está a 93° 15′ 48″ O. 93° ÷ 15 = 6h y sobran 3°; 3° son 180′, más 15′ son 195′, y 195′ ÷ 15 = 13m exactos; 48″ ÷ 15 = 3,2s. Así que la corrección es de 6h 13m 03s, y se resta porque la ciudad está al oeste de Greenwich.</p>
-         <p>Esos son todos los cálculos del §2 y de la primera hoja de trabajo del §6. El resto de la lección consiste en buscar valores en tablas, y en esta aritmética, hecha con cuidado.</p>`,
+         <p>Con esto queda cubierta la aritmética del §2 y las conversiones de la primera hoja de trabajo del §6. Las sumas de horas, minutos y segundos de la hoja siguen las mismas reglas de columnas; la aceleración (9,86 segundos por hora) es una multiplicación que esta página no resuelve. El resto de la lección consiste en buscar valores en tablas, y en esta aritmética, hecha con cuidado.</p>`,
      try:`Muéstrelo todo. Luego vaya a Práctica y trabaje cada modo en el nivel <em>Normal</em> hasta que pueda hacer cinco seguidos sin un desliz.`}
   ]
 };
@@ -1432,7 +1507,7 @@ I18N.fr = {
     whySixty: 'Pourquoi soixante',
     why1: "Les Babyloniens comptaient par soixante, et tous les astronomes en ont hérité depuis : un cercle de 360°, un degré de 60 minutes, une minute de 60 secondes. Soixante est divisible par 2, 3, 4, 5, 6, 10, 12, 15, 20 et 30, si bien que les fractions du cercle laissent rarement un reste. Les zījes de Bagdad étaient écrits dans cette notation, avec des lettres de l'alphabet plutôt que des chiffres, et un thème dressé à la main l'est encore aujourd'hui.",
     why2: "Vous n'aurez pas souvent à additionner des longitudes sur un thème imprimé. Mais les Parts sont des distances entre deux points, on entre dans une table des maisons par le temps sidéral, et une longitude ne devient une correction de temps qu'une fois divisée par quinze — et là, on sort la calculatrice.",
-    foot1: `D'après la leçon 5, §2 et §6, du <em>Traditional Natal Astrology Course</em> de Ben Dykes. Les exemples du parcours sont les siens (figures 1, 4 et 5, et la native de la feuille de calcul, née à Minneapolis).`,
+    foot1: `D'après la leçon 5, §2 et §6, du <em>Traditional Natal Astrology Course</em> de Ben Dykes. Le parcours reprend ses exemples : figures 1, 3, 4 et 5, la soustraction 16° − 279° du §2 et la native de la feuille de calcul, née à Minneapolis. Les 371° de l'étape 3 sont les siens ; les deux nombres qui y aboutissent sont les nôtres.`,
     foot2: 'Un seul fichier, aucun réseau. Polices : EB Garamond, IBM Plex Mono et IBM Plex Sans Condensed, SIL Open Font License. Fait partie de <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
     degrees: 'degrés', minutes: 'minutes', seconds: 'secondes', hours: 'heures',
     minutesTime: 'minutes', secondsTime: 'secondes', decimalDegrees: 'degrés décimaux', sign: 'signe'
@@ -1490,7 +1565,7 @@ I18N.fr = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. Gardez ${keep} et reportez ${from} dans les degrés, sous forme de ${to}.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Moins de 60 : on n'y touche pas.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final?" Moins de 360° : c'est la réponse.":''}`,
-    addWrap: (sum, calc) => `${sum}° dépasse la fin du cercle. Une fois arrivé à 360°, on recommence à compter à 0° ; retranchez donc 360° : ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° est le cercle entier' : `${sum}° dépasse la fin du cercle`}. Une fois arrivé à 360°, on recommence à compter à 0° ; retranchez donc 360° : ${calc}.`,
     subWrap: (a, b, calc) => `${a} est plus petit que ${b} : la ligne du haut est plus petite que celle du bas. Ajoutez d'abord un cercle complet : ${calc}. Puis soustrayez normalement.`,
     subSecBorrow2: v => `${v.a} est inférieur à ${v.b}, mais la colonne des minutes est vide et n'a rien à prêter. Il faut donc emprunter deux fois : d'abord ${v.oneDeg} aux degrés, soit ${v.sixtyMin}, puis ${v.oneMin} de ces minutes, soit ${v.sixtySec}. Il reste ${v.left}, et les secondes deviennent ${v.top}. Ensuite, ${v.calc}.`,
     subSecBorrow: v => `${v.a} est inférieur à ${v.b}, on ne peut donc pas soustraire directement. Empruntez ${v.oneMin} — soit ${v.sixtySec} — aux minutes : ${v.a} devient ${v.top}, et les minutes tombent à ${v.min}. Ensuite, ${v.calc}.`,
@@ -1506,7 +1581,8 @@ I18N.fr = {
     dms2: calc => `Multipliez la fraction par 60 pour la convertir en minutes : ${calc}.`,
     dms3: (m, f) => `Mettez de côté les minutes entières, ${m}, et gardez la nouvelle fraction ${f}.`,
     dms4: calc => `Multipliez-la par 60 pour la convertir en secondes : ${calc}.`,
-    dms5: (calc, carry, ans) => `Arrondissez à la seconde : ${calc}.${carry?' Soixante secondes font une minute entière : reportez-la.':''} La réponse est ${ans}.`,
+    dms5: (calc, carry, ans) => `Arrondissez à la seconde : ${calc}.${carry?' Soixante secondes font une minute entière : reportez-la.':''}${carry === 2 ? ' Cela fait soixante minutes, un degré entier : reportez encore.' : ''} La réponse est ${ans}.`,
+    dmsWrap: 'La retenue atteint 360°, le cercle entier, qui redevient 0°.',
     abs1: (sign, i, calc) => `${sign} est le ${I18N.fr.ord[i]} signe ; ${i>1?`${i} signes complets de 30° le précèdent`:`${i} signe complet de 30° le précède`}. Son premier degré est donc à ${calc} de longitude absolue.`,
     abs2: calc => `Ajoutez les degrés dans le signe au degré de début du signe : ${calc}.`,
     sign1: (calc, rem, q) => `Divisez les degrés par 30 pour compter les signes complets : ${calc}, reste ${rem}. ${q>1?`${q} signes complets sont passés`:`${q} signe complet est passé`}.`,
@@ -1520,7 +1596,7 @@ I18N.fr = {
     arc3: (calc, conv) => `Secondes de temps : ${calc} d'arc${conv?`, soit ${conv}`:''}.`,
     time1: (calc, rem) => `Quinze degrés font une heure. ${calc}, reste ${rem}.`,
     time2: (conv, calc, rem) => `Convertissez les degrés restants en minutes d'arc et ajoutez les minutes : ${conv}. Puis ${calc}, reste ${rem}.`,
-    time3: (conv, calc, rounded) => `Convertissez les minutes restantes en secondes d'arc et ajoutez les secondes : ${conv}. Puis ${calc}${rounded?`, arrondi à ${rounded}`:''}.`,
+    time3: (conv, calc, rounded, carry) => `Convertissez les minutes restantes en secondes d'arc et ajoutez les secondes : ${conv}. Puis ${calc}${rounded?`, arrondi à ${rounded}`:''}.${carry ? ' Soixante secondes de temps font une minute entière : reportez-la.' : ''}${carry === 2 ? ' Cela fait soixante minutes, une heure entière : reportez encore.' : ''}`,
     time4: (arc, time) => `Ainsi, ${arc} d'arc valent ${time} de temps.`
   },
 
@@ -1533,18 +1609,33 @@ I18N.fr = {
     hmsH: 'Les heures sont fausses — degrés ÷ 15, gardez le reste pour les minutes.',
     hmsM: 'Les minutes sont fausses — pensez que chaque degré restant fait 60′.',
     hmsS: 'Les secondes sont fausses — chaque minute restante fait 60″, puis ÷ 15.',
-    wrongSign: n => `Bon degré, mauvais signe : recomptez les signes complets — il en est passé ${n}.`,
+    wrongSign: n => `Bon degré, mauvais signe : recomptez les signes complets — ${n == 0 ? 'il n’en est passé aucun' : `il en est passé ${n}`}.`,
     rightSign: 'Bon signe — le degré est le reste de la division par 30, minutes et secondes inchangées.',
     signHow: 'Divisez les degrés par 30 : le quotient compte les signes passés, le reste est le degré dans le signe suivant.',
     backPast: "Vous êtes repassé en arrière par 0° du Bélier — ajoutez d'abord 360° à la ligne du haut.",
-    circle: "Écart d'un cercle entier : retranchez 360° quand les degrés dépassent 360.",
+    circle: 'Écart d\'un cercle entier : retranchez 360° dès que les degrés atteignent 360.',
     offBy: deg => `Écart de ${deg}° — le degré de début d'un signe est erroné.`,
     secs: 'Seules les secondes sont fausses.',
     mins: "Les minutes sont fausses — avez-vous compté la retenue ou l'emprunt des secondes ?",
     degs: "Les degrés sont faux — vérifiez la retenue ou l'emprunt des minutes.",
     oneUnit: "Écart d'une unité exactement — une retenue ou un emprunt a été oublié.",
     over60: 'Une colonne atteint 60 ou plus — reportez vers la gauche.',
-    notYet: "Pas encore. Parcourez le calcul sur l'ardoise pour trouver l'erreur."
+    notYet: "Pas encore. Parcourez le calcul sur l'ardoise pour trouver l'erreur.",
+    empty: 'Écrivez d’abord votre réponse dans les cases.',
+    swapped: 'La soustraction est à l’envers : ôtez la ligne du bas de celle du haut.',
+    distCross: 'Le compte franchit 0° du Bélier — ajoutez d’abord 360° au point d’arrivée.',
+    range: 'Les degrés vont de 0 à 359 : 360° est le cercle entier, qui redevient 0°.',
+    okRetry: 'Juste — mais pas du premier coup, donc cela ne compte pas. Appuyez sur N pour un autre.',
+    decPlain: 'Écrivez le nombre décimal avec des chiffres et une seule virgule, comme 23,43666.',
+    minsOnly: 'Seules les minutes sont fausses.',
+    degsOnly: 'Seuls les degrés sont faux.',
+    offMin: 'Écart d’exactement une minute — reprenez chaque colonne.',
+    offDeg: 'Écart d’exactement un degré — reprenez chaque colonne.',
+    form: 'Écrivez des nombres entiers, avec des minutes et des secondes de 0 à 59.',
+    roundUp: 'Il manque une seconde : la fraction vaut une demi-seconde ou plus, donc arrondissez vers le haut.',
+    roundDown: 'Une seconde de trop : la fraction vaut moins d’une demi-seconde, donc arrondissez vers le bas.',
+    already: 'Déjà compté. Appuyez sur N pour un nouveau problème.',
+    okShown: 'Juste — mais le calcul était affiché, donc cela ne compte pas. Appuyez sur N pour un autre.'
   },
   own: {
     first: 'Premier', second: 'Second', from: 'De', subtract: 'Retrancher', position: 'Position',
@@ -1604,7 +1695,7 @@ I18N.fr = {
      try:`Affichez tout. Puis, dans Exercices, au niveau <em>Facile</em>, faites-en cinq, jusqu'à ce que les degrés de début des signes vous viennent sans réfléchir.`},
     {title:'Distance à travers 0° du Bélier',
      body:`<p>Il faut parfois la distance exacte entre deux points du zodiaque, alors qu'on ne connaît que leurs positions dans leurs signes. Convertissez les deux en longitude absolue et soustrayez. C'est ainsi qu'on calcule les Parts <span class="gloss" lang="en">(Lots)</span>.</p>
-         <p>Mais si vous mesurez d'une position tardive dans le zodiaque vers une position précoce — ici de la fin du Verseau jusqu'à un degré du Bélier, en avançant —, vous franchissez la ligne de 0° du Bélier. Ajoutez d'abord 360° au point d'arrivée, puis soustrayez normalement.</p>
+         <p>Mais si vous mesurez d'une position tardive dans le zodiaque vers une position précoce — ici, comme dans la figure 3 de la leçon, de 17° du Verseau jusqu'à 23° du Bélier, en avançant —, vous franchissez la ligne de 0° du Bélier. Ajoutez d'abord 360° au point d'arrivée, puis soustrayez normalement.</p>
          <p>En cas de doute, comptez de 5° en 5° sur une roue du thème pour approcher du résultat. Si vous trouvez 30° d'écart, vous vous êtes trompé quelque part.</p>`,
      try:`Parcourez les étapes et regardez l'arc de laiton franchir sur l'anneau la ligne rouge du Bélier. La soustraction en dessous, c'est le même travail par colonnes que précédemment.`},
     {title:"Du temps à l'arc",
@@ -1615,7 +1706,7 @@ I18N.fr = {
     {title:"De l'arc au temps",
      body:`<p>Le calcul inverse sert à la correction de longitude <span class="gloss" lang="en">(longitude correction)</span> : la longitude du lieu de naissance, divisée par 15, est la différence entre le temps sidéral de Greenwich <span class="gloss" lang="en">(Greenwich sidereal time)</span> et le temps sidéral local.</p>
          <p>Minneapolis est à 93° 15′ 48″ O. 93° ÷ 15 = 6h, reste 3° ; 3° font 180′, plus 15′, 195′, et 195′ ÷ 15 = 13m tout juste ; 48″ ÷ 15 = 3,2s. La correction est donc de 6h 13m 03s, à retrancher puisque la ville est à l'ouest de Greenwich.</p>
-         <p>Voilà tous les calculs du §2 et de la première feuille de calcul du §6. Le reste de la leçon consiste à chercher des valeurs dans des tables — et à faire ces calculs, avec soin.</p>`,
+         <p>Voilà l'arithmétique du §2 et les conversions de la première feuille de calcul du §6. Les sommes d'heures, de minutes et de secondes de la feuille suivent les mêmes règles de colonnes ; l'accélération (9,86 secondes par heure) est une multiplication que cette page ne traite pas. Le reste de la leçon consiste à chercher des valeurs dans des tables — et à faire ces calculs, avec soin.</p>`,
      try:`Affichez tout. Allez ensuite dans Exercices et travaillez chaque mode au niveau <em>Moyen</em> jusqu'à enchaîner cinq réponses sans faute.`}
   ]
 };
@@ -1664,7 +1755,7 @@ I18N.de = {
     whySixty: 'Warum sechzig',
     why1: 'Die Babylonier zählten in Sechzigern, und jeder Astronom seither hat es geerbt: ein Kreis von 360°, ein Grad von 60 Minuten, eine Minute von 60 Sekunden. Sechzig ist glatt teilbar durch 2, 3, 4, 5, 6, 10, 12, 15, 20 und 30, sodass Bruchteile eines Kreises selten einen Rest lassen. Die Zījes von Bagdad wurden in dieser Schreibweise verfasst, mit Buchstaben des Alphabets statt Ziffern, und wer heute ein Horoskop von Hand zeichnet, schreibt noch immer so.',
     why2: 'Längen auf einem gedruckten Horoskop werden Sie selten addieren. Aber Lose sind Abstände zwischen zwei Punkten, eine Häusertabelle schlägt man nach der Sternzeit auf, und eine Länge wird erst zur Zeitkorrektur, wenn man sie durch fünfzehn teilt — und dann greift man zum Taschenrechner.',
-    foot1: `Nach Lektion 5, §2 und §6 von Ben Dykes’ <em>Traditional Natal Astrology Course</em>. Die Beispiele im Rundgang stammen von ihm (Abbildungen 1, 4 und 5 sowie die Geborene aus Minneapolis auf dem Arbeitsblatt).`,
+    foot1: `Nach Lektion 5, §2 und §6 von Ben Dykes’ <em>Traditional Natal Astrology Course</em>. Der Rundgang verwendet seine Beispiele: Abbildungen 1, 3, 4 und 5, die Subtraktion 16° − 279° aus §2 und die Geborene aus Minneapolis auf dem Arbeitsblatt. Die 371° in Schritt 3 stammen von ihm; die beiden Zahlen, die zusammen 371° ergeben, von uns.`,
     foot2: 'Eine Datei, kein Netzwerk. Schriften: EB Garamond, IBM Plex Mono und IBM Plex Sans Condensed, SIL Open Font License. Teil von <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
     degrees: 'Grad', minutes: 'Bogenminuten', seconds: 'Bogensekunden', hours: 'Stunden',
     minutesTime: 'Zeitminuten', secondsTime: 'Zeitsekunden', decimalDegrees: 'Dezimalgrad', sign: 'Zeichen'
@@ -1722,7 +1813,7 @@ I18N.de = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}. ${keep} behalten und ${from} als ${to} in die Gradspalte übertragen.`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}. Weniger als 60, also bleibt es.`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}.${final ? ' Unter 360°, also ist das das Ergebnis.' : ''}`,
-    addWrap: (sum, calc) => `${sum}° liegt jenseits des Kreisendes. Ab 360° beginnt die Zählung wieder bei 0°, also 360° abziehen: ${calc}.`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° ist der ganze Kreis' : `${sum}° liegt jenseits des Kreisendes`}. Ab 360° beginnt die Zählung wieder bei 0°, also 360° abziehen: ${calc}.`,
     subWrap: (a, b, calc) => `${a} ist kleiner als ${b}, die obere Zeile also kleiner als die untere. Zuerst einen vollen Kreis addieren: ${calc}. Jetzt wie gewohnt subtrahieren.`,
     subSecBorrow2: v => `${v.a} ist weniger als ${v.b}, aber die Minutenspalte ist leer und hat nichts zu verleihen. Also zweimal borgen: zuerst ${v.oneDeg} von den Graden als ${v.sixtyMin}, dann ${v.oneMin} davon als ${v.sixtySec}. Übrig bleiben ${v.left}, und aus den Sekunden werden ${v.top}. Dann ${v.calc}.`,
     subSecBorrow: v => `${v.a} ist weniger als ${v.b}, also lässt sich nicht direkt subtrahieren. Borgen Sie ${v.oneMin} — das sind ${v.sixtySec} — von den Minuten: Aus ${v.a} werden ${v.top}, und die Minuten sinken auf ${v.min}. Dann ${v.calc}.`,
@@ -1738,7 +1829,8 @@ I18N.de = {
     dms2: calc => `Den Bruchteil mit 60 multiplizieren, um Minuten zu erhalten: ${calc}.`,
     dms3: (m, f) => `Legen Sie die vollen Minuten, ${m}, beiseite und behalten Sie den neuen Bruchteil ${f}.`,
     dms4: calc => `Diesen mit 60 multiplizieren, um Sekunden zu erhalten: ${calc}.`,
-    dms5: (calc, carry, ans) => `Auf die volle Sekunde runden: ${calc}.${carry ? ' Sechzig Sekunden sind eine volle Minute, also übertragen.' : ''} Das Ergebnis ist ${ans}.`,
+    dms5: (calc, carry, ans) => `Auf die volle Sekunde runden: ${calc}.${carry ? ' Sechzig Sekunden sind eine volle Minute, also übertragen.' : ''}${carry === 2 ? ' Das ergibt sechzig Minuten, einen vollen Grad, also noch einmal übertragen.' : ''} Das Ergebnis ist ${ans}.`,
+    dmsWrap: 'Der Übertrag erreicht 360°, den ganzen Kreis, und das ist wieder 0°.',
     abs1: (sign, i, calc) => `${sign} ist das ${I18N.de.ord[i]} Zeichen, also ${i==1?'geht':'gehen'} ihm ${i} volle${i==1?'s':''} Zeichen zu je 30° voraus. Sein erster Grad liegt bei ${calc} absoluter Länge.`,
     abs2: calc => `Die Grade im Zeichen zum Anfangsgrad des Zeichens addieren: ${calc}.`,
     sign1: (calc, rem, q) => `Die Grade durch 30 teilen, um die vollen Zeichen zu zählen: ${calc}, Rest ${rem}. ${q} volle${q==1?'s Zeichen ist':' Zeichen sind'} vergangen.`,
@@ -1752,7 +1844,7 @@ I18N.de = {
     arc3: (calc, conv) => `Zeitsekunden: ${calc} Bogen${conv ? `, also ${conv}` : ''}.`,
     time1: (calc, rem) => `Fünfzehn Grad ergeben eine Stunde. ${calc}, Rest ${rem}.`,
     time2: (conv, calc, rem) => `Die übrigen Grade in Bogenminuten umwandeln und die Minuten addieren: ${conv}. Dann ${calc}, Rest ${rem}.`,
-    time3: (conv, calc, rounded) => `Die übrigen Minuten in Bogensekunden umwandeln und die Sekunden addieren: ${conv}. Dann ${calc}${rounded ? `, gerundet ${rounded}` : ''}.`,
+    time3: (conv, calc, rounded, carry) => `Die übrigen Minuten in Bogensekunden umwandeln und die Sekunden addieren: ${conv}. Dann ${calc}${rounded ? `, gerundet auf ${rounded}` : ''}.${carry ? ' Sechzig Zeitsekunden sind eine volle Minute, also übertragen.' : ''}${carry === 2 ? ' Das ergibt sechzig Minuten, eine volle Stunde, also noch einmal übertragen.' : ''}`,
     time4: (arc, time) => `${arc} Bogen entsprechen also ${time} Zeit.`
   },
 
@@ -1765,18 +1857,33 @@ I18N.de = {
     hmsH: 'Die Stunden stimmen nicht — Grad ÷ 15, den Rest für die Minuten aufheben.',
     hmsM: 'Die Minuten stimmen nicht — denken Sie daran, jeden übrigen Grad in 60′ umzuwandeln.',
     hmsS: 'Die Sekunden stimmen nicht — jede übrige Minute wird zu 60″, dann ÷ 15.',
-    wrongSign: n => `Richtiger Grad, falsches Zeichen: Zählen Sie die vollen Zeichen noch einmal — ${n} ${n==1?'ist':'sind'} vergangen.`,
+    wrongSign: n => `Richtiger Grad, falsches Zeichen: Zählen Sie die vollen Zeichen noch einmal — ${n == 0 ? 'keines ist' : `${n} ${n==1?'ist':'sind'}`} vergangen.`,
     rightSign: 'Richtiges Zeichen — der Grad ist der Rest nach der Division durch 30, Minuten und Sekunden unverändert.',
     signHow: 'Teilen Sie die Grade durch 30: Der Quotient zählt die vergangenen Zeichen, der Rest ist der Grad im nächsten.',
     backPast: 'Sie sind rückwärts über 0° Widder hinausgegangen — addieren Sie zuerst 360° zur oberen Zeile.',
-    circle: 'Um einen vollen Kreis daneben: Ziehen Sie 360° ab, wenn die Grade 360 überschreiten.',
+    circle: 'Um einen vollen Kreis daneben: Ziehen Sie 360° ab, sobald die Grade 360 erreichen.',
     offBy: deg => `Um ${deg}° daneben — der Anfangsgrad eines Zeichens stimmt nicht.`,
     secs: 'Nur die Sekunden stimmen nicht.',
     mins: 'Die Minuten stimmen nicht — haben Sie den Übertrag oder das Borgen aus den Sekunden berücksichtigt?',
     degs: 'Die Grade stimmen nicht — prüfen Sie Übertrag oder Borgen aus den Minuten.',
     oneUnit: 'Um genau eine Einheit daneben — ein Übertrag oder ein Borgen wurde übersehen.',
     over60: 'Eine Spalte hat 60 oder mehr — übertragen Sie nach links.',
-    notYet: 'Noch nicht. Gehen Sie den Rechenweg auf der Tafel durch, um den Fehler zu finden.'
+    notYet: 'Noch nicht. Gehen Sie den Rechenweg auf der Tafel durch, um den Fehler zu finden.',
+    empty: 'Schreiben Sie zuerst Ihre Antwort in die Felder.',
+    swapped: 'Die Subtraktion läuft falsch herum: Ziehen Sie die untere Zeile von der oberen ab.',
+    distCross: 'Die Zählung überquert 0° Widder — addieren Sie zuerst 360° zum Endpunkt.',
+    range: 'Die Grade laufen von 0 bis 359: 360° ist der ganze Kreis, also wieder 0°.',
+    okRetry: 'Richtig — aber nicht beim ersten Versuch, darum zählt es nicht. Drücken Sie N für eine neue.',
+    decPlain: 'Schreiben Sie die Dezimalzahl nur mit Ziffern und einem Komma, etwa 23,43666.',
+    minsOnly: 'Nur die Minuten stimmen nicht.',
+    degsOnly: 'Nur die Grade stimmen nicht.',
+    offMin: 'Genau eine Minute daneben — gehen Sie jede Spalte noch einmal durch.',
+    offDeg: 'Genau ein Grad daneben — gehen Sie jede Spalte noch einmal durch.',
+    form: 'Schreiben Sie ganze Zahlen, Minuten und Sekunden von 0 bis 59.',
+    roundUp: 'Eine Sekunde zu wenig: Der Bruchteil ist eine halbe Sekunde oder mehr, also aufrunden.',
+    roundDown: 'Eine Sekunde zu viel: Der Bruchteil ist kleiner als eine halbe Sekunde, also abrunden.',
+    already: 'Schon gezählt. Drücken Sie N für eine neue Aufgabe.',
+    okShown: 'Richtig — aber die Rechnung war sichtbar, darum zählt es nicht. Drücken Sie N für eine neue.'
   },
   own: {
     first: 'Erste Zahl', second: 'Zweite Zahl', from: 'Von', subtract: 'Abziehen', position: 'Position',
@@ -1836,7 +1943,7 @@ I18N.de = {
      try:`Decken Sie alles auf. Rechnen Sie dann in der Übung auf der Stufe <em>Leicht</em> fünf solche Aufgaben, bis Ihnen die Anfangsgrade der Zeichen ohne Nachdenken einfallen.`},
     {title:'Abstand über 0° Widder hinweg',
      body:`<p>Manchmal brauchen Sie den genauen Abstand zwischen zwei Punkten im Tierkreis und kennen nur ihre Positionen in ihren Zeichen. Wandeln Sie beide in absolute Länge um und subtrahieren Sie. So werden Lose <span class="gloss" lang="en">(Lots)</span> berechnet.</p>
-         <p>Messen Sie aber von einer Position spät im Tierkreis zu einer frühen — hier vom späten Wassermann vorwärts zu einem Grad im Widder —, überqueren Sie die Linie von 0° Widder. Addieren Sie zuerst 360° zum Endpunkt und subtrahieren Sie dann wie gewohnt.</p>
+         <p>Messen Sie aber von einer Position spät im Tierkreis zu einer frühen — hier, wie in Abbildung 3 der Lektion, von 17° Wassermann vorwärts zu 23° Widder —, überqueren Sie die Linie von 0° Widder. Addieren Sie zuerst 360° zum Endpunkt und subtrahieren Sie dann wie gewohnt.</p>
          <p>Wenn Sie unsicher sind, zählen Sie an einem Horoskoprad in Schritten von 5° vorwärts, um in die Nähe zu kommen. Liegen Sie um 30° daneben, ist etwas schiefgegangen.</p>`,
      try:`Gehen Sie die Schritte durch und sehen Sie, wie der Messingbogen auf dem Ring die rote Widderlinie überquert. Die Subtraktion darunter ist dieselbe Spaltenarbeit wie zuvor.`},
     {title:'Zeit in Bogen',
@@ -1847,7 +1954,7 @@ I18N.de = {
     {title:'Bogen in Zeit',
      body:`<p>Die Umkehrung braucht man für die Längenkorrektur <span class="gloss" lang="en">(longitude correction)</span>: Die geographische Länge eines Geburtsorts, durch 15 geteilt, ist der Unterschied zwischen Greenwicher Sternzeit <span class="gloss" lang="en">(Greenwich sidereal time)</span> und Ortssternzeit.</p>
          <p>Minneapolis liegt auf 93° 15′ 48″ W. 93° ÷ 15 = 6h, Rest 3°; 3° sind 180′, plus 15′ sind 195′, und 195′ ÷ 15 = genau 13m; 48″ ÷ 15 = 3,2s. Die Korrektur beträgt also 6h 13m 03s und wird abgezogen, weil die Stadt westlich von Greenwich liegt.</p>
-         <p>Das sind alle Rechnungen aus §2 und dem ersten Arbeitsblatt von §6. Der Rest der Lektion ist Nachschlagen in Tabellen — und diese Arithmetik, sorgfältig ausgeführt.</p>`,
+         <p>Damit sind die Arithmetik aus §2 und die Umrechnungen des ersten Arbeitsblatts von §6 abgedeckt. Die Summen aus Stunden, Minuten und Sekunden auf dem Blatt folgen denselben Spaltenregeln; die Beschleunigung (9,86 Sekunden pro Stunde) ist eine Multiplikation, die diese Seite nicht vorrechnet. Der Rest der Lektion ist Nachschlagen in Tabellen — und diese Arithmetik, sorgfältig ausgeführt.</p>`,
      try:`Decken Sie alles auf. Gehen Sie dann zur Übung und rechnen Sie jeden Modus auf der Stufe <em>Normal</em>, bis Ihnen fünf in Folge ohne Fehler gelingen.`}
   ]
 };
@@ -1896,7 +2003,7 @@ I18N.zh = {
     whySixty: '为什么是六十',
     why1: '巴比伦人以六十计数，此后的天文学家全都继承了下来：圆周 360°，一度 60 分，一分 60 秒。六十能被 2、3、4、5、6、10、12、15、20 和 30 整除，所以圆周的几分之几很少留下余数。巴格达的天文历表（zīj）就用这种记数法写成，用的是字母而不是数字；今天手绘的星盘也仍然用它。',
     why2: '在印好的星盘上，你不常需要把黄经相加。但特殊点就是两点之间的距离，宫位表要按恒星时查阅，而经度要除以十五才能变成时间更正值——这时就得拿出计算器了。',
-    foot1: `依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6。分步讲解中的例题均出自该书（图 1、图 4、图 5，以及计算表中生于明尼阿波利斯的命主）。`,
+    foot1: `依据 Ben Dykes《<em>Traditional Natal Astrology Course</em>》第 5 课 §2 与 §6。分步讲解采用他的例题：图 1、图 3、图 4、图 5，§2 中的减法 16° − 279°，以及计算表中生于明尼阿波利斯的命主。第 3 步的 371° 出自他；相加得 371° 的两个数是我们选的。`,
     foot2: '单一文件，无需联网。字体：EB Garamond、IBM Plex Mono 与 IBM Plex Sans Condensed，采用 SIL Open Font License。属于 <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a> 的一部分。',
     degrees: '度', minutes: '角分', seconds: '角秒', hours: '时',
     minutesTime: '分', secondsTime: '秒', decimalDegrees: '小数度数', sign: '星座'
@@ -1954,7 +2061,7 @@ I18N.zh = {
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}。留下 ${keep}，把 ${from} 化作 ${to}，进到度那一列。`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}。不足 60，不变。`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}。${final ? '不到 360°，这就是答案。' : ''}`,
-    addWrap: (sum, calc) => `${sum}° 已经越过了圆周的终点。数到 360° 就从 0° 重新开始，所以减去 360°：${calc}。`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° 正好是一整圈' : `${sum}° 已经越过了圆周的终点`}。数到 360° 就从 0° 重新开始，所以减去 360°：${calc}。`,
     subWrap: (a, b, calc) => `${a} 比 ${b} 小，所以上一行比下一行小。先加上一整圈：${calc}。然后照常相减。`,
     subSecBorrow2: v => `${v.a} 小于 ${v.b}，可分那一列是空的，没有东西可借。所以要借两次：先从度借 ${v.oneDeg}，化作 ${v.sixtyMin}；再从中借 ${v.oneMin}，化作 ${v.sixtySec}。这样剩下 ${v.left}，秒变成 ${v.top}。然后 ${v.calc}。`,
     subSecBorrow: v => `${v.a} 小于 ${v.b}，不能直接相减。从分那一列借 ${v.oneMin}——也就是 ${v.sixtySec}：${v.a} 变成 ${v.top}，分降为 ${v.min}。然后 ${v.calc}。`,
@@ -1970,7 +2077,8 @@ I18N.zh = {
     dms2: calc => `把小数部分乘以 60，化为分：${calc}。`,
     dms3: (m, f) => `把整分 ${m} 放在一边，留下新的小数部分 ${f}。`,
     dms4: calc => `再乘以 60，化为秒：${calc}。`,
-    dms5: (calc, carry, ans) => `取整到最近的秒：${calc}。${carry ? '六十秒是整整一分，所以进位。' : ''}答案是 ${ans}。`,
+    dms5: (calc, carry, ans) => `取整到最近的秒：${calc}。${carry ? '六十秒是整整一分，所以进位。' : ''}${carry === 2 ? '这样就有六十分，正好一度，所以再进位。' : ''}答案是 ${ans}。`,
+    dmsWrap: '进位到了 360°，正好一整圈，也就是又回到 0°。',
     abs1: (sign, i, calc) => `${sign}是${I18N.zh.ord[i]}个星座，所以它前面有 ${i} 个完整的星座，每个 30°。它的起始度数是绝对黄经 ${calc}。`,
     abs2: calc => `把星座内的度数加到该星座的起始度数上：${calc}。`,
     sign1: (calc, rem, q) => `把度数除以 30，数出完整的星座：${calc}，余 ${rem}。已经过了 ${q} 个完整的星座。`,
@@ -1984,7 +2092,7 @@ I18N.zh = {
     arc3: (calc, conv) => `时间的秒：${calc}（角秒）${conv ? `，即 ${conv}` : ''}。`,
     time1: (calc, rem) => `十五度合一小时。${calc}，余 ${rem}。`,
     time2: (conv, calc, rem) => `把剩下的度化为角分，加上原有的分：${conv}。然后 ${calc}，余 ${rem}。`,
-    time3: (conv, calc, rounded) => `把剩下的分化为角秒，加上原有的秒：${conv}。然后 ${calc}${rounded ? `，取整为 ${rounded}` : ''}。`,
+    time3: (conv, calc, rounded, carry) => `把剩下的分化为角秒，加上原有的秒：${conv}。然后 ${calc}${rounded ? `，取整为 ${rounded}` : ''}。${carry ? '六十时秒是整整一分，所以进位。' : ''}${carry === 2 ? '这样就有六十分，正好一小时，所以再进位。' : ''}`,
     time4: (arc, time) => `所以角度 ${arc} 合时间 ${time}。`
   },
 
@@ -1997,18 +2105,33 @@ I18N.zh = {
     hmsH: '时不对——度 ÷ 15，余数留给分。',
     hmsM: '分不对——记得把剩下的每一度化为 60′。',
     hmsS: '秒不对——剩下的每一分化为 60″，再 ÷ 15。',
-    wrongSign: n => `度数对了，星座错了：再数一遍完整的星座——已经过了 ${n} 个。`,
+    wrongSign: n => `度数对了，星座错了：再数一遍完整的星座——${n == 0 ? '还没有过完一个' : `已经过了 ${n} 个`}。`,
     rightSign: '星座对了——度数是除以 30 后的余数，分和秒不变。',
     signHow: '把度数除以 30：商是已经过去的星座数，余数是在下一个星座内的度数。',
     backPast: '你已经倒退越过了白羊座 0°——先给上一行加上 360°。',
-    circle: '差了一整圈：度数超过 360 时要减去 360°。',
+    circle: '差了一整圈：度数达到 360 时要减去 360°。',
     offBy: deg => `差了 ${deg}°——某个星座的起始度数错了。`,
     secs: '只有秒不对。',
     mins: '分不对——你算上从秒那一列来的进位或借位了吗？',
     degs: '度不对——检查从分那一列来的进位或借位。',
     oneUnit: '恰好差一个单位——漏了一次进位或借位。',
     over60: '有一列达到或超过了 60——向左进位。',
-    notYet: '还不对。在算板上逐步演算，找出错在哪里。'
+    notYet: '还不对。在算板上逐步演算，找出错在哪里。',
+    empty: '请先在方框里写下答案。',
+    swapped: '减反了：应当用上面一行减去下面一行。',
+    distCross: '这段计数跨过了白羊座 0°——先给终点加上 360°。',
+    range: '度数从 0 到 359：360° 是一整圈，也就是又回到 0°。',
+    okRetry: '对了——不过不是第一次就答对，所以不计分。按 N 换一道。',
+    decPlain: '小数只写数字和一个小数点，例如 23.43666。',
+    minsOnly: '只有分不对。',
+    degsOnly: '只有度不对。',
+    offMin: '正好差一分——把每一列再核对一遍。',
+    offDeg: '正好差一度——把每一列再核对一遍。',
+    form: '请写整数，分和秒在 0 到 59 之间。',
+    roundUp: '少了一秒：零头有半秒或更多，所以要向上取整。',
+    roundDown: '多了一秒：零头不到半秒，所以要向下取整。',
+    already: '已经计过了。按 N 换一道新题目。',
+    okShown: '对了——不过解题过程已经显示出来，所以不计分。按 N 换一道。'
   },
   own: {
     first: '第一个数', second: '第二个数', from: '从', subtract: '减去', position: '位置',
@@ -2068,7 +2191,7 @@ I18N.zh = {
      try:`显示全部。然后在“练习”页选<em>入门</em>难度，做五道这样的题，直到各星座的起始度数不假思索就能说出。`},
     {title:'跨过白羊座 0° 的距离',
      body:`<p>有时你需要黄道上两点之间的确切距离，而你只知道它们在各自星座内的位置。把两者都化为绝对黄经再相减。特殊点<span class="gloss" lang="en">（Lots）</span>就是这样算的。</p>
-         <p>但如果你是从黄道上靠后的位置量到靠前的位置——这里是从水瓶座末尾向前量到白羊座的某一度——就会跨过白羊座 0° 线。先给终点加上 360°，再照常相减。</p>
+         <p>但如果你是从黄道上靠后的位置量到靠前的位置——这里如课文图 3 所示，是从水瓶座 17° 向前量到白羊座 23°——就会跨过白羊座 0° 线。先给终点加上 360°，再照常相减。</p>
          <p>拿不准时，在星盘上以 5° 为一档向前数，就能得出个大概。如果差了 30°，那就是哪里算错了。</p>`,
      try:`一步步走完，看圆环上的黄铜色弧线跨过红色的白羊座线。下面的减法还是和前面一样的列竖式计算。`},
     {title:'时间化为角度',
@@ -2079,7 +2202,7 @@ I18N.zh = {
     {title:'角度化为时间',
      body:`<p>经度更正<span class="gloss" lang="en">（longitude correction）</span>需要反过来算：出生地的经度除以 15，就是格林尼治恒星时<span class="gloss" lang="en">（Greenwich sidereal time）</span>与地方恒星时之差。</p>
          <p>明尼阿波利斯位于西经 93° 15′ 48″。93° ÷ 15 = 6h，余 3°；3° 是 180′，加上 15′ 是 195′，195′ ÷ 15 = 13m 整；48″ ÷ 15 = 3.2s。所以更正值是 6h 13m 03s，因为该城在格林尼治以西，所以要减去。</p>
-         <p>这就是 §2 以及 §6 第一张计算表中的全部计算。本课其余部分就是查表——再加上这些仔细做好的算术。</p>`,
+         <p>以上涵盖了 §2 的算术和 §6 第一张计算表中的换算。表中时、分、秒的加法遵循同样的列规则；加速（每小时 9.86 秒）是一道乘法，本页不作演算。本课其余部分就是查表——再加上这些仔细做好的算术。</p>`,
      try:`显示全部。然后到“练习”页，每种模式都在<em>常规</em>难度下练习，直到能连做五道而不出错。`}
   ]
 };
@@ -2128,7 +2251,7 @@ I18N.ja = {
     whySixty: 'なぜ六十なのか',
     why1: 'バビロニア人は六十で数え、それ以来の天文学者はみなそれを受け継いできました。円は 360°、1 度は 60 分、1 分は 60 秒。60 は 2、3、4、5、6、10、12、15、20、30 で割り切れるので、円を分けても余りが出ることはめったにありません。バグダードの天文表（ズィージュ）はこの記数法で、数字ではなくアルファベットの文字で書かれていました。今日、手で描くチャートも同じです。',
     why2: '印刷されたチャートの上で黄経を足すことは、そう多くないでしょう。けれどもロットは二点間の距離ですし、ハウス表は恒星時で引きますし、出生地の経度は 15 で割ってはじめて時刻の補正になります——そうなれば電卓の出番です。',
-    foot1: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。解説の例題は Dykes によるものです（図 1・4・5、およびミネアポリス生まれのワークシートの出生者）。`,
+    foot1: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。解説は Dykes の例題を使っています。図 1・3・4・5、§2 の引き算 16° − 279°、そしてミネアポリス生まれのワークシートの出生者です。手順 3 の 371° は Dykes のもので、足して 371° になる二つの数はこちらで選びました。`,
     foot2: 'ネットワーク不要の単一ファイル。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed（SIL Open Font License）。<a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a> の一部です。',
     degrees: '度', minutes: '分', seconds: '秒', hours: '時',
     minutesTime: '分（時間）', secondsTime: '秒（時間）', decimalDegrees: '小数の度数', sign: 'サイン'
@@ -2181,12 +2304,12 @@ I18N.ja = {
 
   note: {
     carried: x => ` + 繰り上がりの ${x}`,
-    addSecCarry: (lhs, sum, full, keep, from, to) => `${lhs} = ${sum}。${full ? '60 ちょうど' : '60 を超えている'}ので、${keep} を残し、${from} を ${to} として分の桁へ繰り上げます。`,
+    addSecCarry: (lhs, sum, full, keep, from, to) => `${lhs} = ${sum}。${full ? 'ちょうど 60 な' : '60 を超えている'}ので、${keep} を残し、${from} を ${to} として分の桁へ繰り上げます。`,
     addSecNo: (lhs, sum) => `${lhs} = ${sum}。60 未満なので、そのままです。`,
     addMinCarry: (lhs, sum, keep, from, to) => `${lhs} = ${sum}。${keep} を残し、${from} を ${to} として度の桁へ繰り上げます。`,
     addMinNo: (lhs, sum) => `${lhs} = ${sum}。60 未満なので、そのままです。`,
     addDeg: (lhs, sum, final) => `${lhs} = ${sum}。${final ? '360° 未満なので、これが答えです。' : ''}`,
-    addWrap: (sum, calc) => `${sum}° は円の終わりを越えています。360° に達すると数えるのは 0° からやり直しなので、360° を引きます：${calc}。`,
+    addWrap: (sum, calc) => `${sum == 360 ? '360° はちょうど一周です' : `${sum}° は円の終わりを越えています`}。360° に達すると数えるのは 0° からやり直しなので、360° を引きます：${calc}。`,
     subWrap: (a, b, calc) => `${a} は ${b} より小さいので、上の行が下の行より小さくなっています。先に一周分を加えます：${calc}。あとは通常どおり引きます。`,
     subSecBorrow2: v => `${v.a} は ${v.b} より小さいのですが、分の桁は空で、貸せるものがありません。そこで二度借ります。まず度から ${v.oneDeg} を ${v.sixtyMin} として、次にそのうち ${v.oneMin} を ${v.sixtySec} として。残りは ${v.left} となり、秒は ${v.top} になります。そして ${v.calc}。`,
     subSecBorrow: v => `${v.a} は ${v.b} より小さいので、そのままでは引けません。分から ${v.oneMin}——つまり ${v.sixtySec}——を借ります。${v.a} は ${v.top} になり、分は ${v.min} に減ります。そして ${v.calc}。`,
@@ -2202,7 +2325,8 @@ I18N.ja = {
     dms2: calc => `端数に 60 を掛けて分にします：${calc}。`,
     dms3: (m, f) => `整数の分 ${m} を取り分けて、新しい端数 ${f} を残します。`,
     dms4: calc => `それに 60 を掛けて秒にします：${calc}。`,
-    dms5: (calc, carry, ans) => `秒に四捨五入します：${calc}。${carry ? '60 秒はちょうど 1 分なので、繰り上げます。' : ''}答えは ${ans} です。`,
+    dms5: (calc, carry, ans) => `秒に四捨五入します：${calc}。${carry ? '60 秒はちょうど 1 分なので、繰り上げます。' : ''}${carry === 2 ? 'これで 60 分、ちょうど 1 度になるので、もう一度繰り上げます。' : ''}答えは ${ans} です。`,
+    dmsWrap: '繰り上がりで 360°、ちょうど一周に達したので、0° に戻ります。',
     abs1: (sign, i, calc) => `${sign}は ${I18N.ja.ord[i]}のサインなので、その前に 30° のサインがまるごと ${i} 個あります。その最初の度数は、絶対黄経で ${calc} です。`,
     abs2: calc => `サインの始まりの度数に、サイン内の度数を加えます：${calc}。`,
     sign1: (calc, rem, q) => `度数を 30 で割って、経過したサインを数えます：${calc}、余り ${rem}。${q} サインが経過しています。`,
@@ -2216,7 +2340,7 @@ I18N.ja = {
     arc3: (calc, conv) => `時間の秒を角度に：${calc}${conv ? `、すなわち ${conv}` : ''}。`,
     time1: (calc, rem) => `15° で 1 時間です。${calc}、余り ${rem}。`,
     time2: (conv, calc, rem) => `余った度を角度の分に直し、分を加えます：${conv}。そして ${calc}、余り ${rem}。`,
-    time3: (conv, calc, rounded) => `余った分を角度の秒に直し、秒を加えます：${conv}。そして ${calc}${rounded ? `、四捨五入して ${rounded}` : ''}。`,
+    time3: (conv, calc, rounded, carry) => `余った分を角度の秒に直し、秒を加えます：${conv}。そして ${calc}${rounded ? `、四捨五入して ${rounded}` : ''}。${carry ? '60 秒はちょうど 1 分なので、繰り上げます。' : ''}${carry === 2 ? 'これで 60 分、ちょうど 1 時間になるので、もう一度繰り上げます。' : ''}`,
     time4: (arc, time) => `つまり角度の ${arc} は、時間にして ${time} です。`
   },
 
@@ -2229,18 +2353,33 @@ I18N.ja = {
     hmsH: '時が違います——度 ÷ 15、余りは分に回します。',
     hmsM: '分が違います——余った度を 1° につき 60′ に直すのを忘れずに。',
     hmsS: '秒が違います——余った分を 1′ につき 60″ に直し、それから ÷ 15。',
-    wrongSign: n => `度数は合っていますが、サインが違います。経過したサインを数え直してください——${n} サインが経過しています。`,
+    wrongSign: n => `度数は合っていますが、サインが違います。経過したサインを数え直してください——${n == 0 ? 'まだ 1 サインも経過していません' : `${n} サインが経過しています`}。`,
     rightSign: 'サインは合っています——度数は 30 で割った余りで、分と秒はそのままです。',
     signHow: '度数を 30 で割ります。商が経過したサインの数、余りが次のサインの中の度数です。',
     backPast: '牡羊座 0° を越えて後ろへ戻っています——先に上の行に 360° を加えてください。',
-    circle: 'ちょうど一周ずれています。度数が 360 を超えたら 360° を引きます。',
+    circle: 'ちょうど一周ずれています。度数が 360 に達したら 360° を引きます。',
     offBy: deg => `${deg}° ずれています——サインの始まりの度数が間違っています。`,
     secs: '秒だけが違います。',
     mins: '分が違います——秒からの繰り上がりや借りを入れましたか？',
     degs: '度が違います——分からの繰り上がりや借りを確かめてください。',
     oneUnit: 'ちょうど 1 単位ずれています——繰り上がりか借りを見落としています。',
     over60: '60 以上の桁があります——左へ繰り上げてください。',
-    notYet: 'まだです。石板の計算過程をたどって、つまずいた箇所を探してください。'
+    notYet: 'まだです。石板の計算過程をたどって、つまずいた箇所を探してください。',
+    empty: 'まず枠に答えを書いてください。',
+    swapped: '引き算が逆です。上の行から下の行を引いてください。',
+    distCross: '数える途中で牡羊座 0° を越えます——先に終点に 360° を加えてください。',
+    range: '度数は 0 から 359 までです。360° はちょうど一周で、0° に戻ります。',
+    okRetry: '正解です。ただ、1 回目ではなかったので数えません。N で次へ。',
+    decPlain: '小数は数字と小数点ひとつだけで書いてください。例：23.43666。',
+    minsOnly: '分だけが違います。',
+    degsOnly: '度だけが違います。',
+    offMin: 'ちょうど 1 分ずれています。各桁をもう一度確かめてください。',
+    offDeg: 'ちょうど 1 度ずれています。各桁をもう一度確かめてください。',
+    form: '整数で書いてください。分と秒は 0〜59 です。',
+    roundUp: '1 秒足りません。端数が 0.5 秒以上なので、切り上げます。',
+    roundDown: '1 秒多すぎます。端数が 0.5 秒未満なので、切り捨てます。',
+    already: 'もう数えました。N で新しい問題に進みます。',
+    okShown: '正解です。ただ、途中の計算が表示されていたので数えません。N で次へ。'
   },
   own: {
     first: '1 つ目', second: '2 つ目', from: '元の数', subtract: '引く数', position: '位置',
@@ -2300,7 +2439,7 @@ I18N.ja = {
      try:`すべて表示してください。それから「練習」の「<em>初級</em>」レベルで、サインの始まりの度数が考えずに出てくるまで、これを 5 問解いてみましょう。`},
     {title:'牡羊座 0° をまたぐ距離',
      body:`<p>獣帯の二点間の正確な距離が必要なのに、わかっているのはそれぞれのサイン内の位置だけ、ということがあります。両方を絶対黄経に直して引きます。ロット<span class="gloss" lang="en">（Lots）</span>はこうして計算します。</p>
-         <p>ただし、獣帯の後ろのほうの位置から前のほうの位置へ測るとき——ここでは水瓶座の終わりから順方向に牡羊座のある度数まで——は、牡羊座 0° の線をまたぎます。先に終点に 360° を加え、それから通常どおり引きます。</p>
+         <p>ただし、獣帯の後ろのほうの位置から前のほうの位置へ測るとき——ここではレッスンの図 3 のとおり、水瓶座 17° から順方向に牡羊座 23° まで——は、牡羊座 0° の線をまたぎます。先に終点に 360° を加え、それから通常どおり引きます。</p>
          <p>自信がなければ、チャートの円で 5° ずつ順方向に数えて見当をつけてください。30° ずれていたら、どこかで間違えています。</p>`,
      try:`ステップを進め、円の上の真鍮色の弧が赤い牡羊座の線を越えるのを見てください。その下の引き算は、これまでと同じ桁ごとの計算です。`},
     {title:'時間を角度に',
@@ -2311,7 +2450,7 @@ I18N.ja = {
     {title:'角度を時間に',
      body:`<p>逆向きの計算は経度補正<span class="gloss" lang="en">（longitude correction）</span>に必要です。出生地の経度を 15 で割ると、グリニッジ恒星時<span class="gloss" lang="en">（Greenwich sidereal time）</span>と地方恒星時の差になります。</p>
          <p>ミネアポリスは西経 93° 15′ 48″ にあります。93° ÷ 15 = 6h、余り 3°。3° は 180′、それに 15′ を足して 195′、195′ ÷ 15 = ちょうど 13m。48″ ÷ 15 = 3.2s。したがって補正は 6h 13m 03s で、この都市はグリニッジより西にあるので引きます。</p>
-         <p>§2 と §6 の最初のワークシートの計算は、これで全部です。この課の残りは表を引くこと——そして、この算術を丁寧にこなすことです。</p>`,
+         <p>これで §2 の算術と、§6 の最初のワークシートの換算がそろいます。ワークシートの時・分・秒の足し算も同じ桁の規則に従います。加速（1 時間あたり 9.86 秒）は掛け算で、このページでは扱いません。この課の残りは表を引くこと——そして、この算術を丁寧にこなすことです。</p>`,
      try:`すべて表示してください。それから「練習」に行き、「<em>中級</em>」レベルで各モードを、5 問続けてミスなく解けるまで練習しましょう。`}
   ]
 };
@@ -2321,14 +2460,17 @@ I18N.ja = {
 // ---------- random problems ----------
 const rnd = (a,b) => a + Math.floor(Math.random()*(b-a+1));
 function rDMS(level, maxd){ maxd = maxd===undefined?359:maxd; return {d:rnd(0,maxd), m:rnd(0,59), s: level>=2 ? rnd(0,59) : 0}; }
+// a decimal of degrees as the lesson writes it: five places, cut
+const decStrOf = x => decOf(toSec(x), 5);
 function makeProblem(mode, level){
   switch(mode){
     case 'add': { let a, b;
-      for(let i=0;i<50;i++){ a = rDMS(level); b = rDMS(level, level===1?180:359);
+      for(let i=0;i<50;i++){ a = rDMS(level, level===1?179:359); b = rDMS(level, level===1?179:359);
         const wraps = toSec(a)+toSec(b) >= CIRC;
-        if (level===1 && wraps) continue; if (level===3 && !wraps) continue;
+        if (level===3 && !wraps) continue;
         if (level===1 && a.m+b.m<60 && Math.random()<0.6) continue; // want carries mostly
         break; }
+      if (level===3 && toSec(a)+toSec(b) < CIRC){ a.d = rnd(181, 359); b.d = rnd(360 - a.d, 359); }   // Full always wraps
       return {mode, a, b, ask:'dms'}; }
     case 'sub': { let a, b;
       for(let i=0;i<50;i++){ a = rDMS(level); b = rDMS(level);
@@ -2336,9 +2478,13 @@ function makeProblem(mode, level){
         if (level===1 && wraps) continue; if (level===3 && !wraps) continue;
         if (level===1 && a.m>=b.m && Math.random()<0.6) continue; // want borrows mostly
         break; }
+      const wraps = toSec(a) < toSec(b);
+      if ((level===1 && wraps) || (level===3 && !wraps)) [a, b] = [b, a];   // Gentle never wraps, Full always does
+      if (level===3 && toSec(a) === toSec(b)){ a.d = rnd(0, 358); b.d = rnd(a.d+1, 359); }
       return {mode, a, b, ask:'dms'}; }
     case 'todec': { const x = rDMS(level, 359); if (level===1) x.s = 0; return {mode, x, ask:'dec'}; }
-    case 'todms': { const x = rDMS(level, 359); if (level===1) x.s = 0; const dec = Number(truncFixed(x.d + x.m/60 + x.s/3600, 5)); return {mode, dec, ask:'dms'}; }
+    case 'todms': { const x = rDMS(level, 359); if (level===1){ x.s = 0; x.m = 3*rnd(1,19); }   // Gentle: m/60 ends within five places
+      return {mode, decStr: decStrOf(x), ask:'dms'}; }
     case 'signs': {
       const kinds = level===1 ? ['toAbs','toSign'] : level===2 ? ['toAbs','toSign','dist'] : ['dist','dist','toSign'];
       const kind = kinds[rnd(0,kinds.length-1)];
@@ -2346,11 +2492,14 @@ function makeProblem(mode, level){
       if (kind==='toSign'){ const x = rDMS(level, 359); return {mode, kind, x, ask:'signpos'}; }
       let A, B; for(let i=0;i<50;i++){ A = rDMS(level); B = rDMS(level); const cross = toSec(B) < toSec(A);
         if (level===3 && !cross) continue; if (level===2 && cross && Math.random()<0.5) continue; break; }
+      if (level===3 && !(toSec(B) < toSec(A))){ [A, B] = [B, A]; if (toSec(A) === toSec(B)){ A.d = rnd(1, 359); B.d = rnd(0, A.d-1); } }   // Full always crosses
       return {mode, kind, A, B, ask:'dms'}; }
     case 'time': {
       const kind = Math.random()<0.5 ? 'toArc' : 'toTime';
       if (kind==='toArc'){ const t = {d:rnd(0,23), m:rnd(0,59), s: level>=2 ? rnd(0,59) : 0}; return {mode, kind, t, ask:'dms'}; }
-      const x = rDMS(level, 179); if (level===1) x.s = 0; return {mode, kind, x, ask:'hms'}; }
+      const x = rDMS(level, 179);
+      if (level===1){ x.s = 0; x.m = 15*rnd(0,3); }   // Gentle: whole minutes of time, no seconds
+      return {mode, kind, x, ask:'hms'}; }
   }
 }
 function solve(p){
@@ -2358,7 +2507,7 @@ function solve(p){
     case 'add': return addSteps([p.a,p.b]);
     case 'sub': return subSteps(p.a,p.b);
     case 'todec': return toDecSteps(p.x);
-    case 'todms': return toDMSSteps(p.dec);
+    case 'todms': return toDMSSteps(p.decStr);
     case 'signs': return p.kind==='toAbs' ? toAbsSteps(p.i,p.r) : p.kind==='toSign' ? toSignSteps(p.x) : distSteps(p.A,p.B);
     case 'time': return p.kind==='toArc' ? timeToArcSteps(p.t) : arcToTimeSteps(p.x);
   }
@@ -2370,7 +2519,7 @@ function question(p){
     case 'add': return Q.add(MONO(fmtDMS(p.a)), MONO(fmtDMS(p.b)));
     case 'sub': return Q.sub(MONO(fmtDMS(p.a)), MONO(fmtDMS(p.b)));
     case 'todec': return Q.todec(MONO(fmtDMS(p.x)));
-    case 'todms': return Q.todms(MONO(`${N(p.dec)}°`));
+    case 'todms': return Q.todms(MONO(`${N(p.decStr)}°`));
     case 'signs': return p.kind==='toAbs' ? Q.toAbs(MONO(`${fmtDMS(p.r)} ${g(p.i)}`))
                 : p.kind==='toSign' ? Q.toSign(MONO(fmtDMS(p.x)))
                 : Q.dist(MONO(fmtSign(p.A)), MONO(fmtSign(p.B)));
@@ -2430,6 +2579,7 @@ function withHist(x, steps){ // build hist arrays for the top row of a subtracti
   return Object.assign({}, x, {hist});
 }
 
+const EQ = x => `<span class="eq">${x}</span>`;   // a piece of working that never breaks inside itself
 function stairRow(n, w, act, dim){ return `<div class="n${dim?' dim':''}">${n}</div><div class="w${act?' active':''}">${w}</div>`; }
 
 function render(){
@@ -2445,36 +2595,36 @@ function render(){
     case 'todec': {
       const r = sol; const x = p.x; const rows = [];
       rows.push(stairRow(`${x.d}° ${pad2(x.m)}′ ${pad2(x.s)}″`, St.todec, false, k>0));
-      if (k>=1) rows.push(stairRow(`${x.d}° ${pad2(x.m)}′ <span class="frac">${FR(fracStr(r.f1,5))}</span>`, `${x.s} ÷ 60`, k===1, k>1));
-      if (k>=2) rows.push(stairRow(`${x.d}° ${N(truncFixed(r.m2,5))}′`, St.moveLeft, k===2, k>2));
-      if (k>=3) rows.push(stairRow(`${x.d}° <span class="frac">${FR(fracStr(r.f2,5))}</span>`, `${N(truncFixed(r.m2,5))} ÷ 60`, k===3, k>3));
-      if (k>=4) rows.push(stairRow(`${N(truncFixed(r.result,5))}°`, St.moveLeft, k===4, false));
+      if (k>=1) rows.push(stairRow(`${x.d}° ${pad2(x.m)}′ <span class="frac">${r.f1}</span>`, `${x.s} ÷ 60`, k===1, k>1));
+      if (k>=2) rows.push(stairRow(`${x.d}° ${r.m2}′`, St.moveLeft, k===2, k>2));
+      if (k>=3) rows.push(stairRow(`${x.d}° <span class="frac">${r.f2}</span>`, `${r.m2} ÷ 60`, k===3, k>3));
+      if (k>=4) rows.push(stairRow(`${r.decs}°`, St.moveLeft, k===4, false));
       body = `<div class="stair">${rows.join('')}</div>`; break; }
     case 'todms': {
       const r = sol; const rows = [];
-      rows.push(stairRow(`${N(truncFixed(p.dec,5))}°`, St.todms, false, k>0));
-      if (k>=1) rows.push(stairRow(`${r.d}° <span class="frac">${FR(fracStr(r.f1,5))}</span>`, St.separate, k===1, k>1));
-      if (k>=2) rows.push(stairRow(`${r.d}° ${N(truncFixed(r.m2,4))}′`, `${FR(fracStr(r.f1,5))} × 60`, k===2, k>2));
-      if (k>=3) rows.push(stairRow(`${r.d}° ${pad2(r.m)}′ <span class="frac">${FR(fracStr(r.f2,4))}</span>`, St.separate, k===3, k>3));
-      if (k>=4) rows.push(stairRow(`${r.d}° ${pad2(r.m)}′ ${N(truncFixed(r.s2,3))}″`, `${FR(fracStr(r.f2,4))} × 60`, k===4, k>4));
+      rows.push(stairRow(`${N(p.decStr)}°`, St.todms, false, k>0));
+      if (k>=1) rows.push(stairRow(`${r.d}° <span class="frac">${r.f1}</span>`, St.separate, k===1, k>1));
+      if (k>=2) rows.push(stairRow(`${r.d}° ${r.m2}′`, `${r.f1} × 60`, k===2, k>2));
+      if (k>=3) rows.push(stairRow(`${r.d}° ${pad2(r.m)}′ <span class="frac">${r.f2}</span>`, St.separate, k===3, k>3));
+      if (k>=4) rows.push(stairRow(`${r.d}° ${pad2(r.m)}′ ${r.s2}″`, `${r.f2} × 60`, k===4, k>4));
       if (k>=5) rows.push(stairRow(`${fmtDMS(r.result)}`, St.round, k===5, false));
       body = `<div class="stair">${rows.join('')}</div>`; break; }
     case 'signs': {
       if (p.kind==='toAbs'){
         const rows = [stairRow(`${fmtDMS(p.r)} ${g(p.i)}`, signName(p.i), false, k>0)];
         if (k>=1) rows.push(stairRow(`${p.i} × 30° = ${sol.start}°`, St.firstDegree, k===1, k>1));
-        if (k>=2) rows.push(stairRow(`${sol.start}° + ${fmtDMS(p.r)} = ${fmtDMS(sol.result)}`, St.absolute, k===2, false));
-        body = ringSVG([toSec(sol.result)], null) + `<div class="stair">${rows.join('')}</div>`;
+        if (k>=2) rows.push(stairRow(`${EQ(`${sol.start}° + ${fmtDMS(p.r)}`)} ${EQ(`= ${fmtDMS(sol.result)}`)}`, St.absolute, k===2, false));
+        body = ringSVG(k>=2 ? [toSec(sol.result)] : [], null) + `<div class="stair">${rows.join('')}</div>`;
       } else if (p.kind==='toSign'){
         const q = Math.floor(p.x.d/30);
         const rows = [stairRow(`${fmtDMS(p.x)}`, St.absolute, false, k>0)];
         if (k>=1) rows.push(stairRow(St.quotient(p.x.d, q, p.x.d-q*30), St.fullSigns(q), k===1, k>1));
         if (k>=2) rows.push(stairRow(`${fmtDMS(sol.result.r)} ${g(sol.result.i)}`, St.nthSign(sol.result.i, signName(sol.result.i)), k===2, false));
-        body = ringSVG([toSec(p.x)], null) + `<div class="stair">${rows.join('')}</div>`;
+        body = ringSVG(k>=2 ? [toSec(p.x)] : [], null) + `<div class="stair">${rows.join('')}</div>`;
       } else {
-        const rows = [stairRow(`${fmtSign(p.A)} → ${fmtSign(p.B)}`, St.forward, false, k>0)];
+        const rows = [stairRow(`${EQ(fmtSign(p.A))} → ${EQ(fmtSign(p.B))}`, St.forward, false, k>0)];
         if (k>=1) rows.push(stairRow(`${fmtDMS(sol.a)}`, St.startAbs, k===1, k>1));
-        if (k>=2) rows.push(stairRow(`${fmtDMS(p.B)}${sol.crossed && k>=3 ? ` + 360° = ${sol.b.d}° ${pad2(sol.b.m)}′ ${pad2(sol.b.s)}″` : ''}`, sol.crossed && k>=3 ? St.endCross : St.endAbs, k===2||k===3, k>3));
+        if (k>=2) rows.push(stairRow(`${EQ(fmtDMS(p.B))}${sol.crossed && k>=3 ? ` ${EQ(`+ 360° = ${sol.b.d}° ${pad2(sol.b.m)}′ ${pad2(sol.b.s)}″`)}` : ''}`, sol.crossed && k>=3 ? St.endCross : St.endAbs, k===2||k===3, k>3));
         let grid = '';
         if (k>=3){ const kk = Math.max(0, k-3); grid = renderColumnsWrap([withHist(sol.b, sol.subSteps), sol.a], ['','−'], sol.subSteps, kk); }
         body = `<div class="ringwrap">${ringSVG([toSec(p.A), toSec(p.B)], k>=1 ? [toSec(p.A), toSec(p.B)] : null)}<div class="stair">${rows.join('')}</div></div>${grid}`;
@@ -2484,16 +2634,16 @@ function render(){
       if (p.kind==='toArc'){
         const rows = [stairRow(`${fmtHMS(p.t)}`, St.timeX15, false, k>0)];
         if (k>=1) rows.push(stairRow(`${p.t.d}h × 15 = ${sol.rows[0].d}°`, St.hours, k===1, k>1));
-        if (k>=2) rows.push(stairRow(`${p.t.m}m × 15 = ${p.t.m*15}′ = ${sol.rows[1].d}° ${pad2(sol.rows[1].m)}′`, St.minutes, k===2, k>2));
-        if (k>=3) rows.push(stairRow(`${p.t.s}s × 15 = ${p.t.s*15}″ = ${sol.rows[2].m}′ ${pad2(sol.rows[2].s)}″`, St.seconds, k===3, k>3));
+        if (k>=2) rows.push(stairRow(`${EQ(`${p.t.m}m × 15 = ${p.t.m*15}′`)} ${EQ(`= ${sol.rows[1].d}° ${pad2(sol.rows[1].m)}′`)}`, St.minutes, k===2, k>2));
+        if (k>=3) rows.push(stairRow(`${EQ(`${p.t.s}s × 15 = ${p.t.s*15}″`)} ${EQ(`= ${sol.rows[2].m}′ ${pad2(sol.rows[2].s)}″`)}`, St.seconds, k===3, k>3));
         let grid = '';
         if (k>=3){ const kk = Math.max(0, k-3); grid = renderColumnsWrap(sol.rows, ['','+','+'], sol.addSteps, kk); }
         body = `<div class="stair">${rows.join('')}</div>${grid}`;
       } else {
         const r = sol; const rows = [stairRow(`${fmtDMS(p.x)}`, St.arcDiv15, false, k>0)];
         if (k>=1) rows.push(stairRow(`${p.x.d} ÷ 15 = ${r.h}h, ${St.r} ${r.rd}°`, St.hours, k===1, k>1));
-        if (k>=2) rows.push(stairRow(`${r.rd*60}′ + ${p.x.m}′ = ${r.mtot}′ ÷ 15 = ${r.m}m, ${St.r} ${r.rm}′`, St.minutes, k===2, k>2));
-        if (k>=3) rows.push(stairRow(`${r.rm*60}″ + ${p.x.s}″ = ${r.stot}″ ÷ 15 = ${N(truncFixed(r.sExact,2))}s`, St.seconds, k===3, k>3));
+        if (k>=2) rows.push(stairRow(`${EQ(`${r.rd*60}′ + ${p.x.m}′ = ${r.mtot}′;`)} ${EQ(`${r.mtot}′ ÷ 15 = ${r.m}m,`)} ${EQ(`${St.r} ${r.rm}′`)}`, St.minutes, k===2, k>2));
+        if (k>=3) rows.push(stairRow(`${EQ(`${r.rm*60}″ + ${p.x.s}″ = ${r.stot}″;`)} ${EQ(`${r.stot}″ ÷ 15 = ${r.sTxt}s`)}`, St.seconds, k===3, k>3));
         if (k>=4) rows.push(stairRow(`${fmtHMS(r.result)}`, St.hms, k===4, false));
         body = `<div class="stair">${rows.join('')}</div>`;
       }
@@ -2504,16 +2654,19 @@ function render(){
     let main = '', alt = '';
     switch(p.mode){
       case 'add': case 'sub': main = fmtDMS(sol.result); alt = fmtSign(sol.result); break;
-      case 'todec': main = N(truncFixed(sol.result,5))+'°'; break;
+      case 'todec': main = sol.decs+'°'; break;
       case 'todms': main = fmtDMS(sol.result); alt = fmtSign(sol.result); break;
-      case 'signs': main = p.kind==='toSign' ? `${fmtDMS(sol.result.r)} ${g(sol.result.i)}` : fmtDMS(sol.result); alt = p.kind==='toAbs' ? '' : p.kind==='toSign' ? `= ${fmtDMS(p.x)}` : T.ofArc(N((toSec(sol.result)/3600).toFixed(2))); break;
-      case 'time': main = p.kind==='toArc' ? fmtDMS(sol.result) : fmtHMS(sol.result); alt = p.kind==='toArc' ? T.ramcAlt(N(truncFixed(toSec(sol.result)/3600,4))) : T.hoursAlt(N(truncFixed(toSec(sol.result)/3600,4))); break;
+      case 'signs': main = p.kind==='toSign' ? `${fmtDMS(sol.result.r)} ${g(sol.result.i)}` : fmtDMS(sol.result); alt = p.kind==='toAbs' ? '' : p.kind==='toSign' ? `= ${fmtDMS(p.x)}` : T.ofArc(N(decOf(toSec(sol.result), 4))); break;
+      case 'time': main = p.kind==='toArc' ? fmtDMS(sol.result) : fmtHMS(sol.result); alt = p.kind==='toArc' ? T.ramcAlt(N(decOf(toSec(sol.result), 4))) : T.hoursAlt(N(decOf(toSec(sol.result), 4))); break;
     }
     answer = `<div class="answer"><small>${T.answer}</small><span>${main}</span>${alt?`<span class="alt">${alt}</span>`:''}</div>`;
   }
   slate.innerHTML = `<div class="slate-head"><span>${T.modeNames[p.mode]}</span><em>${state.practising ? T.practice : T.example}</em></div><div class="sp"></div>
     <div class="work"><div class="prob">${question(p)}</div>${body}<div class="say${doneAll?' done':''}">${note}</div>${answer}</div><div class="sp"></div>`;
+  const had = document.activeElement;
   $('#stepBtn').disabled = doneAll; $('#allBtn').disabled = doneAll; $('#resetBtn').disabled = k===0;
+  if (doneAll && (had === $('#stepBtn') || had === $('#allBtn'))) $('#resetBtn').focus({preventScroll:true});
+  else if (k===0 && had === $('#resetBtn')) $('#stepBtn').focus({preventScroll:true});
   document.querySelectorAll('.modes .btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode===p.mode ? 'true':'false'));
 }
 
@@ -2531,7 +2684,8 @@ function ringSVG(points, arc){
   return h + `</svg>`;
 }
 
-function load(problem, reveal, practising){
+function load(problem, reveal, practising, keepOwn){
+  if (problem.mode !== ownMode && !keepOwn) buildOwn(problem.mode);
   state.problem = problem; state.mode = problem.mode; state.sol = solve(problem); state.reveal = reveal||0; state.practising = !!practising;
   render();
 }
@@ -2542,13 +2696,13 @@ const D = (d,m,s) => ({d,m,s:s||0});
 const WALK = [
   {p:{mode:'add', a:D(23,26,12), b:D(48,13,56), ask:'dms'}, reveal:0},
   {p:{mode:'add', a:D(23,26,12), b:D(48,13,56), ask:'dms'}, reveal:3},
-  {p:{mode:'add', a:D(340,10,0), b:D(31,50,0), ask:'dms'}, reveal:0},
+  {p:{mode:'add', a:D(340,0,0), b:D(31,0,0), ask:'dms'}, reveal:0},   // 340° + 31° = 371° → 11°, as the text says
   {p:{mode:'sub', a:D(48,26,12), b:D(23,13,56), ask:'dms'}, reveal:0},
   {p:{mode:'sub', a:D(16,0,0), b:D(279,0,0), ask:'dms'}, reveal:0},
   {p:{mode:'todec', x:D(23,26,12), ask:'dec'}, reveal:0},
-  {p:{mode:'todms', dec:23.43666, ask:'dms'}, reveal:0},
+  {p:{mode:'todms', decStr:'23.43666', ask:'dms'}, reveal:0},
   {p:{mode:'signs', kind:'toAbs', i:8, r:D(25,21,41), ask:'dms'}, reveal:0},
-  {p:{mode:'signs', kind:'dist', A:D(323,26,12), B:D(8,0,0), ask:'dms'}, reveal:0},
+  {p:{mode:'signs', kind:'dist', A:D(317,13,56), B:D(23,26,12), ask:'dms'}, reveal:0},   // Fig. 3: 17° 13′ 56″ ♒ to 23° 26′ 12″ ♈
   {p:{mode:'time', kind:'toArc', t:D(17,39,47), ask:'dms'}, reveal:0},
   {p:{mode:'time', kind:'toTime', x:D(93,15,48), ask:'hms'}, reveal:0}
 ];
@@ -2557,10 +2711,15 @@ function paintWalk(){
   const T = L(), w = T.walk[walkIdx];
   $('#stepCount').textContent = T.stepOf(walkIdx+1, WALK.length);
   $('#stepTitle').textContent = w.title; $('#stepBody').innerHTML = w.body; $('#stepTry').innerHTML = w.try;
+  const had = document.activeElement;
   $('#prevBtn').disabled = walkIdx===0; $('#nextBtn').disabled = walkIdx===WALK.length-1;
+  if (had === $('#prevBtn') && walkIdx===0) $('#nextBtn').focus({preventScroll:true});
+  else if (had === $('#nextBtn') && walkIdx===WALK.length-1) $('#prevBtn').focus({preventScroll:true});
   document.querySelectorAll('#pips button').forEach((b,j)=>b.setAttribute('aria-current', j===walkIdx?'true':'false'));
 }
+let parked = null;   // the practice problem the walkthrough took the slate from
 function showWalk(i){
+  if (state.practising) parked = {p: state.problem, reveal: state.reveal};
   walkIdx = Math.max(0, Math.min(WALK.length-1, i)); const w = WALK[walkIdx];
   paintWalk();
   load(Object.assign({}, w.p), w.reveal, false);
@@ -2579,12 +2738,20 @@ $('#toPracticeBtn').addEventListener('click',()=>{ selectTab('tabPractice'); new
 function selectTab(id){
   document.querySelectorAll('.tabs [role=tab]').forEach(t=>{ const on = t.id===id; t.setAttribute('aria-selected', on?'true':'false'); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
 }
-document.querySelectorAll('.tabs [role=tab]').forEach(t=>t.addEventListener('click',()=>selectTab(t.id)));
+document.querySelectorAll('.tabs [role=tab]').forEach(t=>t.addEventListener('click',()=>{ selectTab(t.id);
+  if (t.id==='tabWalk' && state.practising) showWalk(walkIdx);   // the step's own example, under the step's own text
+  else if (t.id==='tabPractice' && !state.practising && parked) resumePractice();
+}));
+function resumePractice(){
+  const {p, reveal} = parked, cls = $('#ansWrap').className; parked = null;
+  load(p, reveal, true, true); $('#qline').innerHTML = question(p);   // the own-numbers form stays in the walkthrough's mode, as its Try this asks
+  keepInputs('#ansWrap', () => buildAnswer(p.ask)); $('#ansWrap').className = cls;
+}
 
 // ---------- slate controls ----------
 function seeSlate(){ if (window.innerWidth <= 980) slate.scrollIntoView({behavior:'smooth', block:'start'}); }
-$('#stepBtn').addEventListener('click',()=>{ if(state.reveal < state.sol.steps.length){ state.reveal++; render(); seeSlate(); } });
-$('#allBtn').addEventListener('click',()=>{ state.reveal = state.sol.steps.length; render(); seeSlate(); });
+$('#stepBtn').addEventListener('click',()=>{ if(state.reveal < state.sol.steps.length){ state.reveal++; render(); seeSlate(); usedWorking(); } });
+$('#allBtn').addEventListener('click',()=>{ state.reveal = state.sol.steps.length; render(); seeSlate(); usedWorking(); });
 $('#resetBtn').addEventListener('click',()=>{ state.reveal = 0; render(); });
 document.querySelectorAll('.modes .btn').forEach(b=>b.addEventListener('click',()=>{
   const m = b.dataset.mode;
@@ -2596,14 +2763,19 @@ document.querySelectorAll('.modes .btn').forEach(b=>b.addEventListener('click',(
 
 // ---------- practice ----------
 const stats = {right:0, streak:0, best:0};
-try{ stats.best = Number(localStorage.getItem('reckoner.best')||0) || 0; }catch(e){}
+try{ const b = localStorage.getItem('reckoner.best') || ''; stats.best = /^\d{1,6}$/.test(b) ? Number(b) : 0; }catch(e){}
 function paintStats(){ $('#stRight').textContent = stats.right; $('#stStreak').textContent = stats.streak; $('#stBest').textContent = stats.best; }
 paintStats();
-let answered = false;
+// credit for a problem: 'open' until it is answered or its working seen, then 'done', 'shown' or 'tried' (a wrong Check);
+// 'own' for your own numbers, which are checked but never scored. solved: answered right.
+state.credit = 'open'; state.solved = false; state.okFb = null;
 let fbKey = null, ownFbKey = null;   // what the two feedback lines say, so a language switch can repaint them
+// Leaving a problem unanswered, on the slate or parked by the walkthrough, ends the run.
+function abandon(){ if ((state.practising || parked) && state.credit === 'open' && !state.solved && stats.streak){ stats.streak = 0; paintStats(); } parked = null; }
 function newProblem(mode){
   const level = Number($('#diffSel').value);
-  const p = makeProblem(mode, level); answered = false;
+  abandon();
+  const p = makeProblem(mode, level); state.credit = 'open'; state.solved = false;
   load(p, 0, true);
   $('#qline').innerHTML = question(p);
   buildAnswer(p.ask); setFb(null);
@@ -2613,7 +2785,7 @@ function dmsInputs(prefix, units){
   const U = L().ui, time = units[0]==='h';
   return `<input type="number" inputmode="numeric" id="${prefix}d" aria-label="${time?U.hours:U.degrees}" placeholder="0"><span class="u">${units[0]}</span>` +
          `<input type="number" inputmode="numeric" id="${prefix}m" aria-label="${time?U.minutesTime:U.minutes}" placeholder="00"><span class="u">${units[1]}</span>` +
-         `<input type="number" inputmode="decimal" id="${prefix}s" aria-label="${time?U.secondsTime:U.seconds}" placeholder="00"><span class="u">${units[2]}</span>`;
+         `<input type="number" inputmode="numeric" id="${prefix}s" aria-label="${time?U.secondsTime:U.seconds}" placeholder="00"><span class="u">${units[2]}</span>`;
 }
 function signSelect(id){ return `<select id="${id}" aria-label="${L().ui.sign}">${SIGNS.map((s,i)=>`<option value="${i}">${s.g} ${signName(i)}</option>`).join('')}</select>`; }
 function buildAnswer(ask){
@@ -2622,67 +2794,127 @@ function buildAnswer(ask){
   else if (ask==='dec') w.innerHTML = `<input type="text" inputmode="decimal" class="wide" id="adec" aria-label="${L().ui.decimalDegrees}" placeholder="${N('0.00000')}"><span class="u">°</span>`;
   else if (ask==='hms') w.innerHTML = dmsInputs('a', ['h','m','s']);
   else if (ask==='signpos') w.innerHTML = dmsInputs('a', ['°','′','″']) + signSelect('asign');
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); check(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.isComposing && e.keyCode !== 229){ e.preventDefault(); check(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener(inp.tagName==='SELECT' ? 'change' : 'input', ()=>{ if (fbKey || /good|bad/.test(w.className)){ setFb(null); w.classList.remove('good','bad'); } }));   // an edited answer has no verdict until it is checked
 }
-function readDMS(prefix){ const d = Number($('#'+prefix+'d').value||0), m = Number($('#'+prefix+'m').value||0), s = Number($('#'+prefix+'s').value||0); return {d, m, s}; }
-function expected(p, sol){
-  switch(p.ask){
-    case 'dms': return p.mode==='signs' && p.kind==='toSign' ? null : sol.result;
-    case 'dec': return sol.result;
-    case 'hms': return sol.result;
-    case 'signpos': return sol.result;
-  }
-}
+// a blank box is 0; anything that is not a plain number ("-", "1-", "7.1e1") is NaN
+// A written fraction is kept as a fraction, however close to whole: 71.00000000000000001 is not 71.
+function readField(id){ const el = $('#'+id); if (el.validity && el.validity.badInput) return NaN;
+  const t = (el.value||'').trim().replace(',', '.'); if (t === '') return 0;
+  const m = /^(-?)(\d*)(?:\.(\d*))?$/.exec(t); if (!m || !/\d/.test(t)) return NaN;
+  if (/[1-9]/.test(m[3] || '')) return (m[1] ? -1 : 1) * (Number(m[2] || 0) + 0.5);   // not whole: any value that is not an integer will do
+  return Number(m[1] + (m[2] || '0')); }
+const blank = sel => [...document.querySelectorAll(sel + ' input')].every(el => el.value.trim() === '' && !(el.validity && el.validity.badInput));
+function readDMS(prefix){ return {d: readField(prefix+'d'), m: readField(prefix+'m'), s: readField(prefix+'s')}; }
+// an answer is written as the lesson writes it: whole numbers, minutes and seconds under 60
+const whole = v => [v.d, v.m, v.s].every(n => Number.isInteger(n) && n >= 0);
 // Feedback is kept as a key (and argument) rather than text, so it can be repainted in another language.
 function fbText(f){ if (!f) return ''; const T = L();
   if (f.k==='ok') return T.praise[f.i % T.praise.length] + T.pressN;
   const h = T.hint[f.k]; return typeof h === 'function' ? h(f.arg) : h; }
-function setFb(f){ fbKey = f; const fb = $('#fb'); fb.textContent = fbText(f); fb.className = 'fb' + (f ? (f.k==='ok' ? ' ok' : ' no') : ''); }
+function setFb(f){ fbKey = f; const fb = $('#fb'); fb.textContent = fbText(f); fb.className = 'fb' + (!f || f.k==='already' || f.k==='empty' ? '' : f.k==='ok' || f.k==='okShown' || f.k==='okRetry' ? ' ok' : ' no'); }
+// a typed decimal as plain ASCII: full-width digits (from a CJK keyboard) and a leading + are accepted
+const plainDec = t => t.trim().replace(/[０-９．，＋]/g, c => c === '．' ? '.' : c === '，' ? ',' : c === '＋' ? '+' : String.fromCharCode(c.charCodeAt(0) - 0xFEE0)).replace(/^\+/, '');
+// A decimal answer is right when it is the true value cut or rounded: to five places, or more if more are written.
+function decRight(typed, sec){
+  let t = typed.trim().replace(',', '.'); if (t.startsWith('.')) t = '0' + t;
+  const mt = /^(\d+)(?:\.(\d*))?$/.exec(t); if (!mt) return false;
+  const f = mt[2] || '', k = Math.max(5, f.length), n = BigInt(sec) * 10n ** BigInt(k), v = BigInt(mt[1] + f.padEnd(k, '0'));
+  return v === n / 3600n || v === (2n * n + 3600n) / 7200n;
+}
+// Where the exact answer falls between two seconds: 0 on a whole second, 1 under half, 2 half or more.
+function secFrac(p){
+  if (p.mode==='todms'){ const [i, f = ''] = p.decStr.split('.'), den = 10n ** BigInt(f.length), r = BigInt(i + f) * 3600n % den; return r === 0n ? 0 : 2n * r >= den ? 2 : 1; }
+  if (p.ask==='hms'){ const r = toSec(p.x) % 15; return r === 0 ? 0 : 2 * r >= 15 ? 2 : 1; }
+  return 0;
+}
 function check(){
   const p = state.problem; if (!p || !state.practising) return; const sol = state.sol; const w = $('#ansWrap');
+  if (blank('#ansWrap')) return setFb({k:'empty'});
   let ok = false, hint = null;
   if (p.ask==='dec'){
-    const v = Number(($('#adec').value||'').replace(',','.')); const exp = sol.result;
-    ok = Math.abs(v - exp) <= 0.00002;
-    if (!ok){ if (Math.abs(v-exp) < 0.01) hint = {k:'decClose'}; else if (Math.abs((v - Math.floor(v)) - (p.x.m/100 + p.x.s/10000)) < 0.001 && Math.floor(v)===p.x.d) hint = {k:'decPoint'}; else hint = {k:'decHow'}; }
-  } else if (p.ask==='hms'){
-    const v = readDMS('a'); const exp = sol.result; const dv = toSec(v) - toSec(exp);
-    ok = Math.abs(dv) <= 1;
-    if (!ok){ if (v.d!==exp.d) hint = {k:'hmsH'}; else if (v.m!==exp.m) hint = {k:'hmsM'}; else hint = {k:'hmsS'}; }
-  } else if (p.ask==='signpos'){
-    const v = readDMS('a'); const si = Number($('#asign').value); const exp = sol.result;
-    ok = si===exp.i && toSec(v)===toSec(exp.r);
-    if (!ok){ if (si!==exp.i && toSec(v)===toSec(exp.r)) hint = {k:'wrongSign', arg:Math.floor(p.x.d/30)}; else if (si===exp.i) hint = {k:'rightSign'}; else hint = {k:'signHow'}; }
-  } else { // dms
-    const v = readDMS('a'); const exp = sol.result; const tv = toSec(v), te = toSec(exp);
-    const tol = (p.mode==='todms') ? 1 : 0;
-    ok = Math.abs(tv - te) <= tol;
+    const t = plainDec($('#adec').value), v = Number(t.replace(',', '.'));
+    ok = decRight(t, toSec(p.x));   // 23.43666 and 23.43667 for 23.436666…; 44.98 for 44.98 exactly
     if (!ok){
-      const diff = tv - te;
-      if (Math.abs(Math.abs(diff) - CIRC) < 1) hint = (p.mode==='sub' && diff<0) ? {k:'backPast'} : {k:'circle'};
-      else if (Math.abs(diff) % (30*3600) === 0 && diff!==0) hint = {k:'offBy', arg:Math.abs(diff)/(30*3600)*30};
-      else if (v.s !== exp.s && v.m === exp.m && v.d === exp.d) hint = {k:'secs'};
-      else if (v.s === exp.s && v.d === exp.d) hint = {k:'mins'};
-      else if (v.m === exp.m && v.s === exp.s) hint = {k:'degs'};
-      else if (Math.abs(diff)===60 || Math.abs(diff)===3600) hint = {k:'oneUnit'};
-      else if (v.m>=60 || v.s>=60) hint = {k:'over60'};
-      else hint = {k:'notYet'};
+      if (!/^\d*[.,]?\d*$/.test(t) || !/\d/.test(t)) hint = {k:'decPlain'};
+      else if (Math.abs(v - (p.x.d + p.x.m/100 + p.x.s/10000)) < 1e-9) hint = {k:'decPoint'};
+      else if (Math.abs(v - sol.result) < 0.01) hint = {k:'decClose'};
+      else hint = {k:'decHow'};
+    }
+  } else {
+    const v = readDMS('a'), exp = p.ask==='signpos' ? sol.result.r : sol.result;
+    const neg = v.d < 0, val = (neg ? -1 : 1) * (Math.abs(v.d)*3600 + v.m*60 + v.s);   // −25° 12′ 16″ is negative as a whole
+    const diff = val - toSec(exp), near = ((diff % CIRC) + CIRC + CIRC/2) % CIRC - CIRC/2;   // near: the difference the short way round
+    if (!whole({d:Math.abs(v.d), m:v.m, s:v.s})) hint = {k:'form'};
+    else if (v.m >= 60 || v.s >= 60) hint = {k:'over60'};
+    else if (p.ask==='signpos'){
+      const si = Number($('#asign').value);
+      ok = si===sol.result.i && val===toSec(exp);
+      if (!ok){ if (neg || v.d > 29) hint = {k:'signHow'}; else if (si!==sol.result.i && val===toSec(exp)) hint = {k:'wrongSign', arg:Math.floor(p.x.d/30)}; else if (si===sol.result.i) hint = {k:'rightSign'}; else hint = {k:'signHow'}; }
+    } else if (p.ask==='hms'){
+      ok = diff === 0;   // the correctly rounded second, nothing either side
+      if (!ok){ const f = secFrac(p);
+        if (diff === -1 && f === 2) hint = {k:'roundUp'}; else if (diff === 1 && f === 1) hint = {k:'roundDown'};
+        else if (sol.s === 60 && (diff === -60 || diff === -3600)) hint = {k:'oneUnit'};   // the 60s carry was dropped
+        else if (v.d!==exp.d) hint = {k:'hmsH'}; else if (v.m!==exp.m) hint = {k:'hmsM'}; else hint = {k:'hmsS'}; }
+    } else { // dms
+      ok = diff === 0;
+      if (!ok){
+        const cy = carriesOf(p, sol);
+        if (p.mode==='sub' && neg) hint = toSec(p.a) < toSec(p.b) ? {k:'backPast'} : val === -toSec(exp) ? {k:'swapped'} : {k:'range'};
+        else if (p.mode==='sub' && toSec(p.a) < toSec(p.b) && val === toSec(p.b) - toSec(p.a)) hint = {k:'swapped'};   // 279° − 16° for 16° − 279°
+        else if (neg) hint = p.kind==='dist' && diff === -CIRC ? {k:'distCross'} : {k:'range'};
+        else if (diff === CIRC) hint = {k:'circle'};
+        else if (v.d > 359) hint = {k:'range'};
+        else if (p.mode==='todms' && near === -1 && secFrac(p) === 2) hint = {k:'roundUp'};
+        else if (p.mode==='todms' && near === 1 && secFrac(p) === 1) hint = {k:'roundDown'};
+        else if (p.mode==='signs' && diff % (30*3600) === 0) hint = {k:'offBy', arg:Math.abs(diff)/3600};   // only where a sign's start was used
+        else if (v.s !== exp.s && v.m === exp.m && v.d === exp.d) hint = {k:'secs'};
+        else if (v.s === exp.s && v.d === exp.d) hint = cy.s ? {k:'mins'} : {k:'minsOnly'};
+        else if (v.m === exp.m && v.s === exp.s) hint = cy.m ? {k:'degs'} : {k:'degsOnly'};
+        else if ((cy.s && diff === 60*cy.dir) || (cy.m && diff === 3600*cy.dir)) hint = {k:'oneUnit'};   // exactly what a missed carry or borrow gives
+        else if (Math.abs(diff)===60) hint = {k:'offMin'};
+        else if (Math.abs(diff)===3600) hint = {k:'offDeg'};
+        else hint = {k:'notYet'};
+      }
     }
   }
-  answered = true;
-  if (ok){ stats.right++; stats.streak++; if (stats.streak>stats.best){ stats.best = stats.streak; try{ localStorage.setItem('reckoner.best', String(stats.best)); }catch(e){} }
-    setFb({k:'ok', i:rnd(0,4)}); w.classList.add('good'); w.classList.remove('bad');
+  if (ok){
+    let f;
+    if (state.solved) f = state.credit === 'done' ? {k:'already'} : state.okFb;   // answered before: one problem, one point
+    else if (state.credit === 'open'){ stats.right++; stats.streak++; if (stats.streak>stats.best){ stats.best = stats.streak; try{ localStorage.setItem('reckoner.best', String(stats.best)); }catch(e){} }
+      f = {k:'ok', i:rnd(0,4)}; state.credit = 'done'; }
+    else if (state.credit === 'shown') f = {k:'okShown'};   // right, but the working was already showing
+    else if (state.credit === 'tried') f = {k:'okRetry'};   // right, but not at the first try
+    else f = {k:'ok', i:rnd(0,4)};   // your own numbers: checked, not scored
+    if (!state.solved){ state.solved = true; state.okFb = f; }
+    setFb(f);
+    w.classList.add('good'); w.classList.remove('bad');
     state.reveal = state.sol.steps.length; render(); }
-  else { stats.streak = 0; setFb(hint); w.classList.add('bad'); w.classList.remove('good'); }
+  else { if (!state.solved){ if (state.credit !== 'own') stats.streak = 0; if (state.credit === 'open') state.credit = 'tried'; }   // an answer edited after it was right changes no score
+    setFb(hint); w.classList.add('bad'); w.classList.remove('good'); }
   paintStats();
 }
+// The carries or borrows this problem's working really has: s from the seconds into the minutes, m from the minutes into the degrees.
+// dir: which way a missed one moves the answer (a missed carry leaves it low, a missed borrow high).
+function carriesOf(p, sol){
+  if (p.mode==='add'){ const cs = p.a.s + p.b.s >= 60; return {s: cs, m: p.a.m + p.b.m + (cs ? 1 : 0) >= 60, dir: -1}; }
+  if (p.mode==='sub' || p.kind==='dist'){ const [a, b] = p.mode==='sub' ? [p.a, p.b] : [p.B, p.A]; const bs = a.s < b.s; return {s: bs, m: a.m - (bs ? 1 : 0) < b.m, dir: 1}; }
+  if (p.kind==='toArc'){ const mm = p.t.m*15, sm = Math.floor(p.t.s*15/60); return {s: sm > 0, m: mm >= 60 || mm%60 + sm >= 60, dir: -1}; }
+  if (p.mode==='todms') return {s: sol.s === 60, m: sol.s === 60 && sol.m === 59, dir: -1};
+  return {s: false, m: false, dir: 0};
+}
+// Stepping through the working, like showing it all, gives the answer away: no point for this problem.
+function usedWorking(){ if (state.practising && state.credit === 'open' && !state.solved && state.reveal > 0){ state.credit = 'shown'; stats.streak = 0; paintStats(); } }
 $('#newBtn').addEventListener('click',()=>newProblem(state.mode));
 $('#checkBtn').addEventListener('click',check);
-$('#showBtn').addEventListener('click',()=>{ if(!state.sol) return; state.reveal = state.sol.steps.length; render(); seeSlate(); if (state.practising && !answered){ stats.streak = 0; paintStats(); } });
+$('#showBtn').addEventListener('click',()=>{ if(!state.sol) return; state.reveal = state.sol.steps.length; render(); seeSlate(); usedWorking(); });
 $('#diffSel').addEventListener('change',()=>{ if (state.practising) newProblem(state.mode); });
 
 // ---------- your own numbers ----------
+let ownMode = null;
 function buildOwn(mode){
+  ownMode = mode;
   const O = L().own;
   const w = $('#ownWrap');
   const dms = (pfx, label) => `<p>${label}</p><div class="dmsin">${dmsInputs(pfx, ['°','′','″'])}</div>`;
@@ -2693,20 +2925,23 @@ function buildOwn(mode){
     case 'sub': w.innerHTML = dms('o1',O.from) + dms('o2',O.subtract); break;
     case 'todec': w.innerHTML = dms('o1',O.position); break;
     case 'todms': w.innerHTML = `<p>${O.decimal}</p><div class="dmsin"><input type="text" inputmode="decimal" class="wide" id="odec" aria-label="${L().ui.decimalDegrees}" placeholder="${N('23.43666')}"><span class="u">°</span></div>`; break;
-    case 'signs': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" style="font-family:var(--f-ui)"><option value="toAbs">${O.toAbs}</option><option value="toSign">${O.toSign}</option><option value="dist">${O.dist}</option></select></div>` + sgn('o1',O.a) + sgn('o2',O.b); break;
-    case 'time': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" style="font-family:var(--f-ui)"><option value="toArc">${O.toArc}</option><option value="toTime">${O.toTime}</option></select></div>` + hms('o1',O.time) + dms('o2',O.arc); break;
+    case 'signs': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" aria-label="${O.task}" style="font-family:var(--f-ui)"><option value="toAbs">${O.toAbs}</option><option value="toSign">${O.toSign}</option><option value="dist">${O.dist}</option></select></div>` + sgn('o1',O.a) + sgn('o2',O.b); break;
+    case 'time': w.innerHTML = `<p>${O.task}</p><div class="dmsin"><select id="okind" aria-label="${O.task}" style="font-family:var(--f-ui)"><option value="toArc">${O.toArc}</option><option value="toTime">${O.toTime}</option></select></div>` + hms('o1',O.time) + dms('o2',O.arc); break;
   }
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); workOwn(); } }));
+  w.querySelectorAll('input, select').forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.isComposing && e.keyCode !== 229){ e.preventDefault(); workOwn(); } }));
 }
 function setOwnFb(key, ok){ ownFbKey = key; const fb = $('#ownFb'); fb.textContent = key ? L().own[key] : ''; fb.className = 'fb' + (key ? (ok ? ' ok' : ' no') : ''); }
 function validDMS(x, maxd){ return Number.isInteger(x.d) && Number.isInteger(x.m) && Number.isInteger(x.s) && x.d>=0 && x.d<=maxd && x.m>=0 && x.m<60 && x.s>=0 && x.s<60; }
 function workOwn(){
-  const m = state.mode; setOwnFb(null); let p = null;
+  const m = ownMode; setOwnFb(null); let p = null;
   const bad = key => setOwnFb(key, false);
   switch(m){
     case 'add': case 'sub': { const a = readDMS('o1'), b = readDMS('o2'); if(!validDMS(a,359)||!validDMS(b,359)) return bad('badDms'); p = {mode:m, a, b, ask:'dms'}; break; }
     case 'todec': { const x = readDMS('o1'); if(!validDMS(x,359)) return bad('badDms'); p = {mode:m, x, ask:'dec'}; break; }
-    case 'todms': { const v = Number(($('#odec').value||'').replace(',','.')); if(!(v>=0 && v<360)) return bad('badDec'); p = {mode:m, dec:v, ask:'dms'}; break; }
+    case 'todms': { // the decimal as typed, digits and all
+      let t = plainDec($('#odec').value||'').replace(',','.'); if (t.startsWith('.')) t = '0' + t; if (t.endsWith('.')) t = t.slice(0, -1);
+      if (!/^\d+(\.\d+)?$/.test(t) || !(Number(t.split('.')[0]) < 360)) return bad('badDec');
+      t = t.replace(/^0+(?=\d)/, ''); p = {mode:m, decStr:t, ask:'dms'}; break; }
     case 'signs': { const kind = $('#okind').value; const r1 = readDMS('o1'), s1 = Number($('#o1sign').value); const r2 = readDMS('o2'), s2 = Number($('#o2sign').value);
       if (kind==='toAbs'){ if(!validDMS(r1,29)) return bad('badInSign'); p = {mode:m, kind, i:s1, r:r1, ask:'dms'}; }
       else if (kind==='toSign'){ if(!validDMS(r1,359)) return bad('badAbs'); p = {mode:m, kind, x:r1, ask:'signpos'}; }
@@ -2718,7 +2953,7 @@ function workOwn(){
       break; }
   }
   if (!p) return;
-  answered = true; load(p, 0, true); $('#qline').innerHTML = question(p); buildAnswer(p.ask); setFb(null);
+  abandon(); state.credit = 'own'; state.solved = false; load(p, 0, true); $('#qline').innerHTML = question(p); buildAnswer(p.ask); setFb(null);
   setOwnFb('ok', true); seeSlate();
 }
 $('#ownBtn').addEventListener('click', workOwn);
@@ -2732,11 +2967,18 @@ function paintSignTable(){
 
 // ---------- keys ----------
 document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing || e.keyCode === 229) return;
   const tag = (e.target.tagName||'').toLowerCase(); const typing = tag==='input' || tag==='select' || tag==='textarea';
-  if (e.key===' ' && !typing){ e.preventDefault(); $('#stepBtn').click(); }
-  else if ((e.key==='n' || e.key==='N') && !typing){ if (!$('#panePractice').hidden) newProblem(state.mode); }
-  else if (e.key==='ArrowRight' && !typing && !$('#paneWalk').hidden){ showWalk(walkIdx+1); }
-  else if (e.key==='ArrowLeft' && !typing && !$('#paneWalk').hidden){ showWalk(walkIdx-1); }
+  const isN = e.key==='n' || e.key==='N', practice = !$('#panePractice').hidden;
+  // once a problem is answered, N in its answer box moves on, as the message says
+  if (typing && isN && practice && state.solved && e.target.closest('#ansWrap')){ e.preventDefault(); newProblem(state.mode); return; }
+  if (typing) return;
+  // the arrows turn the walkthrough's pages from anywhere but a tab
+  if ((e.key==='ArrowRight' || e.key==='ArrowLeft') && !$('#paneWalk').hidden && !e.target.closest('[role=tab]')){
+    const j = walkIdx + (e.key==='ArrowRight' ? 1 : -1); if (j >= 0 && j < WALK.length) showWalk(j); return; }
+  if (isN){ if (practice) newProblem(state.mode); return; }
+  // Space steps the slate, unless a focused control wants it
+  if (e.key===' ' && !e.target.closest('button, a, summary, [role=tab]')){ e.preventDefault(); $('#stepBtn').click(); }
 });
 
 // ---------- language switching ----------
@@ -2769,8 +3011,8 @@ function applyLang(l, first){
   paintWalk();
   // the worked steps carry their words, so solve again; the problem itself is unchanged
   if (state.problem){ state.sol = solve(state.problem); render(); if (state.practising) $('#qline').innerHTML = question(state.problem); }
-  if (state.problem && state.practising) keepInputs('#ansWrap', () => buildAnswer(state.problem.ask));
-  keepInputs('#ownWrap', () => buildOwn(state.mode));
+  if (state.problem && state.practising){ const cls = $('#ansWrap').className; keepInputs('#ansWrap', () => buildAnswer(state.problem.ask)); $('#ansWrap').className = cls; }
+  keepInputs('#ownWrap', () => buildOwn(ownMode || state.mode));
   setFb(fbKey); if (ownFbKey) setOwnFb(ownFbKey, ownFbKey==='ok');
 }
 $('#langSel').addEventListener('change', e => applyLang(e.target.value));

@@ -12,7 +12,6 @@ tracking. Save one to disk and it still works.
 | [Sayyid's Sphere](https://dar-al-hikma.github.io/sayyids-sphere/) | Three reference frames, one turning sky | 7 languages |
 | [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic | 7 languages |
 | [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties | 7 languages |
-| [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses | 7 languages |
 | [The Takht](https://dar-al-hikma.github.io/takht/) | A dust board for chart calculation | 7 languages |
 
 ## Layout

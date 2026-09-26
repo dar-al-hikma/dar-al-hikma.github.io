@@ -302,7 +302,7 @@
   /* values beside the sliders and on the plate keep one width, so nothing beside them moves. The times never
      change width (tabular figures); the latitude slot is as wide as its widest form, 00° 00′ 00″ N (5.19em). */
   .rail .val{display:inline-block}
-  #latOut{min-width:5.18em}
+  #latOut{min-width:5.19em}                          /* the script measures the exact widths (fitSlots) */
   .plate .row span{min-width:8.5em}                  /* the widest value, 11° 59′ 59″ N, is 7.9em */
   /* two columns: the stage never scrolls; the strip has one height for every step, and a longer text scrolls
      inside it under its step label; the rail stays at the bottom and the drawing takes the rest */
@@ -318,8 +318,11 @@
     .say .cue::before{content:"";position:absolute;left:-16px;right:-16px;bottom:-13px;height:calc(13px + var(--say-lh));background:linear-gradient(to bottom, rgba(12,16,29,0), rgba(12,16,29,.85) calc(100% - 13px), var(--say-bg) calc(100% - 12px));opacity:0}
     .say .cue::after{content:"\25BE";position:absolute;right:-12px;bottom:-12px;font:15px/1 var(--f-ui);color:var(--brass);opacity:0}
     .say.more .cue::before,.say.more .cue::after{opacity:1}
-    /* Start over, Next step and All always at the rail's right end, in every mode */
+    /* Start over, Next step and All always at the rail's right end, in every mode; the rail's first line (the mode
+       buttons) at its top and its last (the steps) at its foot, whatever its reserved height (railFit) */
     .rail .steps{margin-left:auto}
+    .rail{align-content:space-between}
+    .rail.split .grp.steps{flex-basis:100%;justify-content:flex-end}   /* a one-line mode puts the steps on a line of their own */
   }
   @media (min-width:1280px) and (min-height:540px){
     .say{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;align-items:baseline;padding-top:12px;height:calc(30px + 3 * var(--say-lh))}
@@ -330,15 +333,17 @@
   /* one column: Start over, Next step and All in a bar fixed to the foot of the screen, so they never move and are
      always in reach; the page ends with room for the bar, and a focused control is never scrolled under it */
   @media (max-width:980.98px), (max-width:1179.98px) and (max-height:639.98px), (max-width:1279.98px) and (max-height:619.98px), (max-height:539.98px){
-    :root{--bar-h:calc(51px + env(safe-area-inset-bottom, 0px))}
+    :root{--bar-h:calc(51px + env(safe-area-inset-bottom, 0px))}   /* the script sets it to the bar's measured height */
     html{scroll-padding-bottom:var(--bar-h)}
-    body{padding-bottom:var(--bar-h)}
-    .rail{padding-bottom:calc(12px + var(--bar-h))}          /* the rail can always be scrolled whole above the bar */
+    body{padding-bottom:calc(var(--bar-h) + var(--end-pad, 0px))}   /* --end-pad: see still() */
     .rail .spacer{display:none}
-    .rail .grp.steps{position:fixed;left:0;right:0;bottom:0;z-index:5;margin:0;display:flex;flex-wrap:nowrap;justify-content:flex-end;align-items:center;gap:6px;
+    .rail .grp.steps{position:fixed;left:0;right:0;bottom:0;z-index:5;margin:0;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px;
       padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0px));background:var(--panel);border-top:1px solid var(--line-soft)}
+    .rail .grp.steps .btn{max-width:100%;white-space:normal}   /* with a large default font the bar wraps; no button leaves the screen */
   }
   @media (max-width:400px){ .rail .grp.steps .btn{padding-left:8px;padding-right:8px;letter-spacing:.04em} }   /* all three fit a 320 px screen */
+  /* the tabs fit a narrow screen even with a large default font (they would widen the page) */
+  @media (max-width:400px){ .tabs button{letter-spacing:.04em;padding-left:4px;padding-right:4px;font-size:min(.7rem, 3.8vw)} }
   /* one column on a wide but short screen: the drawing keeps to part of the height */
   @media (min-width:981px) and (max-width:1179.98px) and (max-height:639.98px), (min-width:981px) and (max-width:1279.98px) and (max-height:619.98px), (min-width:981px) and (max-height:539.98px){
     #view svg{max-height:max(280px, 60vh)}
@@ -356,8 +361,12 @@
     .side{min-height:0}
     .pane{overflow:visible}
     body{padding-bottom:0}
-    .rail{padding-bottom:12px}
-    .rail .grp.steps{position:static;padding:0;border:0;background:none}
+    .stage > .rail{min-height:0!important}
+    .rail .grp.steps{position:static;padding:0;border:0;background:none;margin-left:auto}
+    /* printed from one column, the rail is arranged as in two columns: groups divided, the steps at the right end */
+    .rail .spacer{display:block}
+    .rail .grp{border-right:1px solid var(--line-soft);padding-right:16px}
+    .rail .grp:last-child{border-right:none;padding-right:0}
   }
 </style>
 
@@ -2475,7 +2484,7 @@ function renderWs(){
   if (open) h += '</tbody>';
   const ws = $('#ws'); ws.innerHTML = h; ws.setAttribute('aria-label', U.worksheet);
   $('#wsnote').textContent = state.mode==='planet' ? planetNote() : houseNote();
-  if (state.reveal < ALL && shown>0 && !$('#paneWs').hidden){ const act = $('#ws tr.act'); if (act) inPane($('#paneWs'), act); }
+  if (state.reveal < ALL && shown>0 && !$('#paneWs').hidden && !oneCol()){ const act = $('#ws tr.act'); if (act) inPane($('#paneWs'), act); }
 }
 // Bring a row into view inside its pane where the pane scrolls (two columns). The page itself is never scrolled
 // for it: in one column that would move the controls away from the pointer.
@@ -2523,16 +2532,42 @@ function sayHold(){
   el.style.minHeight = '';
   const h = el.getBoundingClientRect().height;
   holdH = key === holdKey ? Math.max(holdH, h) : h; holdKey = key;
-  if (holdH > h + 0.5) el.style.minHeight = Math.ceil(holdH) + 'px';
+  if (holdH > h + 0.5) el.style.minHeight = holdH + 'px';
 }
-// One column: a control used on the rail stays under the pointer. If what lies above it changes height (the
-// drawing, the strip), the page scrolls by as much; nothing else ever scrolls the page.
+function holdMore(px){ const el = $('#say'); holdH = el.getBoundingClientRect().height + px; el.style.minHeight = holdH + 'px'; }
+// One column: a control that is used stays under the finger. If what lies above it changes height, the page
+// scrolls by as much. Where it cannot scroll up that far (near its top), the strip keeps the difference; where the
+// page has become too short to scroll down that far (at its end), room is added after it, and given back as the
+// reader scrolls away. A scroll under way (a smooth scroll, a fling) is left to finish, and then moved on by as much.
+let endPad = 0, ownY = null, scrollT = [-1e9, -1e9, -1e9], pending = 0, settle = 0;
+function setEndPad(px){ endPad = Math.max(0, px); document.documentElement.style.setProperty('--end-pad', endPad.toFixed(1) + 'px'); }
+function pageTo(y){ ownY = Math.max(0, Math.round(y)); window.scrollTo(window.scrollX, ownY); ownY = window.scrollY; }
+function shiftPage(d){
+  const max = document.documentElement.scrollHeight - innerHeight, y = window.scrollY + d;
+  if (y > max - 0.5) setEndPad(endPad + Math.ceil(y - max) + 1);          // whole pixels: the page scrolls by whole pixels
+  pageTo(y);
+}
+// under way: scroll events still arriving frame after frame (three within the last 100 ms)
+const scrolling = () => { const t = performance.now(); return t - scrollT[2] < 40 && scrollT[2] - scrollT[1] < 40 && scrollT[1] - scrollT[0] < 40; };
+function afterScroll(d){
+  pending += d; if (settle) return;
+  const wait = () => { if (performance.now() - scrollT[2] < 60){ settle = requestAnimationFrame(wait); return; } settle = 0; const p = pending; pending = 0; if (Math.abs(p) > 0.5) shiftPage(p); };
+  settle = requestAnimationFrame(wait);
+}
 function still(el, fn){
   if (!oneCol()) return fn();
   const y0 = el.getBoundingClientRect().top; fn();
-  const d = el.getBoundingClientRect().top - y0;
-  if (Math.abs(d) > 0.5) window.scrollTo(window.scrollX, window.scrollY + d);
+  let d = el.getBoundingClientRect().top - y0;
+  if (Math.abs(d) <= 0.5) return;
+  if (window.scrollY + d < -0.5 && !scrolling()){ holdMore(-(window.scrollY + d)); d = el.getBoundingClientRect().top - y0; }
+  if (Math.abs(d) <= 0.5) return;
+  if (scrolling()) afterScroll(d); else shiftPage(d);
 }
+addEventListener('scroll', () => {
+  if (ownY !== null && Math.abs(window.scrollY - ownY) < 1) ownY = null;          // the page's own move
+  else { ownY = null; scrollT = [scrollT[1], scrollT[2], performance.now()]; }
+  if (endPad){ const base = document.documentElement.scrollHeight - endPad; setEndPad(Math.min(endPad, window.scrollY + innerHeight - base)); }
+}, {passive: true});
 $('#say').addEventListener('scroll', sayFit, {passive: true});
 
 // ---------- diagram ----------
@@ -2596,16 +2631,15 @@ function roomFor(W, Hh, rot){
 }
 function figHead(title, desc){ return `<title id="figTitle">${esc(title)}</title><desc id="figDesc">${esc(desc)}</desc>`; }
 
-function drawAsc(){
-  const T = L(), F = T.fig, h = H, lay = figLayout(), f = FS[lay], W = 640;
-  fig.classList.toggle('narrow', lay==='narrow');
+// The Ascendant's box of cells: everything but the box has a height known before drawing. The southern notes are
+// broken into lines first, with room for the widest latitude, so that moving the native never changes the size.
+function ascGeom(lay){
+  const F = L().fig, h = H, f = FS[lay], W = 640;
   const x0 = lay==='narrow' ? 130 : 150, x1 = lay==='narrow' ? 540 : 510;
   const yMark = 6 + 0.95*f.big;
   const yCol = yMark + 0.3*f.big + 0.95*f.col + 8;
   const yTop = yCol + 0.3*f.col + 0.95*f.txt + 6;
   const y1 = yTop + 0.3*f.txt + 0.62*f.col + 8;
-  // Everything but the box has a height known before drawing. The southern notes are broken into lines first,
-  // with room for the widest latitude, so that moving the native never changes the drawing's size.
   const lh = 1.4*f.txt, maxW = W - 24;
   let south = null, sN = 0;
   if (h.south){
@@ -2614,9 +2648,15 @@ function drawAsc(){
   }
   const foot = 0.63*f.col + 0.95*f.txt + 8 + 0.3*f.txt;                      // from the box's foot to the lower cells' foot
   const rest = y1 + foot + 8 + (sN ? 12 + 0.95*f.txt + (sN - 1)*lh + 0.3*f.txt : 0);
+  return {x0, x1, yMark, yCol, yTop, y1, lh, maxW, south, sN, foot, rest, box: lay==='narrow' ? 240 : 210};
+}
+function drawAsc(){
+  const T = L(), F = T.fig, h = H, lay = figLayout(), f = FS[lay], W = 640;
+  fig.classList.toggle('narrow', lay==='narrow');
+  const {x0, x1, yMark, yCol, yTop, y1, lh, south, foot, rest, box: box1} = ascGeom(lay);
   // In two columns the drawing fills the height the stage gives it: the box takes what the rest leaves.
   const avail = availUnits();
-  const boxH = avail ? Math.floor(Math.min(lay==='narrow' ? 300 : 280, Math.max(110, avail - rest - 1))) : (lay==='narrow' ? 240 : 210);
+  const boxH = avail ? Math.floor(Math.min(lay==='narrow' ? 300 : 280, Math.max(110, avail - rest - 1))) : box1;
   ascBox = avail ? boxH : null;
   const y0 = y1 + boxH;
   const yBot = y0 + 0.63*f.col + 0.95*f.txt + 8;
@@ -2673,6 +2713,26 @@ function drawAsc(){
   }
   roomFor(W, Hh, {id:'fLat', x:rx, y:ry});
 }
+// A ruler: the lines first, so that the height is known before anything is drawn. The direction label keeps room
+// for the longest of its three wordings: the drawing is the same size whichever way the planet moves.
+function lineGeom(kind, lay){
+  const T = L(), F = T.fig, f = FS[lay], W = 640, x0 = lay==='narrow' ? 24 : 110, x1 = W - x0;
+  const hcls = kind==='mc' ? 'colhd' : 'hd', fh = kind==='mc' ? f.col : f.hd;
+  const hdL = kind==='mc' ? fmtT(H.earlier) : T.ui.p0, hdR = kind==='mc' ? fmtT(H.later) : T.ui.p1;
+  const maxW = W - 24, half = (x1 - x0)/2 - 10;
+  const dirN = kind==='planet' ? Math.max(...[F.retro, F.stationary, F.direct].map(t => breakLines(t, 'dim', maxW, lay).length)) : 0;
+  const hdLines = [breakLines(hdL, hcls, half, lay), breakLines(hdR, hcls, half, lay)];
+  const nh = Math.max(hdLines[0].length, hdLines[1].length);
+  let y = 6;
+  if (dirN) y += 0.95*f.txt + (dirN-1)*1.4*f.txt + 0.3*f.txt + 12;
+  const yh = y + 0.95*fh;
+  y = yh + (nh-1)*1.4*fh + 0.3*fh + 10;
+  const yMark = y + 0.95*f.big;
+  const yRail = yMark + 0.3*f.big + 18;
+  const yVal = yRail + 16 + 0.95*f.txt, ySub = yVal + 0.3*f.txt + 6 + 0.95*f.txt;
+  const yRes = ySub + 0.3*f.txt + 16 + 0.95*f.big;
+  return {hcls, fh, maxW, hdLines, yh, yMark, yRail, yVal, ySub, yRes, Hh: Math.ceil(yRes + 0.3*f.big + 8)};
+}
 function drawLine(kind){
   // kind 'mc' or 'planet': a single ruler between two table or ephemeris values
   const T = L(), F = T.fig, lay = figLayout(), f = FS[lay], W = 640;
@@ -2686,23 +2746,8 @@ function drawLine(kind){
     resOn = isShown('pos'); title = F.titlePlanet; desc = F.descPlanet(signStr(p.p0), signStr(p.p1), fmtT(p.ut).slice(0,5), R7(p.k), isShown('diff') ? T.motionWord[p.motion] : ''); }
   if (resOn) desc += F.descRes(res);
   const px = x0 + (x1-x0)*ratio;
-  const hcls = kind==='mc' ? 'colhd' : 'hd', fh = kind==='mc' ? f.col : f.hd;
-  // The lines first, so that the height is known before anything is drawn. The direction label keeps room for
-  // the longest of its three wordings: the drawing is the same size whichever way the planet moves.
-  const maxW = W - 24, half = (x1 - x0)/2 - 10;
+  const {hcls, fh, maxW, hdLines, yh, yMark, yRail, yVal, ySub, yRes, Hh} = lineGeom(kind, lay);
   const dirLines = dir ? breakLines(dir, 'dim', maxW, lay) : null;
-  const dirN = dir ? Math.max(...[F.retro, F.stationary, F.direct].map(t => breakLines(t, 'dim', maxW, lay).length)) : 0;
-  const hdLines = [breakLines(hdL, hcls, half, lay), breakLines(hdR, hcls, half, lay)];
-  const nh = Math.max(hdLines[0].length, hdLines[1].length);
-  let y = 6;
-  if (dir) y += 0.95*f.txt + (dirN-1)*1.4*f.txt + 0.3*f.txt + 12;
-  const yh = y + 0.95*fh;
-  y = yh + (nh-1)*1.4*fh + 0.3*fh + 10;
-  const yMark = y + 0.95*f.big;
-  const yRail = yMark + 0.3*f.big + 18;
-  const yVal = yRail + 16 + 0.95*f.txt, ySub = yVal + 0.3*f.txt + 6 + 0.95*f.txt;
-  const yRes = ySub + 0.3*f.txt + 16 + 0.95*f.big;
-  const Hh = Math.ceil(yRes + 0.3*f.big + 8);
   fig.setAttribute('viewBox', `0 0 ${W} ${Hh}`);                             // first: text is measured at the scale it is shown at
   let g = figHead(title, desc);
   g += `<rect id="fFlash" class="flash${state.flash?' go':''}" x="${x0}" y="0" width="${x1-x0}" height="10" rx="4"/>`;
@@ -2734,7 +2779,17 @@ function drawLine(kind){
 let ascBox = null, figSig = '';
 function availUnits(){ if (oneCol()) return null; const r = fig.getBoundingClientRect(); return r.width > 0 && r.height > 0 ? r.height*640/r.width : null; }
 const sizeSig = () => { const r = fig.getBoundingClientRect(); return oneCol() ? '1|' + Math.round(r.width) : '2|' + Math.round(r.width) + 'x' + Math.round(r.height); };
-function drawFig(){ if (!H) return; figSig = sizeSig(); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); }
+// One column: the drawing's box keeps the height of the tallest of the three drawings at this width, the drawing
+// centred in it, so that a change of mode moves nothing below it.
+let reserveKey = '', reserveU = 0;
+function reserveUnits(lay){
+  const key = [LANG, lay, H.south, H.south ? L().fig.south1('00:00:00', '0') : '', fmtT(H.earlier)].join('|');
+  if (key !== reserveKey){ reserveKey = key; reserveU = Math.max(ascGeom(lay).rest + ascGeom(lay).box, lineGeom('mc', lay).Hh, lineGeom('planet', lay).Hh); }
+  return Math.ceil(reserveU);
+}
+function drawFig(){ if (!H) return;
+  if (oneCol()) fig.style.aspectRatio = `640 / ${reserveUnits(figLayout())}`; else fig.style.aspectRatio = '';
+  figSig = sizeSig(); if (state.mode==='asc') drawAsc(); else drawLine(state.mode); }
 
 // ---------- plate ----------
 function renderPlate(){
@@ -2749,12 +2804,32 @@ function renderPlate(){
   $('#plate').innerHTML = h;
 }
 
+// ---------- the rail ----------
+function railGroups(m){ $('#ctlLst').hidden = m==='planet'; $('#ctlLat').hidden = m!=='asc'; $('#ctlUt').hidden = m!=='planet'; }
+// Two columns: the rail keeps the height of its tallest mode at this width, its mode buttons on the first line and
+// Start over / Next step / All at the end of the last, so that changing the mode moves none of them. Measured once
+// per width and language, by laying the rail out for each mode.
+let railKey = '', railH = 0, railOne = {};
+function railFit(){
+  const rail = $('.stage > .rail');
+  if (oneCol()){ if (railKey){ rail.style.minHeight = ''; rail.classList.remove('split'); railKey = ''; } return; }
+  const key = [LANG, document.documentElement.clientWidth].join('|');
+  if (key !== railKey){
+    rail.style.minHeight = ''; rail.classList.remove('split'); railH = 0; railOne = {};
+    const top = s => $(s).getBoundingClientRect().top;
+    for (const m of ['asc', 'mc', 'planet']){ railGroups(m); railH = Math.max(railH, rail.getBoundingClientRect().height); railOne[m] = Math.abs(top('#stepBtn') - top('.rail [data-mode]')) < 1; }
+    railGroups(state.mode); railKey = key;
+  }
+  rail.style.minHeight = railH + 'px';
+  rail.classList.toggle('split', railOne[state.mode] && rail.getBoundingClientRect().height > 0 && !['asc', 'mc', 'planet'].every(m => railOne[m]));
+}
 // ---------- render ----------
 function render(){
   H = houses(state.lst, state.latSec, state.hemi, state.oblSec, state.loHint); state.loHint = H.lo;
   P = planet(state.ut, state.p0, state.p1); state.rows = buildRows();
   document.querySelectorAll('.rail [data-mode]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.mode===state.mode?'true':'false'));
-  const pl = state.mode==='planet'; $('#ctlLst').hidden = pl; $('#ctlLat').hidden = pl || state.mode==='mc'; $('#ctlUt').hidden = !pl;
+  railGroups(state.mode); railFit();
+  const pl = state.mode==='planet';
   $('#grpNative').hidden = pl; $('#grpPlanet').hidden = !pl;
   renderPlate(); renderSay(); renderWs(); renderNote();
   // sliders move within the current cell
@@ -2797,7 +2872,7 @@ function syncInputs(){
   [['p0',state.p0],['p1',state.p1]].forEach(([k,v])=>{ const i = Math.floor(norm(v)/(30*3600)); const r = fromSec(norm(v)-i*30*3600); $('#'+k+'D').value = r.d; $('#'+k+'M').value = r.m; $('#'+k+'S').value = r.s; $('#'+k+'G').value = i; });
   for (const id in FIELDS) shownVal[id] = Number($('#'+id).value);
 }
-function readInputs(){
+function readInputs(field){
   const found = [], v = {};
   let latHigh = false, utLate = false;
   for (const id in FIELDS){
@@ -2827,12 +2902,17 @@ function readInputs(){
   found.forEach(n => { n.on = n.on || [fieldValue(n.id)]; n.at = n.on.map(k => state[k]); });
   const topic = n => n.k + '|' + (n.id || n.on.join(','));
   notes = notes.filter(n => !found.some(f => topic(f) === topic(n))).concat(found);
+  // a valid value the student has typed into a field clears that field's note, even when it is the value kept
+  // (a field only left, after the page wrote its value back, is not typed into)
+  if (field && typed.has(field) && !found.some(n => n.id === field)) notes = notes.filter(n => n.id !== field);
+  typed.delete(field);
   render();   // writes the values used back into the fields
 }
 function nameFields(){ const T = L(), U = T.ui; document.querySelectorAll('#paneWs [data-name]').forEach(el => el.setAttribute('aria-label', T.fieldName(U[el.dataset.name], U[el.dataset.unit]))); }
 function fillSignSelects(){ ['p0G','p1G'].forEach(id => { const el = $('#'+id), v = el.value; el.innerHTML = SIGNS.map((g,i)=>`<option value="${i}">${g} ${L().signs[i]}</option>`).join(''); if (v) el.value = v; }); }
-document.querySelectorAll('#paneWs input, #paneWs select').forEach(el => el.addEventListener('change', readInputs));
-document.querySelectorAll('#paneWs input').forEach(el => el.addEventListener('keydown', e => { if (e.key==='Enter'){ e.preventDefault(); readInputs(); } }));
+const typed = new Set();                                              // fields changed by the student since their last reading
+document.querySelectorAll('#paneWs input, #paneWs select').forEach(el => { el.addEventListener('input', () => typed.add(el.id)); el.addEventListener('change', () => still(el, () => readInputs(el.id))); });
+document.querySelectorAll('#paneWs input').forEach(el => el.addEventListener('keydown', e => { if (e.key==='Enter'){ e.preventDefault(); still(el, () => readInputs(el.id)); } }));
 
 // ---- sliders: within the current cell; steppers move the cell ----
 function setLstWithin(sec){ // sec 0..239 within the current column (converted time for southern births)
@@ -2857,11 +2937,20 @@ const PRESETS = {
   sun:    () => { Object.assign(state, {ut:57300, p0:toSec({d:299,m:21,s:50}), p1:toSec({d:300,m:22,s:55})}); state.last.planet = 'sun'; },
   saturn: () => { Object.assign(state, {ut:57300, p0:toSec({d:169,m:2,s:56}), p1:toSec({d:169,m:0,s:40})}); state.last.planet = 'saturn'; }
 };
-document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => { PRESETS[b.dataset.preset](); state.reveal = ALL; setNote(''); render(); }));
+document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => still(b, () => { PRESETS[b.dataset.preset](); state.reveal = ALL; setNote(''); render(); })));
 document.querySelectorAll('.rail [data-mode]').forEach(b => b.addEventListener('click', () => still(b, () => { state.mode = b.dataset.mode; state.reveal = 0; render(); })));
 
 // steps
-$('#stepBtn').addEventListener('click', () => { if (state.reveal>=ALL) state.reveal = 0; if (state.reveal < dataRows().length) state.reveal++; render(); });
+$('#stepBtn').addEventListener('click', () => { if (state.reveal>=ALL) state.reveal = 0; if (state.reveal < dataRows().length) state.reveal++; render(); followRow(); });
+// One column, the worksheet open: the row just filled comes into view above the bar, the page moving as little as it
+// can (Next step is in the fixed bar, so nothing under the finger moves). Two columns: the pane follows (renderWs).
+function followRow(){
+  if (!oneCol() || $('#paneWs').hidden) return;
+  const act = $('#ws tr.act'); if (!act) return;
+  const bar = $('#stepBtn').closest('.grp').getBoundingClientRect().top, r = act.getBoundingClientRect();
+  if (r.bottom > bar) pageTo(window.scrollY + Math.min(r.bottom - bar, r.top));
+  else if (r.top < 0) pageTo(window.scrollY + r.top);
+}
 $('#allBtn').addEventListener('click', () => { state.reveal = ALL; render(); });
 $('#resetBtn').addEventListener('click', () => { PRESETS[state.last[state.mode==='planet' ? 'planet' : 'houses']](); state.reveal = 0; setNote(''); render(); });
 
@@ -2905,10 +2994,10 @@ function showWalk(i){
 function buildPips(){
   const T = L();
   $('#pips').innerHTML = T.walk.map((w,i)=>`<button title="${esc(w.title)}" aria-label="${esc(T.stepN(i+1, w.title))}"><i></i></button>`).join('');
-  document.querySelectorAll('#pips button').forEach((b,i)=>b.addEventListener('click',()=>showWalk(i)));
+  document.querySelectorAll('#pips button').forEach((b,i)=>b.addEventListener('click',()=>still(b, () => showWalk(i))));
 }
-$('#prevBtn').addEventListener('click',()=>showWalk(walkIdx-1));
-$('#nextBtn').addEventListener('click',()=>showWalk(walkIdx+1));
+$('#prevBtn').addEventListener('click',()=>still($('#prevBtn'), () => showWalk(walkIdx-1)));
+$('#nextBtn').addEventListener('click',()=>still($('#nextBtn'), () => showWalk(walkIdx+1)));
 // Page shortcuts only when no control has focus; a focused control keeps its own keys.
 const INTERACTIVE = 'button, a, summary, [role=tab], input, select, textarea, [contenteditable]';
 document.addEventListener('keydown', e => {
@@ -2941,7 +3030,7 @@ function applyLang(l, first){
   document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = U[el.dataset.i18nTitle]; });
   document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', U[el.dataset.i18nAria]); });
   const sel = $('#langSel'); if (sel.value !== LANG) sel.value = LANG;
-  fillSignSelects(); buildPips(); nameFields();                // a note on a typed value is said again in the new language
+  fillSignSelects(); buildPips(); nameFields(); fitSlots();    // a note on a typed value is said again in the new language
   if (!first){ paintWalk(); render(); }
 }
 $('#langSel').addEventListener('change', e => applyLang(e.target.value));
@@ -2956,15 +3045,31 @@ function initialLang(){
   return 'en';
 }
 
+// One column: the page's end room and the focus margin follow the bar's real height (it wraps with a large font).
+function barFit(){
+  const g = $('#stepBtn').closest('.grp'), st = document.documentElement.style;
+  if (getComputedStyle(g).position === 'fixed') st.setProperty('--bar-h', g.getBoundingClientRect().height.toFixed(2) + 'px'); else st.removeProperty('--bar-h');
+}
+// The values beside the sliders keep the width of their widest possible text, measured in their own font, so the
+// rail never re-wraps as they change (00° 00′ 00″ N with the widest figure; the times likewise).
+function fitSlots(){
+  const widest = (el, sample) => { const c = el.cloneNode(false); c.removeAttribute('id'); c.style.cssText = 'position:absolute;visibility:hidden;min-width:0;white-space:nowrap';
+    el.parentNode.appendChild(c); let w = 0; for (const d of '0123456789'){ c.textContent = sample.replace(/\d/g, d); w = Math.max(w, c.getBoundingClientRect().width); } c.remove(); return w; };
+  const lat = $('#latOut'), lw = Math.max(widest(lat, fmtSec(10*3600 + 10*60 + 10) + ' ' + NS(1)), widest(lat, fmtSec(10*3600 + 10*60 + 10) + ' ' + NS(-1)));
+  lat.style.minWidth = lw + 'px';
+  $('#lstOut').style.minWidth = widest($('#lstOut'), fmtT(36610)) + 'px';
+  $('#utOut').style.minWidth = widest($('#utOut'), fmtT(36610).slice(0, 5)) + 'px';
+  railKey = '';                                                    // the rail is measured again with these widths
+}
 applyLang(initialLang(), true);
 (function(){ const h = (location.hash||'').replace('#',''); const i = WALK.findIndex(w=>w.mode===h); showWalk(i>=0?i:0); })();
 // An action draws at once (render). The drawing is made again only when the space for it changes, as when the
 // window is resized, and then the strip is measured again too: its overflow, its focus, its height in one column.
 let figFrame = 0;
-const refit = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(() => { if (sizeSig() !== figSig) drawFig(); sayHold(); sayFit(); }); };
+const refit = () => { cancelAnimationFrame(figFrame); figFrame = requestAnimationFrame(() => { if (sizeSig() !== figSig) drawFig(); sayHold(); sayFit(); barFit(); }); };
 addEventListener('resize', refit);
-if (window.ResizeObserver){ const ro = new ResizeObserver(refit); ro.observe($('#view')); ro.observe($('#say')); }
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { holdKey = ''; drawFig(); sayHold(); sayFit(); });   // measured again in the real fonts
+if (window.ResizeObserver){ const ro = new ResizeObserver(refit); ro.observe($('#view')); ro.observe($('#say')); new ResizeObserver(barFit).observe($('#stepBtn').closest('.grp')); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { holdKey = ''; reserveKey = ''; fitSlots(); railFit(); drawFig(); sayHold(); sayFit(); barFit(); });   // measured again in the real fonts
 </script>
 </body>
 </html>

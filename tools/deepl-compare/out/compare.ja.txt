@@ -641,7 +641,7 @@
 [between-the-lines :: lab.nativeSt]
   EN:      Native's ST
   CURRENT: 出生者の恒星時
-  DEEPL:   Native&#x27;s ST
+  DEEPL:   Native's ST
 [between-the-lines :: lab.earlierSt]
   EN:      Earlier ST <small>in the table</small>
   CURRENT: 前の恒星時 <small>表より</small>
@@ -3299,7 +3299,7 @@
 [takht :: ui.unitT]
   EN:      Next field (' " or Space)
   CURRENT: 次の欄（' " またはスペース）
-  DEEPL:   次のフィールド（「 &quot; またはスペース）
+  DEEPL:   次のフィールド（「 " またはスペース）
 [takht :: ui.unitA]
   EN:      next field
   CURRENT: 次の欄

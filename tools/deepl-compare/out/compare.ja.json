@@ -1445,7 +1445,7 @@
   "template": false,
   "en": "Native's ST",
   "current": "出生者の恒星時",
-  "deepl": "Native&#x27;s ST",
+  "deepl": "Native's ST",
   "lostPlaceholders": []
  },
  {
@@ -6953,7 +6953,7 @@
   "template": false,
   "en": "Next field (' \" or Space)",
   "current": "次の欄（' \" またはスペース）",
-  "deepl": "次のフィールド（「 &quot; またはスペース）",
+  "deepl": "次のフィールド（「 \" またはスペース）",
   "lostPlaceholders": []
  },
  {

@@ -150,10 +150,20 @@ function protect(text) {
 }
 function restore(text, ph) {
   const out = text.replace(/<span translate="no">([^<]*)<\/span>/g, '$1');
-  const left = [...ph];
-  for (const m of out.match(PH) || []) { const i = left.indexOf(m); if (i >= 0) left.splice(i, 1); }
-  return { out, lost: left };
+  return { out, lost: missing(ph, out) };
 }
+// Placeholders not found in a translation, looked up by exact text: languages that quote with
+// guillemets wrap «f» as « «f» », which a pattern match would misread.
+function missing(ph, text) {
+  const lost = []; const seen = {};
+  for (const m of ph) {
+    const n = (seen[m] = (seen[m] || 0) + 1);
+    if (text.split(m).length - 1 < n) lost.push(m);
+  }
+  return lost;
+}
+// HTML mode escapes apostrophes and quotes; show them plainly.
+const unescape = t => t.replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"');
 const billable = t => t.replace(/<[^>]+>/g, '').length;
 
 // ---------- DeepL ----------
@@ -244,7 +254,8 @@ async function main() {
   for (const l of langs) {
     const cache = caches[l]; let txt = ''; const rows = []; let lost = 0;
     for (const u of all) {
-      const d = cache[hash(u.en)]; if (!d) continue;
+      const c = cache[hash(u.en)]; if (!c) continue;
+      const d = { text: unescape(c.text), lost: missing(u.en.match(PH) || [], c.text) };
       if (d.lost.length) lost++;
       rows.push({ piece: u.piece, key: u.key, template: u.template, en: u.en, current: u.current[l], deepl: d.text, lostPlaceholders: d.lost });
       txt += `[${u.piece} :: ${u.key}]${u.template ? ' (template)' : ''}\n  EN:      ${u.en}\n  CURRENT: ${u.current[l] ?? '(missing: falls back to English)'}\n  DEEPL:   ${d.text}\n` +

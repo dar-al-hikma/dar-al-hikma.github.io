@@ -1,0 +1,3882 @@
+{
+ "f480e0686764de02": {
+  "text": "Widder",
+  "lost": []
+ },
+ "c5e606e056ade44a": {
+  "text": "Stier",
+  "lost": []
+ },
+ "ddba2c9277cd909b": {
+  "text": "Zwillinge",
+  "lost": []
+ },
+ "07d6cb97820e052b": {
+  "text": "Krebs",
+  "lost": []
+ },
+ "cfaf50ac3721461b": {
+  "text": "Löwe",
+  "lost": []
+ },
+ "0f6f6df133ed6ac2": {
+  "text": "Jungfrau",
+  "lost": []
+ },
+ "cb8e2b307865af7f": {
+  "text": "Waage",
+  "lost": []
+ },
+ "267d8ca2af1eefa7": {
+  "text": "Skorpion",
+  "lost": []
+ },
+ "15389534299e2f41": {
+  "text": "Schütze",
+  "lost": []
+ },
+ "c9bf29452874274e": {
+  "text": "Steinbock",
+  "lost": []
+ },
+ "3e026e6d2a8adcf8": {
+  "text": "Wassermann",
+  "lost": []
+ },
+ "da321110c6a600f8": {
+  "text": "Fische",
+  "lost": []
+ },
+ "df4ad92ebf451589": {
+  "text": "Zwischen den Zeilen",
+  "lost": []
+ },
+ "bf1487f4ae31e6bc": {
+  "text": "Interpolation in einer Häusertabelle und einer Ephemeride",
+  "lost": []
+ },
+ "89b86ab0e66f5271": {
+  "text": "Sprache",
+  "lost": []
+ },
+ "a7b93d2128e820f8": {
+  "text": "Modus",
+  "lost": []
+ },
+ "0928bac56e563ab4": {
+  "text": "Medium Coeli",
+  "lost": []
+ },
+ "c6db2ec02dcf3556": {
+  "text": "Aszendent",
+  "lost": []
+ },
+ "e7abd9437945479a": {
+  "text": "Planet",
+  "lost": []
+ },
+ "47f94af0898b92f1": {
+  "text": "ST-Spalte",
+  "lost": []
+ },
+ "39a2282e2c3d35f2": {
+  "text": "Vorherige Spalte (4′ zuvor)",
+  "lost": []
+ },
+ "da7a73ac506d237e": {
+  "text": "Nächste Spalte (4′ später)",
+  "lost": []
+ },
+ "ac8faf3b9ab50bbd": {
+  "text": "Siderische Zeit innerhalb der Spalte",
+  "lost": []
+ },
+ "ada97728d0b258e8": {
+  "text": "Breitengradzeile",
+  "lost": []
+ },
+ "98c3b713aeea2795": {
+  "text": "Zeile mit den niedrigeren Breitengraden",
+  "lost": []
+ },
+ "2eff095e1d310041": {
+  "text": "Zeile für höhere Breitengrade",
+  "lost": []
+ },
+ "ec68ca6064973e75": {
+  "text": "Breitengrad innerhalb der Zeile",
+  "lost": []
+ },
+ "e98529e94766eb06": {
+  "text": "Geburtszeit (UT)",
+  "lost": []
+ },
+ "f1b9e88e000c92f0": {
+  "text": "Weltzeit",
+  "lost": []
+ },
+ "cdde4f20ba31a24d": {
+  "text": "Schritte",
+  "lost": []
+ },
+ "51dd91dc98a9e59c": {
+  "text": "Von vorne beginnen",
+  "lost": []
+ },
+ "8fdee48ef27d09a6": {
+  "text": "Zurück zum Beispiel, ab dem ersten Schritt",
+  "lost": []
+ },
+ "5500eef9fdb1576f": {
+  "text": "Nächster Schritt",
+  "lost": []
+ },
+ "139681a7037617b4": {
+  "text": "Nächster Schritt (Weltraum)",
+  "lost": []
+ },
+ "6a72085653e4c5be": {
+  "text": "Alle",
+  "lost": []
+ },
+ "afea39131a59c8a8": {
+  "text": "Jeden Schritt anzeigen",
+  "lost": []
+ },
+ "627f5eabb40cc72b": {
+  "text": "Schritt-für-Schritt-Anleitung",
+  "lost": []
+ },
+ "a8ab7061bae93aae": {
+  "text": "Arbeitsblatt",
+  "lost": []
+ },
+ "70440046a3dc2e07": {
+  "text": "Anmerkungen",
+  "lost": []
+ },
+ "3d82a9f15156c365": {
+  "text": "Probieren Sie es aus",
+  "lost": []
+ },
+ "b52b36b7269fbfc5": {
+  "text": "Zurück",
+  "lost": []
+ },
+ "bc981983e7f547dc": {
+  "text": "Weiter",
+  "lost": []
+ },
+ "97272f7273728607": {
+  "text": "Arbeitsblatt öffnen",
+  "lost": []
+ },
+ "ec7b8f5bf9015f15": {
+  "text": "Der Geborene",
+  "lost": []
+ },
+ "0e40687a5614ccf0": {
+  "text": "Unterrichtsmaterial in der Originalsprache",
+  "lost": []
+ },
+ "a71cc9a3fbd4657e": {
+  "text": "Beispiel für die südliche Hemisphäre",
+  "lost": []
+ },
+ "3257245a81b523b9": {
+  "text": "LST",
+  "lost": []
+ },
+ "ced3905ec8220a51": {
+  "text": "Breitengrad",
+  "lost": []
+ },
+ "e5d846466f44afa0": {
+  "text": "Neigung",
+  "lost": []
+ },
+ "e07419d364b135f0": {
+  "text": "ausschließlich zur direkten Berechnung",
+  "lost": []
+ },
+ "5aedee0964c6b2b3": {
+  "text": "Stunden",
+  "lost": []
+ },
+ "be2e2bb698c7a42a": {
+  "text": "Minuten",
+  "lost": []
+ },
+ "7febce039c4cf1c9": {
+  "text": "Sekunden",
+  "lost": []
+ },
+ "a63788ba696d6741": {
+  "text": "Grad",
+  "lost": []
+ },
+ "3607297b77e2050d": {
+  "text": "Hemisphäre",
+  "lost": []
+ },
+ "81e9209e64bdd3a5": {
+  "text": "Zeichen",
+  "lost": []
+ },
+ "329bd592de36d75c": {
+  "text": "Der Planet",
+  "lost": []
+ },
+ "0365e774a9fb0504": {
+  "text": "Sonne (Lektion)",
+  "lost": []
+ },
+ "4e5aed42a09fc583": {
+  "text": "Saturn ℞ (Unterrichtseinheit)",
+  "lost": []
+ },
+ "bd20089a4c596038": {
+  "text": "UT zum Zeitpunkt der Geburt",
+  "lost": []
+ },
+ "4a0877a4fe93c3d0": {
+  "text": "00:00 Uhr, Tag der Geburt",
+  "lost": []
+ },
+ "3b9eef67690ceda2": {
+  "text": "00:00 Uhr, am nächsten Tag",
+  "lost": []
+ },
+ "9bf7a8e8909bfd49": {
+  "text": "Zeile",
+  "lost": []
+ },
+ "ecdda59aea5ee67d": {
+  "text": "Eintrag",
+  "lost": []
+ },
+ "8dce170de238b1fe": {
+  "text": "Wert",
+  "lost": []
+ },
+ "fc42980d287e7ab5": {
+  "text": "„«f»“ wurde leer gelassen, sodass der vorherige Wert wiederhergestellt wurde.",
+  "lost": []
+ },
+ "5069b2d7ba855d24": {
+  "text": "„«f»“ akzeptiert ausschließlich ganze Zahlen, daher wurde aus „«from»“ die Eingabe „«to»“.",
+  "lost": []
+ },
+ "06c7dcdc890525e5": {
+  "text": "„«f»“ verläuft von «lo» bis «hi», sodass der vorherige Wert wieder gilt.",
+  "lost": []
+ },
+ "950cb6064eff11d0": {
+  "text": "Die Tabelle endet bei 60°. Der Breitengrad ist auf 60° eingestellt.",
+  "lost": []
+ },
+ "be9ae51f08791202": {
+  "text": "UT reicht von 00:00 bis 23:59 Uhr, daher ist sie auf 23:59 Uhr eingestellt. Bei einer Geburt nach Mitternacht in Greenwich wird die Ephemeride des nächsten Tages herangezogen.",
+  "lost": []
+ },
+ "882635602ef30a63": {
+  "text": "Die Neigung der Erdachse muss zwischen 22° und 25° liegen, daher wird der näher liegende Grenzwert gewählt.",
+  "lost": []
+ },
+ "ea25114f88ad1c94": {
+  "text": "Ein Planet bewegt sich höchstens etwa 15° pro Tag; überprüfen Sie die beiden Positionen.",
+  "lost": []
+ },
+ "aaecb250b1c77e61": {
+  "text": "Die Zeilennummern entsprechen den Arbeitsblättern der Lektion (S. 41–44). Die siderische Zeit ist bereits eingegeben, daher werden die Zeilen 1–12 nicht wiederholt; die Zeilen 13, 25, 30 und 36, die in den Arbeitsblättern wiederholt werden, erscheinen einmal, und spätere Zeilen beziehen sich anhand ihrer Nummer auf sie. S1–S5 bezeichnen die Schritte des südlichen Verfahrens (§6.2.3), nicht die Zeilen der Arbeitsblätter. Unnummerierte Zeilen sind die zweite Zeile von Zeile 16 sowie die direkten Werte, die die Seite hinzufügt. Bei jedem Inkrement wird das Verhältnis genau wie angegeben auf sieben Stellen genau verwendet und vor der Addition auf die nächste Sekunde aufgerundet. Die Schaltfläche <em>„Nächster Schritt“</em> unterhalb des Diagramms füllt diese Tabelle zeilenweise; <em>„Alle“</em> füllt sie auf einmal.",
+  "lost": []
+ },
+ "3a07195c8e263079": {
+  "text": "Die Methode",
+  "lost": []
+ },
+ "db8ca70213f4589f": {
+  "text": "Ein Wert steuert die Tabelle",
+  "lost": []
+ },
+ "6d06f70885985eb4": {
+  "text": "Eine Häusertabelle wird anhand der Sternzeit eingegeben. Dieselbe Sternzeit weist einen einzigen Medium Coeli auf, jedoch mehrere Aszendenten – einen für jeden Breitengrad.",
+  "lost": []
+ },
+ "3674c4a7c428ccfb": {
+  "text": "Das ST-Verhältnis",
+  "lost": []
+ },
+ "1063e07096c20d21": {
+  "text": "Die ST des Geborenen abzüglich der früheren ST in der Tabelle, geteilt durch den Abstand zwischen den Spalten (4′). Daraus ergibt sich, wie weit der Geborene innerhalb des Feldes liegt.",
+  "lost": []
+ },
+ "2066767c10c272df": {
+  "text": "Inkrement = Differenz × Verhältnis",
+  "lost": []
+ },
+ "c9c4ee6585bb9a4e": {
+  "text": "Ziehen Sie den früheren Tabellenwert vom späteren ab, multiplizieren Sie das Ergebnis mit dem Verhältnis und addieren Sie es zum früheren Wert. Das ist bereits die gesamte Interpolation.",
+  "lost": []
+ },
+ "de9b34ecac566d20": {
+  "text": "Der Aszendent gleich zweimal",
+  "lost": []
+ },
+ "6607b0adafffb6eb": {
+  "text": "Führen Sie die Interpolation entlang der ST zunächst am niedrigeren Breitengrad, dann am höheren Breitengrad und anschließend zwischen diesen beiden Punkten entsprechend dem Breitengradverhältnis durch. Bewegen Sie sich dabei vom Wert des niedrigeren Breitengrads in Richtung des Werts des höheren Breitengrads.",
+  "lost": []
+ },
+ "47d3c7a01bb01ab1": {
+  "text": "Südlich des Äquators",
+  "lost": []
+ },
+ "74ee9a2af508d824": {
+  "text": "Addieren oder subtrahieren Sie 12 Stunden zur lokalen Sonnenzeit (LST), schlagen Sie wie gewohnt nach, behalten Sie dann das ursprüngliche Zeichen des Medium Coeli bei und weisen Sie dem Aszendenten das Gegenteil des angegebenen Wertes zu.",
+  "lost": []
+ },
+ "f0315f4efc2b0284": {
+  "text": "Planeten aus der Ephemeride",
+  "lost": []
+ },
+ "932ef646269d267f": {
+  "text": "Das Verhältnis ergibt sich aus der Geburtsstunde in UT geteilt durch 24. Die Tagesbewegung entspricht dem Längengrad des nächsten Tages abzüglich des Längengrads am Tag der Geburt, gemessen über 0° Widder, sofern der Planet diesen Punkt überquert. Multiplizieren Sie deren Größe mit dem Verhältnis und addieren Sie das Ergebnis zur Position um 00:00 Uhr – oder subtrahieren Sie es, falls die Bewegung negativ ist: Der Planet ist dann rückläufig.",
+  "lost": []
+ },
+ "ffc8852e2aefabea": {
+  "text": "Warum es sich von Ihrem Programm unterscheidet",
+  "lost": []
+ },
+ "616fce25e9de2958": {
+  "text": "Bei der Interpolation wird davon ausgegangen, dass der Wert zwischen zwei Zellen gleichmäßig ansteigt. Auf der Himmelskugel ist dies jedoch nicht der Fall: Die Großkreise sind gekrümmt, und der Aszendent ändert sich in manchen Zeichen und auf manchen Breitengraden schneller als in anderen. Daher kann ein interpolierter Wert von der direkten Berechnung abweichen, und die Abweichung nimmt zunahmend zu, je größer die Schritte in der Tabelle werden. Aus diesem Grund enden die Tabellen bei 4′ ST: Für den in dieser Lektion behandelten Geborenen weicht die gerade Linie dann um etwa 0,1″ ab; bei 8′-Schritten wären es etwa 15″, bei Ganzstunden-Schritten etwa 17′. In der Nähe von 60° Breite, wo sich der Aszendent am schnellsten bewegt, können selbst 4′-Schritte um mehr als 1′ danebenliegen.",
+  "lost": []
+ },
+ "9d6c620d817a41bf": {
+  "text": "Die letzten Zeilen des Arbeitsblatts zeigen, woher die Lücke auf dieser Seite stammt. Beide Berechnungen gehen von derselben LST aus; die direkte Berechnung verwendet die von Ihnen eingegebene Schräglage, die Tabelle hingegen 23° 26′. Der direkte Wert wird also zweimal angegeben, einmal für Ihre Schräglage und einmal für die der Tabelle, und der Hinweis unter dem Arbeitsblatt unterteilt die Lücke in den Anteil der Schräglage und den der Interpolation. Ihr Programm kann sich aus einem weiteren Grund unterscheiden, den diese Seite nicht darstellen kann: Es behält möglicherweise Bruchteile einer Sekunde in der Sternzeit bei, die in der RAMC zu ganzen Bogensekunden werden.",
+  "lost": []
+ },
+ "893d4295837095f3": {
+  "text": "Direkte Berechnung",
+  "lost": []
+ },
+ "a23d293dbfe22160": {
+  "text": "Medium Coeli: <span class=\"mono\">MC = arctan(tan RAMC ÷ cos ε)</span>, wobei 180° addiert werden, wenn das Ergebnis weit vom RAMC entfernt liegt, oder 360°, wenn es negativ ist und der RAMC im letzten Quadranten liegt. Aszendent: <span class=\"mono\">ASC = arctan( −cos RAMC ÷ (sin RAMC · cos ε + tan φ · sin ε) )</span>, im rechten Quadranten platziert. Dabei ist ε die Neigung der Erdachse und φ der Breitengrad. Die Tabelle auf dieser Seite wurde auf dieser Grundlage mit ε = 23° 26′ erstellt, wodurch die gedruckte Tabelle aus der Lektion auf die Sekunde genau wiedergegeben wird.",
+  "lost": []
+ },
+ "bee75ca77f753e48": {
+  "text": "Bedienelemente",
+  "lost": []
+ },
+ "ed4e3e999315223c": {
+  "text": "Die Schieberegler unter dem Diagramm verschieben den Kursor <em>innerhalb</em> des aktuellen Feldes: die siderische Zeit um 4′ zwischen zwei Spalten, den Breitengrad von der unteren zur oberen Zeile. Die Schaltflächen ◀ ▶ und ▼ ▲ wechseln zur benachbarten Spalte bzw. Zeile. Genaue Werte können auf der Registerkarte „Arbeitsblatt“ als ganze Zahlen eingegeben werden. <kbd>Die Leertaste</kbd> dient als <em>„Nächster Schritt“</em> und ← <kbd>→</kbd> blättern durch die Anleitungsseiten, wenn keine Schaltfläche oder kein Feld den Fokus hat; auf den Registerkarten wechseln ← <kbd>→</kbd> zwischen diesen hin und her.",
+  "lost": []
+ },
+ "4acd5091e2684f10": {
+  "text": "Folgt Lektion 5, §6.2–6.3 aus Ben Dykes’ <em>Kurs zur traditionellen Geburtsastrologie</em>; das ausgearbeitete Geburtshoroskop, das Beispiel aus dem Süden sowie Sonne und Saturn stammen von ihm.",
+  "lost": []
+ },
+ "ce5288586fa8ca02": {
+  "text": "Eine Datei, kein Netzwerk. Schriftarten: EB Garamond, IBM Plex Mono und IBM Plex Sans Condensed, SIL Open Font License. Teil von <a href=\"https://dar-al-hikma.github.io/\">Dār al-Ḥikma</a>.",
+  "lost": []
+ },
+ "1c32be6529b91bf8": {
+  "text": "Schritt «i» von «n»",
+  "lost": []
+ },
+ "1ae9f7420b2d4c01": {
+  "text": "Schritt-«i»us: «title»",
+  "lost": []
+ },
+ "a7439191c89664de": {
+  "text": "UT",
+  "lost": []
+ },
+ "ef003cdab1fdde74": {
+  "text": "Lat.",
+  "lost": []
+ },
+ "cf1c85adba548e8d": {
+  "text": "Position",
+  "lost": []
+ },
+ "dc8d73b2300ecd72": {
+  "text": "MC",
+  "lost": []
+ },
+ "eaffec7840145142": {
+  "text": "ASC",
+  "lost": []
+ },
+ "27eefd8105be679e": {
+  "text": "siderische Zeit",
+  "lost": []
+ },
+ "5fcccdcf1d079c4a": {
+  "text": "Breitengrad",
+  "lost": []
+ },
+ "f31b4e7f4dde6412": {
+  "text": "Geburt im südlichen Hemisphäre: Tabelle eingegeben unter «t», «lat» N",
+  "lost": []
+ },
+ "f64c7014ffef0c55": {
+  "text": "Zeichen in den letzten Zeilen korrigiert",
+  "lost": []
+ },
+ "c35dccbaa7df2b99": {
+  "text": "◀ rückläufig: Die Tagesbewegung ist negativ",
+  "lost": []
+ },
+ "ceaa63e9ccd1f0b9": {
+  "text": "direkte Bewegung ▶",
+  "lost": []
+ },
+ "1c0faea73fee0b13": {
+  "text": "keine Nettobewegung zwischen den beiden Mitternächten",
+  "lost": []
+ },
+ "2190530faae178be": {
+  "text": "Der Aszendent zwischen vier Tabellenzellen",
+  "lost": []
+ },
+ "762bcfb4c59faaed": {
+  "text": "Der Medium Coeli zwischen zwei Tabellenspalten",
+  "lost": []
+ },
+ "ec03d9677a259163": {
+  "text": "Der Planet zwischen zwei Mitternachtspositionen",
+  "lost": []
+ },
+ "08e459dcf8e955f2": {
+  "text": "Ein Feld mit vier Tabellenzellen: siderische Zeit «e» bis «l», Breitengrad «lo»° bis «hi»°. Aszendenten bei «lo»°: «c.EL» und «c.LL»; bei «hi»°: «c.EH» und «c.LH». Die siderische Zeitlinie der Geborenen verläuft im Verhältnis «st» quer durch das Feld, ihre Breitengradlinie im Verhältnis «lat» senkrecht dazu.",
+  "lost": []
+ },
+ "d6954614cba6eeaa": {
+  "text": "Ein Maßstab von «e», MC «ve», bis «l», MC «vl». Die siderische Zeit des Geborenen liegt entlang dieses Maßstabs im Verhältnis «r».",
+  "lost": []
+ },
+ "45034cf5450fcf4e": {
+  "text": "Ein Lineal von der Position um 00:00 Uhr am Tag der Geburt, «v0», bis 00:00 Uhr am nächsten Tag, «v1»; Bewegung «m». Der Geburtsort bei «ut» UT liegt im Verhältnis «r» entlang dieser Linie.",
+  "lost": []
+ },
+ "ec6e46d175ac7df7": {
+  "text": " Ergebnis: «v».",
+  "lost": []
+ },
+ "3b4dfc9713939494": {
+  "text": "Arbeiten",
+  "lost": []
+ },
+ "3624b68716c1aff4": {
+  "text": "der Medium Coeli",
+  "lost": []
+ },
+ "c170445964a55c4e": {
+  "text": "der Aszendent",
+  "lost": []
+ },
+ "29a1513fb446286d": {
+  "text": "die Position des Planeten",
+  "lost": []
+ },
+ "a111ade38eb1ec48": {
+  "text": "Klicken Sie auf <em>„Nächster Schritt“,</em> um „«what»“ Zeile für Zeile zu durchlaufen, oder auf <em>„Alle“</em>, um die gesamte Berechnung anzuzeigen.",
+  "lost": []
+ },
+ "ed14fa04c9df6371": {
+  "text": "Die Schieberegler verschieben das Objekt innerhalb des Rahmens.",
+  "lost": []
+ },
+ "72fb13e7c1fb7bd8": {
+  "text": "Der Schieberegler verschiebt ihre siderische Zeit entlang des Lineals zwischen zwei Spalten der Tabelle.",
+  "lost": []
+ },
+ "a435f6fe1e22c841": {
+  "text": "Mit dem Schieberegler lässt sich die Geburtszeit im Laufe des Tages verschieben.",
+  "lost": []
+ },
+ "fe1351df421a981b": {
+  "text": "<b>Schritt «k» von «n»</b> · Zeile «row»",
+  "lost": []
+ },
+ "a722330bc4a2edff": {
+  "text": "<b>Schritt «k» von «n»</b>",
+  "lost": []
+ },
+ "24a1733ca8bb0ae4": {
+  "text": "direkt",
+  "lost": []
+ },
+ "ea5f3f4ddac7d35d": {
+  "text": "retrograd ℞",
+  "lost": []
+ },
+ "c37c725e1bbc494f": {
+  "text": "keine Netzbewegung",
+  "lost": []
+ },
+ "aa510540047035b5": {
+  "text": "Retrograd: Zeile 43 minus Zeile 44 ergibt «d» – ein negativer Wert –, daher wird der Inkrementwert von der Position um 00:00 Uhr abgezogen.",
+  "lost": []
+ },
+ "5ef3bd7a82ef5ea4": {
+  "text": "Direkte Bewegung: Zeile 43 minus Zeile 44 ergibt «d», ein positiver Wert; daher wird der Inkrementwert zur Position um 00:00 Uhr addiert.",
+  "lost": []
+ },
+ "ee77e61759871b23": {
+  "text": "Keine Nettobewegung: Die Zeilen 43 und 44 sind identisch, daher beträgt die Schrittweite 0 und Zeile 47 entspricht der Position um 00:00 Uhr.",
+  "lost": []
+ },
+ "4bb2427ab235c887": {
+  "text": "Zeile 43 minus Zeile 44 ergibt «raw», doch der Planet hat 0° Widder überschritten: Addiert man 360°, ergibt dies «d» – ein negativer Wert –, sodass der Planet rückläufig ist und der Inkrementwert von der Position um 00:00 Uhr abgezogen wird. Der 360°-Schritt wird in Zeile 45 und Zeile 47 eingetragen.",
+  "lost": []
+ },
+ "605935e5fdc6633a": {
+  "text": "Interpoliert minus direkt: «o.tot».undefined Eine Abweichung von bis zu 1′ ist in Ordnung.",
+  "lost": []
+ },
+ "0df96e3e15598a6b": {
+  "text": "Geburtszeitverhältnis",
+  "lost": []
+ },
+ "bf5ba5480975cb2e": {
+  "text": "Planetenbewegung",
+  "lost": []
+ },
+ "f6308069ff2d55c7": {
+  "text": "Südliche Hemisphäre",
+  "lost": []
+ },
+ "d52bee2f6924a178": {
+  "text": "ST-Verhältnis",
+  "lost": []
+ },
+ "b143f5bcd0d12780": {
+  "text": "Interpolation des MC",
+  "lost": []
+ },
+ "e2ea75d78bf8f242": {
+  "text": "Direkte Berechnung des MC",
+  "lost": []
+ },
+ "217f5de369fe7e58": {
+  "text": "ASC zwischen STs, «lo»° in niedrigeren Breitengraden",
+  "lost": []
+ },
+ "3241b8f6faad4e87": {
+  "text": "ASC zwischen STs, höhere Breitengrade «hi»°",
+  "lost": []
+ },
+ "3094fa7a01642bf6": {
+  "text": "Breitengradverhältnis",
+  "lost": []
+ },
+ "cc091d20a6cbe1cc": {
+  "text": "ASC zwischen Breitengraden",
+  "lost": []
+ },
+ "b16f1f66543d3256": {
+  "text": "Unterschied",
+  "lost": []
+ },
+ "d12f1fabbb58a9af": {
+  "text": "Inkrement",
+  "lost": []
+ },
+ "2a6ecbeef4c9c39a": {
+  "text": "Weltzeit zum Zeitpunkt der Geburt",
+  "lost": []
+ },
+ "67d2c1d085d2f01a": {
+  "text": "Verhältnis der Geburtszeit <small>= 8 ÷ 24</small>",
+  "lost": []
+ },
+ "ab8dd19ce2c733bc": {
+  "text": "Längengrad um 00:00 Uhr des nächsten Tages",
+  "lost": []
+ },
+ "babdc783f8877c1c": {
+  "text": "Längengrad um 00:00 Uhr am Tag der Geburt",
+  "lost": []
+ },
+ "b973c6f6b8f5b478": {
+  "text": "Planetenposition <small>= «f»</small>",
+  "lost": []
+ },
+ "97880e4dcf2d4797": {
+  "text": "MC-Zeichen zum ursprünglichen LST <small>aus der Tabelle</small>",
+  "lost": []
+ },
+ "266377b1974f7509": {
+  "text": "Umgerechnete LST <small>= LST-«f»</small>",
+  "lost": []
+ },
+ "2b1d08159096d32a": {
+  "text": "Umgerechnete LST",
+  "lost": []
+ },
+ "c0d9384546a72802": {
+  "text": "Native&#x27;s ST",
+  "lost": []
+ },
+ "f91679ac892a8262": {
+  "text": "Früherer ST <small>in der Tabelle</small>",
+  "lost": []
+ },
+ "c0e7ebc5b87b51fa": {
+  "text": "ST-Verhältnis <small>= Differenz ÷ 4′</small>",
+  "lost": []
+ },
+ "02ac21c9352f4192": {
+  "text": "Späterer MC <small>aus der Tabelle</small>",
+  "lost": []
+ },
+ "eebff6fe32b4c0b0": {
+  "text": "Früherer MC <small>aus der Tabelle</small>",
+  "lost": []
+ },
+ "a554aaf8a5c8f854": {
+  "text": "<small>Interpolierter </small>MC des Geborenen <small>= «f»</small>",
+  "lost": []
+ },
+ "2fe0a1870ecb021b": {
+  "text": "MC, ursprüngliches Zeichen beibehalten",
+  "lost": []
+ },
+ "9ff993b0035c2201": {
+  "text": "RAMC <small>= LST × 15</small>",
+  "lost": []
+ },
+ "0289cbd327adcb8d": {
+  "text": "Neigung der Ekliptik",
+  "lost": []
+ },
+ "a06895c5c1f419fa": {
+  "text": "Arctan(tan RAMC ÷ cos OE)",
+  "lost": []
+ },
+ "44ce8b4be65d0031": {
+  "text": "Der Medium Coeli des Geborenen steht <small>direkt</small>",
+  "lost": []
+ },
+ "89843429291d6c1c": {
+  "text": "Direkt, unter Berücksichtigung der Neigung der Tabelle: <small>«v»</small>",
+  "lost": []
+ },
+ "9b9f6bb73381642c": {
+  "text": "Späterer ASC",
+  "lost": []
+ },
+ "221f4e4c8bd9c159": {
+  "text": "Früherer ASC",
+  "lost": []
+ },
+ "bf104ed632a04d51": {
+  "text": "ASC unter «lat»° <small>= «f»</small>",
+  "lost": []
+ },
+ "87a0786688897e31": {
+  "text": "Breitengrad des Geborenen",
+  "lost": []
+ },
+ "5766d24126d1169a": {
+  "text": "Niedrigere Breite <small>in der Tabelle</small>",
+  "lost": []
+ },
+ "84313ed34b52710d": {
+  "text": "Höhere Breitengrade <small>in der Tabelle</small>",
+  "lost": []
+ },
+ "6456b2e931ecdf50": {
+  "text": "Breitengradverhältnis <small>= 37 ÷ «div»</small>",
+  "lost": []
+ },
+ "dbb067eff8a75b54": {
+  "text": "Unterschied <small>= «f»</small>",
+  "lost": []
+ },
+ "a77d10c2d00db3fa": {
+  "text": "Geburts-ASC <small>= «f»</small>",
+  "lost": []
+ },
+ "2052cdfb45017acd": {
+  "text": "ASC, Gegenzeichen",
+  "lost": []
+ },
+ "61b0e9fc449521a2": {
+  "text": "ASC des Geborenen <small>aus LST, Breitengrad und Schräglage</small>",
+  "lost": []
+ },
+ "b83095e8b36a2a60": {
+  "text": "Die Ephemeride gibt die Positionen für 00:00 Uhr in Greenwich an. Der Geborene kam um «ut» UT zur Welt.",
+  "lost": []
+ },
+ "b3ce612d91df508a": {
+  "text": "Teilen Sie durch 24 Stunden: «sum». So viel des Tages war bereits vergangen, als der Geborene zur Welt kam.",
+  "lost": []
+ },
+ "844ee0108145e2b8": {
+  "text": "Aus der Ephemeride ergibt sich die Position um 00:00 Uhr des nächsten Tages: «sign», was einem absoluten Längengrad von «abs» entspricht.",
+  "lost": []
+ },
+ "4900715a7a5f03f5": {
+  "text": "Und um 00:00 Uhr am Tag der Geburt: «sign», was «abs» entspricht.",
+  "lost": []
+ },
+ "933e5969e911f997": {
+  "text": "Die Tagesbewegung ist die Längengradposition des nächsten Tages abzüglich derjenigen des Geburtstages: «expr». Sie ist negativ: Der Planet ist rückläufig und bewegt sich rückwärts. Zeile 45 enthält seine Größe: «d».",
+  "lost": []
+ },
+ "9ef16815221eada8": {
+  "text": "Die Tagesbewegung ist die Längengradposition des nächsten Tages abzüglich derjenigen am Geburtstag: «expr». Sie ist positiv: Der Planet hat sich an diesem Tag um «d» vorwärts bewegt, in direkter Bewegung.",
+  "lost": []
+ },
+ "db725292bba8839b": {
+  "text": "Die Tagesbewegung entspricht der Längengradposition des nächsten Tages abzüglich derjenigen am Geburtstag: «expr». Zwischen den beiden Mitternächten gibt es keine Nettobewegung, daher beträgt die Schrittweite 0.",
+  "lost": []
+ },
+ "533961eed3d1a03f": {
+  "text": "Da der 0° Widder vorwärts überschritten wurde, werden 360° zur Längengradposition des nächsten Tages addiert.",
+  "lost": []
+ },
+ "41594de3854ae111": {
+  "text": "Da der Planet rückläufig den 0°-Punkt im Widder überquerte, werden 360° von der Längengradposition des nächsten Tages abgezogen.",
+  "lost": []
+ },
+ "c27364a3b718632e": {
+  "text": "Der Anteil des Geborenen an dieser Bewegung: «sum».",
+  "lost": []
+ },
+ "c62db1f9130b6ddc": {
+  "text": "Da es sich um eine rückläufige Bewegung handelt, ziehen Sie diese von der Position um 00:00 Uhr ab: «sum», das ergibt «sign».",
+  "lost": []
+ },
+ "9bf6dc75cefb2fe1": {
+  "text": "Addieren Sie dies zur Position um 00:00 Uhr: «sum», das ergibt «sign».",
+  "lost": []
+ },
+ "a1cdc2fb898acfd2": {
+  "text": "Die Tabelle ist für den Norden ausgelegt. Beachten Sie zunächst das Zeichen am MC zum lokalen Sonnenstand (LST) des Geborenen von «lst»: Es ist „«name»“. Dieses Zeichen werden wir am Ende beibehalten.",
+  "lost": []
+ },
+ "aa293402e3e2d14d": {
+  "text": "Ziehen Sie zwölf Stunden ab: «sum». Geben Sie diese umgerechnete Zeit in die Tabelle ein, bei gleichem nördlichen Breitengrad.",
+  "lost": []
+ },
+ "d63b95e10e4f3584": {
+  "text": "Die siderische Zeit des Geborenen beträgt «st». Die Tabelle ist alle 4′ unterbrochen, sodass sie sich über zwei Spalten erstreckt.",
+  "lost": []
+ },
+ "a8e24a337558b714": {
+  "text": "Die Spalte unmittelbar davor lautet „«earlier»“; die darauffolgende lautet „«later»“.",
+  "lost": []
+ },
+ "bd3f4f04e583f84f": {
+  "text": "Der Geborene ist „«d»“ (vor der vorherigen Spalte) – das können Sie ohne Berechnung erkennen.",
+  "lost": []
+ },
+ "1ff21f23034ccf0d": {
+  "text": "Teilen Sie durch das 4′-Intervall: «sum». Dieses Verhältnis gibt an, wie weit der Geborene innerhalb des Feldes liegt, und es wird bei jeder ST-Interpolation verwendet.",
+  "lost": []
+ },
+ "fd109b6c14147272": {
+  "text": "Aus der Tabelle ergibt sich für den MC bei «t» der Wert «v».",
+  "lost": []
+ },
+ "43be01c6ee90539e": {
+  "text": "Und unter «t» finden Sie „«v»“.",
+  "lost": []
+ },
+ "2b4299f3fd579d94": {
+  "text": "Der MC ändert sich je nach „«d»“ über die Box hinweg.",
+  "lost": []
+ },
+ "270754c3a427e10d": {
+  "text": "Der Beitrag des Autors: «sum».",
+  "lost": []
+ },
+ "86e30e2080914f3e": {
+  "text": "Fügen Sie dies dem früheren MC hinzu: «sum», d. h. «sign». Entgegengesetztes Zeichen, wie für die umgerechnete Zeit zu erwarten.",
+  "lost": []
+ },
+ "7d5f4d9e9799a755": {
+  "text": "Weisen Sie ihr das Zeichen zu, das sie zum Zeitpunkt der Geburt des Geborenen (LST) hatte: «sign».",
+  "lost": []
+ },
+ "1f0c9226ceea96f1": {
+  "text": "Um das Ergebnis mit einem Taschenrechner zu überprüfen, wandeln Sie die LST in Bogenmaß um: «sum» der Rektaszension.",
+  "lost": []
+ },
+ "fb2ef2213cb2ce91": {
+  "text": "Die Neigung aus Ihrem Programm, also 23° 26′: hier «v».",
+  "lost": []
+ },
+ "1ac546c0d9e4375d": {
+  "text": "arctan(tan RAMC ÷ cos OE) = «v». Da der Wert nahe am RAMC liegt, ist keine Korrektur erforderlich.",
+  "lost": []
+ },
+ "49f5fddf59a069c4": {
+  "text": "Direkte Berechnung: «sign». Interpoliertes Ergebnis abzüglich des direkten Ergebnisses: «gap».",
+  "lost": []
+ },
+ "a54275b13887c5d2": {
+  "text": "Unterkante des Feldes, Breitengrad «lo»°. Aus der Tabelle ergibt sich für den ASC bei «t» der Wert «v».",
+  "lost": []
+ },
+ "fdb2d6b1f5232f7f": {
+  "text": "Am unteren Rand ändert sich der ASC um „«d»“.",
+  "lost": []
+ },
+ "327ee819bf598742": {
+  "text": "Der Anteil des Geborenen, anhand des ST-Verhältnisses: «sum».",
+  "lost": []
+ },
+ "3cad01d23239320c": {
+  "text": "Addieren Sie diesen Wert zum vorherigen: Der ASC für ihren ST bei «lo»° beträgt «v». Das ist der Punkt am unteren Rand.",
+  "lost": []
+ },
+ "9ee416999f93e720": {
+  "text": "Nun der obere Rand, Breitengrad «hi»°. Der ASC bei «t» beträgt «v».",
+  "lost": []
+ },
+ "64db8269378bf5d6": {
+  "text": "Am oberen Rand ändert sich der ASC um «d».",
+  "lost": []
+ },
+ "216e0e8f4b7686f2": {
+  "text": "Wieder dasselbe Verhältnis: «sum».",
+  "lost": []
+ },
+ "f3fcb6538851199d": {
+  "text": "Addieren Sie diesen Wert zum vorherigen: Der ASC für ihren ST bei «hi»° beträgt «v». Das ist der Punkt am oberen Rand.",
+  "lost": []
+ },
+ "915c0cb0381aad97": {
+  "text": "Ihr Breitengrad beträgt «v» und liegt zwischen den Zeilen «lo»° und «hi»°.",
+  "lost": []
+ },
+ "4e44e16e05a75eaf": {
+  "text": "Die untere Zeile entspricht«lo»°.",
+  "lost": []
+ },
+ "9902033dfe7099b4": {
+  "text": "Die obere Zeile lautet „«hi»°“.",
+  "lost": []
+ },
+ "2bb408a0d43f018f": {
+  "text": "Sie befindet sich oberhalb der unteren Zeile unter „«d»“.",
+  "lost": []
+ },
+ "bf84ad1d43c4ddeb": {
+  "text": "Teilen Sie den Wert „«div»“ zwischen den Zeilen auf: Das Breitengradverhältnis beträgt «r». Das ergibt die horizontale Linie.",
+  "lost": []
+ },
+ "051f4083652eaef1": {
+  "text": "Die beiden Randwerte unterscheiden sich um «d».",
+  "lost": []
+ },
+ "f88cecaa7f340cd8": {
+  "text": "Ihr Beitrag, entsprechend dem Breitengradverhältnis: «sum».",
+  "lost": []
+ },
+ "8d6ad52eeb0245b4": {
+  "text": "Bewegen Sie sich vom Wert der niedrigeren Breite in Richtung des höheren: «sum», das heißt «sign». Dort, wo sich die beiden Linien kreuzen.",
+  "lost": []
+ },
+ "2da4bc643e8d336e": {
+  "text": "Bei einer Geburt auf der Südhalbkugel weisen Sie dem Aszendenten das entgegengesetzte Zeichen zu, das hier aufgeführt ist: «sign».",
+  "lost": []
+ },
+ "8fc1ff2b25acccdb": {
+  "text": "Direkt berechnet ergibt sich der Aszendent als «sign». Interpoliert minus direkt ergibt sich: «gap».",
+  "lost": []
+ },
+ "67f3eaf1c770461f": {
+  "text": "Noch einmal direkt, unter Verwendung der in der Tabelle angegebenen Neigung der A«obl»e: «sign».",
+  "lost": []
+ },
+ "54b9f6d7db188ef0": {
+  "text": "<p>Eine Häusertabelle listet Aszendenten und Medium Coeli in regelmäßigen Intervallen der siderischen Zeit auf – hier alle 4′ ST, was 1° RAMC entspricht. Alles darin wird durch diesen einen Wert bestimmt. Zur gleichen ST gibt es nur ein mögliches MC, jedoch viele Aszendenten, einen für jeden Geburtsbreitengrad.</p>\n         <p>Unsere Geborene kam bei einer lokalen siderischen Zeit von 17:39:47 auf 44° 58′ 48″ N zur Welt. Keine dieser Zahlen ist in der Tabelle enthalten. Sie befindet sich <em>zwischen den Zeilen</em>: zwischen zwei Spalten der siderischen Zeit und zwei Zeilen des Breitengrads. Das Kästchen im Diagramm umfasst diese vier Tabellenzellen, und die beiden Linien stellen sie dar.</p>\n         <p>Bei der Interpolation geht es lediglich darum, den Schnittpunkt der Linien zu ermitteln.</p>",
+  "lost": []
+ },
+ "721815bcd982617b": {
+  "text": "Ziehen Sie den Schieberegler <span class=\"term\">der Spalte „ST“</span> unterhalb des Diagramms: Die goldene Linie bewegt sich quer über das Feld. Ziehen Sie den Schieberegler <span class=\"term lat\">der Zeile „Breitengrad</span>“: Die blaue Linie bewegt sich auf und ab. Das Feld selbst bleibt an Ort und Stelle; die Schaltflächen ◀ ▶ wechseln die Spalten und verschieben das Feld in neue Tabellenzellen (es blinkt kurz beim Verschieben, sofern Ihr System nicht die Reduzierung von Animationen verlangt). <em>Mit „Von vorne beginnen“</em> wird die Lernende wieder an die Stelle zurückversetzt, an der sich die Lektion gerade befindet.",
+  "lost": []
+ },
+ "0e5e754822c04ce1": {
+  "text": "<p>Ihr ST beträgt 17:39:47. Die Tabelle enthält auf der einen Seite 17:36:00 und auf der anderen 17:40:00. Sie liegt 3′ 47″ jenseits der früheren Spalte, bei einem Intervall von 4′.</p>\n         <p>Teilen Sie das eine durch das andere: 3′ 47″ entsprechen 227 Sekunden, 4′ entsprechen 240 Sekunden, und 227 ÷ 240 = 0,9458333. Das ist ihr <span class=\"term\">ST-Verhältnis</span>: wie weit sie sich über das Feld erstreckt, ausgedrückt als Bruch. Sie können auch ohne Berechnung erkennen, dass sie sich fast über das gesamte Feld erstreckt.</p>\n         <p>Jede Größe, die vom ST abhängt – der MC und jeder Aszendent – wird mit demselben Verhältnis interpoliert.</p>",
+  "lost": []
+ },
+ "85e7bd5f6cb7d437": {
+  "text": "Der Streifen unterhalb des Diagramms zeigt die Zeile an, in der Sie sich gerade befinden: das Verhältnis. Ziehen Sie den Schieberegler nach links bis zur Mitte der Spalte und beobachten Sie, wie das Verhältnis auf etwa 0,5 sinkt.",
+  "lost": []
+ },
+ "802d2f55c8ba4334": {
+  "text": "Interpolation des Medium Coeli",
+  "lost": []
+ },
+ "f0ae1db9aafc07a8": {
+  "text": "<p>Der MC bei 17:36 beträgt 264° 29′ 30″; bei 17:40 beträgt er 265° 24′ 38″. Die Differenz beträgt 55′ 08″. Sie befindet sich auf 0,9458333 des Weges, daher beträgt ihr Anteil an dieser Differenz 55′ 08″ × 0,9458333 = 52′ 09″.</p>\n         <p>Addieren Sie die Zunahme zum früheren MC: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, was 25° 21′ 39″ im Sternzeichen Schütze entspricht.</p>\n         <p>Differenz, multipliziert mit dem Verhältnis, addiert zum vorherigen Wert. Dieses Muster macht die gesamte Interpolation aus; der Aszendent wendet es lediglich dreimal an.</p>",
+  "lost": []
+ },
+ "1e2db6d898499fd4": {
+  "text": "Klicken Sie fünfmal auf <em>„Nächster Schritt</em>“. Mit jedem Klick verschiebt sich der Streifen unter dem Diagramm um eine Zeile des Arbeitsblatts nach unten; beim fünften Klick erscheint die Antwort auf dem Lineal.",
+  "lost": []
+ },
+ "49a79c7361bf5212": {
+  "text": "Sehen Sie sich das direkt an",
+  "lost": []
+ },
+ "d05e7ccbfb0cf0c0": {
+  "text": "<p>Der MC lässt sich auch direkt berechnen: <span class=\"mono\">arctan(tan RAMC ÷ cos OE)</span>, wobei RAMC der LST × 15 und OE die Neigung der Ekliptik ist. Sollte das Ergebnis nicht nahe am RAMC liegen, addieren oder subtrahieren Sie 180°.</p>\n         <p>Für unseren Geborenen ergeben RAMC 264° 56′ 45″ und OE 23° 26′ 54″ den Wert 85° 21′ 41″; das ist weit entfernt von 264°, also addieren Sie 180°: 265° 21′ 41″.</p>\n         <p>Nur 2″ von dem interpolierten Wert entfernt, und die Seite kann aufzeigen, woher diese Werte stammen. Direkt mit der tabelleninternen Schräglage von 23° 26′ berechnet, beträgt der MC 265° 21′ 39″ – genau der interpolierte Wert. Die 2″ entsprechen also der Schräglage: Die Tabelle wurde für genau 23° 26′ erstellt. Die gerade Linie der Interpolation – dort, wo die Ekliptik eine Kurve beschreibt – verursacht hier eine Abweichung von weniger als einer Zehntelsekunde.</p>",
+  "lost": []
+ },
+ "8702333bef74e8af": {
+  "text": "Klicken Sie noch fünfmal auf <em>„Nächster Schritt“</em>, um die direkte Berechnung durchzugehen; die letzte Zeile wiederholt diese bei der Neigung der Tabelle. <em>Öffnen Sie</em> anschließend <em>das Arbeitsblatt,</em> um alle vierzehn Zeilen zusammen anzuzeigen.",
+  "lost": []
+ },
+ "423d07d75608ea5a": {
+  "text": "Für den Aszendenten sind zwei Verhältnisse erforderlich",
+  "lost": []
+ },
+ "2028ccb46fd68471": {
+  "text": "<p>Der MC hängt ausschließlich von der Sonnenzeit (ST) ab; der Aszendent hängt zudem vom Breitengrad ab. Und ihr Breitengrad, 44° 58′ 48″, liegt ebenfalls nicht auf einem exakten Grad. Somit befindet sie sich zwischen zwei Spalten <em>und</em> zwischen zwei Zeilen: Vier Aszendentenwerte umschließen sie.</p>\n         <p>Die goldene Linie stellt ihr ST-Verhältnis zwischen den Spalten dar; die blaue Linie ist ihr Breitengrad zwischen 44° und 45°. Ihr wahrer Aszendent befindet sich dort, wo sich die beiden Linien schneiden.</p>\n         <p>Wir ermitteln ihn in drei Schritten: den Aszendenten für ihre ST am niedrigeren Breitengrad; denselben am höheren Breitengrad; und schließlich den Punkt zwischen diesen beiden, anhand ihres Breitengradverhältnisses.</p>",
+  "lost": []
+ },
+ "8d414ba3b78f20b4": {
+  "text": "Klicken Sie zehnmal auf <em>„Nächster Schritt“</em> und lesen Sie dabei den Textstreifen. Beim zehnten Klick erscheint ein Punkt an der Stelle, an der die goldene Linie auf den unteren Rand trifft: der Aszendent für ihr ST bei 44°.",
+  "lost": []
+ },
+ "d7c6a7bee9426d0f": {
+  "text": "Entlang des oberen und unteren Randes",
+  "lost": []
+ },
+ "94eb714f81257b3a": {
+  "text": "<p>Bei 44° verläuft der Aszendent von 348° 48′ 41″ um 17:36 Uhr bis 350° 39′ 41″ um 17:40 Uhr – eine Differenz von 1° 51′ 00″. Multiplizieren Sie dies mit dem ST-Verhältnis: 1° 44′ 59″. Addieren Sie diesen Wert zum vorherigen Wert: 350° 33′ 40″. Das ist der Punkt am unteren Rand.</p>\n         <p>Bei 45° gilt dasselbe: 348° 31′ 22″ bis 350° 25′ 09″, Differenz 1° 53′ 47″, Schrittweite 1° 47′ 37″, Aszendent 350° 18′ 59″. Das ist die Oberkante.</p>\n         <p>Die beiden Werte liegen nahe beieinander, sind jedoch nicht identisch, und wir wollen präzise sein: Bei vielen Techniken kommt es auf wenige Minuten des Aszendenten an.</p>",
+  "lost": []
+ },
+ "50c4f5f39f9e1077": {
+  "text": "Sechs weitere Klicks auf <em>„Nächster Schritt“</em> setzen den zweiten Punkt an der Oberkante. Klicken Sie anschließend auf <em>„Alle“</em> und ziehen Sie den Schieberegler <span class=\"term lat\">für die Breitengradzeile</span> ganz nach oben: Die blaue Linie liegt an der Oberkante bei 45° 00′ 00″, und Zeile 41 entspricht genau diesem Punkt, 350° 18′ 59″.",
+  "lost": []
+ },
+ "1e12ec97d7aa9ba5": {
+  "text": "Am Rand: das Breitengradverhältnis",
+  "lost": []
+ },
+ "595df3567de1fc44": {
+  "text": "<p>Ihr Breitengrad liegt bei 58′ 48″ jenseits von 44°, innerhalb eines Intervalls von 60′: ein <span class=\"term lat\">Breitengradverhältnis</span> von 0,98. Die beiden Randwerte unterscheiden sich um 14′ 41″; ihr Anteil beträgt 14′ 41″ × 0,98 = 14′ 23″.</p>\n         <p>Bewegen Sie sich nun vom Wert des niedrigeren Breitengrades in Richtung des höheren. Hier ist der Wert bei 45° kleiner, also subtrahieren Sie: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, das sind 20° 19′ 17″ Fische.</p>\n         <p>Im Arbeitsblatt wird dies als Regel formuliert: Ist Zeile 30 kleiner, addieren Sie; ist Zeile 36 kleiner, subtrahieren Sie. Das Diagramm verdeutlicht es noch einfacher – das Ergebnis befindet sich am Schnittpunkt der Linien.</p>",
+  "lost": []
+ },
+ "83bab958fc28b410": {
+  "text": "Drücken Sie sechsmal auf <em>„Nächster Schritt“</em>, um Zeile 41 zu erreichen: Der grüne Punkt landet auf dem Schnittpunkt. Probieren Sie dann die Schaltfläche ▼ neben dem Breitengrad-Schieberegler aus: Mit jedem Druck wird das Feld um eine Tabellenzeile nach unten verschoben, wobei seine Position innerhalb der Zeile beibehalten wird. Die Zeilen sind hier 1° voneinander entfernt; unterhalb von 20° erfolgt die Tabelleneinteilung in 5°-Schritten, und Zeile 38 teilt dann in 5°-Schritten statt in 60′.",
+  "lost": []
+ },
+ "0718853af59d0c18": {
+  "text": "<p>Janus gibt für diesen Geborenen einen Aszendenten von 20° 18′ 32″ an; die direkte Berechnung anhand unserer gerundeten LST ergibt 20° 18′ 54″; die Interpolation ergibt 20° 19′ 17″. Keine dieser Angaben stimmt überein, und das ist normal.</p>\n         <p>Die Seite kann aufzeigen, woher ihre eigenen 23″ stammen. Beide Berechnungen gehen von derselben LST aus, nämlich 17:39:47, jedoch nicht von derselben Schräglage: Die direkte Berechnung verwendet 23° 26′ 54″, die Tabelle 23° 26′. Bei einer direkten Berechnung mit 23° 26′ beträgt der Aszendent 20° 19′ 17″ – genau der interpolierte Wert. Die gesamte Abweichung ist also auf die Schräglage zurückzuführen; die gerade Linie der Interpolation weicht bei diesem Breitengrad um etwa 0,1″ ab.</p>\n         <p>Die Interpolation weist einen eigenen Fehler auf, wenn sich der Aszendent schnell bewegt, wie dies in der Nähe der Pole der Fall ist, sowie einen größeren Fehler bei größeren Schritten; deshalb werden die Tabellen bei 4′ abgeschnitten. Janus kann auch aus einem anderen Grund abweichen, den die Lektion nennt: Ein Programm behält Bruchteile einer Sekunde in der Sternzeit bei. Diese Seite gibt beiden Berechnungen dieselbe LST an, daher kann sie dies nicht zeigen. Machen Sie sich also keine Sorgen, wenn Ihre interpolierten Werte leicht von denen Ihres Programms abweichen: Die Faustregel der Lektion lautet, dass Abweichungen von bis zu 1′ in Ordnung sind.</p>",
+  "lost": []
+ },
+ "3c8b33905028f459": {
+  "text": "Stellen Sie auf der Registerkarte <em>„Arbeitsblatt“</em> die Neigung der Erdachse auf 23° 26′ ein: Die Lücke in der Anmerkung unter dem Arbeitsblatt verringert sich auf 0″. Drücken Sie anschließend auf das ▲ neben dem Schieberegler für den Breitengrad, bis die Zeile 59°–60° erreicht: Die dortige Lücke von −7″ ist ausschließlich auf die Interpolation zurückzuführen. Stellen Sie die Schräglage wieder auf 23° 26′ 54″ ein, und der Wert ändert sich auf +2′ 34″: Die Schräglage ergibt +2′ 41″ und die Interpolation −7″. Der Anteil der Schräglage nimmt in der Nähe der Pole zu.",
+  "lost": []
+ },
+ "7cd5ac4f08718456": {
+  "text": "<p>Die Tabelle ist für die nördliche Hemisphäre erstellt. Bei einer Geburt auf der Südhalbkugel notieren Sie zunächst, in welchem Zeichen sich der MC zum lokalen Sonnenstand (LST) des Geborenen befindet. Addieren oder subtrahieren Sie dann 12:00:00 zum LST und schlagen Sie die Tabelle wie gewohnt bei demselben nördlichen Breitengrad nach.</p>\n         <p>Der so ermittelte MC befindet sich im entgegengesetzten Zeichen: Nehmen Sie das ursprüngliche Zeichen an. Der ermittelte Aszendent ist ebenfalls entgegengesetzt: Weisen Sie ihm das entgegengesetzte Zeichen des in der Tabelle aufgeführten zu.</p>\n         <p>Das Beispiel bezieht sich auf eine Person bei 45° südlicher Breite mit einer lokalen Sonnenzeit (LST) von 16:00:00. Der MC liegt bei 2° 05′ Schütze. Bei der Umrechnung auf 4:00:00 ergibt die Tabelle 2° 05′ Zwillinge – nehmen Sie Schütze – und einen Aszendenten von 7° 15′ Jungfrau, der zu 7° 15′ Fische wird.</p>",
+  "lost": []
+ },
+ "625d978ee6eff728": {
+  "text": "Der Streifen befindet sich in Zeile S2, dem zweiten der Schritte, die bei einer Geburt im Süden hinzukommen; S5, am Ende, weist dem Aszendenten das entgegengesetzte Zeichen zu. Klicken Sie auf <em>„Alle</em>“: Die Antwort im Diagramm ist der korrigierte Wert für Fische, und die direkte Berechnung bestätigt dies.",
+  "lost": []
+ },
+ "a0bf0ce970ec9754": {
+  "text": "<p>Eine Ephemeride listet täglich die Positionen um 00:00 Uhr in Greenwich auf. Die Geborene kam um 15:55 UT zur Welt, zu einem Zeitpunkt, an dem 15:55 ÷ 24 = 0,6631944 des Tages verstrichen waren. Dies ist ihr <span class=\"term\">Geburtszeitverhältnis</span>, das nun die Rolle übernimmt, die zuvor das ST-Verhältnis innehatte.</p>\n         <p>Die Sonne stand um Mitternacht bei 29° 21′ 50″ Steinbock und um die nächste Mitternacht bei 0° 22′ 55″ Wassermann: eine Bewegung von 1° 01′ 05″. Ihr Anteil beträgt 1° 01′ 05″ × 0,6631944 = 40′ 31″. Zuzüglich der Mitternachtsposition beträgt die Position der Sonne bei der Geburt 0° 02′ 21″ Wassermann.</p>\n         <p>Das gleiche Arbeitsblatt gilt für jeden Planeten; lediglich die beiden Positionen ändern sich.</p>",
+  "lost": []
+ },
+ "a98e8d7225a74989": {
+  "text": "Klicken Sie auf <em>„Nächster Schritt“,</em> um zum Ende zu gelangen. Ziehen Sie anschließend den Schieberegler <span class=\"term\">für die Geburtszeit</span>: Bei einer Geburt um 12:00 Uhr mittags wird die Hälfte der Tagesbewegung bis auf die Sekunde genau berücksichtigt; bei einer Geburt um 00:00 Uhr wird keine Bewegung berücksichtigt.",
+  "lost": []
+ },
+ "6582396aad44fc97": {
+  "text": "Retrograd: subtrahieren",
+  "lost": []
+ },
+ "a99bd6ec9e2274db": {
+  "text": "<p>Saturn war an diesem Tag rückläufig, was in der Ephemeride grau dargestellt ist: 19° 02′ 56″ Jungfrau um Mitternacht, 19° 00′ 40″ am nächsten Tag. Berechnen Sie die Tagesbewegung wie üblich, indem Sie die Längengrade des nächsten Tages vom Längengrad des Geburtstages abziehen: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. Der Wert ist negativ, da er sich rückläufig bewegte: Das ist die Bedeutung von „retrograd“.</p>\n         <p>Die Differenz beträgt 2′ 16″, die Verschiebung 2′ 16″ × 0,6631944 = 1′ 30″. Die einzige Änderung besteht darin, dass wir diesen Wert vom Tagesanfang abziehen: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ Jungfrau.</p>\n         <p>Ermitteln Sie die Bewegung über 0° Widder, wenn der Planet diese Position passiert. Von 29° Fische bis 1° Widder beträgt die Bewegung +2°, vorwärts, nicht −358°: Zählen Sie über 360° hinaus. Von 1° Widder zurück zu 29° Fische beträgt die Bewegung −2°, rückläufig. Der ausgefüllte Teil des Lineals färbt sich rot, sobald die Bewegung negativ ist.</p>",
+  "lost": []
+ },
+ "cac82e1768861a5c": {
+  "text": "Zwei weitere Klicks auf <em>„Nächster Schritt“</em> schließen den Vorgang ab. <em>Öffnen Sie</em> anschließend <em>das Arbeitsblatt</em> und geben Sie einen Planeten aus Ihrer eigenen Ephemeridenseite ein – um Mitternacht an Ihrem Geburtstag und am Tag danach – und vergleichen Sie Zeile 47 mit Ihrem Horoskop. Probieren Sie 29° Fische und 1° Widder aus, um den in Zeile 45 eingetragenen 360°-Schritt zu sehen.",
+  "lost": []
+ },
+ "62a3ad0fef668c4e": {
+  "text": "AR",
+  "lost": []
+ },
+ "8d655be6142e6021": {
+  "text": "TA",
+  "lost": []
+ },
+ "78414175292d8e8a": {
+  "text": "GE",
+  "lost": []
+ },
+ "5065f3689a7d7b68": {
+  "text": "CN",
+  "lost": []
+ },
+ "6989995295daa295": {
+  "text": "LE",
+  "lost": []
+ },
+ "85ebe39d57f29d27": {
+  "text": "VI",
+  "lost": []
+ },
+ "ba32a770871155f7": {
+  "text": "LI",
+  "lost": []
+ },
+ "59aa962f7269a10c": {
+  "text": "SC",
+  "lost": []
+ },
+ "9832b282b4c3133a": {
+  "text": "SG",
+  "lost": []
+ },
+ "f19057bfb81b419d": {
+  "text": "CP",
+  "lost": []
+ },
+ "8bf9c844c5d894e7": {
+  "text": "AQ",
+  "lost": []
+ },
+ "fa7ff6fb00a7ace8": {
+  "text": "PI",
+  "lost": []
+ },
+ "e0996a37c13d44c3": {
+  "text": "erstens",
+  "lost": []
+ },
+ "352f7829a2384b00": {
+  "text": "Sekunde",
+  "lost": []
+ },
+ "34fb3300b9a77beb": {
+  "text": "Drittel",
+  "lost": []
+ },
+ "2db18e1d98e7ab7f": {
+  "text": "vierte",
+  "lost": []
+ },
+ "5ad43148c90a8f2d": {
+  "text": "Fünfter",
+  "lost": []
+ },
+ "04053a7b8a695782": {
+  "text": "Sechstel",
+  "lost": []
+ },
+ "11aee249173e887d": {
+  "text": "siebte",
+  "lost": []
+ },
+ "dd5d5862925f1f95": {
+  "text": "Achte",
+  "lost": []
+ },
+ "a511b41abd529a23": {
+  "text": "neunte",
+  "lost": []
+ },
+ "e4b1f7a0eb242369": {
+  "text": "Zehntel",
+  "lost": []
+ },
+ "50376c5fc311dcec": {
+  "text": "elfte",
+  "lost": []
+ },
+ "ae8d22fc84726d9e": {
+  "text": "zwölfte",
+  "lost": []
+ },
+ "38fc16a1b71a6407": {
+  "text": "„The Reckoner“",
+  "lost": []
+ },
+ "f087b6707b9974ea": {
+  "text": "Rechnen im Sechzigersystem – jedes Übertragen und Abziehen wird dargestellt",
+  "lost": []
+ },
+ "61cc55aa04531847": {
+  "text": "Hinzufügen",
+  "lost": []
+ },
+ "ae5f61e523ef1946": {
+  "text": "Subtrahieren",
+  "lost": []
+ },
+ "c8d581f2c60a0597": {
+  "text": "In Dezimalzahlen",
+  "lost": []
+ },
+ "cbd8d55c118fd6c5": {
+  "text": "In Grad",
+  "lost": []
+ },
+ "a05433a3f696b057": {
+  "text": "Zeichen",
+  "lost": []
+ },
+ "f34fb98df83b62de": {
+  "text": "Zeit ↔ Winkel",
+  "lost": []
+ },
+ "44c57abd888a66b3": {
+  "text": "Zurücksetzen",
+  "lost": []
+ },
+ "4ad0d835738aeaf9": {
+  "text": "Rechenweg ausblenden",
+  "lost": []
+ },
+ "dd28e7957b916bf7": {
+  "text": "Nächsten Schritt anzeigen (Leerzeichen)",
+  "lost": []
+ },
+ "6ec994543ee000df": {
+  "text": "Alle Schritte anzeigen",
+  "lost": []
+ },
+ "3e15ac7882aa8da5": {
+  "text": "Übung",
+  "lost": []
+ },
+ "bbd6d8c64d0c5882": {
+  "text": "Üben Sie dies",
+  "lost": []
+ },
+ "1baa06b4c8bc2d63": {
+  "text": "Aufgabe",
+  "lost": []
+ },
+ "7c7f5d049fad2569": {
+  "text": "Niveau",
+  "lost": []
+ },
+ "b02da8077deeb3d2": {
+  "text": "Gentle – Grad und Minuten",
+  "lost": []
+ },
+ "22f29be4e0fc0e5e": {
+  "text": "Gewöhnlich – mit Sekunden",
+  "lost": []
+ },
+ "88429ab9552b8430": {
+  "text": "Vollständig – Zeilenumbrüche und Zeilenüberschneidungen",
+  "lost": []
+ },
+ "5e71f748869186d4": {
+  "text": "Neue Aufgabe",
+  "lost": []
+ },
+ "1e6e76ec12a7722a": {
+  "text": "Wählen Sie einen Modus unterhalb der Schreibtafel aus und klicken Sie anschließend auf <em>„Neue Aufgabe</em>“.",
+  "lost": []
+ },
+ "3ae5ff6e1731b62d": {
+  "text": "Ihre Antwort",
+  "lost": []
+ },
+ "4b5e84be0e45d1f4": {
+  "text": "Überprüfen",
+  "lost": []
+ },
+ "4a23b8e1aef43a6c": {
+  "text": "Zeigen Sie die Rechenweise",
+  "lost": []
+ },
+ "954daa8b00335c66": {
+  "text": "Rechts",
+  "lost": []
+ },
+ "ac4792cfd4868383": {
+  "text": "Streak",
+  "lost": []
+ },
+ "77003d07271f1497": {
+  "text": "Am besten",
+  "lost": []
+ },
+ "14226fe791fece6a": {
+  "text": "Ihre eigenen Zahlen",
+  "lost": []
+ },
+ "dd37d0d1b615bba6": {
+  "text": "Lösen Sie eine meiner Aufgaben",
+  "lost": []
+ },
+ "05c07ee8a5dfbebc": {
+  "text": "Probieren Sie es aus",
+  "lost": []
+ },
+ "657dc95e0ae4c8e9": {
+  "text": "Die Tafel verbirgt das Ergebnis, bis Sie die Rechenschritte nacheinander durchgehen, sodass Sie Hausaufgaben korrigieren können, ohne zuvor die Antwort zu erfahren. <kbd>Geben Sie</kbd> die Zahlen <kbd>ein</kbd>, <kbd>„N“</kbd> gibt eine neue Aufgabe aus, <kbd>die Leertaste</kbd> zeigt einen Rechenschritt an.",
+  "lost": []
+ },
+ "03b34e8afed01768": {
+  "text": "Die Regeln",
+  "lost": []
+ },
+ "eaa220743de9a61b": {
+  "text": "Übertragen und Ausleihen im Sechzigersystem",
+  "lost": []
+ },
+ "32c8677e35c0aed5": {
+  "text": "60″ ergeben 1′; 60′ ergeben 1°. Wenn eine Spalte den Wert 60 erreicht, behalten Sie den Rest und übertragen Sie 1 nach links. Wenn Sie nicht subtrahieren können, leihen Sie sich 1 von links als 60 aus.",
+  "lost": []
+ },
+ "88cb5de7071c9ec1": {
+  "text": "Der Kreis umfasst 360°",
+  "lost": []
+ },
+ "03e96f27e2eb84c6": {
+  "text": "Überschreitet der Wert 360°, ziehen Sie 360° ab. Ist der obere Wert einer Subtraktion kleiner als der untere, addieren Sie zunächst 360° zum oberen Wert.",
+  "lost": []
+ },
+ "bf3da184a9de4260": {
+  "text": "In Dezimalzahlen: nach links teilen",
+  "lost": []
+ },
+ "8f607aaa38580552": {
+  "text": "Sekunden geteilt durch 60 ergeben Minuten; Minuten geteilt durch 60 ergeben Grad. Fünf Dezimalstellen reichen völlig aus.",
+  "lost": []
+ },
+ "106c3e6c3290dd5e": {
+  "text": "In Grad umrechnen: nach rechts multiplizieren",
+  "lost": []
+ },
+ "30d6fce4fd5e8f6a": {
+  "text": "Der Bruch multipliziert mit 60 ergibt Minuten; der neue Bruch multipliziert mit 60 ergibt Sekunden. Runden Sie die Sekunden.",
+  "lost": []
+ },
+ "b7b744e452396096": {
+  "text": "Absolute Längengrad",
+  "lost": []
+ },
+ "6e31a86dc362d0f4": {
+  "text": "Jedes Sternzeichen beginnt 30° nach dem vorherigen, gezählt ab 0° Widder. Addieren Sie den Beginn des Sternzeichens zu den Gradangaben innerhalb des Sternzeichens; dividieren Sie durch 30, um zurückzugehen.",
+  "lost": []
+ },
+ "ef2bbad02b549346": {
+  "text": "Zeit und Bogen",
+  "lost": []
+ },
+ "ae81baa10f5ac39a": {
+  "text": "Der Himmel dreht sich in einer Stunde um 15°. Multiplizieren Sie die Zeit mit 15, um den Winkel zu erhalten; dividieren Sie den Winkel durch 15, um die Zeit zu erhalten.",
+  "lost": []
+ },
+ "34a7e3cc7d8aebf4": {
+  "text": "Die zwölf Tierkreiszeichen",
+  "lost": []
+ },
+ "eee009ef96d4c0ba": {
+  "text": "Weicht das Ergebnis um genau 30° ab, ist der Startgrad des Sternzeichens falsch. Weicht es um 360° ab, wurde der Umbruch vergessen.",
+  "lost": []
+ },
+ "5ccf241662a8b1e9": {
+  "text": "Warum sechzig?",
+  "lost": []
+ },
+ "f1be9e23f7a1381c": {
+  "text": "Die Babylonier zählten im Sechzigersystem, und jeder Astronom seitdem hat dieses System übernommen: ein Kreis mit 360°, ein Grad mit 60 Minuten, eine Minute mit 60 Sekunden. Sechzig lässt sich gleichmäßig durch 2, 3, 4, 5, 6, 10, 12, 15, 20 und 30 teilen, sodass Bruchteile eines Kreises selten einen Rest hinterlassen. Die „Zījes“ von Bagdad wurden in dieser Notation verfasst, und zwar mit Buchstaben des Alphabets anstelle von Ziffern, und auch heute noch werden von Hand gezeichnete Diagramme auf diese Weise erstellt.",
+  "lost": []
+ },
+ "606bb0106b6568a7": {
+  "text": "Auf einer gedruckten Karte werden Sie Längengrade nicht oft addieren. Doch „Lots“ sind Entfernungen zwischen zwei Punkten, eine Häusertabelle wird anhand der Sternzeit eingegeben, und ein Längengrad wird erst durch Division durch fünfzehn zu einer Zeitkorrektur – und dann kommt der Rechner ins Spiel.",
+  "lost": []
+ },
+ "5306d2346c2dfe53": {
+  "text": "Basiert auf Lektion 5, §2 und §6 des <em>Kurses „Traditional Natal Astrology“</em> von Ben Dykes. Die Schritt-für-Schritt-Anleitung verwendet seine Beispiele: die Abbildungen 1, 3, 4 und 5, die Subtraktion 16° − 279° aus §2 sowie das Arbeitsblatt „In Minneapolis geboren“. Der Wert 371° in Schritt 3 stammt von ihm; die beiden Zahlen, die sich zu diesem Wert addieren, stammen von uns.",
+  "lost": []
+ },
+ "3f6622f7df3fbfc1": {
+  "text": "Dezimalgrad",
+  "lost": []
+ },
+ "48a693c488b52c76": {
+  "text": "Addieren",
+  "lost": []
+ },
+ "faf4b679b166b46c": {
+  "text": "Subtrahieren",
+  "lost": []
+ },
+ "4cd82d27b5f55a60": {
+  "text": "In Dezimalzahlen",
+  "lost": []
+ },
+ "8f0e5a098677bc34": {
+  "text": "In Grad",
+  "lost": []
+ },
+ "e17674f762c41095": {
+  "text": "Übung",
+  "lost": []
+ },
+ "c3499c2729730a7f": {
+  "text": "Beispiel",
+  "lost": []
+ },
+ "afba2fe73363466c": {
+  "text": "Klicken Sie auf <em>„Nächster Schritt“</em>, um die Aufgabe durchzuarbeiten, oder auf <em>„Alle“,</em> um die gesamte Aufgabe anzuzeigen.",
+  "lost": []
+ },
+ "a16a4eda7cb2c8e9": {
+  "text": "Antwort",
+  "lost": []
+ },
+ "0413134a216425c2": {
+  "text": "«v»Bogengrad",
+  "lost": []
+ },
+ "0669db12e5d39ae8": {
+  "text": "das RAMC · «v»° als Dezimalzahl",
+  "lost": []
+ },
+ "5f7c36ac96d67775": {
+  "text": "«v» Stunden als Dezimalzahl",
+  "lost": []
+ },
+ "b8bee70b13054dba": {
+  "text": "Fügen Sie «a» und «b» hinzu.",
+  "lost": []
+ },
+ "3b230bd6c210ca0f": {
+  "text": "Subtrahieren Sie «b» von «a».",
+  "lost": []
+ },
+ "d90a01e81aec2ef8": {
+  "text": "«x» in Dezimalgrad umrechnen.",
+  "lost": []
+ },
+ "255a1c747a2bc674": {
+  "text": "Wandeln Sie „«x»“ in Grad, Minuten und Sekunden um.",
+  "lost": []
+ },
+ "d5a2ab54431557b3": {
+  "text": "Wie lautet die absolute Längengradkoordinate von „«pos»“?",
+  "lost": []
+ },
+ "dbdf28513b95ba9e": {
+  "text": "Schreiben Sie „«x»“ als Grad innerhalb seines Zeichens.",
+  "lost": []
+ },
+ "dec9482a37084990": {
+  "text": "Wie weit ist es, wenn man im Tierkreis vorwärts zählt, von «a» bis «b»?",
+  "lost": []
+ },
+ "fde58295627fe588": {
+  "text": "Siderische Zeit «t» – Welcher Rektaszensionsgrad befindet sich am Meridian?",
+  "lost": []
+ },
+ "ab52a175ad2bbdba": {
+  "text": "Ein Längengrad von «x» – wie viel Zeit entspricht das (geteilt durch 15)?",
+  "lost": []
+ },
+ "157375e58cfba2f5": {
+  "text": "Umrechnung in das Dezimalsystem, Division von links nach rechts",
+  "lost": []
+ },
+ "e14c5364b33b836f": {
+  "text": "Nach links verschieben",
+  "lost": []
+ },
+ "afd269ff08967633": {
+  "text": "Zur Umrechnung in Grad multiplizieren Sie von rechts nach links",
+  "lost": []
+ },
+ "e8b5a1be4e698111": {
+  "text": "Den Bruch trennen",
+  "lost": []
+ },
+ "12b35cc77f489aa6": {
+  "text": "auf die nächste Sekunde gerundet",
+  "lost": []
+ },
+ "551a3673c24241fc": {
+  "text": "der erste Grad des Zeichens",
+  "lost": []
+ },
+ "b321713b81d2a921": {
+  "text": "absolute Längengrad",
+  "lost": []
+ },
+ "76287cbbd98d2690": {
+  "text": "«d» ÷ 30 = «q», Rest «r»°",
+  "lost": []
+ },
+ "f9210e56cf97fedf": {
+  "text": "«q» Vollzeichen",
+  "lost": []
+ },
+ "5ac523d6b6af0ce0": {
+  "text": "von Anfang bis Ende, vorwärts",
+  "lost": []
+ },
+ "1a06a7f2819badd3": {
+  "text": "Start, Absolutwert",
+  "lost": []
+ },
+ "148699b384e9ca75": {
+  "text": "Ende, Überschreiten von 0° Widder",
+  "lost": []
+ },
+ "b8030f12fe46b168": {
+  "text": "Ende, absolut",
+  "lost": []
+ },
+ "b389de35648e0c44": {
+  "text": "Siderische Zeit × 15",
+  "lost": []
+ },
+ "974af431164fe818": {
+  "text": "Bogen ÷ 15",
+  "lost": []
+ },
+ "45b6fa28e55ffa0a": {
+  "text": " + die Übertragungs«x»",
+  "lost": []
+ },
+ "171a3b4ba93c14c6": {
+  "text": "«lhs» = «sum». Das ergibt genau 60, daher behalten Sie «keep» bei und übertragen Sie «from» als «to» in die Minuten-Spalte.",
+  "lost": []
+ },
+ "0a60b794658f9fcd": {
+  "text": "«lhs» = «sum». Da der Wert unter 60 liegt, bleibt er unverändert.",
+  "lost": []
+ },
+ "684b5f01b80308ef": {
+  "text": "«lhs» = «sum». Behalten Sie „«keep»“ bei und übertragen Sie „«from»“ als „«to»“ in die Gradangaben.",
+  "lost": []
+ },
+ "91bdc818fe5bedde": {
+  "text": "«lhs» = «sum». Da der Wert unter 60 liegt, bleibt er unverändert.",
+  "lost": []
+ },
+ "7d374c27da8edae9": {
+  "text": "«lhs» = «sum». Da der Wert unter 360° liegt, lautet dies die Antwort.",
+  "lost": []
+ },
+ "afdb42eb466f2116": {
+  "text": "«sum»° liegt jenseits des Kreisendes. Bei Erreichen von 360° beginnt die Zählung wieder bei 0°, ziehen Sie also 360° ab: «calc».",
+  "lost": []
+ },
+ "86bccb9fdbba58b6": {
+  "text": "«a» ist kleiner als «b», daher ist die obere Zeile kleiner als die untere. Fügen Sie zunächst einen vollständigen Kreis hinzu: «calc». Führen Sie nun die Subtraktion wie gewohnt durch.",
+  "lost": []
+ },
+ "f6f5e347044b8539": {
+  "text": "«v.a» ist kleiner als «v.b», doch die Minutenspalte ist leer und enthält nichts, was man entnehmen könnte. Entnehmen Sie daher zweimal: zunächst «v.oneDeg» aus den Gradzahlen als «v.sixtyMin», dann «v.oneMin» davon als «v.sixtySec». Damit verbleiben «v.left», und die Sekunden ergeben «v.top». Anschließend ergibt sich «v.calc».",
+  "lost": []
+ },
+ "9baea36ae886eb0a": {
+  "text": "«v.a» ist kleiner als «v.b», daher können wir nicht direkt subtrahieren. Man leiht sich „«v.oneMin»“ – also «v.sixtySec» – von den Minuten aus: «v.a» wird zu «v.top», und die Minuten verringern sich auf «v.min». Dann ergibt sich «v.calc».",
+  "lost": []
+ },
+ "6bc42f370bbe3112": {
+  "text": "«lhs» = «res». Es ist kein Abzug erforderlich.",
+  "lost": []
+ },
+ "dae6efaa5a041875": {
+  "text": "«v.before» ist kleiner als „«v.b»“: Man leiht sich „«v.oneDeg»“ als „«v.sixtyMin»“ aus den Gradzahlen aus, wodurch „«v.top»“ entsteht, und die Gradzahlen sinken auf „«v.deg»“. Dann gilt „«v.calc»“.",
+  "lost": []
+ },
+ "fd9f0cafa4ad4bae": {
+  "text": "Es sind nur noch «left» übrig, da wir uns bereits «oneMin» ausgeliehen haben. «calc».",
+  "lost": []
+ },
+ "d95485d3bd75c655": {
+  "text": "«calc». (Denken Sie an den Grad, den wir den Minuten geliehen haben.)",
+  "lost": []
+ },
+ "f307652ee07bf5bb": {
+  "text": "Beginnen Sie von rechts. Eine Minute umfasst 60″, teilen Sie also die Sekunden durch 60: «calc». Dieser Bruch gehört zu den Minuten.",
+  "lost": []
+ },
+ "d0b88d592225cd97": {
+  "text": "Fügen Sie dies zu den vollständigen Minuten hinzu: «calc». Die Sekundenspalte fehlt.",
+  "lost": []
+ },
+ "5881394682d480ac": {
+  "text": "Teilen Sie nun die Minuten durch 60: «calc». Dieser Bruch gehört zu den Gradangaben.",
+  "lost": []
+ },
+ "36fb562badf83156": {
+  "text": "Fügen Sie dies zu den ganzen Gradzahlen hinzu: «calc». Fünf Dezimalstellen reichen aus; den Rest können Sie weglassen.",
+  "lost": []
+ },
+ "5ac28ab4da6dc7e2": {
+  "text": "Beginnen Sie von links. Legen Sie die ganzen Grad, «d», beiseite und behalten Sie den Bruch «f» zur Bearbeitung bei.",
+  "lost": []
+ },
+ "f3a887f5b2c5def7": {
+  "text": "Multiplizieren Sie den Bruch mit 60, um ihn in Minuten umzuwandeln: «calc».",
+  "lost": []
+ },
+ "c90f77b03b54d622": {
+  "text": "Lassen Sie die ganzen Minuten beiseite – „«m»“ – und behalten Sie den neuen Bruch „«f»“.",
+  "lost": []
+ },
+ "6d4f83f0106ebe28": {
+  "text": "Multiplizieren Sie diesen Wert mit 60, um ihn in Sekunden umzurechnen: «calc».",
+  "lost": []
+ },
+ "6fe63d8da5ac1425": {
+  "text": "Runden Sie auf die nächste Sekunde: «calc». Sechzig Sekunden ergeben eine volle Minute, also übertragen Sie. Die Antwort lautet «ans».",
+  "lost": []
+ },
+ "19d37e8ff603e98d": {
+  "text": "Der Übertrag reicht bis 360°, dem gesamten Kreis, der wieder bei 0° beginnt.",
+  "lost": []
+ },
+ "f77db78526d19f98": {
+  "text": "Addieren Sie die Gradzahlen innerhalb des Zeichens zum Startgrad des Zeichens: «calc».",
+  "lost": []
+ },
+ "b8b43261e68e6dc4": {
+  "text": "Teilen Sie die Gradzahl durch 30, um die vollständigen Tierkreiszeichen zu zählen: «calc», Rest «rem». «q» vollständige Tierkreiszeichen sind vergangen.",
+  "lost": []
+ },
+ "524803d363afc367": {
+  "text": "Geben Sie beide Orte als absolute Längengrade ein. Start: «calc».",
+  "lost": []
+ },
+ "db93653ea9e5a97a": {
+  "text": "Ende: «calc».",
+  "lost": []
+ },
+ "49ebe2d63193d34c": {
+  "text": "Zählt man von «start» vorwärts, überschreitet man die 0°-Linie des Widders, bevor man das Ende erreicht. Fügen Sie daher 360° zum Endpunkt hinzu: «calc». Nun verläuft die Subtraktion in die richtige Richtung.",
+  "lost": []
+ },
+ "a0297d56fcfb151d": {
+  "text": "Der Endpunkt liegt im Tierkreis später als der Startpunkt, und wir überschreiten den 0° Widder nicht, sodass keine Korrektur erforderlich ist. Ziehen Sie wie gewohnt ab.",
+  "lost": []
+ },
+ "57b27acbe2fdb923": {
+  "text": "Der Himmel dreht sich um 15° pro Stunde. Stunden: «calc».",
+  "lost": []
+ },
+ "fccf3c6e15877fac": {
+  "text": "Zeitminuten: «calc» des Bogens, was «conv.v» entspricht («conv.mm» ÷ 60 = «conv.d», Rest «conv.r»).",
+  "lost": []
+ },
+ "0b2770aab605da20": {
+  "text": "Sekunden als Zeiteinheit: «calc» des Bogens, was «conv» entspricht.",
+  "lost": []
+ },
+ "5e13534a63b07cda": {
+  "text": "Fünfzehn Grad ergeben eine Stunde. «calc», Rest «rem».",
+  "lost": []
+ },
+ "b6acf48bbf1dd343": {
+  "text": "Rechnen Sie die verbleibenden Grad in Bogenminuten um und addieren Sie die Minuten: «conv». Anschließend «calc», Rest «rem».",
+  "lost": []
+ },
+ "13eec4e6786fdb96": {
+  "text": "Rechnen Sie die verbleibenden Minuten in Bogensekunden um und addieren Sie die Sekunden: «conv». Dann «calc», gerundet auf «rounded». Sechzig Sekunden ergeben eine volle Minute, also übertragen Sie die Sekunde.",
+  "lost": []
+ },
+ "adfd28283c13dbbc": {
+  "text": "«arc»e des Bogens entspricht also «time»e der Zeit.",
+  "lost": []
+ },
+ "fbc63d4038f63fa3": {
+  "text": "Richtig.",
+  "lost": []
+ },
+ "c53c562dab4b33b3": {
+  "text": "Ja.",
+  "lost": []
+ },
+ "1919e7be217e0a6e": {
+  "text": "Richtig.",
+  "lost": []
+ },
+ "c3181f58c79b55a5": {
+  "text": "Das war’s.",
+  "lost": []
+ },
+ "de04e0a8362e3fe8": {
+  "text": "Genau.",
+  "lost": []
+ },
+ "03d15cf64a498914": {
+  "text": " Drücken Sie N für die nächste Aufgabe.",
+  "lost": []
+ },
+ "c0e683408453fa89": {
+  "text": "Fast richtig – überprüfen Sie die letzten Dezimalstellen; behalten Sie fünf bei.",
+  "lost": []
+ },
+ "c8048c0c169bbd10": {
+  "text": "Dabei handelt es sich um die Minuten, die hinter einem Punkt stehen, nicht geteilt durch 60.",
+  "lost": []
+ },
+ "d230209b9937bb2b": {
+  "text": "Teilen Sie von links beginnend: zuerst Sekunden ÷ 60, dann Minuten ÷ 60.",
+  "lost": []
+ },
+ "d426a413d3ce6bd7": {
+  "text": "Die Stunden stimmen nicht – Grad ÷ 15, den Rest behalten Sie für die Minuten.",
+  "lost": []
+ },
+ "304047226f2d5582": {
+  "text": "Die Minuten stimmen nicht – denken Sie daran, die verbleibenden Grad jeweils in 60′ umzuwandeln.",
+  "lost": []
+ },
+ "4d18de1c3e5dfbb2": {
+  "text": "Die Sekunden stimmen nicht – übrig gebliebene Minuten werden jeweils zu 60″ und anschließend durch 15 geteilt.",
+  "lost": []
+ },
+ "7350d87ccdfe5cbc": {
+  "text": "Richtiger Grad, falsches Zeichen: Zählen Sie die vollständigen Zeichen noch einmal – „«n»“ sind bereits vergangen.",
+  "lost": []
+ },
+ "83b951ddf6bfeda5": {
+  "text": "Richtiges Zeichen – der Grad ist der Rest nach Division durch 30, wobei Minuten und Sekunden unverändert bleiben.",
+  "lost": []
+ },
+ "82cde7c007881cc5": {
+  "text": "Teilen Sie die Gradzahl durch 30: Der Quotient gibt die Anzahl der durchlaufenen Sternzeichen an, der Rest ist der Grad innerhalb des nächsten Sternzeichens.",
+  "lost": []
+ },
+ "b83855dd91547362": {
+  "text": "Sie sind hinter 0° Widder zurückgegangen – addieren Sie zunächst 360° zur obersten Zeile.",
+  "lost": []
+ },
+ "e6d6ea363b09e8fa": {
+  "text": "Um einen ganzen Kreis versetzt: Ziehen Sie 360° ab, sobald die Gradzahl 360 erreicht.",
+  "lost": []
+ },
+ "e400e5605da4dd4e": {
+  "text": "Abweichung um «deg»° – der Anfangsgrad eines Zeichens ist falsch.",
+  "lost": []
+ },
+ "210507ab68c05602": {
+  "text": "Lediglich die Sekunden weichen ab.",
+  "lost": []
+ },
+ "669101134184fdac": {
+  "text": "Die Minuten stimmen nicht – haben Sie den Übertrag oder die Entnahme aus den Sekunden berücksichtigt?",
+  "lost": []
+ },
+ "a031cf5aa06592df": {
+  "text": "Die Gradangaben stimmen nicht überein – überprüfen Sie das Übertragen oder Abziehen bei den Minuten.",
+  "lost": []
+ },
+ "064ee66fd9482a16": {
+  "text": "Um genau eine Einheit daneben – ein Übertrag oder eine Entnahme wurde übersehen.",
+  "lost": []
+ },
+ "22d3f764ec312072": {
+  "text": "Eine Ziffer ist 60 oder mehr – tragen Sie sie nach links.",
+  "lost": []
+ },
+ "c1fabba11105c9ee": {
+  "text": "Noch nicht. Gehen Sie die Rechenschritte auf der Tafel Schritt für Schritt durch, um den Fehler zu finden.",
+  "lost": []
+ },
+ "bfabc871a86fc63d": {
+  "text": "Tragen Sie Ihre Antwort zunächst in die Felder ein.",
+  "lost": []
+ },
+ "3d5124d7f6a54834": {
+  "text": "Die Subtraktion erfolgt in umgekehrter Reihenfolge: Ziehen Sie die untere Zeile von der oberen ab.",
+  "lost": []
+ },
+ "761ece57679b07cb": {
+  "text": "Der Zähler passiert 0° Widder – addieren Sie zunächst 360° zum Endpunkt hinzu.",
+  "lost": []
+ },
+ "656ddd0228a8154f": {
+  "text": "Die Gradangaben reichen von 0 bis 359: 360° bilden den gesamten Kreis, der wieder bei 0° beginnt.",
+  "lost": []
+ },
+ "d2d05836c1b2033c": {
+  "text": "Richtig – allerdings nicht beim ersten Versuch, daher zählt es nicht. Drücken Sie N für einen weiteren Versuch.",
+  "lost": []
+ },
+ "f2a7b182fdaca3ac": {
+  "text": "Schreiben Sie die Dezimalzahl mit Ziffern und nur einem Komma, beispielsweise 23,43666.",
+  "lost": []
+ },
+ "029c9a73f1751b73": {
+  "text": "Lediglich die Minuten stimmen nicht überein.",
+  "lost": []
+ },
+ "1d539af43ebb49f6": {
+  "text": "Lediglich die Gradangaben weichen ab.",
+  "lost": []
+ },
+ "02678031ecd162be": {
+  "text": "Um genau eine Minute daneben – gehen Sie jede Spalte noch einmal durch.",
+  "lost": []
+ },
+ "1815120f1c34de2f": {
+  "text": "Um genau ein Grad daneben – gehen Sie jede Spalte noch einmal durch.",
+  "lost": []
+ },
+ "ec45467ace47325f": {
+  "text": "Geben Sie ganze Zahlen mit Minuten und Sekunden von 0 bis 59 ein.",
+  "lost": []
+ },
+ "58f5898aa8e51f07": {
+  "text": "Eine Sekunde zu wenig: Der Bruchteil beträgt eine halbe Sekunde oder mehr, daher wird aufgerundet.",
+  "lost": []
+ },
+ "0dc215fe206b96b0": {
+  "text": "Eine Sekunde zu viel: Der Bruch liegt unter einer halben Sekunde, daher wird abgerundet.",
+  "lost": []
+ },
+ "c74a12a3e25684f3": {
+  "text": "Bereits gezählt. Drücken Sie N für eine neue Aufgabe.",
+  "lost": []
+ },
+ "56638fa0a04e56c2": {
+  "text": "Richtig – aber der Lösungsweg war sichtbar, daher zählt das nicht. Drücken Sie N für eine weitere Aufgabe.",
+  "lost": []
+ },
+ "916a78d701ded328": {
+  "text": "Erstens",
+  "lost": []
+ },
+ "2a4bcae654f264da": {
+  "text": "Zweitens",
+  "lost": []
+ },
+ "3f66052a107eaf9b": {
+  "text": "Aus",
+  "lost": []
+ },
+ "c12db254124ecdce": {
+  "text": "Dezimalgrad",
+  "lost": []
+ },
+ "7bb0ddf9221c03b8": {
+  "text": "Aufgabe",
+  "lost": []
+ },
+ "9c2844bfd9583b5f": {
+  "text": "Vorzeichen → absolut",
+  "lost": []
+ },
+ "421972e4e1ddd92e": {
+  "text": "Absolut → Vorzeichen",
+  "lost": []
+ },
+ "65d19ef2e63cc9d4": {
+  "text": "Entfernung von A nach B",
+  "lost": []
+ },
+ "65c540e7c8df9be6": {
+  "text": "A (oder die Position)",
+  "lost": []
+ },
+ "ca4aa699716da973": {
+  "text": "Zeit × 15 → Bogenmaß",
+  "lost": []
+ },
+ "66d53730de407252": {
+  "text": "Bogen ÷ 15 → Zeit",
+  "lost": []
+ },
+ "6c82e6dd86807ee3": {
+  "text": "Zeit",
+  "lost": []
+ },
+ "853a983f6b8abdb9": {
+  "text": "Bogen",
+  "lost": []
+ },
+ "bd4a1a23810df30f": {
+  "text": "Grad 0–359, Minuten und Sekunden 0–59.",
+  "lost": []
+ },
+ "48380b7242501057": {
+  "text": "Eine Dezimalzahl zwischen 0 und 360.",
+  "lost": []
+ },
+ "c485fa53aee0ed2a": {
+  "text": "Die Gradangaben innerhalb eines Zeichens reichen von 0 bis 29.",
+  "lost": []
+ },
+ "0a0dd63bfc186eab": {
+  "text": "Die absolute Längengradangabe reicht von 0 bis 359°.",
+  "lost": []
+ },
+ "1452f3b89e98ab99": {
+  "text": "Stunden 0–23, Minuten und Sekunden 0–59.",
+  "lost": []
+ },
+ "c816b0a49b765292": {
+  "text": "Auf der Tafel. Gehen Sie die Schritte durch oder geben Sie Ihre Antwort oben ein und überprüfen Sie sie.",
+  "lost": []
+ },
+ "8b3d8d665a765918": {
+  "text": "Anmelden",
+  "lost": []
+ },
+ "33a783add30fb01f": {
+  "text": "Abk.",
+  "lost": []
+ },
+ "db88a49c8c4217e1": {
+  "text": "Beginnt bei",
+  "lost": []
+ },
+ "f334ae2efa6ce53e": {
+  "text": "Zählen im Sechzigersystem",
+  "lost": []
+ },
+ "4b902dfd05d817f2": {
+  "text": "<p>Ein Kreis hat 360°, ein Grad hat 60 Minuten (60′), eine Minute hat 60 Sekunden (60″). Wir könnten noch weiter in Drittel unterteilen, doch das ist umständlich und fast immer unnötig.</p>\n         <p>Da die Einheiten im Sechzigersystem basieren, gelten nach wie vor die üblichen Regeln der Spaltenrechnung – Sie müssen sich lediglich merken, dass eine Spalte bei <em>sechzig</em> voll ist, nicht bei zehn. Diese eine Tatsache ist der gesamte Inhalt dieser Seite.</p>\n         <p>Die Rechenplatte arbeitet Spalte für Spalte und zeigt an, was sie gerade tut. Die <span class=\"term\">messingfarbenen</span> Ziffern über einer Spalte sind die Überträge; durchgestrichene Ziffern sind Entnahmen.</p>",
+  "lost": []
+ },
+ "1fb8e72f0f683c15": {
+  "text": "Klicken Sie dreimal auf <em>„Nächster Schritt“</em> unter der Tafel und beobachten Sie, wie sich die Spalten von rechts her füllen.",
+  "lost": []
+ },
+ "7915805c24cee47d": {
+  "text": "Addition: Sechzig als Eins übertragen",
+  "lost": []
+ },
+ "d15ea808dcdc5b23": {
+  "text": "<p>Dies ist das Beispiel aus der Lektion. In der Sekundenspalte ergeben 12″ und 56″ zusammen 68″. Das sind mehr Sekunden, als eine Minute umfasst, daher behalten wir nur 8″ und übertragen die übrigen 60″ als 1′ in die Minutenspalte.</p>\n         <p>Der Rest der Addition ist einfach: 26′ + 13′ + 1′ = 40′ und 23° + 48° = 71°.</p>\n         <p>Beginnen Sie immer von rechts. Ein Übertrag wandert nach links, und Sie können erst dann wissen, was in der Minutenspalte steht, wenn die Sekundenspalte fertig ist.</p>",
+  "lost": []
+ },
+ "13dde08898d2e40a": {
+  "text": "Drücken Sie auf <em>„Reset“</em> und gehen Sie dann noch einmal Schritt für Schritt durch – sprechen Sie diesmal jede Spalte laut aus, bevor Sie sie aufdecken.",
+  "lost": []
+ },
+ "7ed61b44e605890d": {
+  "text": "Jenseits des Kreisendes",
+  "lost": []
+ },
+ "3c850319fa2c7fbd": {
+  "text": "<p>Die Grad-Spalte reicht bis zu 360°. Wenn der Wert darüber hinausgeht, ziehen Sie 360° ab, und Sie erhalten das Ergebnis, da die Zählung bei Erreichen von 360° wieder bei 0° beginnt.</p>\n         <p>Hier gilt: 340° + 31° = 371°, daher lautet das Ergebnis 371° − 360° = 11°. Im Tierkreis entspricht dies 11° Widder: Wir haben das Ende der Fische überschritten und beginnen erneut.</p>\n         <p>Auf der Tafel wird der Überlauf als durchgestrichene Zahl dargestellt, da es sich um eine Korrektur der Gradangaben handelt und nicht um eine vierte Spalte.</p>",
+  "lost": []
+ },
+ "409e1c599d429345": {
+  "text": "Zeigen Sie alle Schritte an. Öffnen Sie anschließend <em>„Übung“</em>, wählen Sie den Schwierigkeitsgrad <em>„Voll“</em> und klicken Sie auf <em>„Neue Aufgabe“</em> – jede Addition dort wird mit Übertrag fortgesetzt.",
+  "lost": []
+ },
+ "123c5df2c1cc289f": {
+  "text": "Subtrahieren: Eine als Sechzig entlehnen",
+  "lost": []
+ },
+ "b85050f09ecc616f": {
+  "text": "<p>Das andere Beispiel aus der Lektion. In der Sekundenspalte ist 12″ kleiner als 56″, daher können wir nicht direkt subtrahieren. Wir leihen uns 1′ – das sind 60″ – aus der Minutenspalte aus, sodass wir 72″ erhalten. Dann gilt: 72″ − 56″ = 16″.</p>\n         <p>Nun zur Minuten-Spalte: Es sind nur noch 25′ übrig, da wir bereits 1′ ausgeliehen haben. Also 25′ − 13′ = 12′. Der Rest sollte selbsterklärend sein.</p>\n         <p>Die durchgestrichenen Ziffern auf der Tafel entsprechen genau den Bleistiftmarkierungen, die Sie auf Papier anbringen würden.</p>",
+  "lost": []
+ },
+ "08a04ad39b541fae": {
+  "text": "Gehen Sie den Vorgang Schritt für Schritt durch. Beachten Sie, dass das Ausleihen genau in dem Moment angezeigt wird, in dem es benötigt wird – nämlich im Sekunden-Schritt – und dann im Minuten-Schritt einfach beibehalten wird.",
+  "lost": []
+ },
+ "939ac6d04e7cad21": {
+  "text": "Wenn die obere Zahl kleiner ist",
+  "lost": []
+ },
+ "184e587d4eaf609c": {
+  "text": "<p>Wenn die Gradzahlen in der oberen Zeile kleiner sind als die in der unteren – wie beispielsweise beim Abziehen von 279° von 16° –, addieren Sie einfach zunächst 360° zu den 16°, und Sie erhalten Ihr Ergebnis.</p>\n         <p>Dies ist derselbe Kreislauf wie zuvor, nur von der anderen Seite betrachtet. Wir bewegen uns rückwärts über 0° Widder hinaus, daher „leihen“ wir uns einen ganzen Kreis aus, damit die Subtraktion in die richtige Richtung verläuft.</p>\n         <p>Das Ergebnis, 97°, entspricht 7° Krebs. Zählen Sie es auf einem Horoskoprad nach: Von 9° Steinbock (279°) vorwärts bis 16° Widder sind es 97°.</p>",
+  "lost": []
+ },
+ "e30176e6f267257f": {
+  "text": "Alles anzeigen. Versuchen Sie anschließend auf der Registerkarte „Übung“ die umgekehrte Rechnung mit Ihren eigenen Zahlen: Ziehen Sie 16° von 279° ab und stellen Sie fest, dass die beiden Ergebnisse zusammen 360° ergeben.",
+  "lost": []
+ },
+ "ad422092f92db52f": {
+  "text": "<p>Für Berechnungen ist es oft einfacher, eine einzige Dezimalzahl zu verwenden. Stellen Sie sich dies als eine Art Zusammenfassung vor: Die Sekunden werden in die Minuten und die Minuten in die Gradzahlen zusammengefasst.</p>\n         <p>Teilen Sie von rechts nach links. 12″ ÷ 60 = 0,2, was sich mit den 26′ zu 26,2′ addiert. Dann ergibt 26,2′ ÷ 60 = 0,43666, was sich mit den 23° zu 23,43666° addiert.</p>\n         <p>Auf einem Taschenrechner ist dies eine ununterbrochene Abfolge von Schritten: 12 ÷ 60, + 26, ÷ 60, + 23. Fünf Dezimalstellen reichen für die Arbeit mit Karten völlig aus.</p>",
+  "lost": []
+ },
+ "db05fbd184fa26d8": {
+  "text": "Gehen Sie die Schritte durch und berechnen Sie anschließend auf der Registerkarte „Übung“ Ihren eigenen Aszendenten. Vergleichen Sie das Ergebnis mit der dezimalen Anzeige Ihres Programms, sofern diese vorhanden ist.",
+  "lost": []
+ },
+ "25c4f8f919ac613b": {
+  "text": "<p>Der umgekehrte Vorgang ist eine Erweiterung. Lassen Sie die ganzen Grad beiseite und multiplizieren Sie den Bruch mit 60, um Minuten zu erhalten; lassen Sie die ganzen Minuten beiseite und multiplizieren Sie den neuen Bruch mit 60, um Sekunden zu erhalten.</p>\n         <p>0,43666 × 60 = 26,1996′, also 26′ und ein Bruchteil von 0,1996. Dann 0,1996 × 60 = 11,976″, was auf 12″ gerundet wird. Wir sind wieder bei 23° 26′ 12″ angelangt.</p>\n         <p>Die Rundung am Ende ist der Grund, warum ein umgerechneter Wert um eine Sekunde von Ihrem Programm abweichen kann. Das ist kein Fehler.</p>",
+  "lost": []
+ },
+ "d46084c54cd1022b": {
+  "text": "Zeigen Sie alles an. Nehmen Sie dann das Ergebnis, wandeln Sie es im Modus <em>„In Dezimalzahl</em>“ wieder in eine Dezimalzahl um und stellen Sie fest, dass sich der Kreis schließt.",
+  "lost": []
+ },
+ "19406f79a333f76d": {
+  "text": "Zeichen und absolute Längengrade",
+  "lost": []
+ },
+ "b01f12f3374f88d4": {
+  "text": "<p>In einem Horoskop steht 25° 21′ 41″ Schütze. Eine Häusertabelle sowie ein Großteil der Rechenaufgaben in dieser Lektion verlangen, dass dieser Wert als ein einziger Zählwert ab 0° Widder angegeben wird: seine <span class=\"term\">absolute Länge</span>.</p>\n         <p>Jedes Sternzeichen ist 30° lang, und der Schütze ist das neunte Sternzeichen; daher gehen acht vollständige Sternzeichen – 240° – ihm voraus. Addieren Sie die Gradangaben innerhalb des Sternzeichens: 240° + 25° 21′ 41″ = 265° 21′ 41″. Dies ist der Medium Coeli dieser Lektion.</p>\n         <p>Um zurückzurechnen, teilen Sie die Gradzahl durch 30: Der Quotient gibt die Anzahl der durchlaufenen vollständigen Zeichen an, der Rest ist der Grad innerhalb des nächsten Zeichens. Der Ring auf der Tafel zeigt an, wo sich der Punkt befindet.</p>",
+  "lost": []
+ },
+ "5fbfebd044949a86": {
+  "text": "Zeigen Sie alles an. Führen Sie anschließend im Übungsbereich auf der Stufe <em>„Gentle“</em> fünf dieser Aufgaben durch, bis Ihnen die Anfangsgrade des Sternzeichens ganz automatisch einfallen.",
+  "lost": []
+ },
+ "dfaa17d9e545be89": {
+  "text": "Entfernung über 0° Widder",
+  "lost": []
+ },
+ "86d65ab9af8bed5e": {
+  "text": "<p>Manchmal benötigen Sie den genauen Abstand zwischen zwei Punkten im Tierkreis, kennen jedoch lediglich deren Positionen innerhalb ihrer jeweiligen Zeichen. Rechnen Sie beide in absolute Längengrade um und subtrahieren Sie sie. Viele Werte werden auf diese Weise berechnet.</p>\n         <p>Wenn Sie jedoch von einer Position im späten Tierkreis zu einer im frühen Tierkreis messen – hier, wie in Abbildung 3 der Lektion, von 17° Wassermann bis 23° Widder –, überschreiten Sie die 0°-Widder-Linie. Addieren Sie zunächst 360° zum Endpunkt hinzu und subtrahieren Sie dann wie gewohnt.</p>\n         <p>Wenn Sie sich unsicher sind, zählen Sie auf einem Horoskoprad in 5°-Schritten vorwärts, um einen ungefähren Wert zu erhalten. Wenn Sie um 30° danebenliegen, haben Sie etwas falsch gemacht.</p>",
+  "lost": []
+ },
+ "9d0e96a9d4c31b7f": {
+  "text": "Folgen Sie Schritt für Schritt den Anweisungen und beobachten Sie, wie der Messingbogen am Ring die rote Widder-Linie kreuzt. Die darunter stehende Subtraktion erfolgt nach dem gleichen Spaltenverfahren wie zuvor.",
+  "lost": []
+ },
+ "7de73ebcf4c32bdd": {
+  "text": "Zeit in Bogenmaß",
+  "lost": []
+ },
+ "abb689a06fa05461": {
+  "text": "<p>Die siderische Zeit ist eine 24-Stunden-Uhr, die anzeigt, welcher Grad der Rektaszension sich am Meridian befindet. Der Himmel dreht sich in 24 Stunden um 360°, daher entspricht eine Stunde einem Bogenmaß von 15° – und die Zeit wird durch Multiplikation mit 15 in Bogenmaß umgerechnet.</p>\n         <p>Multiplizieren Sie jede Einheit separat und addieren Sie dann die Spalten: 17 h × 15 = 255°, 39 min × 15 = 585′ = 9° 45′ und 47 s × 15 = 705″ = 11′ 45″. Zusammen ergibt dies 264° 56′ 45″.</p>\n         <p>Dies ist die native Position der Lektion: Ihre lokale siderische Zeit von 17:39:47 ergibt einen RAMC von 264° 56′ 45″, aus dem der Medium Coeli berechnet wird.</p>",
+  "lost": []
+ },
+ "0148e89e1017eb73": {
+  "text": "Alles anzeigen. Ermitteln Sie anschließend die Sternzeit eines Ihrer eigenen Horoskope und wandeln Sie diese hier in RAMC um; vergleichen Sie das Ergebnis mit Ihrem Programm.",
+  "lost": []
+ },
+ "87d6f1f74b856847": {
+  "text": "Bogen in die Zeit",
+  "lost": []
+ },
+ "48aa5659e62653ac": {
+  "text": "<p>Für die Längengradkorrektur ist die umgekehrte Berechnung erforderlich: Der Längengrad des Geburtsortes, geteilt durch 15, ergibt die Differenz zwischen der Greenwicher Sternzeit und der lokalen Sternzeit.</p>\n         <p>Minneapolis liegt bei 93° 15′ 48″ W. 93° ÷ 15 = 6 h mit einem Rest von 3°; 3° entsprechen 180′, plus 15′ ergibt 195′, und 195′ ÷ 15 = genau 13 min; 48″ ÷ 15 = 3,2 s. Die Korrektur beträgt also 6 h 13 min 03 s, die abgezogen werden, da die Stadt westlich von Greenwich liegt.</p>\n         <p>Damit sind die Rechenaufgaben aus § 2 und die Umrechnungen im ersten Arbeitsblatt von § 6 abgedeckt. Die Summen aus Stunden, Minuten und Sekunden im Arbeitsblatt folgen denselben Spaltenregeln; die Beschleunigung (9,86 Sekunden pro Stunde) ist eine Multiplikation, die auf dieser Seite nicht behandelt wird. Der Rest der Unterrichtsstunde besteht darin, Werte in Tabellen nachzuschlagen – und diese Rechenaufgaben sorgfältig durchzuführen.</p>",
+  "lost": []
+ },
+ "4463a5e29fa842fa": {
+  "text": "Zeigen Sie alles an. Gehen Sie anschließend zu „Übung“ und bearbeiten Sie jeden Modus auf der Stufe <em>„Normal“,</em> bis Sie fünf Aufgaben hintereinander fehlerfrei lösen können.",
+  "lost": []
+ },
+ "48c98cab7866e606": {
+  "text": "Sonne",
+  "lost": []
+ },
+ "846b90266cabf4b3": {
+  "text": "Mond",
+  "lost": []
+ },
+ "606cb109e24d7820": {
+  "text": "Merkur",
+  "lost": []
+ },
+ "710689724688f399": {
+  "text": "Venus",
+  "lost": []
+ },
+ "1778011d76abab63": {
+  "text": "Mars",
+  "lost": []
+ },
+ "88d1577dcc4f245a": {
+  "text": "Jupiter",
+  "lost": []
+ },
+ "7c14ab20f3a9f832": {
+  "text": "Saturn",
+  "lost": []
+ },
+ "0fe90a57fa4608d3": {
+  "text": "Aldebaran",
+  "lost": []
+ },
+ "fa571a7fd3124ae6": {
+  "text": "Regulus",
+  "lost": []
+ },
+ "5bcb4cec4497ffd1": {
+  "text": "Antares",
+  "lost": []
+ },
+ "35867502a56ec18f": {
+  "text": "Fomalhaut",
+  "lost": []
+ },
+ "31bd6c11b24af273": {
+  "text": "Sayyids Planetarium",
+  "lost": []
+ },
+ "f738a218f219a9ff": {
+  "text": "Ptolemäus’ Modelle, betrachtet vom Pol der Ekliptik aus",
+  "lost": []
+ },
+ "f949d34c5a95a2d7": {
+  "text": "Lesekarte ein- oder ausblenden",
+  "lost": []
+ },
+ "334460037081189e": {
+  "text": "Szene",
+  "lost": []
+ },
+ "8458445d8d97c476": {
+  "text": "Konjunktion",
+  "lost": []
+ },
+ "2d2cb022bc3d26bd": {
+  "text": "Geschwindigkeit",
+  "lost": []
+ },
+ "eb9a4bc1c0c153e4": {
+  "text": "Datum",
+  "lost": []
+ },
+ "24345a14377fd821": {
+  "text": "Heute",
+  "lost": []
+ },
+ "6eac4590225a10b4": {
+  "text": "Apostelgeschichte",
+  "lost": []
+ },
+ "f055f18aeadcf431": {
+  "text": "Ebenen",
+  "lost": []
+ },
+ "b0c1abe3a275d04c": {
+  "text": "Setzen Sie diesen Schritt wieder so zurück, wie er begonnen hat",
+  "lost": []
+ },
+ "68c2cc7f0ceaa3e4": {
+  "text": "Modell",
+  "lost": []
+ },
+ "ff56ad97455cbca0": {
+  "text": "Außerhalb der Mitte",
+  "lost": []
+ },
+ "e040db2b7f1361a9": {
+  "text": "Bewegung",
+  "lost": []
+ },
+ "2f38169a712e499b": {
+  "text": "Verlauf",
+  "lost": []
+ },
+ "b3d97fd6dece388a": {
+  "text": "Himmel",
+  "lost": []
+ },
+ "a3e5fb38511b72d9": {
+  "text": "Die Positionen basieren auf der Geometrie des Ptolemäus unter Verwendung der modernen Parameter aus Abbildung 27 der Lektion sowie der mittleren Längen des J2000-Systems. Sie entsprechen dem tatsächlichen Himmel um ein oder zwei Grad – genug, um den Mars heute Nacht zu erkennen, jedoch nicht genug, um ein Horoskop zu erstellen.",
+  "lost": []
+ },
+ "17c03d0c53b34eef": {
+  "text": "Parameter (Abbildung 27)",
+  "lost": []
+ },
+ "1f637f6de32ee8a2": {
+  "text": "Die Exzentrizität ist der Abstand der Erde vom Mittelpunkt des Deferents, ausgedrückt als Bruchteil des Radius des Deferents; der Äquant liegt auf dem doppelten dieser Entfernung. Der Epizykel ist ein Bruchteil desselben Radius. Die Apogäen gelten für das Jahr 2020 und verschieben sich in 72 Jahren um etwa 1°.",
+  "lost": []
+ },
+ "0518ae8570bcbd24": {
+  "text": "Umlaufzeiten (Abbildung 28)",
+  "lost": []
+ },
+ "c38a5eff9d7e2436": {
+  "text": "Was das Modell nicht darstellt",
+  "lost": []
+ },
+ "ce4531c00934efce": {
+  "text": "Es handelt sich nicht um eine Ephemeride. Die vollständigen ptolemäischen Mechanismen für Merkur und den Mond wurden weggelassen (Ben beschreibt sie anhand von Diagrammen in seinem Werk „Leopold von Österreich“); der Mond bewegt sich hier mit seiner mittleren Geschwindigkeit. Die Ekliptikbreite wird nicht berücksichtigt, sodass sich alles flach in der Ebene befindet, auf die Sie herabblicken.",
+  "lost": []
+ },
+ "bb0b1cf200c9c5c5": {
+  "text": "Und dennoch wird der Mars bereits einen Tag vor dem tatsächlichen Zeitpunkt rückläufig, und die Jahreszeiten lassen sich auf ein Zehntel eines Tages genau bestimmen. Genau das war Ptolemäus’ Argument: Ein paar Kreise und eine Korrekturtabelle reichen aus, um den Himmel über Jahrhunderte hinweg vorherzusagen.",
+  "lost": []
+ },
+ "f8b50af378dc8794": {
+  "text": "<b>Für die Fomalhaut-Gruppe</b>: Fomalhaut, der Wächter des Südens, ist am Rand jeder Szene an seiner aktuellen Längengradposition abgebildet, begleitet von den anderen drei königlichen Sternen. Der Mund des südlichen Fisches ist der Punkt, auf den sich die Tagundnachtgleiche langsam zubewegt.",
+  "lost": []
+ },
+ "e70e2724ed8c3c45": {
+  "text": "Basiert auf Lektion 5, §4–5 des <em>Kurses „Traditional Natal Astrology“</em> von Ben Dykes sowie auf dem von ihm empfohlenen Simulator für Planetenmodelle; die Abbildungen (16–28) stammen von ihm. Weiterführende Literatur: James Evans, <em>„The History and Practice of Ancient Astronomy</em>“.",
+  "lost": []
+ },
+ "5d12bd53552cafc4": {
+  "text": "Abspielen",
+  "lost": []
+ },
+ "781961bc81c25697": {
+  "text": "Pause",
+  "lost": []
+ },
+ "4d4ce73b15660f20": {
+  "text": "Karte",
+  "lost": []
+ },
+ "e6bfe39e0e166699": {
+  "text": "Karte ausblenden",
+  "lost": []
+ },
+ "51400ad21cb197a7": {
+  "text": "Epizykel",
+  "lost": []
+ },
+ "13a8c6208a51d71a": {
+  "text": "Exzentrizität",
+  "lost": []
+ },
+ "348f24da359b0bc1": {
+  "text": "Geschwindigkeit °/Tag",
+  "lost": []
+ },
+ "ef46325c0ae83a5a": {
+  "text": "Apogäum",
+  "lost": []
+ },
+ "b2dd5dffcd96f215": {
+  "text": "Tropische Periode",
+  "lost": []
+ },
+ "d66f8297fda5f3a1": {
+  "text": "Kleine Jahre",
+  "lost": []
+ },
+ "4b4a647961dce314": {
+  "text": "O · Sayyid",
+  "lost": []
+ },
+ "b3f9fadab0ed0a8a": {
+  "text": "Apogäum",
+  "lost": []
+ },
+ "742dbec072d6b8fe": {
+  "text": "Perigäum",
+  "lost": []
+ },
+ "5f00f7a0a9f5e57d": {
+  "text": "Mittelwert",
+  "lost": []
+ },
+ "eace64e8c5760c33": {
+  "text": "Equant",
+  "lost": []
+ },
+ "bd7580126b941404": {
+  "text": "Schnittpunkt",
+  "lost": []
+ },
+ "94509ddf85cc3f8c": {
+  "text": "Prävention",
+  "lost": []
+ },
+ "10e85307ec7eafc0": {
+  "text": "tropische Umkehr",
+  "lost": []
+ },
+ "69bbb56d0ac39508": {
+  "text": "Die Sonne",
+  "lost": []
+ },
+ "a77c1b28f3e4696a": {
+  "text": "exzentrisch",
+  "lost": []
+ },
+ "f039c6383fcb5063": {
+  "text": "Mittlere Sonne",
+  "lost": []
+ },
+ "28d2279f9e096fe3": {
+  "text": "Wahre Sonne",
+  "lost": []
+ },
+ "295e0d358155206b": {
+  "text": "Gleichung",
+  "lost": []
+ },
+ "e4123eff4b8461e9": {
+  "text": "Konzentrisch: Die wahre Sonne liegt auf der mittleren Sonne, und die Gleichung ist gleich Null.",
+  "lost": []
+ },
+ "4fb90c8d57bd78b7": {
+  "text": "Die Gleichungstabelle enthält diese Korrektur für jede mittlere Position.",
+  "lost": []
+ },
+ "4ed3cf8b690e06fe": {
+  "text": "retrograd",
+  "lost": []
+ },
+ "51cda54aed2354d8": {
+  "text": "Mittelwert",
+  "lost": []
+ },
+ "88b33e4e12f75ac8": {
+  "text": "Richtig",
+  "lost": []
+ },
+ "58be57c1fa330010": {
+  "text": "Tägliche Bewegung",
+  "lost": []
+ },
+ "6ba0e7e7046acac4": {
+  "text": "K bewegt sich mit der mittleren Sonne; die Venus umkreist diese auf dem Epizykel.",
+  "lost": []
+ },
+ "124cfeeb291fe737": {
+  "text": "Der Radius des Epizyklus zeigt stets in Richtung der mittleren Sonne.",
+  "lost": []
+ },
+ "3d4db13a5f36335c": {
+  "text": "Konjunktion",
+  "lost": []
+ },
+ "fcbe0d61d58fcd34": {
+  "text": "«glyph» wahr",
+  "lost": []
+ },
+ "6da7969e75c6a703": {
+  "text": "Wahre Separation",
+  "lost": []
+ },
+ "d8aa09691a25ed66": {
+  "text": "Mittlere Separation",
+  "lost": []
+ },
+ "11c2a9f3e63a77a3": {
+  "text": "Mittlere Konjunktion: Beide zeigen auf denselben Grad, gemessen an ihren Äquanten. Wahre Konjunktion: so, wie wir sie sehen.",
+  "lost": []
+ },
+ "c86168beb32c9793": {
+  "text": "Der Mond",
+  "lost": []
+ },
+ "a55ccaf1ca245c8f": {
+  "text": "Konjunktion",
+  "lost": []
+ },
+ "53c0d6cad2a45be6": {
+  "text": "Prävention",
+  "lost": []
+ },
+ "adf2acd6e0b5bc85": {
+  "text": "Elongation",
+  "lost": []
+ },
+ "e1c99deed0738a4d": {
+  "text": "«deg»° · «d» Tage seit dem letzten Treffen",
+  "lost": []
+ },
+ "17dc9a83744348b2": {
+  "text": "Treffen",
+  "lost": []
+ },
+ "509d3ee4d65f5902": {
+  "text": "Vorbeugung",
+  "lost": []
+ },
+ "efa316e37ef251b2": {
+  "text": "Geboren nach der Konjunktion und vor der Prävention: ein Konjunktionshoroskop.",
+  "lost": []
+ },
+ "7020e78387b1a315": {
+  "text": "Geboren nach der Prävention und vor dem nächsten Treffen: ein präventives Geburtshoroskop.",
+  "lost": []
+ },
+ "d1ae4609d49c2481": {
+  "text": "Die Jahreszeiten",
+  "lost": []
+ },
+ "707f49e50bf9def2": {
+  "text": "aus dem Modell",
+  "lost": []
+ },
+ "89677615c2ec030b": {
+  "text": "Frühling",
+  "lost": []
+ },
+ "7c92fc5cf65f2ba5": {
+  "text": "Sommer",
+  "lost": []
+ },
+ "36da464823405731": {
+  "text": "Herbst",
+  "lost": []
+ },
+ "24615d93d230ffac": {
+  "text": "Winter",
+  "lost": []
+ },
+ "c6f558cc26ce508d": {
+  "text": "«v» Tage",
+  "lost": []
+ },
+ "324dbbb61402aacd": {
+  "text": "Am längsten in Richtung Apogäum im Krebs, am kürzesten in Richtung Perigäum im Steinbock. Wären die Kreise konzentrisch, lägen alle vier auf dem „«v»“.",
+  "lost": []
+ },
+ "0c775f0ba6b58cc1": {
+  "text": "Deferentkreis",
+  "lost": []
+ },
+ "881ba2ecd0c63288": {
+  "text": "der Exzenter",
+  "lost": []
+ },
+ "f429cfa92ec9246c": {
+  "text": "Apsidenlinie",
+  "lost": []
+ },
+ "c19d87bef234898a": {
+  "text": "Apogäum · Perigäum",
+  "lost": []
+ },
+ "69b835d53eddf858": {
+  "text": "für die Planeten",
+  "lost": []
+ },
+ "69aba6f983b7e4cb": {
+  "text": "Equant",
+  "lost": []
+ },
+ "a44d2f3a4ae9bea6": {
+  "text": "E, bei doppelter Exzentrizität",
+  "lost": []
+ },
+ "49c5cda0913cfbf6": {
+  "text": "Konzentrische Kreise",
+  "lost": []
+ },
+ "200f8b810526b223": {
+  "text": "die mittlere Bewegung",
+  "lost": []
+ },
+ "5d25ce9fcdcbf113": {
+  "text": "Wahrposition",
+  "lost": []
+ },
+ "b12e4172ca41239f": {
+  "text": "der Körper selbst",
+  "lost": []
+ },
+ "a518965c0bdbd4a7": {
+  "text": "Mittlere Position",
+  "lost": []
+ },
+ "23a0ad4ea062719a": {
+  "text": "grauer Körper",
+  "lost": []
+ },
+ "d4b23dbbcf9160db": {
+  "text": "Strahlen zum Tierkreis",
+  "lost": []
+ },
+ "026e60ceabca62b9": {
+  "text": "Was Sayyid sieht",
+  "lost": []
+ },
+ "7353c26980889aa8": {
+  "text": "Bahn in der Ebene",
+  "lost": []
+ },
+ "d0a7f86dcf75e271": {
+  "text": "die Schleifen",
+  "lost": []
+ },
+ "35ec57b5e6d6c483": {
+  "text": "Linie am Rand",
+  "lost": []
+ },
+ "6a279ede509510a0": {
+  "text": "rot bei rückläufiger Bewegung",
+  "lost": []
+ },
+ "14ed1fd9edc8621a": {
+  "text": "Königssterne",
+  "lost": []
+ },
+ "8d7bf8f334e10fc3": {
+  "text": "mit Fomalhaut",
+  "lost": []
+ },
+ "2228985493d9e43e": {
+  "text": "Beschriftungen",
+  "lost": []
+ },
+ "4c1cb2facd9252d0": {
+  "text": "Die Jahreszeiten messen",
+  "lost": []
+ },
+ "f0a8f8a520f6a77b": {
+  "text": "Zur nächsten Station springen",
+  "lost": []
+ },
+ "6039cdbc9f685cee": {
+  "text": "Nächste mittlere Konjunktion",
+  "lost": []
+ },
+ "c4358de8586dc24f": {
+  "text": "Nächste wahre Konjunktion",
+  "lost": []
+ },
+ "b64b410288e8e0cb": {
+  "text": "Stellen Sie das Datum auf heute ein",
+  "lost": []
+ },
+ "54d738015e145c7b": {
+  "text": "Erster Akt · Die Sonne",
+  "lost": []
+ },
+ "d59b533cff153b29": {
+  "text": "Akt II · Mars",
+  "lost": []
+ },
+ "de0ade8d740f1e49": {
+  "text": "Akt III · Jupiter und Saturn",
+  "lost": []
+ },
+ "3d15fb43acf3b4ab": {
+  "text": "Akt IV · Der Mond",
+  "lost": []
+ },
+ "90aa77be6daea905": {
+  "text": "Ein leeres Universum",
+  "lost": []
+ },
+ "71e08a59b58a8e37": {
+  "text": "<p>Wir befinden uns im Weltraum, schweben am Pol der Ekliptik und blicken auf die Erde herab. Sayyid steht am Punkt O in der Mitte und kann in alle Richtungen beobachten. Der Tierkreis bildet den äußeren Rand, 0° Widder befindet sich rechts und die Längengrade verlaufen gegen den Uhrzeigersinn.</p>\n         <p>Die vier königlichen Sterne wachen am Rand an ihren aktuellen Längengraden – Aldebaran, Regulus, Antares und, für diese Gruppe, Fomalhaut.</p>\n         <p>Sonst existiert noch nichts. Darauf aufbauend werden wir das Modell der Sonne erstellen.</p>",
+  "lost": []
+ },
+ "21490f6c715504c3": {
+  "text": "Suchen Sie Fomalhaut am Rand, etwas weiter im Sternbild Fische. Drücken Sie auf <em>„Play“</em> unter dem Himmelsbild und beobachten Sie, wie das Datum weiterläuft; noch bewegt sich nichts, da es nichts gibt, was sich bewegen könnte.",
+  "lost": []
+ },
+ "4ef5bc3a0ef6f8b0": {
+  "text": "Eine konzentrische, mittlere Sonne",
+  "lost": []
+ },
+ "39b1065834af548e": {
+  "text": "<p>Fügen Sie die Kreisbahn der Sonne hinzu, so als ob sie denselben Mittelpunkt wie die Erde hätte. Diese große Kugel ist der <span class=\"term\">Deferent</span>: Es ist die Kugel, die sich dreht, und die Sonne wird auf ihr mitgeführt. (Wir tun so, als ob sich die Sonne selbst bewegen würde.)</p>\n         <p>Wäre dies richtig, würde er sich mit gleichmäßiger Geschwindigkeit um uns herum bewegen und jedes Viertel nach 91,31 Tagen erreichen. Diese Geschwindigkeit ist seine <span class=\"term g\">mittlere Bewegung</span>, 0° 59′ 08″ pro Tag, und seine Position an jedem beliebigen Tag ist seine <span class=\"term g\">mittlere Position</span>.</p>\n         <p>Die graue Scheibe stellt die mittlere Sonne dar. Derzeit ist sie zugleich die wahre Sonne, da der Kreis auf uns zentriert ist.</p>",
+  "lost": []
+ },
+ "efc10ee3ec8560c9": {
+  "text": "Beobachten Sie, wie der graue Strahl gleichmäßig über den Rand gleitet. Die Abbildung zeigt die Gleichung – die Differenz zwischen mittlerer und wahrer Position – als genau Null.",
+  "lost": []
+ },
+ "50fc7fc66e0d81c1": {
+  "text": "Außerhalb des Zentrums: der Exzenter",
+  "lost": []
+ },
+ "d8802da25d157f98": {
+  "text": "<p>Doch die wahre Sonne bewegt sich nicht mit dieser Geschwindigkeit. In einigen Bereichen des Tierkreises erscheint sie schneller, in anderen langsamer: eine <span class=\"term\">Tierkreis-Anomalie</span>. Etwas, das sich in unserer Nähe bewegt, scheint sich schneller zu bewegen; etwas, das weiter entfernt ist, langsamer.</p>\n         <p>Verschieben Sie also seinen Kreis aus der Mitte heraus, weg von Sayyid, in die Richtung, in der er am langsamsten erscheint: in Richtung der Mitte des Krebses. Der Kreis ist nun <span class=\"term\">exzentrisch</span>, sein Mittelpunkt C ist um 0,0335 seines Radius verschoben.</p>\n         <p>Die Linie durch O und C ist die <span class=\"term g\">Apidalinie</span>. Der Schnittpunkt mit dem Kreis, der am weitesten von uns entfernt ist, ist der <span class=\"term g\">Apogäum</span>, im Jahr 2000 bei 13° 16′ im Sternbild Krebs; gegenüber, im Sternbild Steinbock, liegt das <span class=\"term g\">Perigäum</span>.</p>",
+  "lost": []
+ },
+ "b74b3125837931c6": {
+  "text": "Der Kreis ist gerade nach außen verschoben worden. Auf der Registerkarte <em>„Ebenen“</em> verschiebt der Schieberegler <em>„Außerhalb der Mitte“</em> C zwischen der konzentrischen und der exzentrischen Position; ziehen Sie ihn und beobachten Sie, wie sich die goldene Sonne von der grauen entfernt.",
+  "lost": []
+ },
+ "10e8ae2684e67e33": {
+  "text": "Mittlere und wahre Bahn sowie die Gleichung",
+  "lost": []
+ },
+ "4e69333624d5950d": {
+  "text": "<p>Nun gibt es zwei Sonnen. Die graue befindet sich dort, wo wir sie erwarten würden, wenn ihre Sphäre konzentrisch wäre: die mittlere Position. Die goldene befindet sich dort, wo wir sie tatsächlich sehen: die wahre Position auf dem Exzenter.</p>\n         <p>In der Nähe des Apogäums hinkt die wahre Sonne der mittleren nach, da dieser Teil des Kreises weit von uns entfernt ist und sie scheinbar trödelt; in der Nähe des Perigäums eilt sie voraus. Nur im Apogäum und im Perigäum fallen beide zusammen.</p>\n         <p>Der Winkel zwischen den beiden Strahlen ist die <span class=\"term v\">Gleichung</span>. Eine Tabelle der mittleren Bewegung gibt die graue Sonne für jeden beliebigen Tag an; eine Tabelle der Gleichungen liefert diese Korrektur; addieren Sie diese, und Sie erhalten die wahre Sonne in weniger als einer Minute. Das ist Ptolemäus’ ganzer Trick.</p>",
+  "lost": []
+ },
+ "11bb0fbd5eb9a84c": {
+  "text": "Beobachten Sie die Gleichung auf der Anzeige: Sie ist bei etwa 13° Krebs und 13° Steinbock gleich Null und erreicht dazwischen einen Wert von fast 2°. Drücken Sie mehrmals auf <em>−30 d</em>, um die Berechnung rückwärts laufen zu lassen.",
+  "lost": []
+ },
+ "112e55ea1a9b3b0c": {
+  "text": "Warum der Sommer die längste Jahreszeit ist",
+  "lost": []
+ },
+ "9cff7f84b5f2479f": {
+  "text": "<p>Ein größerer Teil des Exzenterkreises liegt in Richtung des Apogäums als in Richtung des Perigäums. Zwischen 0° Krebs und 0° Waage muss die Sonne die lange, entfernte Seite durchlaufen, weshalb der Sommer am längsten dauert; zwischen Steinbock und Widder durchquert sie die kurze, nahe Seite, und der Winter vergeht am schnellsten.</p>\n         <p>Herzlichen Glückwunsch – wir haben die Bewegung der Sonne modelliert. Das Modell ergibt für den Frühling 92,8 Tage, für den Sommer 93,7, für den Herbst 89,9 und für den Winter 89,0: die tatsächlichen Werte auf eine Zehntel Tag genau.</p>",
+  "lost": []
+ },
+ "edd8e1a7f9571ea0": {
+  "text": "Klicken Sie oben auf <em>„Jahreszeiten messen</em>“: Die Tabelle listet die vier Zeiträume auf, die das Modell vorhersagt. Klicken Sie anschließend auf <em>„Abspielen“</em> und zählen Sie die Tage von 0° Krebs bis 0° Waage selbst.",
+  "lost": []
+ },
+ "f70502429c4cc4d8": {
+  "text": "Ein Deferent für den Mars",
+  "lost": []
+ },
+ "f1ad9f54b4e4d04e": {
+  "text": "<p>Leeren Sie das Universum erneut und fügen Sie den exzentrischen Deferenten des Mars ein. Wir müssen nicht wissen, wo sich die Sonne befindet, um ihn zu konstruieren, und wir benötigen keine tatsächlichen Entfernungen: lediglich Proportionen und Geschwindigkeiten.</p>\n         <p>Sein Apogäum liegt zufällig bei 150,5°, nahe dem Beginn der Jungfrau, und sein Deferent vollführt eine Umdrehung während seiner tropischen Umlaufzeit von 1,88 Jahren. Dies berücksichtigt seine Tierkreis-Anomalie, genau wie es bei der Sonne der Fall war.</p>\n         <p>Der Mars weist jedoch eine zweite Anomalie auf, die die Sonne nicht aufweist: eine <span class=\"term r\">richtungsbezogene</span>. Manchmal bewegt er sich rückläufig.</p>",
+  "lost": []
+ },
+ "fbc69f6079a0b1fe": {
+  "text": "Dieser Deferent allein kann niemals eine Rückläufigkeit des Mars bewirken: Beobachten Sie, wie sich der rote Strahl stets nur vorwärts entlang des Randes bewegt.",
+  "lost": []
+ },
+ "63643eca8bae6288": {
+  "text": "Der Epizykel",
+  "lost": []
+ },
+ "c2db085299d90d9a": {
+  "text": "<p>Setzen Sie einen kleinen Kreis, den <span class=\"term\">Epizykel</span>, auf den Deferenten an die Stelle, an der sich Mars befand, wobei sein Mittelpunkt bei K liegt. Mars umkreist den Epizykel einmal pro Rückläufigkeitszyklus, während der gesamte Epizykel um den Deferenten herumgetragen wird.</p>\n         <p>In der oberen Hälfte des Epizyklus, die am weitesten von uns entfernt ist, bewegt er sich direkt. In der unteren Hälfte, die uns am nächsten liegt, scheint er sich rückwärts zu bewegen. An den Rändern scheint er langsamer zu werden, anzuhalten und stillzustehen.</p>\n         <p>Die blasse Linie ist seine Bahn in der Ebene – die berühmten Schleifen. Die Markierungen am Rand sind das, was Sayyid sieht: goldfarben bei direkter Bewegung, rot bei rückläufiger Bewegung.</p>",
+  "lost": []
+ },
+ "1b3507c460d836b8": {
+  "text": "Drücken Sie auf <em>„Play“</em> und warten Sie, bis der rote Strahl zögert, zum Stillstand kommt und zurückschwingt. Der Mars befindet sich in der unteren Hälfte. Die tägliche Bewegung der Scheibe wird negativ.",
+  "lost": []
+ },
+ "933da30611c80f49": {
+  "text": "Retrograd, aus Sayyids Sicht",
+  "lost": []
+ },
+ "7b0c83950525504a": {
+  "text": "<p>Verfolgen Sie den Mars auf seinem Epizykel wie in Abbildung 25 dargestellt. In der oberen Hälfte bewegt er sich direkt. Während er die Seite hinabgleitet, verlangsamt er seine Bewegung und kommt zum Stillstand. Nun wird er rückläufig und durchläuft dieselben Gradzahlen erneut, bis er auf der anderen Seite wieder tief unten zum Stillstand kommt und direkt weiterläuft.</p>\n         <p>Währenddessen bewegt sich der Epizykel weiter entlang des Deferents, sodass seine Gesamtbewegung immer noch vorwärts verläuft: zwei Schritte vorwärts, einen zurück.</p>\n         <p>Da die Geometrie bekannt ist, wandelt eine Gleichungstabelle die mittleren Positionen in die wahren Positionen um – eine Korrektur für den Deferenten und eine zusätzliche für den Epizykel.</p>",
+  "lost": []
+ },
+ "dcb9b14ee83ab2d5": {
+  "text": "Drücken Sie <em>„Zur nächsten Station springen</em>“: Das Datum springt auf den Tag, an dem der Mars stillsteht, und die tägliche Bewegung der Scheibe beträgt fast null. Drücken Sie die Taste erneut, um zur nächsten Station zu gelangen.",
+  "lost": []
+ },
+ "deaadc5d0f386739": {
+  "text": "Der Äquant",
+  "lost": []
+ },
+ "e68532beebe720e2": {
+  "text": "<p>Es gab ein Problem. Da sich K gleichmäßig entlang des Deferents bewegte, traten die Rückläufigkeiten an den falschen Stellen auf und dauerten zu lange bzw. zu kurz. Das Modell passte nur dann zu den babylonischen Daten, wenn sich K <em>nicht</em> gleichmäßig bewegte – und dafür gibt es keine einfache Tabelle.</p>\n         <p>Da bemerkte Ptolemäus: Von einem Punkt auf der Apse aus betrachtet, der fast genau doppelt so weit von der Erde <em>entfernt ist</em> wie C, scheint sich K <em>tatsächlich</em> gleichmäßig zu bewegen. Dieser Punkt ist der <span class=\"term s\">Äquant</span> E. Misst man die mittlere Bewegung auf dem Kreis des Äquanten, passt man die Geometrie an, und die Tabellen stimmen.</p>\n         <p>Nicht jeder war davon begeistert; es handelte sich um ein Recheninstrument, nicht um etwas „Echtes“. Und doch liegt der Äquant fast genau im leeren Brennpunkt der Ellipse des Planeten – ein realer Punkt, der bereits sechzehn Jahrhunderte zuvor entdeckt worden war.</p>",
+  "lost": []
+ },
+ "e83ad139fed3005b": {
+  "text": "Beobachten Sie die gepunktete blaue Linie von E nach K: Sie dreht sich mit einer vollkommen gleichmäßigen Geschwindigkeit. Deaktivieren Sie anschließend auf der Registerkarte <em>„Ebenen“ die Option „Equant</em>“: K bewegt sich nun stattdessen aus der Perspektive von C gleichmäßig, und die Standorte weichen von ihren tatsächlichen Daten ab.",
+  "lost": []
+ },
+ "02e5949018c696ff": {
+  "text": "Die anderen Planeten",
+  "lost": []
+ },
+ "788b3cb7c5d74374": {
+  "text": "<p>Dieselbe Maschine dient sowohl für Jupiter als auch für Saturn, mit kleineren Epizyklen und langsameren Deferenten: Je weiter der Planet entfernt ist, desto kleiner sind seine Schleifen und desto mehr davon gibt es in einem Umlauf. Beachten Sie, wie groß die Exzentrizität und der Epizykel des Mars im Vergleich dazu sind – deshalb war sein System ohne den Äquanten so offensichtlich falsch, während dies bei den anderen weniger der Fall war.</p>\n         <p>Bei der Venus verhält es sich anders. Sie ist ein innerer Planet: Der Mittelpunkt K ihres Epizyklus bewegt sich mit der mittleren Sonne mit, und sie umkreist K auf einem Epizyklus, der fast drei Viertel der Größe des Deferents ausmacht. Sie kann niemals weit von der Sonne entfernt beobachtet werden.</p>",
+  "lost": []
+ },
+ "51bcea232e1f6d01": {
+  "text": "Nutzen Sie die Planetenauswahl unter dem Himmelsbild, um den Saturn (winziges Epizykel, Umlaufzeit von dreißig Jahren) und die Venus (das riesige, an die Sonne gekettete Epizykel) zu erkunden. Merkur und der Mond sind noch komplizierter und werden Leopold von Österreich überlassen.",
+  "lost": []
+ },
+ "f9114cd79b6367ab": {
+  "text": "Mittlere Konjunktion und wahre",
+  "lost": []
+ },
+ "eb5a9d170889c862": {
+  "text": "<p>In der persischen Mundanastrologie markieren die Konjunktionen von Saturn und Jupiter, die etwa alle zwanzig Jahre stattfinden, Etappen der Geschichte. Über Jahrhunderte hinweg verwendeten Astrologen deren <span class=\"term g\">mittlere</span> Konjunktionen: den Moment, in dem jeder Planet in seiner eigenen Sphäre auf denselben Grad zeigt, gemessen in der mittleren Bewegung am Äquanten.</p>\n         <p>Dies unterscheidet sich von einer <span class=\"term\">echten</span> Konjunktion, bei der wir die beiden Planeten von der Erde aus gemeinsam sehen – die beiden grauen Markierungen fallen bereits Monate vor oder nach den beiden farbigen Strahlen zusammen.</p>\n         <p>Die große Konjunktion von 2020 fand am 21. Dezember im ersten Grad des Wassermanns statt; das Modell legt ihre mittlere Konjunktion auf den vorangegangenen September fest.</p>",
+  "lost": []
+ },
+ "2727860a3fa9efc9": {
+  "text": "Klicken Sie auf <em>„Nächste scheinbare Konjunktion“</em> und beobachten Sie, wie die beiden grauen Markierungen auf einem Grad zusammenlaufen, während die tatsächlichen Planeten noch voneinander entfernt sind. Klicken Sie anschließend auf <em>„Nächste wahre Konjunktion</em>“.",
+  "lost": []
+ },
+ "74b5a72a7f2ca9c5": {
+  "text": "Der tropische Monat",
+  "lost": []
+ },
+ "3a033f500081095e": {
+  "text": "<p>In der traditionellen Astrologie gibt es zwei Arten von Monaten. Der <span class=\"term\">tropische Monat</span> ist die Zeit, die der Mond benötigt, um den Tierkreis zu durchlaufen und wieder zum gleichen Grad zurückzukehren: 27 Tage, 7 Stunden, 43 Minuten.</p>\n         <p>Beginnen Sie bei einer Konjunktion von Sonne und Mond. Der Mond trennt sich von der Sonne und durchläuft den gesamten Kreis; der goldene Bogen stellt seine Bahn seit der Konjunktion dar. Wenn er zum Grad der Konjunktion zurückkehrt, ist ein tropischer Monat vergangen – doch die Sonne ist nicht stillgestanden.</p>\n         <p>Die astrologische Medizin stützt sich auf diesen Monat: Horoskope zum Ausbruch einer Krankheit verfolgen den Mond ausgehend von ihrem Grad in diesem Horoskop.</p>",
+  "lost": []
+ },
+ "70795f3c6d7277e4": {
+  "text": "Klicken Sie auf <em>„Play“</em> bei einer Geschwindigkeit von einem Tag pro Sekunde. Beobachten Sie, wie der Mond nach etwa 27 Tagen die mit „tropische Rückkehr“ beschriftete Markierung erreicht, und beachten Sie, dass sich die Sonne um etwa 27° weiterbewegt hat.",
+  "lost": []
+ },
+ "668365ec4dd3d875": {
+  "text": "Der synodische Monat und die Prävention",
+  "lost": []
+ },
+ "ea79e6597bb80377": {
+  "text": "<p>Der <span class=\"term\">synodische Monat</span> ist die Zeitspanne zwischen zwei aufeinanderfolgenden Begegnungen von Sonne und Mond: etwa zwei Tage länger, durchschnittlich 29,5 Tage, da der Mond eine Sonne einholen muss, die sich bereits weiterbewegt hat.</p>\n         <p>Auf halbem Weg zwischen den Begegnungen steht er ihr gegenüber: die <span class=\"term r\">Prävention</span>, vom Lateinischen für „vorausgehen“, die wörtliche Übersetzung des arabischen Begriffs für die Sonnen-Mond-Opposition – der Vollmond. Da sich die Sonne ständig weiterbewegt, liegt die Prävention nicht bei 180°, sondern bei etwa 194° vom Zeitpunkt der Begegnung entfernt.</p>\n         <p>In beiden Fällen konzentrieren wir uns auf den Grad des Mondes: Der Grad des Zusammentreffens ist derjenige, den er mit der Sonne teilt; der Grad der „Prävention“ ist sein eigener, der der Sonne gegenüberliegt.</p>",
+  "lost": []
+ },
+ "e94072800ba856fb": {
+  "text": "Beobachten Sie, wie der Mond die rote „Präventionsmarke“ auf der dem Betrachter abgewandten Seite der Sonne passiert, und verfolgen Sie ihn dann bei einer erneuten Begegnung weiter außen am Rand. Die Abbildung enthält beide Daten.",
+  "lost": []
+ },
+ "4826e744fea9a657": {
+  "text": "Konjunktional oder präventional?",
+  "lost": []
+ },
+ "8d6e7eddf611943b": {
+  "text": "<p>Jede Geburtshoroskopstellung ist entweder <span class=\"term\">konjunktional</span> – geboren in den zwei Wochen nach einer Konjunktion, vor der Prävention – oder <span class=\"term r\">präventional</span>, geboren nach der Prävention und vor der nächsten Konjunktion. Dies bezieht sich auf die jüngste Lunation und wird unter anderem bei Lebenserwartungsberechnungen herangezogen.</p>\n         <p>Die Tafel gibt die Daten unter dem Himmel an: den Grad und das Datum der letzten Konjunktion, der Prävention sowie das Urteil.</p>\n         <p>Damit ist der astronomische Teil der Lektion abgeschlossen. Von hier an geht es um Tabellen und die Berechnungen zu deren Eintragung – wofür <em>„The Reckoner“</em> und <em>„Between the Lines“</em> vorgesehen sind.</p>",
+  "lost": []
+ },
+ "aa645d7386ff508c": {
+  "text": "Geben Sie Ihr eigenes Geburtsdatum in das Datumsfeld unter dem Sternenhimmel ein. Zu welcher Kategorie gehören Sie? Stellen Sie anschließend das Datum auf den heutigen Tag ein und sehen Sie nach, wann das Treffen in diesem Monat stattfand.",
+  "lost": []
+ },
+ "7d14c04a713a160c": {
+  "text": "sin",
+  "lost": []
+ },
+ "5bcc2c4d81811ed8": {
+  "text": "cos",
+  "lost": []
+ },
+ "35ca8cf12ff7ebe9": {
+  "text": "tan",
+  "lost": []
+ },
+ "12bbf3a712efabdf": {
+  "text": "sin⁻¹",
+  "lost": []
+ },
+ "73772ec821631f2d": {
+  "text": "cos⁻¹",
+  "lost": []
+ },
+ "16fd04f322636d54": {
+  "text": "tan⁻¹",
+  "lost": []
+ },
+ "d96d16c6e776ccdb": {
+  "text": "Der Takht",
+  "lost": []
+ },
+ "4774a8763c432688": {
+  "text": "ein Rechenbrett zur Horoskopberechnung",
+  "lost": []
+ },
+ "829b1f48a3d4ada1": {
+  "text": "Grad, Minuten, Sekunden · Stunden, Minuten, Sekunden · sonst nichts",
+  "lost": []
+ },
+ "46b102b678e443d2": {
+  "text": "Kein Netzwerk, keine Datenübertragung. Schriftarten: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, SIL Open Font License. Teil von <a class=\"dah\">Dār al-Ḥikma</a>.",
+  "lost": []
+ },
+ "16b6e0c696afc500": {
+  "text": "Rechner",
+  "lost": []
+ },
+ "12748281e0f02357": {
+  "text": "Einheiten",
+  "lost": []
+ },
+ "588fef990d02ebde": {
+  "text": "Bogen: Grad, Minuten, Sekunden (M)",
+  "lost": []
+ },
+ "4f03c887149e7568": {
+  "text": "Zeit: Stunden, Minuten, Sekunden (M)",
+  "lost": []
+ },
+ "cafe1d40ac96cf9d": {
+  "text": "Hilfe, Anleitungen und Einstellungen",
+  "lost": []
+ },
+ "272ec46524bfd545": {
+  "text": "Hilfe (?)",
+  "lost": []
+ },
+ "5f74dc0ddee9e7d6": {
+  "text": "Register",
+  "lost": []
+ },
+ "7bb0997d7cbce5b3": {
+  "text": "«n» Registrieren",
+  "lost": []
+ },
+ "8e8967eddf4d89a2": {
+  "text": "Breitengrad (φ) – Eingabefeld",
+  "lost": []
+ },
+ "89225146f512abd9": {
+  "text": "Trigonometrie",
+  "lost": []
+ },
+ "3ceffe1ce290eba8": {
+  "text": "Sinus",
+  "lost": []
+ },
+ "76b5d4c037174657": {
+  "text": "Kosinus",
+  "lost": []
+ },
+ "04a662df36aeb5b2": {
+  "text": "Tangente",
+  "lost": []
+ },
+ "baf4ba570963516b": {
+  "text": "Invers-Sinus",
+  "lost": []
+ },
+ "34e79741f86c6c05": {
+  "text": "Inverskosinus",
+  "lost": []
+ },
+ "f329b99725990664": {
+  "text": "Inverse Tangente",
+  "lost": []
+ },
+ "ac67939dfc3d597a": {
+  "text": "Als Dezimalzahl anzeigen (D)",
+  "lost": []
+ },
+ "18e394e68399d1db": {
+  "text": "Anzeige innerhalb des Zeichens (S)",
+  "lost": []
+ },
+ "29030c08d397d7b2": {
+  "text": "Bogenzeit (T)",
+  "lost": []
+ },
+ "0f40143c46f0a1dd": {
+  "text": "Bogen zu Zeit (Verschiebung T)",
+  "lost": []
+ },
+ "5d3f1bf7577b0ea9": {
+  "text": "180° hinzufügen",
+  "lost": []
+ },
+ "60e65f5e0308fbcc": {
+  "text": "UT × 9,86 Sekunden pro Stunde",
+  "lost": []
+ },
+ "d33ce265684f3cb7": {
+  "text": "Löschen (Esc); gedrückt halten oder zweimal drücken, um alle Werte zu löschen",
+  "lost": []
+ },
+ "168cbb2ea52b9e34": {
+  "text": "klar",
+  "lost": []
+ },
+ "82e9232cabe53952": {
+  "text": "Letzte Ziffer löschen",
+  "lost": []
+ },
+ "88d130a66de8e5db": {
+  "text": "Rücktaste",
+  "lost": []
+ },
+ "c81a766f4aba2f44": {
+  "text": "Speichern: Tippen Sie anschließend auf ein Register",
+  "lost": []
+ },
+ "3a21295d813c26eb": {
+  "text": "Speichern",
+  "lost": []
+ },
+ "c4da7b6033f205b1": {
+  "text": "teilen",
+  "lost": []
+ },
+ "07fcd2c2e5fcb55d": {
+  "text": "multiplizieren",
+  "lost": []
+ },
+ "59b6536256b81897": {
+  "text": "minus",
+  "lost": []
+ },
+ "6a8437dd0009e4aa": {
+  "text": "sowie",
+  "lost": []
+ },
+ "cbb374265aa2a00a": {
+  "text": "Dezimalpunkt",
+  "lost": []
+ },
+ "b73d0465e4b6e703": {
+  "text": "Zeichen wechseln",
+  "lost": []
+ },
+ "a3b2c4cb5498e827": {
+  "text": "Zeichen wechseln (N)",
+  "lost": []
+ },
+ "ee14d1d3ae427add": {
+  "text": "Nächstes Feld („ “ oder Leertaste)",
+  "lost": []
+ },
+ "d181e54f9e848294": {
+  "text": "nächstes Feld",
+  "lost": []
+ },
+ "80b2f559a1474852": {
+  "text": "entspricht",
+  "lost": []
+ },
+ "90ccd6497400b557": {
+  "text": "Geschichte",
+  "lost": []
+ },
+ "ed92f18f26da755d": {
+  "text": "Verlauf löschen",
+  "lost": []
+ },
+ "da38860cb875cb64": {
+  "text": "schließen",
+  "lost": []
+ },
+ "57e61b895c1ceeaf": {
+  "text": "Berechnungen und Umrechnungen sind hier aufgeführt. Tippen Sie auf eine Zeile, um das entsprechende Ergebnis wieder auf dem Bildschirm anzuzeigen.",
+  "lost": []
+ },
+ "beee697785bc0c7d": {
+  "text": "Tippen Sie hier, um dieses Ergebnis erneut anzuzeigen",
+  "lost": []
+ },
+ "54ad8d04e2ebef7c": {
+  "text": "mal 10 hoch «e»",
+  "lost": []
+ },
+ "a09e93c737257ec6": {
+  "text": "noch nichts",
+  "lost": []
+ },
+ "cea0ad7b2b8c979c": {
+  "text": "«n»: «v» – zum Abrufen antippen, zum Speichern gedrückt halten",
+  "lost": []
+ },
+ "6617f8dae4f23fe6": {
+  "text": "«n»: leer – gedrückt halten, um zu speichern",
+  "lost": []
+ },
+ "c9c5049da5ba9f65": {
+  "text": "Dez.",
+  "lost": []
+ },
+ "7b6db2685c708496": {
+  "text": "sto → Registrieren",
+  "lost": []
+ },
+ "7bb6df34baa594d3": {
+  "text": "kein Zeilenumbruch",
+  "lost": []
+ },
+ "f0cad97953dfb126": {
+  "text": "wrap",
+  "lost": []
+ },
+ "520add8ca53eb3d0": {
+  "text": "So funktioniert der Takht",
+  "lost": []
+ },
+ "ed7ed563192e4e70": {
+  "text": "Eingabe einer Zahl",
+  "lost": []
+ },
+ "c0908838133678aa": {
+  "text": "Geben Sie die Gradzahlen ein, drücken Sie <span class=\"kc m\">° ′ ″</span>, geben Sie die Minuten ein, drücken Sie die Taste erneut, geben Sie die Sekunden ein: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> ergibt 23° 26′ 12″. Alles, was Sie weglassen, wird mit 00 angenommen.",
+  "lost": []
+ },
+ "5f4ce04e5283c032": {
+  "text": "Tippen Sie oben links auf <span class=\"kc m\">°</span> oder <span class=\"kc m\">h</span>, um einen Bogen oder eine Zeit einzugeben. Bei der Zeiteingabe lautet die Einheitentaste <span class=\"kc m\">„h m s“,</span> und 15:55:00 wird als <b>15 h m s 55</b> eingegeben.",
+  "lost": []
+ },
+ "d51742e360ba7482": {
+  "text": "Minuten und Sekunden reichen von 0 bis 59; der Takht lehnt Werte von 60 oder mehr ab, anstatt diese für Sie zu übertragen. Gradangaben reichen bis 360 und Stunden bis 24.",
+  "lost": []
+ },
+ "444d1bb98150429d": {
+  "text": "<span class=\"kc\">±</span> ändert das Vorzeichen eines Wertes. Bei Dezimalzahlen drücken Sie zunächst <span class=\"kc\">„dec“</span>; <span class=\"kc o\">=</span> wandelt eine eingegebene Dezimalzahl in ° ′ ″ um. Nach <span class=\"kc o\">×</span> und <span class=\"kc o\">÷</span> geben Sie eine einfache Zahl ein; drücken Sie stattdessen <span class=\"kc m\">° ′ ″</span> oder <span class=\"kc m\">h m s,</span> um durch einen Winkel oder eine Zeit zu dividieren.",
+  "lost": []
+ },
+ "503ca13076d87e8b": {
+  "text": "Geben Sie nach <span class=\"kc\">dem</span> <span class=\"kc\">Einloggen</span> die Gradangaben innerhalb des Zeichens (0–29), die Minuten und die Sekunden ein und drücken Sie anschließend erneut <span class=\"kc m\">° ′ ″</span>, bis das Zeichen angezeigt wird; <span class=\"kc o\">mit der Taste =</span> erhalten Sie die absolute Längengradangabe.",
+  "lost": []
+ },
+ "9fb1092f32d4fcbf": {
+  "text": "Rezepte",
+  "lost": []
+ },
+ "71df6c5415097d21": {
+  "text": "Dies sind die Tasten, die Sie drücken müssen. Der Takht führt diese Schritte nicht für Sie aus.",
+  "lost": []
+ },
+ "e5c5ea9f2e8d4727": {
+  "text": "Weltzeit",
+  "lost": []
+ },
+ "ee6efae4cdef4446": {
+  "text": "<b>+</b> für eine Zone westlich von Greenwich, <b>−</b> für östlich davon; ziehen Sie zunächst 1 Stunde ab, um die Sommerzeit zu berücksichtigen. Wenn in der Historie ein Zeitsprung angezeigt wird, hat sich das Greenwich-Datum geändert: bei 24 Stunden oder mehr ist es der nächste Tag, unter 0 der Vortag. Verwenden Sie dieses Datum für Mitternacht GST und für die Ephemeride.",
+  "lost": []
+ },
+ "b1fe257879afd02c": {
+  "text": "Lokale Sternzeit",
+  "lost": []
+ },
+ "d6d11f54ee487393": {
+  "text": "GST",
+  "lost": []
+ },
+ "d2a773ae817d7d07": {
+  "text": "Längengrad",
+  "lost": []
+ },
+ "b3f75e1a3519a397": {
+  "text": "Ortszeit",
+  "lost": []
+ },
+ "b6931b00fd5c406e": {
+  "text": "Zone",
+  "lost": []
+ },
+ "d087b90ee0dbd98d": {
+  "text": "frühere ST",
+  "lost": []
+ },
+ "3f14ecc8cc777b55": {
+  "text": "später",
+  "lost": []
+ },
+ "f12e996adf405952": {
+  "text": "früher",
+  "lost": []
+ },
+ "c3c59829ba11c141": {
+  "text": "am nächsten Tag",
+  "lost": []
+ },
+ "d3d466101770c362": {
+  "text": "Geburtstag",
+  "lost": []
+ },
+ "e52874ada3c54d84": {
+  "text": "ASC auf einem höheren Breitengrad",
+  "lost": []
+ },
+ "883c4432e447b818": {
+  "text": "ASC steigt",
+  "lost": []
+ },
+ "eb8d129ba8ae7d3f": {
+  "text": "Der Aszendent nimmt ab",
+  "lost": []
+ },
+ "292d0d50a28354c6": {
+  "text": "niedrigerer Breitengrad",
+  "lost": []
+ },
+ "ba3c91460691327c": {
+  "text": "ASC auf dem niedrigeren Breitengrad",
+  "lost": []
+ },
+ "ecda9d9d10927331": {
+  "text": "Geben Sie UT und GST in Stunden (<b>h</b>) ein. Geben Sie UT vor <b>der Beschleunigung</b> erneut ein. Tippen Sie auf <b>°</b> vor der Längengradangabe, damit diese als Bogen eingetragen wird, und drücken Sie anschließend die Taste <b>÷15</b>, nicht <b>÷</b> 15. <b>+</b> für östlich von Greenwich, <b>−</b> für westlich; oder geben Sie einen westlichen Längengrad mit <b>±</b> ein und drücken Sie stets <b>+</b>.",
+  "lost": []
+ },
+ "c2c7db469d1b4fa8": {
+  "text": "RAMC",
+  "lost": []
+ },
+ "9d9387716e7d796c": {
+  "text": "Direkter MC",
+  "lost": []
+ },
+ "2b531ec56babbc47": {
+  "text": "Drücken Sie <b>+180</b>, wenn das Ergebnis etwa 180° vom RAMC entfernt ist. Bei aktivierter Umbruchfunktion reichen die Ergebnisse von 0° bis knapp unter 360°. Bei einem RAMC von 90° oder 270° hat tan keinen Wert und der MC entspricht dem RAMC. Speichern Sie die Neigung der Erdachse Ihres Jahres in <b>OE</b>; <b>„sign“</b> gibt den MC im Tierkreis an.",
+  "lost": []
+ },
+ "46ab8e26f1bec0ac": {
+  "text": "Eine Häusertabelle gibt ST als 17° 36′ 00″ an. Es handelt sich um eine Zeitangabe: Geben Sie diese in <b>„h“</b> ein. Eine Zeit geteilt durch eine Zeit ergibt das Verhältnis.",
+  "lost": []
+ },
+ "2abbd5ef0e567dc7": {
+  "text": "Interpolation des MC oder des ASC",
+  "lost": []
+ },
+ "4c117f431e72bca3": {
+  "text": "Später minus früher, in dieser Reihenfolge: Der MC und der ASC bewegen sich mit der siderischen Zeit vorwärts, sodass dies bei einer Umbruchfunktion auch über 0° Widder hinweg gilt. Eine Differenz nahe 360° bedeutet, dass die beiden vertauscht wurden. Die Schrittweite wird auf die Sekunde gerundet; so besagt es die Überlieferung.",
+  "lost": []
+ },
+ "8ad3793ba675be9d": {
+  "text": "In dieser Lektion entspricht 60′ einem Winkel von 1°; der Takht akzeptiert keine 60 in den Minuten. Die Breitengrade in der Tabelle sind ohne Vorzeichen angegeben: Bei einer Geburt im Süden speichern Sie <b>φ</b> ohne <b>±</b>.",
+  "lost": []
+ },
+ "590b052db8ab94da": {
+  "text": "Das Horoskop der Lektion basiert auf der zweiten Zeile: Der ASC nimmt mit steigendem Breitengrad von 44° auf 45° ab (Zeilen 39–41). Sollte die Differenz der ersten Zeile nahe bei 360° liegen, verwenden Sie die zweite. Bei aktivierter Zeilenumbruchfunktion erstrecken sich beide Zeilen über 0° Widder.",
+  "lost": []
+ },
+ "559c0c196aa3173d": {
+  "text": "Geburtszeitverhältnis",
+  "lost": []
+ },
+ "1a556e7bd85d09e8": {
+  "text": "<b>÷</b> 24 allein teilt die Zeit durch die Zahl 24 und liefert eine Zeitangabe (00:39:48), nicht das Verhältnis.",
+  "lost": []
+ },
+ "8c0961741b83c068": {
+  "text": "Ein Planet",
+  "lost": []
+ },
+ "9f0fcb865fe62f89": {
+  "text": "Positionen um 00:00 Uhr am Tag der Geburt und am folgenden Tag. Wenn der Unterschied zwischen dem folgenden Tag und dem Tag der Geburt nahe bei 360° liegt, ist der Planet rückläufig: Verwenden Sie die zweite Zeile. Bei aktivierter Zeilenumbruchsfunktion erstrecken sich beide Zeilen über 0° Widder; dabei wird davon ausgegangen, dass der Planet an diesem Tag nicht stationär wird. Jedes Verhältnis wird verwendet, bevor das nächste gebildet wird, sodass ein Verhältnisregister für das gesamte Arbeitsblatt ausreicht; <b>x</b> enthält eine Sekunde.",
+  "lost": []
+ },
+ "cdf9eb3580d89f19": {
+  "text": "Geburten in den südlichen Breitengraden, anhand der Tabelle",
+  "lost": []
+ },
+ "97a609c542874ae5": {
+  "text": "Ermitteln Sie die neue siderische Zeit und verfahren Sie wie gewohnt; drücken Sie anschließend <b>+180</b> auf dem MC und auf dem ASC: Beide nehmen das entgegengesetzte Vorzeichen an.",
+  "lost": []
+ },
+ "57679e05b2e78c46": {
+  "text": "Direkter ASC",
+  "lost": []
+ },
+ "7af0256482f412ad": {
+  "text": "Für Breitengrade jenseits der in der Tabelle angegebenen 60° oder ohne Tabelle. Speichern Sie zunächst <b>φ</b>; geben Sie einen südlichen Breitengrad mit <b>±</b> ein. Drücken Sie <b>+180</b>, es sei denn, das Ergebnis liegt innerhalb der 180°, die auf den MC folgen. Am nördlichen Polarkreis (Breitengrad 90° minus <b>OE</b>) mit RAMC 270° oder am südlichen mit RAMC 90° verläuft die Ekliptik entlang des Horizonts, und es gibt keinen eindeutigen Aszendenten, unabhängig davon, was Schritt 3 ergibt. Falls Schritt 3 die Division durch Null verweigert, beträgt der ASC 90° oder 270°: jener Wert, der innerhalb der 180° nach dem MC liegt. Das Horoskop dieser Lektion ergibt 20° 18′ 54″ <span class=\"glyph\">♓︎</span>.",
+  "lost": []
+ },
+ "3046d7e67e6e861f": {
+  "text": "Vorzeichenbehaftete Werte",
+  "lost": []
+ },
+ "a3bd58b1af1e80cf": {
+  "text": "Bei aktivierter Umbruchfunktion bleibt ein Ergebnis vorzeichenbehalten, wenn ein Wert darin negativ war; Zeitangaben werden immer umgebrochen. Für Deklinationen und Breitengrade tippen Sie auf <b>„Umbruch“</b> auf dem Display, um die Funktion zu deaktivieren. +360 bringt eine negative Längengradangabe in den Kreis zurück.",
+  "lost": []
+ },
+ "3cb3038e5b81af28": {
+  "text": "Tippen Sie auf „«chips»“, um den Wert abzurufen. Halten Sie eine Taste gedrückt oder drücken Sie <span class=\"kc r\">„sto“</span> am Anfang der Zeile und anschließend die Speichertaste, um den angezeigten Wert zu speichern. Ein Punkt bedeutet, dass ein Wert gespeichert ist. OE beginnt bei 23° 26′ 00″; speichern Sie den Wert Ihres Geburtsjahres darüber.",
+  "lost": []
+ },
+ "c7f73bb54d928922": {
+  "text": "Einstellungen",
+  "lost": []
+ },
+ "02ea31825449b5fa": {
+  "text": "Ergebnisse bei 360° und 24 Stunden umbrechen",
+  "lost": []
+ },
+ "db3d405b10675998": {
+  "text": "auf",
+  "lost": []
+ },
+ "da7a68734367828e": {
+  "text": "aus",
+  "lost": []
+ },
+ "6662c40bac78a8fe": {
+  "text": "Tastatur",
+  "lost": []
+ },
+ "4fdfa7413a77be7f": {
+  "text": "Ziffern, Dezimalpunkt",
+  "lost": []
+ },
+ "31fe0f2636476e0f": {
+  "text": "nächstes Feld (° ′ ″ oder h m s)",
+  "lost": []
+ },
+ "e8c39c4d7e6f77fc": {
+  "text": "Funktionen",
+  "lost": []
+ },
+ "5436910ab51414fc": {
+  "text": "Letzte Ziffer löschen",
+  "lost": []
+ },
+ "489e5de8b65af0d4": {
+  "text": "Löschen; zweimal drücken, um alles zu löschen",
+  "lost": []
+ },
+ "b67dd1a844f11b18": {
+  "text": "Bogen / Zeit umschalten",
+  "lost": []
+ },
+ "dbb29c7c28bc6ca6": {
+  "text": "Dez., Zeichen",
+  "lost": []
+ },
+ "6b21fb791ac05170": {
+  "text": "Über",
+  "lost": []
+ },
+ "08bbc07e7571dd51": {
+  "text": "Basiert auf Lektion 5, §2 und §6 des <em>Kurses „Traditional Natal Astrology“</em> von Ben Dykes; das ausgearbeitete Horoskop stammt von ihm.",
+  "lost": []
+ },
+ "b025a98162ca26ad": {
+  "text": "Ein <i>„Takht“</i> ist das Rechenbrett, auf dem die alten Rechner ihre Berechnungen durchführten. Teil von <a class=\"dah\">Dār al-Ḥikma</a>. Schriftarten: EB Garamond, IBM Plex Mono, IBM Plex Sans Condensed und Noto Sans Symbols, unter der SIL Open Font License.",
+  "lost": []
+ },
+ "364023c4f9cf1da3": {
+  "text": "Das sind so viele Ziffern, wie der Takht aufnehmen kann.",
+  "lost": []
+ },
+ "b7a306b0ca630e1c": {
+  "text": "Die Zahlen werden in Grad, Minuten und Sekunden eingegeben; mit „«u»“ wird durch die Tierkreiszeichen geschaltet.",
+  "lost": []
+ },
+ "ed8e4d0e187033eb": {
+  "text": "Die Stunden reichen von 0 bis 24.",
+  "lost": []
+ },
+ "28ca2ef4df9cbddd": {
+  "text": "Innerhalb eines Zeichens reichen die Gradangaben von 0 bis 29.",
+  "lost": []
+ },
+ "c4b06b1ec5968aff": {
+  "text": "Der Gradbereich reicht von 0 bis 360.",
+  "lost": []
+ },
+ "a42e8be1ababb9dc": {
+  "text": "24:00:00 entspricht einem ganzen Tag; nichts geht darüber hinaus.",
+  "lost": []
+ },
+ "ceedb6e97f10a738": {
+  "text": "360° bilden den gesamten Kreis; nichts geht darüber hinaus.",
+  "lost": []
+ },
+ "b015b41d81a546fc": {
+  "text": "Eine Position innerhalb eines Zeichens kann nicht negativ sein.",
+  "lost": []
+ },
+ "82375a76c869d2cd": {
+  "text": "Die Minuten werden zweistellig angegeben. Drücken Sie „«u»“, um die Sekunden einzugeben.",
+  "lost": []
+ },
+ "fb57589d1a03343a": {
+  "text": "Sekunden werden zweistellig angegeben.",
+  "lost": []
+ },
+ "76ad91c575e71c7b": {
+  "text": "Die Minuten reichen von 0 bis 59. Sechzig entspricht einer ganzen Stunde.",
+  "lost": []
+ },
+ "e87aa3515f46ab6c": {
+  "text": "Die Sekunden reichen von 0 bis 59. Sechzig entspricht einer ganzen Minute.",
+  "lost": []
+ },
+ "0d6d29cf7ec57782": {
+  "text": "Ein Dezimalpunkt reicht aus.",
+  "lost": []
+ },
+ "ec13d230d7987d3e": {
+  "text": "Minuten und Sekunden sind ganze Zahlen. Um eine Dezimalzahl einzugeben, drücken Sie zunächst die Taste „dec“.",
+  "lost": []
+ },
+ "027d85e648f36b6f": {
+  "text": "Eine Dezimalzahl enthält keine ° ′ ″. Drücken Sie die Taste =, um sie in ° ′ ″ umzuwandeln.",
+  "lost": []
+ },
+ "c0ee75f5ce1b597e": {
+  "text": "„dec“ ist aktiviert, Sie geben also eine Dezimalzahl ein. Drücken Sie „dec“, um ° ′ ″ einzugeben.",
+  "lost": []
+ },
+ "6962e41ec51ebe74": {
+  "text": "Das waren die Sekunden. Drücken Sie die Taste „=“ oder führen Sie eine Rechenoperation durch.",
+  "lost": []
+ },
+ "c2972099756c2476": {
+  "text": "«u» durchläuft erneut die Sternzeichen.",
+  "lost": []
+ },
+ "998ae09393f54379": {
+  "text": "⌫ löscht eine Ziffer, die Sie gerade eingeben. C löscht den gesamten Eingabebereich.",
+  "lost": []
+ },
+ "ab45f5e8e4a25cdd": {
+  "text": "Alles klar.",
+  "lost": []
+ },
+ "324510f6e55e0cd9": {
+  "text": "Der Dezimalwert wird als Grad gelesen.",
+  "lost": []
+ },
+ "48be75607dd00696": {
+  "text": "Die Stunden reichen von 0 bis 24; „«d»“ kann keine Stunde sein. Verwenden Sie „÷15“, um den Bogen in Zeit umzuwandeln.",
+  "lost": []
+ },
+ "63e764a2f9d85cce": {
+  "text": "Bogen: Grad, Minuten, Sekunden.",
+  "lost": []
+ },
+ "efdf70569df84178": {
+  "text": "Bogen: Grad, Minuten, Sekunden. Geben Sie den Wert ein.",
+  "lost": []
+ },
+ "3333e40a12d2060f": {
+  "text": "Wählen Sie das Sternzeichen aus: Drücken Sie nach Eingabe der Sekunden die Taste „«u»“, bis es angezeigt wird.",
+  "lost": []
+ },
+ "70cc7dc533c54507": {
+  "text": "Geben Sie zunächst die Zahl hinter „«op»“ ein.",
+  "lost": []
+ },
+ "5f210b56cc664e20": {
+  "text": "Bogenmaß und Zeit können nicht addiert werden. Die siderische Zeit einer Tabelle ist ebenfalls eine Zeitangabe: Geben Sie diese in „h“ ein.",
+  "lost": []
+ },
+ "201ad09783fa8745": {
+  "text": "Dezimalzahlen und ° ′ ″ können nicht addiert werden. Drücken Sie „dec“ auf dem Dezimalfeld, um es in ° ′ ″ umzuwandeln.",
+  "lost": []
+ },
+ "daa2601b330a5612": {
+  "text": "Ein Winkel kann nicht durch eine Zeit geteilt werden, ebenso wenig wie eine Zeit durch einen Winkel.",
+  "lost": []
+ },
+ "a6775a54ec830fc2": {
+  "text": "× erfordert eine reine Zahl. Ein Verhältnis ist Zeit ÷ Zeit (÷ 24 h m s) oder Winkel ÷ Winkel.",
+  "lost": []
+ },
+ "effb66594a989cae": {
+  "text": "Eine reine Zahl kann nicht durch ° ′ ″ oder h m s geteilt werden.",
+  "lost": []
+ },
+ "dabd0fcc53324507": {
+  "text": "Um „«u»“ zu verwenden, geben Sie zunächst eine ganze Zahl ein und klicken Sie anschließend auf „«u»“.",
+  "lost": []
+ },
+ "fc66ec275c885f09": {
+  "text": "Diese Zahl bleibt eine Zahl. Drücken Sie „dec“, um sie in „«u»“ umzuwandeln.",
+  "lost": []
+ },
+ "1c1110ab0a5c41e8": {
+  "text": "Die Vorzeichen-Notation bezieht sich auf den Bogen (°). Hierbei handelt es sich um eine reine Zahl.",
+  "lost": []
+ },
+ "b765e6f228c0e20b": {
+  "text": "Nichts kann durch Null geteilt werden.",
+  "lost": []
+ },
+ "f4c3f68ad1864709": {
+  "text": "Dieses Ergebnis ist für den Takht zu umfangreich.",
+  "lost": []
+ },
+ "846e4a10932d1bd1": {
+  "text": "Dieses Ergebnis ist für den Takht zu klein.",
+  "lost": []
+ },
+ "6188db1bc47095ab": {
+  "text": "Es gibt noch nichts zu berechnen.",
+  "lost": []
+ },
+ "8e9d91a492310edb": {
+  "text": "Es muss nichts berechnet werden. Geben Sie eine Zahl und eine Rechenoperation ein.",
+  "lost": []
+ },
+ "e4df2f98ed08983a": {
+  "text": "„accel“ erwartet eine Zeitangabe: UT in h m s.",
+  "lost": []
+ },
+ "447de7072b890c72": {
+  "text": "„accel“ akzeptiert Weltzeit (UT) zwischen 00:00:00 und 24:00:00.",
+  "lost": []
+ },
+ "826614aa2f09d52e": {
+  "text": "×15 erwartet eine Zeitangabe in h m s, keinen Dezimalwert.",
+  "lost": []
+ },
+ "9c4c70bbb1072aa4": {
+  "text": "×15 wandelt Zeit in einen Winkelbogen um. Dies ist bereits ein Winkelbogen; ÷15 bewirkt das Gegenteil.",
+  "lost": []
+ },
+ "441a7712ada5d1f8": {
+  "text": "÷15 akzeptiert einen Winkel in ° ′ ″, keine Dezimalzahl.",
+  "lost": []
+ },
+ "fdd68686a95c9291": {
+  "text": "÷15 wandelt den Bogen in Zeit um. Dies ist bereits Zeit; ×15 bewirkt das Gegenteil.",
+  "lost": []
+ },
+ "362ce84abf33493b": {
+  "text": "+180 addiert einen halben Kreis zu einem Winkel in ° ′ ″, nicht zu einer Dezimalzahl.",
+  "lost": []
+ },
+ "ca57d1f0464636fa": {
+  "text": "+180 steht für den Bogen (°). Dies ist eine Zeitangabe.",
+  "lost": []
+ },
+ "ba5ec66c3f150e88": {
+  "text": "«f» akzeptiert einen Winkel in ° ′ ″, keine Dezimalwerte.",
+  "lost": []
+ },
+ "befb0f67b50b7441": {
+  "text": "«f» funktioniert auf arc. Drücken Sie ×15, um die Zeit zunächst in Grad umzuwandeln.",
+  "lost": []
+ },
+ "fb5d056f388ac960": {
+  "text": "Der Tangens von 90° oder 270° hat keinen Wert.",
+  "lost": []
+ },
+ "1c7aacfb6bd6e200": {
+  "text": "«f» akzeptiert Dezimalzahlen, z. B. «ex» – nicht ° ′ ″.",
+  "lost": []
+ },
+ "7043c50455c68e3a": {
+  "text": "«f» benötigt eine Zahl zwischen −1 und 1.",
+  "lost": []
+ },
+ "4bd3dc35d613940c": {
+  "text": "Die Zahl nach „«op»“ bleibt eine einfache Dezimalzahl.",
+  "lost": []
+ },
+ "d33c824175d706d0": {
+  "text": "Die Zeichenbezeichnung steht für den Bogen (°). Dies ist eine Zeitangabe.",
+  "lost": []
+ },
+ "a781960715262541": {
+  "text": "«n» ist leer. Halten Sie die Taste „«n»“ gedrückt oder drücken Sie „sto“ und anschließend „«n»“, um die Anzeige zu speichern.",
+  "lost": []
+ },
+ "26a4a6ff09dc75a7": {
+  "text": "Gespeichert unter «n».",
+  "lost": []
+ },
+ "7bea4971ef0b868f": {
+  "text": "Tippen Sie nun auf das Register, in dem die Daten gespeichert werden sollen.",
+  "lost": []
+ },
+ "de185899a13f4b60": {
+  "text": "sto wurde storniert.",
+  "lost": []
+ },
+ "4d10bc5836729b8c": {
+  "text": "Verlauf gelöscht.",
+  "lost": []
+ },
+ "23f106eed39d7ef6": {
+  "text": "Wiederhergestellt: «v»",
+  "lost": []
+ },
+ "0c9b49763d73a23a": {
+  "text": "Die Ergebnisse werden bei 360° und 24 Stunden umgebrochen.",
+  "lost": []
+ },
+ "c55657967dbb99d7": {
+  "text": "Der Zeilenumbruch ist deaktiviert: Die Ergebnisse werden so angezeigt, wie sie sind.",
+  "lost": []
+ },
+ "bbd81122b01c4be0": {
+  "text": "abgerundet von «v»",
+  "lost": []
+ },
+ "29f1c7034db82fee": {
+  "text": "Sayyids Sphäre",
+  "lost": []
+ },
+ "0905938243e81df5": {
+  "text": "Die Sphäre anheben…",
+  "lost": []
+ },
+ "a020a49f9a445cab": {
+  "text": "Drei Bezugssysteme, ein sich drehender Himmel",
+  "lost": []
+ },
+ "1a1a99d7ad6805f6": {
+  "text": "Sonde",
+  "lost": []
+ },
+ "d835eeb1e3a3e459": {
+  "text": "Az / Alt",
+  "lost": []
+ },
+ "45b878eaf4182a10": {
+  "text": "RA / Deklination",
+  "lost": []
+ },
+ "10cfd992fc01861b": {
+  "text": "Länge / Breite",
+  "lost": []
+ },
+ "f58015f1ef1f8d32": {
+  "text": "Ein Punkt am Himmel, der gleichzeitig auf drei verschiedene Weisen benannt wird.",
+  "lost": []
+ },
+ "5884a39fe89ba5a4": {
+  "text": "Oberhalb des Horizonts – im Quadranten „%1“.",
+  "lost": []
+ },
+ "0172aa1b0458c602": {
+  "text": "Unterhalb der Erde. Az und Alt ändern sich ständig; RA, Dec und Längengrad bleiben unverändert.",
+  "lost": []
+ },
+ "157eaeaaa8fddc50": {
+  "text": "Im Zenit, genau über dem Kopf: Hier hat der Azimut keinen Wert, und der Punkt liegt auf dem Meridian, wo sich der östliche und der südliche Quadrant treffen.",
+  "lost": []
+ },
+ "083bb2aeaf3a3c7c": {
+  "text": "Am Nadir, direkt unter den Füßen: Hier hat der Azimut keinen Wert, und der Punkt liegt auf dem Meridian, wo sich der westliche und der nördliche Quadrant treffen.",
+  "lost": []
+ },
+ "26e8e3d3a68a48f9": {
+  "text": "östlich",
+  "lost": []
+ },
+ "5fd2a36e8130e4bc": {
+  "text": "südlich",
+  "lost": []
+ },
+ "b681487927bbb2be": {
+  "text": "westlich",
+  "lost": []
+ },
+ "42c65f1a90f37c2f": {
+  "text": "nördlich",
+  "lost": []
+ },
+ "181b1f3083020338": {
+  "text": "Drehen Sie die Sphäre",
+  "lost": []
+ },
+ "892eddb17926dd5a": {
+  "text": "Halten Sie die Sphäre fest",
+  "lost": []
+ },
+ "ee5e721f9094b146": {
+  "text": "Siderische Zeit",
+  "lost": []
+ },
+ "150f1ca28a06b3e7": {
+  "text": "Äquator",
+  "lost": []
+ },
+ "66c7734789e19cbe": {
+  "text": "Diagramm",
+  "lost": []
+ },
+ "b84c5128405ec5b7": {
+  "text": "Schritt-%1 von %2",
+  "lost": []
+ },
+ "152d422f80e64394": {
+  "text": "Alle Ebenen",
+  "lost": []
+ },
+ "7ce1d60cbea377c8": {
+  "text": "Sonnenlängengrad",
+  "lost": []
+ },
+ "4f6de0ccc00b6a44": {
+  "text": "Horizontales Koordinatensystem",
+  "lost": []
+ },
+ "072a958ded408546": {
+  "text": "Äquatorialkoordinatensystem",
+  "lost": []
+ },
+ "0b987fa720a44e2a": {
+  "text": "Ekliptikbezugssystem",
+  "lost": []
+ },
+ "eda24363a29f9581": {
+  "text": "Horizont",
+  "lost": []
+ },
+ "34e6f09ab1ef8b11": {
+  "text": "Schattierte Fläche",
+  "lost": []
+ },
+ "77d0a4b78ede9f8d": {
+  "text": "Meridian",
+  "lost": []
+ },
+ "bbe2071775880b5e": {
+  "text": "Hauptvertikale",
+  "lost": []
+ },
+ "5fe78e37e7169b01": {
+  "text": "Zenit – Nadir",
+  "lost": []
+ },
+ "3b428c0aec528be0": {
+  "text": "Bezeichnungen der Quadranten",
+  "lost": []
+ },
+ "b1f3458de5f62d6d": {
+  "text": "Almucantarath der Sonde",
+  "lost": []
+ },
+ "9beb0aa75dda31cf": {
+  "text": "Azimutbogen",
+  "lost": []
+ },
+ "d172ee5af4f7d178": {
+  "text": "Himmelsäquator",
+  "lost": []
+ },
+ "50982dc47fe626ee": {
+  "text": "Polachse",
+  "lost": []
+ },
+ "8e07aa879479ad76": {
+  "text": "Deklinationskreise",
+  "lost": []
+ },
+ "6f7d26a181fde494": {
+  "text": "Skala der Rektaszension",
+  "lost": []
+ },
+ "a918ef8094e24a9b": {
+  "text": "Deklinationskreis der Sonde",
+  "lost": []
+ },
+ "c00af4c0648c5759": {
+  "text": "Ekliptik",
+  "lost": []
+ },
+ "aa6ca3f997e4801b": {
+  "text": "Tierkreisband ±8°",
+  "lost": []
+ },
+ "a64c3ac3a18f5709": {
+  "text": "Zeichen-Symbole",
+  "lost": []
+ },
+ "4dc3206bf21e2e8a": {
+  "text": "Sternenfeld",
+  "lost": []
+ },
+ "4cb342258ed06e12": {
+  "text": "Helle Sterne",
+  "lost": []
+ },
+ "ee858549e624ffd1": {
+  "text": "Sternnamen",
+  "lost": []
+ },
+ "d8f5db09be51e88c": {
+  "text": "Markierung für die Sonde",
+  "lost": []
+ },
+ "c86778dcde8e3b0d": {
+  "text": "Großkreis",
+  "lost": []
+ },
+ "0ed9f0c5e41cd52b": {
+  "text": "Der J2000-Wert beträgt 23° 26′ 21″. Drehen Sie den Regler, um zu sehen, wie sich die Neigung der Erdachse tatsächlich auswirkt; drehen Sie ihn auf 0°, und die beiden Bezugssysteme verschmelzen zu einem.",
+  "lost": []
+ },
+ "e5c3b0880567fe54": {
+  "text": "Die Sternpositionen sind äquatoriale J2000-Koordinaten, gerundet – genau genug, um den Sternenhimmel zu erkennen, aber nicht genau genug, um ein Horoskop zu erstellen.",
+  "lost": []
+ },
+ "b88dc06ebbeaa739": {
+  "text": "Das Quadrantenproblem",
+  "lost": []
+ },
+ "c18055b2cd9ce444": {
+  "text": "MC, gerundet auf ASC, misst %1 des Tierkreises; ASC, gerundet auf IC, misst %2. Im horizontalen Bezugssystem betragen diese beiden Quadranten jeweils genau 90°. Der schräg verlaufende Tierkreis liegt nur gelegentlich genau auf ihnen – beispielsweise wenn 0° Widder oder 0° Waage aufgeht.",
+  "lost": []
+ },
+ "58d29e52801f0f7e": {
+  "text": "Pol-Alt.",
+  "lost": []
+ },
+ "1ca1bcc8452cc135": {
+  "text": "Äquator (alternative Ansicht).",
+  "lost": []
+ },
+ "d510e836f7d302b6": {
+  "text": "<b style=\"color:var(--muted)\">OA</b> ist der Grad der Rektaszension am östlichen Horizont, <b style=\"color:var(--muted)\">OD</b> der Grad am westlichen Horizont. Beide liegen stets 90° von der Rektaszension am Meridian entfernt, und zwar bei jedem Breitengrad: Der Äquator trifft immer an den östlichen und westlichen Punkten auf den Horizont, und diese Punkte sind die Pole des Meridians, die jeweils 90° von jedem Punkt auf diesem entfernt sind.",
+  "lost": []
+ },
+ "f6cad98a8a3aac3d": {
+  "text": "Die Ekliptik liegt hier (mit einer Abweichung von weniger als 1′) in der Ebene des Horizonts, sodass sich kein einziger Grad davon am östlichen Horizont befindet: Aszendent und Deszendent sind nicht definiert.",
+  "lost": []
+ },
+ "5d93af13304ffb3e": {
+  "text": "Der MC – der Grad des Tierkreises am RAMC – liegt hier unterhalb des Horizonts, da die Schräglage größer ist als die Höhe des Äquators. Der Grad, der den Meridian oberhalb der Erde kreuzt, wird dann als IC angezeigt.",
+  "lost": []
+ },
+ "a978d3dc144d536f": {
+  "text": "J2000-Wert",
+  "lost": []
+ },
+ "d6b731c3385eb3d5": {
+  "text": "Dieser Browser kann die Sphäre nicht darstellen (WebGL nicht verfügbar).",
+  "lost": []
+ },
+ "a4513427168a68d3": {
+  "text": "Schritt %1 von „%2“: %3",
+  "lost": []
+ },
+ "c7d59d2faefe6585": {
+  "text": "Himmelskugel",
+  "lost": []
+ },
+ "1c28977f48e130bb": {
+  "text": "Horoskoprad",
+  "lost": []
+ },
+ "0958d6b797662855": {
+  "text": "Mit den Pfeiltasten lässt sich die Kugel ebenso drehen wie durch Ziehen; mit + und − können Sie zoomen.",
+  "lost": []
+ },
+ "869977c035c50bc6": {
+  "text": "Breitengrad %1, Sternzeit %2. %3. %4: Azimut %5, Höhe %6, im Quadranten %7.",
+  "lost": []
+ },
+ "1ce3e21f65e27d55": {
+  "text": "Breitengrad %1, Sternzeit %2. %3. %4: Höhe %5. %6",
+  "lost": []
+ },
+ "ddf50f508c5f7a23": {
+  "text": "Zenit",
+  "lost": []
+ },
+ "168454e25b88efbe": {
+  "text": "Nadir",
+  "lost": []
+ },
+ "fb6b48fd6780cb51": {
+  "text": "Nordpol",
+  "lost": []
+ },
+ "c4f5655820c1f560": {
+  "text": "Südpol",
+  "lost": []
+ },
+ "87597a2356b6bc7e": {
+  "text": "Östlicher Quadrant",
+  "lost": []
+ },
+ "16eebd814290c3ec": {
+  "text": "Südlicher Quadrant",
+  "lost": []
+ },
+ "c630e4219d4adb23": {
+  "text": "Westlicher Quadrant",
+  "lost": []
+ },
+ "e3a6e67d49f11a40": {
+  "text": "Nördlicher Quadrant",
+  "lost": []
+ },
+ "b5093023417eb749": {
+  "text": "DESC",
+  "lost": []
+ },
+ "94ce9e96603988fe": {
+  "text": "IC",
+  "lost": []
+ },
+ "8f59dba35701e536": {
+  "text": "OA · OD",
+  "lost": []
+ },
+ "b8bc52af24450d43": {
+  "text": "Menorca 40°",
+  "lost": []
+ },
+ "4c57f0c88d984463": {
+  "text": "London",
+  "lost": []
+ },
+ "02085eedaf44e4c1": {
+  "text": "Reykjavík",
+  "lost": []
+ },
+ "a8fd0687afa709a1": {
+  "text": "Sirius",
+  "lost": []
+ },
+ "4d5258248e9b0806": {
+  "text": "Canopus",
+  "lost": []
+ },
+ "20dfe597bbef86e0": {
+  "text": "Arcturus",
+  "lost": []
+ },
+ "ceb84bb1f982a4e4": {
+  "text": "Vega",
+  "lost": []
+ },
+ "d9f0b29c8e0ecd6a": {
+  "text": "Capella",
+  "lost": []
+ },
+ "201c2ee57b7bdaaf": {
+  "text": "Rigel",
+  "lost": []
+ },
+ "d123339ad438d937": {
+  "text": "Procyon",
+  "lost": []
+ },
+ "70c366501c156f1d": {
+  "text": "Achernar",
+  "lost": []
+ },
+ "30f5cc99c17426a0": {
+  "text": "Beteigeuze",
+  "lost": []
+ },
+ "d969051df9f7e0ec": {
+  "text": "Altair",
+  "lost": []
+ },
+ "ae66d92c2a8d6484": {
+  "text": "Spica",
+  "lost": []
+ },
+ "b94ddc4bc3ef6d73": {
+  "text": "Pollux",
+  "lost": []
+ },
+ "fd981dd4917ed6d2": {
+  "text": "Deneb",
+  "lost": []
+ },
+ "a60f496241260de9": {
+  "text": "Polaris",
+  "lost": []
+ },
+ "328ae8e7897ba551": {
+  "text": "Bellatrix",
+  "lost": []
+ },
+ "18b174f7dd33b5df": {
+  "text": "Alphard",
+  "lost": []
+ },
+ "07f078981ee26320": {
+  "text": "Castor",
+  "lost": []
+ },
+ "3dc200bbd643e3da": {
+  "text": "Denebola",
+  "lost": []
+ },
+ "0cf7fcf6093e43f6": {
+  "text": "Alpheratz",
+  "lost": []
+ },
+ "075de4f4736d895c": {
+  "text": "Algol",
+  "lost": []
+ },
+ "f5e22f866cb4ef43": {
+  "text": "Ein Punkt im Zentrum von allem",
+  "lost": []
+ },
+ "89e570225d2fdfb2": {
+  "text": "<p>Ein Horoskop wird von einem Punkt auf der Erde aus erstellt, und von diesem Punkt aus betrachtet ist die Erde kein Globus, auf dem Sie stehen – sie ist ein <em>Punkt</em>. Der Himmel ist die Sphäre. Er dreht sich; Sie nicht.</p><p>Die flache Scheibe ist der <span class='term'>Horizont</span>, der sich in alle Richtungen bis an den Rand des Universums erstreckt. Alles darüber befindet sich über der Erde; alles darunter befindet sich unter der Erde. Das ist vorerst alles.</p>",
+  "lost": []
+ },
+ "9bde609f4041e2c2": {
+  "text": "Ziehen Sie die Sphäre, um sie zu drehen. Sie betrachten das Universum von außen, doch jede Messung, auf die Sie im Folgenden stoßen werden, erfolgt vom Punkt im Zentrum aus.",
+  "lost": []
+ },
+ "2484e8c49f0e35f5": {
+  "text": "Drei Großkreise, sechs Himmelsrichtungen",
+  "lost": []
+ },
+ "b9fd2c60c054df38": {
+  "text": "<p>Stellen Sie sich in den Mittelpunkt und blicken Sie nach Süden. Senkrecht durch Nord und Süd verläuft der <span class='term'>Meridian</span>; diesen in Ost-West-Richtung kreuzt die <span class='term'>Primvertikale</span>, die unwichtigste der drei Achsen. Jede dieser Achsen ist ein <em>Großkreis</em> – ihr Mittelpunkt ist der Mittelpunkt des Universums.</p><p>An ihren Schnittpunkten ergeben sich sechs Himmelsrichtungen: Osten, Süden, Westen, Norden, der <span class='term'>Zenit</span> über dem Kopf und der <span class='term'>Nadir</span> unter den Füßen. Dies ist das <span class='term'>horizontale Koordinatensystem</span>, und es bewegt sich niemals. Es ist das einzige feste Element im gesamten System.</p>",
+  "lost": []
+ },
+ "b2bbfe7a85b4638c": {
+  "text": "Bewegen Sie den Breitengrad-Schieberegler. Hier rührt sich nicht das Geringste – wo auch immer Sie stehen, stehen Sie auf einem Horizont, durch den ein Meridian verläuft.",
+  "lost": []
+ },
+ "978e84c85c7439bb": {
+  "text": "Halbkugeln und Quadranten",
+  "lost": []
+ },
+ "0e4e56df7ca66840": {
+  "text": "<p>Der Horizont teilt die Kugel in einen Bereich oberhalb und einen unterhalb der Erde. Der Meridian teilt sie erneut in Ost und West. Zwei Schnitte, vier <span class='term'>Quadranten</span>.</p><p>Sie sind nach ihrem Ausgangspunkt benannt, nicht nach ihrer Lage: Der östliche Quadrant verläuft vom östlichen Horizont bis zum Meridian, der südliche vom Meridian bis zum westlichen Horizont und so weiter rundherum. Die Quadranten-Hausaufteilung und verschiedene Vorhersagetechniken basieren genau auf diesen vier Bereichen.</p>",
+  "lost": []
+ },
+ "9631effe0970f291": {
+  "text": "Beachten Sie, dass diese vier Winkel stets gleich groß sind – jeweils genau 90°. Behalten Sie dies im Hinterkopf; in Schritt elf wird darauf zurückgekommen.",
+  "lost": []
+ },
+ "558e8b0f2911a606": {
+  "text": "Azimut und Höhe",
+  "lost": []
+ },
+ "6574668b04b63b8c": {
+  "text": "<p>Messen Sie nun etwas. Zählen Sie im Uhrzeigersinn um den Horizont herum, ausgehend von genau Norden – 0° im Norden, 90° im Osten, 180° im Süden, 270° im Westen. Dieser Wert ist <span class='term'>der Azimut</span>. Ermitteln Sie anschließend den Winkel vom Horizont bis zum Stern: Dies ist <span class='term'>die Höhe</span>, von 0° am Horizont bis 90° im Zenit, und negativ darunter.</p><p>Jeder Punkt auf derselben Höhe liegt auf einem <span class='term'>Almucantarath-Kreis</span>, der hier grün dargestellt ist. Nur einer davon ist ein Großkreis – der Horizont selbst.</p>",
+  "lost": []
+ },
+ "ae6b103026a96886": {
+  "text": "Beachten Sie die Abbildung unten links. Azimut und Höhe sind die „lokale Adresse“ des Sterns: Sie gilt genau hier und an keinem anderen Ort der Erde.",
+  "lost": []
+ },
+ "e4a5e021069e484c": {
+  "text": "Der Pol und der Äquator",
+  "lost": []
+ },
+ "b89c7bf7c1c84b93": {
+  "text": "<p>Treten Sie einen Schritt zurück und fügen Sie das zweite Koordinatensystem hinzu. Anstelle der Zenit-Nadir-Linie befindet sich die <span class='term equ'>Polachse</span>, und senkrecht dazu verläuft der <span class='term equ'>Himmelsäquator</span> – ein weiterer Großkreis, der den Horizont stets genau im Osten und Westen schneidet.</p><p>Hier liegt die Verbindung zwischen den beiden Bezugssystemen, und dies ist die wichtigste Erkenntnis dieser Lektion: <em>Die Höhe des Pols entspricht dem Breitengrad der Karte.</em> Der Äquator folgt bei 90° minus diesem Wert.</p>",
+  "lost": []
+ },
+ "e2e2d6c139fea02e": {
+  "text": "Ziehen Sie den Breitengrad-Schieberegler und beobachten Sie, wie der Pol entlang des Meridians auf und ab gleitet, während sich der Äquator in die entgegengesetzte Richtung neigt. Bei 40° N steht der Pol um 40° nach oben und der Äquator um 50°.",
+  "lost": []
+ },
+ "c28db7ba8d928c6e": {
+  "text": "Primärbewegung",
+  "lost": []
+ },
+ "2b2c1addec2f1935": {
+  "text": "<p>Der Horizont bleibt unbeweglich. Alles andere dreht sich im Uhrzeigersinn um die Polachse – und alles dreht sich gemeinsam, parallel zum Äquator. Dies ist <span class='term equ'>die Primärbewegung</span> oder Tagesbewegung, die einen <span class='term equ'>Sternentag</span> dauert: 23 h 56 min 04 s.</p><p>Beobachten Sie, wie sich ein beliebiger Stern einem Großkreis nähert, diesen kreuzt und sich wieder davon entfernt: <em>er nähert sich</em> und <em>zieht sich zurück</em>. Im Osten aufgehend, am oberen Meridian seinen höchsten Stand erreichend, im Westen untergehend, unterhalb des Meridians seinen tiefsten Stand erreichend – die Menschen der Antike interpretierten dies als Geburt, Reife, Verfall und Tod und entwickelten darauf aufbauend entsprechende Techniken.</p>",
+  "lost": []
+ },
+ "4acb466f4deca17c": {
+  "text": "Falls Sie aufgrund von Lichtverschmutzung noch nie die Gelegenheit hatten, dies zu beobachten: So sieht eine Nacht im Zeitraffer aus. Lassen Sie das Video laufen.",
+  "lost": []
+ },
+ "b9c459ed611bcdc2": {
+  "text": "Rektaszension und die beiden Aszensionen",
+  "lost": []
+ },
+ "dd15799c1b63a6bd": {
+  "text": "<p>Der Äquator wird genauso behandelt wie der Horizont. Man zählt 360° um ihn herum – das ist <span class='term equ'>die Rektaszension</span> – und 90° nach oben oder unten zu den Polen, was <span class='term equ'>die Deklination</span> darstellt. Die Deklinationsringe sind die äquatorialen Entsprechungen der Almucantaraths.</p><p>Da der Äquator den Horizont stets an den Ost- und Westpunkten schneidet und diese ein Viertel eines Kreises vom Meridian entfernt liegen, beträgt der Rektaszensionsgrad am östlichen Horizont <em>stets</em> 90° mehr als der Grad am Meridian: dies ist <span class='term equ'>die</span> <span class='term equ'>schräge Aszension</span>. Am westlichen Horizont beträgt er 90° weniger: <span class='term equ'>die schräge Deszension</span>.</p>",
+  "lost": []
+ },
+ "76785539d6398ab7": {
+  "text": "Öffnen Sie die Registerkarte „Diagramm“ und beobachten Sie die Rektaszension (RA) von MC, OA und OD, während sich die Sphäre dreht. Der Abstand zwischen ihnen ändert sich zu keinem Zeitpunkt.",
+  "lost": []
+ },
+ "98cae93a5e8101a6": {
+  "text": "Der Tierkreis und sein eigener Breitengrad",
+  "lost": []
+ },
+ "e5c664220576709e": {
+  "text": "<p>Das dritte Koordinatensystem ist auf dieselbe Weise auf einem dritten Großkreis aufgebaut: der <span class='term ecl'>Ekliptik</span>, der Bahn der Sonne. Zählen Sie 360° um diesen Kreis herum für <span class='term ecl'>die Längengrade</span>, beginnend bei 0° Widder, und nach oben oder unten für <span class='term ecl'>die Breitengrade</span>.</p><p>Die Sonne befindet sich stets genau darauf, bei 0° Breite – die Ekliptik wird durch sie <em>definiert</em>. Die anderen Planeten wandern ein wenig nach Norden und Süden, in einem Band, das sich auf 8° zu beiden Seiten der Ekliptik erstreckt und hier schraffiert ist; die Venus kann ein wenig darüber hinauswandern. Dieses Band ist der eigentliche Tierkreis.</p>",
+  "lost": []
+ },
+ "d0c4913a79ab065e": {
+  "text": "In traditionellen Texten beziehen sich die Begriffe „Längengrad“ und „Breitengrad“ ohne weitere Spezifizierung auf dieses Koordinatensystem, es sei denn, der Text bezieht sich ausdrücklich auf die Lage einer Karte auf der Erde. Verschieben Sie die Sonne und beobachten Sie, wie sie auf der Linie verbleibt.",
+  "lost": []
+ },
+ "870591e6573feb15": {
+  "text": "Neigung: die Schräglage, die alles zunichte macht",
+  "lost": []
+ },
+ "c819ec82d3b3db75": {
+  "text": "<p>Die Ekliptik ist fest mit dem äquatorialen Bezugssystem verbunden und dreht sich mit diesem – ihr Pol ist jedoch um 23° 26′ vom äquatorialen Pol weg geneigt. Diese Neigung ist die <span class='term ecl'>Ekliptikschräge</span>, und fast jede Unstimmigkeit in der Astrologie lässt sich darauf zurückführen. Sie verschiebt sich langsam, derzeit um etwa 47″ pro Jahrhundert, weshalb die Zahlen in den Lektionen je nach Datum leicht voneinander abweichen.</p><p>Längengrad und Rektaszension werden vom selben Ausgangspunkt aus gezählt, nämlich 0° Widder auf der 0°-Rektaszension des Äquators. Da die Ekliptik jedoch geneigt ist, stimmen die beiden Skalen nur an vier Stellen überein: 0° Widder, Krebs, Waage und Steinbock. Überall dazwischen weichen sie voneinander ab: Der Grad der Ekliptik bei 30° Rektaszension liegt bei etwa 32° 11′ Längengrad, etwa 2° im Stier, während 0° Stier selbst bei etwa 27° 55′ Rektaszension steht.</p>",
+  "lost": []
+ },
+ "612e3b8950cd2cd1": {
+  "text": "Öffnen Sie die Ebenen und bewegen Sie den Schieberegler für die Neigung zunächst auf 45°, dann wieder auf 0°. Bei 0° liegt die Ekliptik flach auf dem Äquator, und alle Schwierigkeiten dieser Lektion verschwinden.",
+  "lost": []
+ },
+ "21af6bd2bf590bc6": {
+  "text": "Alle drei Bezugssysteme sowie die Achsenwinkel",
+  "lost": []
+ },
+ "35f3930299600fa6": {
+  "text": "<p>Fügen Sie die drei Elemente zusammen. Nun lassen sich die vier <span class='term'>Achsengrade</span> definieren, wobei jeder durch eine <em>Schnittstelle</em> bestimmt wird: Der Grad des Tierkreises am östlichen Horizont ist der <span class='term'>Aszendent</span>; am westlichen Horizont der <span class='term'>Deszendent</span>; am oberen Meridian der <span class='term'>Medium Coeli</span>; am unteren der <span class='term'>Imum Coeli</span>.</p><p>Sie gehören zu keinem einzelnen Bezugssystem. Sie sind das ekliptische Bezugssystem, das gegen das horizontale abgelesen wird, in einem Winkel, der durch das äquatoriale Bezugssystem festgelegt ist – und genau deshalb verhalten sie sich so seltsam.</p>",
+  "lost": []
+ },
+ "39ed712df7d78d96": {
+  "text": "Drehen Sie die Sphäre langsam und verfolgen Sie die ASC- und MC-Werte auf der Registerkarte „Diagramm“. Diese laufen nicht synchron zueinander.",
+  "lost": []
+ },
+ "d35c6bfe708b9084": {
+  "text": "Warum das Rad nicht rechtwinklig sitzt",
+  "lost": []
+ },
+ "ba4e8893f6cab6b4": {
+  "text": "<p>Die Quadranten des horizontalen Bezugssystems betragen stets 90°. Der Tierkreisabstand vom Aszendenten zum Medium Coeli beträgt jedoch fast nie 90° – er dehnt sich die ganze Nacht über aus und zieht sich wieder zusammen, und je weiter man sich vom Äquator entfernt befindet, sei es im Norden oder im Süden, desto stärker schwankt er.</p><p>Aufgrund derselben Neigung steigen die Sternzeichen in unterschiedlichen Winkeln auf, sodass jedes seine eigene <span class='term equ'>Zeit</span> benötigt, um den Horizont zu überqueren. Abseits des Äquators steigen ein nördliches Sternzeichen und das ihm gegenüberliegende südliche Sternzeichen niemals zur gleichen Zeit auf: Bei 40° nördlicher Breite benötigt die Waage etwa doppelt so lange wie der Widder. Dies ist die Ursache des Problems bei der Häusereinteilung, und kein Schema mit zwölf gleichen Häusern kann sich dem entziehen – abgesehen von den Sternzeichen selbst, die hier die Häuser im Horoskoprad darstellen.</p>",
+  "lost": []
+ },
+ "e3d2a5fc6bede942": {
+  "text": "Stellen Sie den Breitengrad auf Reykjavík ein und lassen Sie die Sphäre laufen. Beobachten Sie, wie die Figur von ASC zu MC schwankt – das ist das gesamte Prinzip der Häuser, das sich direkt vor Ihren Augen abspielt.",
+  "lost": []
+ }
+}

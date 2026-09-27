@@ -17,7 +17,8 @@ DEEPL_API_KEY=… node tools/deepl-compare/deepl-compare.js        # nb, es, fr,
   checks the account's remaining characters first and stops if they would not cover it.
 - Every result is cached in `out/deepl.<lang>.json`; a rerun only sends strings it has
   not translated yet. Keep `out/` — the cache is what the characters paid for.
-- Placeholders (`«A»`, `%1`) travel as empty tags, which DeepL keeps and does not bill.
+- Placeholders (`«A»`, `%1`) travel inside `translate="no"` spans, so DeepL keeps them
+  whole and places them in the sentence; tags themselves are not billed.
   Template strings are rendered once with named stand-ins, so both sides show the same
   branch.
 - Output: `out/compare.<lang>.txt` (to read) and `out/compare.<lang>.json` (to process),

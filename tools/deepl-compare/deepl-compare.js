@@ -141,16 +141,18 @@ function units() {
 }
 
 // ---------- placeholders ----------
-// «…» stand-ins and %1-style slots become empty tagged elements, which DeepL keeps and does not bill.
+// «…» stand-ins and %1-style slots travel inside translate="no" spans: DeepL keeps them whole
+// and, seeing the text, puts them where they belong in the sentence (empty tags drift).
+const PH = /«[^»]+»|%\d/g;
 function protect(text) {
-  const ph = [];
-  const out = text.replace(/«[^»]+»|%\d/g, m => { ph.push(m); return `<span data-ph="${ph.length - 1}"></span>`; });
-  return { out, ph };
+  const ph = text.match(PH) || [];
+  return { out: text.replace(PH, m => `<span translate="no">${m}</span>`), ph };
 }
 function restore(text, ph) {
-  const seen = new Set();
-  const out = text.replace(/<span data-ph="(\d+)"\s*>\s*<\/span>/g, (_, i) => { seen.add(+i); return ph[+i]; });
-  return { out, lost: ph.filter((_, i) => !seen.has(i)) };
+  const out = text.replace(/<span translate="no">([^<]*)<\/span>/g, '$1');
+  const left = [...ph];
+  for (const m of out.match(PH) || []) { const i = left.indexOf(m); if (i >= 0) left.splice(i, 1); }
+  return { out, lost: left };
 }
 const billable = t => t.replace(/<[^>]+>/g, '').length;
 

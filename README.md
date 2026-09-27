@@ -25,6 +25,7 @@ Deutsch, 简体中文 and 日本語.
 ├── index.html          the shelf
 ├── feed.xml            RSS: one item per piece, newest first
 ├── FONT-LICENSES.md    the embedded typefaces and their licences
+├── GLOSSARY.md         the shelf's terms, and how each language renders them
 ├── .nojekyll           serve files as-is, no Jekyll pass
 └── <piece>/
     ├── index.html      the piece, complete in itself
@@ -41,7 +42,9 @@ Deutsch, 简体中文 and 日本語.
    Discord bot announce whatever appears there with a new `<guid>`.
 5. If it embeds a typeface not yet listed, add it to
    [FONT-LICENSES.md](FONT-LICENSES.md).
-6. Commit and push. GitHub Pages redeploys from `main` within a minute.
+6. Translate with the renderings in [GLOSSARY.md](GLOSSARY.md), and add any new
+   term it brings.
+7. Commit and push. GitHub Pages redeploys from `main` within a minute.
 
 Slugs are lowercase and hyphenated; the folder name is the URL.
 
@@ -60,6 +63,8 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 - **Seven languages, one file.** Every string a piece shows lives in its language
   table (`TX` in Sayyid's Sphere, `I18N` in the others); a missing key falls back
   to English. The choice is shared across the shelf under `localStorage["dah.lang"]`.
+  A term reads the same in every piece: [GLOSSARY.md](GLOSSARY.md) gives each
+  language's rendering, following the English of Dykes's course.
 - **Dark palette**, shared across the shelf and the pieces:
   `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`
 - **No build tooling.** If a piece ever needs a build, it belongs in its own repo.

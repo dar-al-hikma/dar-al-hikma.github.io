@@ -2,18 +2,21 @@
 
 Small self-contained pieces, published at **<https://dar-al-hikma.github.io>**.
 
-Each piece is a single HTML file. No build step, no bundler, no framework, no
-tracking. Save one to disk and it still works.
+Each piece is one HTML file, with its fonts, styles and code inside it. No build
+step, no bundler, no framework, no tracking. Save one to disk and it still works.
+
+Every piece speaks seven languages: English, Norsk bokmål, Español, Français,
+Deutsch, 简体中文 and 日本語.
 
 ## The shelf
 
-| Piece | | |
-|---|---|---|
-| [Sayyid's Sphere](https://dar-al-hikma.github.io/sayyids-sphere/) | Three reference frames, one turning sky | 7 languages |
-| [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic | 7 languages |
-| [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties | 7 languages |
-| [The Takht](https://dar-al-hikma.github.io/takht/) | The calculator beside the three books | 7 languages |
-| [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses | 7 languages |
+| Piece | What it is |
+|---|---|
+| [Sayyid's Sphere](https://dar-al-hikma.github.io/sayyids-sphere/) | Three reference frames, one turning sky |
+| [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic |
+| [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties |
+| [The Takht](https://dar-al-hikma.github.io/takht/) (تخت) | The calculator beside the three books |
+| [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses |
 
 ## Layout
 
@@ -21,8 +24,11 @@ tracking. Save one to disk and it still works.
 .
 ├── index.html          the shelf
 ├── feed.xml            RSS: one item per piece, newest first
+├── FONT-LICENSES.md    the embedded typefaces and their licences
 ├── .nojekyll           serve files as-is, no Jekyll pass
-└── <piece>/index.html  one folder per piece
+└── <piece>/
+    ├── index.html      the piece, complete in itself
+    └── …               optional: manifest, icons, offline worker
 ```
 
 ## Adding a piece
@@ -33,17 +39,21 @@ tracking. Save one to disk and it still works.
 4. Add an `<item>` at the top of `feed.xml` (title, link, guid, date,
    description) and update its `<lastBuildDate>`. Feed readers and the
    Discord bot announce whatever appears there with a new `<guid>`.
-5. Commit and push. GitHub Pages redeploys from `main` within a minute.
+5. If it embeds a typeface not yet listed, add it to
+   [FONT-LICENSES.md](FONT-LICENSES.md).
+6. Commit and push. GitHub Pages redeploys from `main` within a minute.
 
 Slugs are lowercase and hyphenated; the folder name is the URL.
 
 ## Conventions
 
 - **One file per piece, and no network at all.** Fonts are embedded as base64
-  `woff2`; see [FONT-LICENSES.md](FONT-LICENSES.md). Save a page to disk and it
-  renders exactly the same with the network off. A piece may keep its own
-  home-screen icons, manifest and offline worker beside its `index.html`; it works
-  without them.
+  `woff2`. Save a page to disk and it renders exactly the same with the network
+  off.
+- **Installing is extra.** A piece may keep a manifest, home-screen icons and an
+  offline worker beside its `index.html`, as the Takht does. The worker caches
+  only the piece's own files, from where it was served, and the page works
+  without any of them. A piece that gains a file adds it to its worker's list.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.

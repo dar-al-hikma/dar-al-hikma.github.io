@@ -9,7 +9,17 @@
     <atom:link href="https://dar-al-hikma.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Small self-contained pieces, each one a single page, made to be opened and used. New pieces as they go on the shelf.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 24 Sep 2026 15:30:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2026 07:20:00 GMT</lastBuildDate>
+
+    <item>
+      <title>The Takht (تخت)</title>
+      <link>https://dar-al-hikma.github.io/takht/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/takht/</guid>
+      <pubDate>Sun, 27 Sep 2026 07:20:00 GMT</pubDate>
+      <category>Calculation</category>
+      <category>Calculator</category>
+      <description>The calculator beside the three books. Built for casting charts by hand. Enter angles and times as they're written, switch between absolute longitude and zodiacal signs, and form and apply interpolation ratios. Registers hold your LST, RAMC and obliquity, and the history keeps every step of the work. Bring a table of houses, an ephemeris and an atlas. Add the Takht to your phone and work offline. In seven languages.</description>
+    </item>
 
     <item>
       <title>Sayyid's Orrery</title>

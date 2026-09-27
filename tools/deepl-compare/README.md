@@ -10,6 +10,9 @@ DEEPL_API_KEY=… node tools/deepl-compare/deepl-compare.js --langs=ja --limit=1
 DEEPL_API_KEY=… node tools/deepl-compare/deepl-compare.js        # nb, es, fr, de, zh, ja
 ```
 
+- In a cloud session, store the key as the environment's API credential for
+  `api-free.deepl.com` (header `Authorization`, prefix `DeepL-Auth-Key`) and leave
+  `DEEPL_API_KEY` unset: the proxy adds the key, and the session never sees it.
 - A full run is about 412,000 billable characters (≈ 68,700 per language). The script
   checks the account's remaining characters first and stops if they would not cover it.
 - Every result is cached in `out/deepl.<lang>.json`; a rerun only sends strings it has

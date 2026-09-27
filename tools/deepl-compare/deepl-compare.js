@@ -6,7 +6,8 @@
 //   node tools/deepl-compare/deepl-compare.js                    all six languages
 //
 // Reads every piece's language table, sends each unique English string to DeepL once per
-// language (the key comes from DEEPL_API_KEY), and writes out/compare.<lang>.{json,txt}:
+// language (the key comes from DEEPL_API_KEY, or from a cloud environment's API credential),
+// and writes out/compare.<lang>.{json,txt}:
 // English | the piece's own translation | DeepL. Results are cached in out/deepl.<lang>.json,
 // so a rerun only pays for strings not yet translated. Nothing here touches the pieces.
 
@@ -155,12 +156,14 @@ const billable = t => t.replace(/<[^>]+>/g, '').length;
 
 // ---------- DeepL ----------
 const KEY = process.env.DEEPL_API_KEY;
-// Free-tier keys end in :fx and use their own host. DEEPL_API_URL overrides both, for testing.
-const API = process.env.DEEPL_API_URL || (KEY && /:fx$/.test(KEY) ? 'https://api-free.deepl.com' : 'https://api.deepl.com');
+// Free and Developer keys end in :fx and use api-free; paid keys use api. With no key here, a
+// cloud environment's API credential supplies it on the way out, so assume a :fx key.
+// DEEPL_API_URL overrides the host.
+const API = process.env.DEEPL_API_URL || (!KEY || /:fx$/.test(KEY) ? 'https://api-free.deepl.com' : 'https://api.deepl.com');
 async function deepl(pathname, body) {
   const res = await fetch(API + pathname, {
     method: body ? 'POST' : 'GET',
-    headers: { Authorization: `DeepL-Auth-Key ${KEY}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+    headers: { ...(KEY ? { Authorization: `DeepL-Auth-Key ${KEY}` } : {}), ...(body ? { 'Content-Type': 'application/json' } : {}) },
     body: body ? JSON.stringify(body) : undefined,
   });
   const txt = await res.text();
@@ -192,7 +195,6 @@ async function main() {
   console.log(`About ${perLang.toLocaleString('en')} billable characters per language, ` +
     `${(perLang * langs.length).toLocaleString('en')} for ${langs.join(', ')} (before the cache).`);
   if (DRY) { console.log('Dry run: nothing sent.'); return; }
-  if (!KEY) die('DEEPL_API_KEY is not set.');
 
   const caches = {}; let need = 0;
   for (const l of langs) {
@@ -200,7 +202,10 @@ async function main() {
     caches[l] = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
     need += texts.filter(t => !caches[l][hash(t)]).reduce((n, t) => n + billable(protect(t).out), 0);
   }
-  const usage = await withRetry(() => deepl('/v2/usage'));
+  let usage;
+  try { usage = await withRetry(() => deepl('/v2/usage')); } catch (e) {
+    die(`${e.message}\nNo working key: set DEEPL_API_KEY, or add the key as an API credential for ${new URL(API).host}.`);
+  }
   const left = usage.character_limit - usage.character_count;
   console.log(`Account: ${usage.character_count.toLocaleString('en')} of ${usage.character_limit.toLocaleString('en')} used; ` +
     `this run needs about ${need.toLocaleString('en')}.`);

@@ -1,0 +1,92 @@
+[
+ {
+  "piece": "between-the-lines",
+  "key": "signs[0]",
+  "template": false,
+  "en": "Aries",
+  "current": "牡羊座",
+  "deepl": "[JA] Aries ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "between-the-lines",
+  "key": "signs[1]",
+  "template": false,
+  "en": "Taurus",
+  "current": "牡牛座",
+  "deepl": "[JA] Taurus ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "between-the-lines",
+  "key": "signs[2]",
+  "template": false,
+  "en": "Gemini",
+  "current": "双子座",
+  "deepl": "[JA] Gemini ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "between-the-lines",
+  "key": "signs[3]",
+  "template": false,
+  "en": "Cancer",
+  "current": "蟹座",
+  "deepl": "[JA] Cancer ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "between-the-lines",
+  "key": "signs[4]",
+  "template": false,
+  "en": "Leo",
+  "current": "獅子座",
+  "deepl": "[JA] Leo ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "reckoner",
+  "key": "signs[0]",
+  "template": false,
+  "en": "Aries",
+  "current": "牡羊座",
+  "deepl": "[JA] Aries ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "reckoner",
+  "key": "signs[1]",
+  "template": false,
+  "en": "Taurus",
+  "current": "牡牛座",
+  "deepl": "[JA] Taurus ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "reckoner",
+  "key": "signs[2]",
+  "template": false,
+  "en": "Gemini",
+  "current": "双子座",
+  "deepl": "[JA] Gemini ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "reckoner",
+  "key": "signs[3]",
+  "template": false,
+  "en": "Cancer",
+  "current": "蟹座",
+  "deepl": "[JA] Cancer ",
+  "lostPlaceholders": []
+ },
+ {
+  "piece": "reckoner",
+  "key": "signs[4]",
+  "template": false,
+  "en": "Leo",
+  "current": "獅子座",
+  "deepl": "[JA] Leo ",
+  "lostPlaceholders": []
+ }
+]

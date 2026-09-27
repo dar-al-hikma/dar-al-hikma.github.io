@@ -1,0 +1,40 @@
+[between-the-lines :: signs[0]]
+  EN:      Aries
+  CURRENT: 牡羊座
+  DEEPL:   [JA] Aries 
+[between-the-lines :: signs[1]]
+  EN:      Taurus
+  CURRENT: 牡牛座
+  DEEPL:   [JA] Taurus 
+[between-the-lines :: signs[2]]
+  EN:      Gemini
+  CURRENT: 双子座
+  DEEPL:   [JA] Gemini 
+[between-the-lines :: signs[3]]
+  EN:      Cancer
+  CURRENT: 蟹座
+  DEEPL:   [JA] Cancer 
+[between-the-lines :: signs[4]]
+  EN:      Leo
+  CURRENT: 獅子座
+  DEEPL:   [JA] Leo 
+[reckoner :: signs[0]]
+  EN:      Aries
+  CURRENT: 牡羊座
+  DEEPL:   [JA] Aries 
+[reckoner :: signs[1]]
+  EN:      Taurus
+  CURRENT: 牡牛座
+  DEEPL:   [JA] Taurus 
+[reckoner :: signs[2]]
+  EN:      Gemini
+  CURRENT: 双子座
+  DEEPL:   [JA] Gemini 
+[reckoner :: signs[3]]
+  EN:      Cancer
+  CURRENT: 蟹座
+  DEEPL:   [JA] Cancer 
+[reckoner :: signs[4]]
+  EN:      Leo
+  CURRENT: 獅子座
+  DEEPL:   [JA] Leo 

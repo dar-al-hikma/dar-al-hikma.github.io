@@ -421,6 +421,17 @@
     <button type="button" class="tbtn" id="helpClose" data-i18n="close">close</button>
   </div>
   <div class="help-body">
+    <!-- settings first: on phones this sheet is the only place to change the language -->
+    <h3 data-i18n="hSettings">Settings</h3>
+    <div class="setting">
+      <span data-i18n="language">Language</span>
+      <select id="langHelp" class="langsel" data-i18n-aria="language" aria-label="Language"></select>
+    </div>
+    <div class="setting">
+      <span data-i18n="wrapLabel">Wrap results at 360° and 24h</span>
+      <button type="button" class="switch" id="wrapSwitch" aria-pressed="true">on</button>
+    </div>
+
     <h3 data-i18n="hEnter">Entering a number</h3>
     <p data-i18n-html="enter1"></p>
     <p data-i18n-html="enter2"></p>
@@ -502,16 +513,6 @@
 
     <h3 data-i18n="hRegs">Registers</h3>
     <p data-i18n-html="regsHelp"></p>
-
-    <h3 data-i18n="hSettings">Settings</h3>
-    <div class="setting">
-      <span data-i18n="language">Language</span>
-      <select id="langHelp" class="langsel" data-i18n-aria="language" aria-label="Language"></select>
-    </div>
-    <div class="setting">
-      <span data-i18n="wrapLabel">Wrap results at 360° and 24h</span>
-      <button type="button" class="switch" id="wrapSwitch" aria-pressed="true">on</button>
-    </div>
 
     <div class="kbd-only">
       <h3 data-i18n="hKeys">Keyboard</h3>
@@ -931,7 +932,7 @@ I18N.nb = {
     hRegs: 'Variabler',
     regsHelp: chips => `Trykk på ${chips} for å hente fram. Hold inne en av dem, eller trykk på <span class="kc r">sto</span> først i raden og så variabelen, for å lagre tallet på skjermen. En prikk betyr at variabelen har innhold. OE starter på 23° 26′ 00″; lagre årets verdi over den.`,
     hSettings: 'Innstillinger',
-    wrapLabel: 'Reduser resultatene til 0–360° og 0–24 t',
+    wrapLabel: 'Reduser resultatene til 0–360° og 0–24 t',
     on: 'på',
     off: 'av',
     hKeys: 'Tastatur',
@@ -1127,7 +1128,7 @@ I18N.es = {
     hRegs: 'Variables',
     regsHelp: chips => `Pulse ${chips} para recuperar. Mantenga pulsada una, o pulse <span class="kc r">sto</span>, al principio de la fila, y luego la variable, para asignarle lo que hay en pantalla. Un punto indica que contiene un valor. OE empieza en 23° 26′ 00″; sustitúyalo por el valor de su año.`,
     hSettings: 'Ajustes',
-    wrapLabel: 'Reducir los resultados a 0–360° y 0–24 h',
+    wrapLabel: 'Reducir los resultados a 0–360° y 0–24 h',
     on: 'activado',
     off: 'desactivado',
     hKeys: 'Teclado',
@@ -1322,7 +1323,7 @@ I18N.fr = {
     hRegs: 'Variables',
     regsHelp: chips => `Touchez ${chips} pour rappeler. Maintenez-en une, ou appuyez sur <span class="kc r">sto</span>, en tête de rangée, puis sur la variable, pour stocker l’affichage. Un point signale qu’elle contient une valeur. OE part de 23° 26′ 00″ ; stockez par-dessus la valeur de votre année.`,
     hSettings: 'Réglages',
-    wrapLabel: 'Ramener les résultats à 0–360° / 0–24 h',
+    wrapLabel: 'Ramener les résultats à 0–360° / 0–24 h',
     on: 'oui',
     off: 'non',
     hKeys: 'Clavier',
@@ -1517,7 +1518,7 @@ I18N.de = {
     hRegs: 'Variablen',
     regsHelp: chips => `Tippen Sie ${chips} an, um sie abzurufen. Halten Sie eine gedrückt, oder drücken Sie <span class="kc r">sto</span> am Anfang der Reihe und dann die Variable, um die Anzeige zu speichern. Ein Punkt heißt: Sie enthält einen Wert. OE beginnt mit 23° 26′ 00″; überschreiben Sie den Wert mit dem für Ihr Jahr.`,
     hSettings: 'Einstellungen',
-    wrapLabel: 'Ergebnisse auf 0–360° bzw. 0–24 h reduzieren',
+    wrapLabel: 'Ergebnisse auf 0–360° bzw. 0–24 h reduzieren',
     on: 'an',
     off: 'aus',
     hKeys: 'Tastatur',

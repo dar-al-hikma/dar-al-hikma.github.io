@@ -42,7 +42,8 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 - **One file per piece, and no network at all.** Fonts are embedded as base64
   `woff2`; see [FONT-LICENSES.md](FONT-LICENSES.md). Save a page to disk and it
   renders exactly the same with the network off. A piece may keep its own
-  home-screen icons and manifest beside its `index.html`; it works without them.
+  home-screen icons, manifest and offline worker beside its `index.html`; it works
+  without them.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.

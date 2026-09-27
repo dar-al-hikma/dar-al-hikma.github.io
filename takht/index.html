@@ -2847,6 +2847,8 @@ S.entry = newEntry(expectedKind());   // the empty display: ± here starts a neg
 applyLang(initialLang(), true);
 renderTape();
 render();
+// installed or not, the Takht opens with no connection: a small worker beside it keeps a copy of its own files
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
 // a handle for tests and the curious
 window.takht = {state: S, press, applyLang, I18N};
 })();

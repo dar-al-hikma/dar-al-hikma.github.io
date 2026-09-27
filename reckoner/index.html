@@ -994,7 +994,7 @@ I18N.nb = {
     ownNumbers: 'Dine egne tall', ownSummary: 'Regn ut min egen oppgave', workIt: 'Regn ut',
     practiceFoot: 'Tavlen skjuler resultatet til du har gått gjennom utregningen, så du kan kontrollere lekser uten å få svaret først. <kbd>Enter</kbd> kontrollerer, <kbd>N</kbd> gir en ny oppgave, <kbd>Mellomrom</kbd> viser neste steg.',
     rules: 'Reglene',
-    rule1t: 'Mente og lån i seksti',
+    rule1t: 'Mente og lån i sekstitallsystemet',
     rule1: '60″ blir 1′; 60′ blir 1°. Når en kolonne når 60, beholder du resten og har 1 i mente til venstre. Når du ikke kan trekke fra, låner du 1 fra venstre som 60.',
     rule2t: 'Sirkelen er 360°',
     rule2: 'Over 360°: trekk fra 360°. Er det øverste tallet i en subtraksjon mindre enn det nederste, legger du først 360° til det øverste.',
@@ -1009,7 +1009,7 @@ I18N.nb = {
     twelveSigns: 'De tolv tegnene',
     signsNote: `Er et resultat nøyaktig 30° feil, er et tegns startgrad gal. Er det 360° feil, er overgangen forbi 360° glemt.`,
     whySixty: 'Hvorfor seksti',
-    why1: 'Babylonerne regnet i seksti, og alle astronomer siden har arvet det: en sirkel på 360°, en grad på 60 minutter, et minutt på 60 sekunder. Seksti går opp i 2, 3, 4, 5, 6, 10, 12, 15, 20 og 30, så brøkdeler av en sirkel etterlater sjelden en rest. Zījene fra Bagdad ble skrevet i denne notasjonen, med bokstaver i stedet for tallsifre, og et horoskop som tegnes for hånd i dag, skrives fortsatt slik.',
+    why1: 'Babylonerne regnet i sekstitallsystemet, og alle astronomer siden har arvet det: en sirkel på 360°, en grad på 60 minutter, et minutt på 60 sekunder. Seksti går opp i 2, 3, 4, 5, 6, 10, 12, 15, 20 og 30, så brøkdeler av en sirkel etterlater sjelden en rest. Zījene fra Bagdad ble skrevet i denne notasjonen, med bokstaver i stedet for tallsifre, og et horoskop som tegnes for hånd i dag, skrives fortsatt slik.',
     why2: 'Du kommer ikke ofte til å legge sammen lengder på et trykt horoskop. Men lodd er avstander mellom to punkter, en hustabell slås opp etter stjernetid, og en lengde blir en tidskorreksjon bare ved å deles på femten — og da kommer kalkulatoren fram.',
     foot1: `Følger leksjon 5, §2 og §6 i Ben Dykes' <em>Traditional Natal Astrology Course</em>. Gjennomgangen bruker eksemplene hans: figur 1, 3, 4 og 5, subtraksjonen 16° − 279° fra §2 og personen i arbeidsarket, født i Minneapolis. De 371° i trinn 3 er hans; de to tallene som til sammen blir 371°, er våre.`,
     foot2: 'Én fil, ingen nettverkstilgang. Skrifter: EB Garamond, IBM Plex Mono og IBM Plex Sans Condensed, SIL Open Font License. En del av <a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a>.',
@@ -1157,9 +1157,9 @@ I18N.nb = {
   signTable: { sign:'Tegn', abbr:'Fork.', begins:'Begynner ved' },
 
   walk: [
-    {title:'Å telle i seksti',
+    {title:'Å telle i sekstitallsystemet',
      body:`<p>En sirkel har 360°, en grad har 60 minutter <span class="gloss" lang="en">(minutes)</span>, skrevet 60′, og et minutt har 60 sekunder <span class="gloss" lang="en">(seconds)</span>, skrevet 60″. Vi kunne gått videre til tredjedeler <span class="gloss" lang="en">(thirds)</span>, men det er tungvint og nesten alltid unødvendig.</p>
-         <p>Fordi enhetene går i seksti, gjelder de vanlige reglene for oppstilling fortsatt — du må bare huske at en kolonne er full ved <em>seksti</em>, ikke ti. Det ene faktumet er alt denne siden handler om.</p>
+         <p>Fordi enhetene regnes i sekstitallsystemet, gjelder de vanlige reglene for oppstilling fortsatt — du må bare huske at en kolonne er full ved <em>seksti</em>, ikke ti. Det ene faktumet er alt denne siden handler om.</p>
          <p>Tavlen regner én kolonne om gangen og sier hva den gjør. Sifrene i <span class="term">messing</span> over en kolonne er mentene <span class="gloss" lang="en">(carries)</span>; overstrekte sifre er lån <span class="gloss" lang="en">(borrows)</span>.</p>`,
      try:`Trykk <em>Neste steg</em> under tavlen tre ganger og se kolonnene fylles fra høyre.`},
     {title:'Addisjon: seksti i mente som én',
@@ -1831,7 +1831,7 @@ I18N.de = {
     dms4: calc => `Diesen mit 60 multiplizieren, um Sekunden zu erhalten: ${calc}.`,
     dms5: (calc, carry, ans) => `Auf die volle Sekunde runden: ${calc}.${carry ? ' Sechzig Sekunden sind eine volle Minute, also übertragen.' : ''}${carry === 2 ? ' Das ergibt sechzig Minuten, einen vollen Grad, also noch einmal übertragen.' : ''} Das Ergebnis ist ${ans}.`,
     dmsWrap: 'Der Übertrag erreicht 360°, den ganzen Kreis, und das ist wieder 0°.',
-    abs1: (sign, i, calc) => `${sign} ist das ${I18N.de.ord[i]} Zeichen, also ${i==1?'geht':'gehen'} ihm ${i} volle${i==1?'s':''} Zeichen zu je 30° voraus. Sein erster Grad liegt bei ${calc} absoluter Länge.`,
+    abs1: (sign, i, calc) => `Das Zeichen ${sign} ist das ${I18N.de.ord[i]}, also ${i==1?'geht':'gehen'} ihm ${i} volle${i==1?'s':''} Zeichen zu je 30° voraus. Sein erster Grad liegt bei ${calc} absoluter Länge.`,
     abs2: calc => `Die Grade im Zeichen zum Anfangsgrad des Zeichens addieren: ${calc}.`,
     sign1: (calc, rem, q) => `Die Grade durch 30 teilen, um die vollen Zeichen zu zählen: ${calc}, Rest ${rem}. ${q} volle${q==1?'s Zeichen ist':' Zeichen sind'} vergangen.`,
     sign2: (q, i, sign, pos) => `Nach ${q} vollen Zeichen sind wir im ${I18N.de.ord[i]}n, ${sign}. Der Rest, mit unveränderten Minuten und Sekunden, ist der Grad darin: ${pos}.`,
@@ -2249,7 +2249,7 @@ I18N.ja = {
     twelveSigns: '十二サイン',
     signsNote: `結果がちょうど 30° ずれていたら、サインの始まりの度数が間違っています。360° ずれていたら、一周の折り返しを忘れています。`,
     whySixty: 'なぜ六十なのか',
-    why1: 'バビロニア人は六十で数え、それ以来の天文学者はみなそれを受け継いできました。円は 360°、1 度は 60 分、1 分は 60 秒。60 は 2、3、4、5、6、10、12、15、20、30 で割り切れるので、円を分けても余りが出ることはめったにありません。バグダードの天文表（ズィージュ）はこの記数法で、数字ではなくアルファベットの文字で書かれていました。今日、手で描くチャートも同じです。',
+    why1: 'バビロニア人は六十で数え、それ以来の天文学者はみなそれを受け継いできました。円は 360°、1 度は 60 分、1 分は 60 秒。60 は 2、3、4、5、6、10、12、15、20、30 で割り切れるので、円を分けても余りが出ることはめったにありません。バグダードの天文表（ズィージュ）はこの記数法で、数字ではなくアルファベットの文字で書かれていました。今日、手で描くチャートも、やはり六十進法で書かれています。',
     why2: '印刷されたチャートの上で黄経を足すことは、そう多くないでしょう。けれどもロットは二点間の距離ですし、ハウス表は恒星時で引きますし、出生地の経度は 15 で割ってはじめて時刻の補正になります——そうなれば電卓の出番です。',
     foot1: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。解説は Dykes の例題を使っています。図 1・3・4・5、§2 の引き算 16° − 279°、そしてミネアポリス生まれのワークシートの出生者です。手順 3 の 371° は Dykes のもので、足して 371° になる二つの数はこちらで選びました。`,
     foot2: 'ネットワーク不要の単一ファイル。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed（SIL Open Font License）。<a href="https://dar-al-hikma.github.io/">Dār al-Ḥikma</a> の一部です。',
@@ -2439,7 +2439,7 @@ I18N.ja = {
      try:`すべて表示してください。それから「練習」の「<em>初級</em>」レベルで、サインの始まりの度数が考えずに出てくるまで、これを 5 問解いてみましょう。`},
     {title:'牡羊座 0° をまたぐ距離',
      body:`<p>獣帯の二点間の正確な距離が必要なのに、わかっているのはそれぞれのサイン内の位置だけ、ということがあります。両方を絶対黄経に直して引きます。ロット<span class="gloss" lang="en">（Lots）</span>はこうして計算します。</p>
-         <p>ただし、獣帯の後ろのほうの位置から前のほうの位置へ測るとき——ここではレッスンの図 3 のとおり、水瓶座 17° から順方向に牡羊座 23° まで——は、牡羊座 0° の線をまたぎます。先に終点に 360° を加え、それから通常どおり引きます。</p>
+         <p>ただし、獣帯の後ろのほうの位置から前のほうの位置へ測るとき——ここでは教本の図 3 のとおり、水瓶座 17° から順方向に牡羊座 23° まで——は、牡羊座 0° の線をまたぎます。先に終点に 360° を加え、それから通常どおり引きます。</p>
          <p>自信がなければ、チャートの円で 5° ずつ順方向に数えて見当をつけてください。30° ずれていたら、どこかで間違えています。</p>`,
      try:`ステップを進め、円の上の真鍮色の弧が赤い牡羊座の線を越えるのを見てください。その下の引き算は、これまでと同じ桁ごとの計算です。`},
     {title:'時間を角度に',

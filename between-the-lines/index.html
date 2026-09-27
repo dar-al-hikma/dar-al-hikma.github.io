@@ -1639,7 +1639,7 @@ I18N.de = {
     rule1t: 'Ein Wert bestimmt die Tabelle',
     rule1: 'Eine Häusertabelle schlägt man nach der Sternzeit auf. Zur selben Sternzeit gehört ein MC, aber viele Aszendenten, einer für jede Breite.',
     rule2t: 'Der Sternzeitfaktor',
-    rule2: `Sternzeit der Geborenen minus die frühere Sternzeit der Tabelle, geteilt durch den Spaltenabstand (4′). Er gibt an, wie weit die Geborene den Kasten durchquert hat.`,
+    rule2: `Sternzeit der Geborenen minus die frühere Sternzeit der Tabelle, geteilt durch den Spaltenabstand (4′). Der Faktor gibt an, wie weit die Geborene den Kasten durchquert hat.`,
     rule3t: 'Anteil = Differenz × Faktor',
     rule3: 'Den früheren Tabellenwert vom späteren abziehen, mit dem Faktor multiplizieren, das Ergebnis zum früheren Wert addieren. Das ist die ganze Interpolation.',
     rule4t: 'Der Aszendent, zweifach',
@@ -1690,8 +1690,8 @@ I18N.de = {
   wsRetro: d => `Rückläufig: Zeile 43 minus Zeile 44 ergibt ${d}, also negativ; der Anteil wird von der Position um 00:00 abgezogen.`,
   wsDirect: d => `Direktläufig: Zeile 43 minus Zeile 44 ergibt ${d}, also positiv; der Anteil wird zur Position um 00:00 addiert.`,
   wsStat: 'Keine Nettobewegung: Zeile 43 und Zeile 44 sind gleich, also ist der Anteil 0 und Zeile 47 die Position um 00:00.',
-  wsCross: (raw, add, d, retro, both) => `Zeile 43 minus Zeile 44 ergibt ${raw}, aber der Planet hat 0° Widder überschritten: ${add ? 'Mit 360° mehr' : 'Mit 360° weniger'} ergibt sich ${d}, ${retro ? 'also negativ: Der Planet ist rückläufig, und der Anteil wird von der Position um 00:00 abgezogen' : 'also positiv: Die Bewegung ist direkt, und der Anteil wird zur Position um 00:00 addiert'}. Der Schritt von 360° steht in Zeile 45${both ? ' und in Zeile 47' : ''}.`,
-  gap: o => `Interpoliert minus direkt: ${o.tot}.` + ({agree: ' Beide stimmen auf die Sekunde überein.', same: ' Der direkte Wert rechnet hier mit der Schiefe der Tabelle, also stammt alles aus der Interpolation.', allObl: ` Alles stammt von der Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}); die Interpolation fügt nichts Sichtbares hinzu.`, allInt: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) macht keinen sichtbaren Unterschied, also stammt alles aus der Interpolation.`, opposite: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) bringt ${o.obl} und die Interpolation ${o.int}, in entgegengesetzter Richtung.`, both: ` Davon bringt die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) ${o.obl} und die Interpolation ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Unter 1′ ist das in Ordnung.' : (o.kind === 'opposite' || o.kind === 'both') ? ` Das ist mehr als 1′, ${o.dom === 'obl' ? 'vor allem wegen der Schiefe' : o.dom === 'int' ? 'vor allem wegen der Interpolation' : 'zu gleichen Teilen'}.` : ' Das ist mehr als 1′.'),
+  wsCross: (raw, add, d, retro, both) => `Zeile 43 minus Zeile 44 ergibt ${raw}, aber der Planet hat 0° Widder überschritten: ${add ? 'Mit 360° mehr' : 'Mit 360° weniger'} ergibt sich ${d}, ${retro ? 'also negativ: Der Planet ist rückläufig, und der Anteil wird von der Position um 00:00 abgezogen' : 'also positiv: Die Bewegung ist direktläufig, und der Anteil wird zur Position um 00:00 addiert'}. Der Schritt von 360° steht in Zeile 45${both ? ' und in Zeile 47' : ''}.`,
+  gap: o => `Interpoliert minus direkt: ${o.tot}.` + ({agree: ' Beide stimmen auf die Sekunde überein.', same: ' Der direkte Wert rechnet hier mit der Schiefe der Tabelle, also stammt alles aus der Interpolation.', allObl: ` Alles stammt von der Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}); die Interpolation fügt nichts Sichtbares hinzu.`, allInt: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) macht keinen sichtbaren Unterschied, also stammt alles aus der Interpolation.`, opposite: ` Die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) bringt ${o.obl} und die Interpolation ${o.int}, in entgegengesetzter Richtung.`, both: ` Davon bringt die Schiefe (hier ${o.chosen}, in der Tabelle ${o.table}) ${o.obl} und die Interpolation ${o.int}.`})[o.kind] + (o.kind === 'agree' ? '' : o.within ? ' Bis zu 1′ ist das in Ordnung.' : (o.kind === 'opposite' || o.kind === 'both') ? ` Das ist mehr als 1′, ${o.dom === 'obl' ? 'vor allem wegen der Schiefe' : o.dom === 'int' ? 'vor allem wegen der Interpolation' : 'zu gleichen Teilen'}.` : ' Das ist mehr als 1′.'),
 
   hd: {
     birthRatio: 'Geburtszeitfaktor', motion: 'Planetenbewegung',
@@ -1916,10 +1916,10 @@ I18N.zh = {
     retro: '◀ 逆行：当日运行量为负',
     direct: '顺行 ▶',
     stationary: '两个午夜之间没有净运行',
-    titleAsc: '四个表格之间的上升点',
+    titleAsc: '四个表格单元之间的上升点',
     titleMc: '宫位表两列之间的中天',
     titlePlanet: '两个午夜位置之间的行星',
-    descAsc: (e, l, lo, hi, c, st, lat) => `由四个表格组成的方框：恒星时 ${e} 至 ${l}，纬度 ${lo}° 至 ${hi}°。${lo}° 的上升点为 ${c.EL} 和 ${c.LL}；${hi}° 的为 ${c.EH} 和 ${c.LH}。命主的恒星时线位于方框横向比例 ${st} 处，纬度线位于纵向比例 ${lat} 处。`,
+    descAsc: (e, l, lo, hi, c, st, lat) => `由四个表格单元组成的方框：恒星时 ${e} 至 ${l}，纬度 ${lo}° 至 ${hi}°。${lo}° 的上升点为 ${c.EL} 和 ${c.LL}；${hi}° 的为 ${c.EH} 和 ${c.LH}。命主的恒星时线位于方框横向比例 ${st} 处，纬度线位于纵向比例 ${lat} 处。`,
     descMc: (e, ve, l, vl, r) => `一把标尺，从 ${e}（MC ${ve}）到 ${l}（MC ${vl}）。命主的恒星时位于比例 ${r} 处。`,
     descPlanet: (v0, v1, ut, r, m) => `一把标尺，从出生当日 00:00 的位置 ${v0} 到次日 00:00 的 ${v1}${m ? `；${m}` : ''}。UT ${ut} 出生，位于比例 ${r} 处。`,
     descRes: v => `结果：${v}。`
@@ -2076,7 +2076,7 @@ I18N.zh = {
      try:`在<em>计算表</em>页把黄赤交角设为 23° 26′：计算表下方说明里的差距降为 0″。然后按纬度滑块旁的 ▲，直到那一行变成 59°–60°：那里的差距 −7″ 纯属插值。再把黄赤交角改回 23° 26′ 54″，差距就变成 +2′ 34″：黄赤交角造成 +2′ 41″，插值造成 −7″。越靠近两极，黄赤交角那一份越大。`},
     {title:'赤道以南',
      body:`<p>宫位表是为北半球编制的。南半球出生，先记下命主的地方恒星时下 MC 所在的星座。然后给地方恒星时加上或减去 12:00:00，照常查表，纬度照旧，但按北纬查。</p>
-         <p>查到的 MC 会落在相反的星座：把它改回原来的星座。查到的上升点也是相反的：取表列星座的对宫。</p>
+         <p>查到的 MC 会落在对宫星座：把它改回原来的星座。查到的上升点也是相反的：取表列星座的对宫。</p>
          <p>示例命主位于南纬 45°，地方恒星时 16:00:00。MC 为射手座 2° 05′。换算为 4:00:00 后，查表得双子座 2° 05′——改为射手座——上升点为处女座 7° 15′，改为双鱼座 7° 15′。</p>`,
      try:`横条停在 S2 行，这是南半球出生多出来的步骤中的第二步；最后的 S5 把上升点改为对宫星座。按<em>全部</em>：示意图上的答案是更正后的双鱼座数值，直接计算加以确认。`},
     {title:'由星历表求行星位置',

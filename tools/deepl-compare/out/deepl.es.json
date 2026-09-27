@@ -1,0 +1,2645 @@
+{
+ "f480e0686764de02": {
+  "text": "Aries",
+  "lost": []
+ },
+ "c5e606e056ade44a": {
+  "text": "Tauro",
+  "lost": []
+ },
+ "ddba2c9277cd909b": {
+  "text": "Géminis",
+  "lost": []
+ },
+ "07d6cb97820e052b": {
+  "text": "Cáncer",
+  "lost": []
+ },
+ "cfaf50ac3721461b": {
+  "text": "Leo",
+  "lost": []
+ },
+ "0f6f6df133ed6ac2": {
+  "text": "Virgo",
+  "lost": []
+ },
+ "cb8e2b307865af7f": {
+  "text": "Libra",
+  "lost": []
+ },
+ "267d8ca2af1eefa7": {
+  "text": "Escorpio",
+  "lost": []
+ },
+ "15389534299e2f41": {
+  "text": "Sagitario",
+  "lost": []
+ },
+ "c9bf29452874274e": {
+  "text": "Capricornio",
+  "lost": []
+ },
+ "3e026e6d2a8adcf8": {
+  "text": "Acuario",
+  "lost": []
+ },
+ "da321110c6a600f8": {
+  "text": "Piscis",
+  "lost": []
+ },
+ "df4ad92ebf451589": {
+  "text": "Entre líneas",
+  "lost": []
+ },
+ "bf1487f4ae31e6bc": {
+  "text": "Interpolación en una tabla de casas y en una efeméride",
+  "lost": []
+ },
+ "89b86ab0e66f5271": {
+  "text": "Idioma",
+  "lost": []
+ },
+ "a7b93d2128e820f8": {
+  "text": "Modo",
+  "lost": []
+ },
+ "0928bac56e563ab4": {
+  "text": "Medio Cielo",
+  "lost": []
+ },
+ "c6db2ec02dcf3556": {
+  "text": "Ascendente",
+  "lost": []
+ },
+ "e7abd9437945479a": {
+  "text": "Planeta",
+  "lost": []
+ },
+ "47f94af0898b92f1": {
+  "text": "Columna ST",
+  "lost": []
+ },
+ "39a2282e2c3d35f2": {
+  "text": "Columna anterior (4′ antes)",
+  "lost": []
+ },
+ "da7a73ac506d237e": {
+  "text": "Columna posterior (4′ más adelante)",
+  "lost": []
+ },
+ "ac8faf3b9ab50bbd": {
+  "text": "Tiempo sideral dentro de la columna",
+  "lost": []
+ },
+ "ada97728d0b258e8": {
+  "text": "Fila de latitud",
+  "lost": []
+ },
+ "98c3b713aeea2795": {
+  "text": "Fila de latitudes más bajas",
+  "lost": []
+ },
+ "2eff095e1d310041": {
+  "text": "Fila de latitudes más altas",
+  "lost": []
+ },
+ "ec68ca6064973e75": {
+  "text": "Latitud dentro de la fila",
+  "lost": []
+ },
+ "e98529e94766eb06": {
+  "text": "Hora de nacimiento (UT)",
+  "lost": []
+ },
+ "f1b9e88e000c92f0": {
+  "text": "Tiempo universal",
+  "lost": []
+ },
+ "cdde4f20ba31a24d": {
+  "text": "Pasos",
+  "lost": []
+ },
+ "51dd91dc98a9e59c": {
+  "text": "Empezar de nuevo",
+  "lost": []
+ },
+ "8fdee48ef27d09a6": {
+  "text": "Volvamos al ejemplo, desde el primer paso",
+  "lost": []
+ },
+ "5500eef9fdb1576f": {
+  "text": "Siguiente paso",
+  "lost": []
+ },
+ "139681a7037617b4": {
+  "text": "Siguiente paso (Espacio)",
+  "lost": []
+ },
+ "6a72085653e4c5be": {
+  "text": "Todo",
+  "lost": []
+ },
+ "afea39131a59c8a8": {
+  "text": "Mostrar todos los pasos",
+  "lost": []
+ },
+ "627f5eabb40cc72b": {
+  "text": "Guía paso a paso",
+  "lost": []
+ },
+ "a8ab7061bae93aae": {
+  "text": "Hoja de ejercicios",
+  "lost": []
+ },
+ "70440046a3dc2e07": {
+  "text": "Notas",
+  "lost": []
+ },
+ "3d82a9f15156c365": {
+  "text": "Pruebe esto",
+  "lost": []
+ },
+ "b52b36b7269fbfc5": {
+  "text": "Atrás",
+  "lost": []
+ },
+ "bc981983e7f547dc": {
+  "text": "Siguiente",
+  "lost": []
+ },
+ "97272f7273728607": {
+  "text": "Abrir hoja de cálculo",
+  "lost": []
+ },
+ "ec7b8f5bf9015f15": {
+  "text": "El nativo",
+  "lost": []
+ },
+ "0e40687a5614ccf0": {
+  "text": "Lección nativa",
+  "lost": []
+ },
+ "a71cc9a3fbd4657e": {
+  "text": "Ejemplo del hemisferio sur",
+  "lost": []
+ },
+ "3257245a81b523b9": {
+  "text": "LST",
+  "lost": []
+ },
+ "ced3905ec8220a51": {
+  "text": "Latitud",
+  "lost": []
+ },
+ "e5d846466f44afa0": {
+  "text": "Oblicuidad",
+  "lost": []
+ },
+ "e07419d364b135f0": {
+  "text": "exclusivamente para el cálculo directo",
+  "lost": []
+ },
+ "5aedee0964c6b2b3": {
+  "text": "horas",
+  "lost": []
+ },
+ "be2e2bb698c7a42a": {
+  "text": "minutos",
+  "lost": []
+ },
+ "7febce039c4cf1c9": {
+  "text": "segundos",
+  "lost": []
+ },
+ "a63788ba696d6741": {
+  "text": "grados",
+  "lost": []
+ },
+ "3607297b77e2050d": {
+  "text": "hemisferio",
+  "lost": []
+ },
+ "81e9209e64bdd3a5": {
+  "text": "signo",
+  "lost": []
+ },
+ "329bd592de36d75c": {
+  "text": "El planeta",
+  "lost": []
+ },
+ "0365e774a9fb0504": {
+  "text": "Sol (lección)",
+  "lost": []
+ },
+ "4e5aed42a09fc583": {
+  "text": "Saturno ℞ (lección)",
+  "lost": []
+ },
+ "bd20089a4c596038": {
+  "text": "Tiempo universal (UT) en el momento del nacimiento",
+  "lost": []
+ },
+ "4a0877a4fe93c3d0": {
+  "text": "00:00, día de nacimiento",
+  "lost": []
+ },
+ "3b9eef67690ceda2": {
+  "text": "00:00, día siguiente",
+  "lost": []
+ },
+ "9bf7a8e8909bfd49": {
+  "text": "Fila",
+  "lost": []
+ },
+ "ecdda59aea5ee67d": {
+  "text": "Elemento",
+  "lost": []
+ },
+ "8dce170de238b1fe": {
+  "text": "Valor",
+  "lost": []
+ },
+ "fc42980d287e7ab5": {
+  "text": "««f»» se dejó en blanco, por lo que ha vuelto a aparecer su valor anterior.",
+  "lost": [
+   "«f»"
+  ]
+ },
+ "5069b2d7ba855d24": {
+  "text": "««f»» solo admite números enteros, por lo que «from» se convirtió en «to».",
+  "lost": [
+   "«f»"
+  ]
+ },
+ "06c7dcdc890525e5": {
+  "text": "««f»» va desde «lo» hasta «hi», por lo que su valor anterior vuelve a ser «back».",
+  "lost": [
+   "«f»"
+  ]
+ },
+ "950cb6064eff11d0": {
+  "text": "La tabla termina a los 60°. La latitud está fijada en 60°.",
+  "lost": []
+ },
+ "be9ae51f08791202": {
+  "text": "La hora universal (UT) va de las 00:00 a las 23:59, por lo que se establece en las 23:59. Un nacimiento que tenga lugar después de la medianoche en Greenwich se rige por la efeméride del día siguiente.",
+  "lost": []
+ },
+ "882635602ef30a63": {
+  "text": "La oblicuidad debe situarse entre 22° y 25°, por lo que se establece en el límite más cercano.",
+  "lost": []
+ },
+ "ea25114f88ad1c94": {
+  "text": "Un planeta se desplaza, como máximo, unos 15° al día; compruebe las dos posiciones.",
+  "lost": []
+ },
+ "aaecb250b1c77e61": {
+  "text": "Los números de fila siguen el orden de las hojas de trabajo de la lección (págs. 41-44). La hora sideral se introduce manualmente, por lo que las filas 1 a 12 no se repiten; las filas 13, 25, 30 y 36, que se repiten en las hojas de trabajo, aparecen una sola vez, y las filas posteriores se refieren a ellas por su número. S1–S5 son los pasos del procedimiento del hemisferio sur (§6.2.3), no filas de la hoja de ejercicios. Las filas sin numerar son la segunda línea de la fila 16 y los valores directos que añade la página. Cada incremento utiliza la relación exactamente como se muestra, con siete decimales, y se redondea al segundo más cercano, redondeando al alza, antes de sumarse. El botón <em>«Siguiente paso»,</em> situado debajo del diagrama, rellena esta tabla fila a fila; <em>el botón «Todo»</em> la rellena de una sola vez.",
+  "lost": []
+ },
+ "3a07195c8e263079": {
+  "text": "El método",
+  "lost": []
+ },
+ "db8ca70213f4589f": {
+  "text": "Un valor controla la tabla",
+  "lost": []
+ },
+ "6d06f70885985eb4": {
+  "text": "La tabla de casas se introduce mediante el tiempo sideral. Un mismo tiempo sideral tiene un solo Medio Cielo, pero varios Ascendentes, uno por cada latitud.",
+  "lost": []
+ },
+ "3674c4a7c428ccfb": {
+  "text": "La relación ST",
+  "lost": []
+ },
+ "1063e07096c20d21": {
+  "text": "La hora de nacimiento del nativo menos la hora de nacimiento anterior que figura en la tabla, dividida por el intervalo entre columnas (4′). Indica en qué parte de la casilla se sitúa el nativo.",
+  "lost": []
+ },
+ "2066767c10c272df": {
+  "text": "Incremento = diferencia × razón",
+  "lost": []
+ },
+ "c9c4ee6585bb9a4e": {
+  "text": "Reste el valor anterior de la tabla del posterior, multiplíquelo por la relación y sume el resultado al valor anterior. En eso consiste la interpolación.",
+  "lost": []
+ },
+ "de9b34ecac566d20": {
+  "text": "El Ascendente por partida doble",
+  "lost": []
+ },
+ "6607b0adafffb6eb": {
+  "text": "Realice la interpolación a lo largo de la línea de solsticio (ST) en la latitud más baja, luego en la latitud más alta y, a continuación, entre ambas según la relación de latitudes. Avance desde el valor de la latitud más baja hacia el de la latitud más alta.",
+  "lost": []
+ },
+ "47d3c7a01bb01ab1": {
+  "text": "Al sur del ecuador",
+  "lost": []
+ },
+ "74ee9a2af508d824": {
+  "text": "Sume o reste 12 horas a la hora local estándar (LST), consulte la tabla como de costumbre; a continuación, mantenga el signo original del Medio Cielo y asigne al Ascendente el signo opuesto al que figura en la tabla.",
+  "lost": []
+ },
+ "f0315f4efc2b0284": {
+  "text": "Planetas de la efeméride",
+  "lost": []
+ },
+ "932ef646269d267f": {
+  "text": "La relación es la hora de nacimiento en TI dividida entre 24. El movimiento diario es la longitud del día siguiente menos la del día de nacimiento, calculada a partir de los 0° de Aries si el planeta la cruza. Multiplique su magnitud por la relación y sume el resultado a la posición a las 00:00 —o restelo, si el movimiento es negativo: el planeta está retrógrado—.",
+  "lost": []
+ },
+ "ffc8852e2aefabea": {
+  "text": "En qué se diferencia de su programa",
+  "lost": []
+ },
+ "616fce25e9de2958": {
+  "text": "La interpolación supone que el valor crece de manera uniforme entre dos celdas. En la esfera no es así: los grandes círculos se curvan, y el Ascendente varía más rápidamente en algunos signos y en determinadas latitudes que en otros. Por lo tanto, un valor interpolado puede diferir del cálculo directo, y la diferencia aumenta rápidamente a medida que se amplían los intervalos de la tabla. Por eso las tablas se limitan a 4′ de ST: para el nativo de la lección, la línea recta presenta entonces un desvío de aproximadamente 0,1″; con intervalos de 8′, el desvío sería de unos 15″, y con intervalos de una hora completa, de unos 17′. Cerca de los 60° de latitud, donde el Ascendente se desplaza más rápidamente, incluso los intervalos de 4′ pueden presentar un desvío de más de 1′.",
+  "lost": []
+ },
+ "9d6c620d817a41bf": {
+  "text": "Las últimas filas de la hoja de cálculo muestran de dónde proviene la discrepancia propia de esta página. Ambos cálculos parten de la misma LST; el directo utiliza la oblicuidad que usted introduce, mientras que la tabla utiliza 23° 26′. Por lo tanto, el valor directo aparece dos veces: con su oblicuidad y con la de la tabla, y la nota que figura debajo de la hoja de cálculo desglosa la discrepancia entre la parte correspondiente a la oblicuidad y la correspondiente a la interpolación. Su programa puede diferir por otra razón que esta página no puede mostrar: es posible que mantenga fracciones de segundo en el tiempo sideral, que se convierten en segundos de arco enteros en el RAMC.",
+  "lost": []
+ },
+ "893d4295837095f3": {
+  "text": "Cálculo directo",
+  "lost": []
+ },
+ "a23d293dbfe22160": {
+  "text": "Medio Cielo: <span class=\"mono\">MC = arctan(tan RAMC ÷ cos ε)</span>, sumando 180° si el resultado se aleja mucho del RAMC, o 360° si es negativo y el RAMC se encuentra en el último cuadrante. Ascendente: <span class=\"mono\">ASC = arctan( −cos RAMC ÷ (sin RAMC · cos ε + tan φ · sin ε) )</span>, situado en el cuadrante derecho. Aquí, ε es la oblicuidad y φ la latitud. La tabla de esta página se ha elaborado a partir de estos datos con ε = 23° 26′, lo que reproduce al segundo la tabla impresa de la lección.",
+  "lost": []
+ },
+ "bee75ca77f753e48": {
+  "text": "Controles",
+  "lost": []
+ },
+ "ed4e3e999315223c": {
+  "text": "Los controles deslizantes situados debajo del diagrama permiten desplazar el valor <em>dentro</em> del recuadro actual: la hora sideral a lo largo de los 4′ que separan dos columnas, y la latitud desde la fila inferior hasta la superior. Los botones ◀ ▶ y ▼ ▲ permiten desplazarse a la columna o fila adyacente. Los valores exactos pueden introducirse en la pestaña «Hoja de trabajo», en números enteros. <kbd>La barra espaciadora</kbd> corresponde <em>al</em> <em>«Siguiente paso»</em> y las teclas ← <kbd>→</kbd> permiten pasar de una página a otra del tutorial cuando ningún botón o campo tiene el foco; en las pestañas, las teclas ← <kbd>→</kbd> permiten desplazarse entre ellas.",
+  "lost": []
+ },
+ "4acd5091e2684f10": {
+  "text": "Sigue a la lección 5, apartados 6.2–6.3 del <em>curso de astrología natal tradicional</em> de Ben Dykes; la carta natal analizada, el ejemplo del hemisferio sur, así como el Sol y Saturno, son suyos.",
+  "lost": []
+ },
+ "ce5288586fa8ca02": {
+  "text": "Un único archivo, sin conexión a la red. Fuentes: EB Garamond, IBM Plex Mono e IBM Plex Sans Condensed, bajo licencia SIL Open Font License. Parte de <a href=\"https://dar-al-hikma.github.io/\">Dār al-Ḥikma</a>.",
+  "lost": []
+ },
+ "1c32be6529b91bf8": {
+  "text": "Paso «i» de «n»",
+  "lost": []
+ },
+ "1ae9f7420b2d4c01": {
+  "text": "«i» paso a paso: «title»",
+  "lost": []
+ },
+ "a7439191c89664de": {
+  "text": "UT",
+  "lost": []
+ },
+ "ef003cdab1fdde74": {
+  "text": "Lat.",
+  "lost": []
+ },
+ "cf1c85adba548e8d": {
+  "text": "Posición",
+  "lost": []
+ },
+ "dc8d73b2300ecd72": {
+  "text": "MC",
+  "lost": []
+ },
+ "eaffec7840145142": {
+  "text": "ASC",
+  "lost": []
+ },
+ "27eefd8105be679e": {
+  "text": "tiempo sideral",
+  "lost": []
+ },
+ "5fcccdcf1d079c4a": {
+  "text": "latitud",
+  "lost": []
+ },
+ "f31b4e7f4dde6412": {
+  "text": "nacimiento en el hemisferio sur: tabla introducida en «t», «lat» N",
+  "lost": []
+ },
+ "f64c7014ffef0c55": {
+  "text": "los signos se han corregido en las últimas filas",
+  "lost": []
+ },
+ "c35dccbaa7df2b99": {
+  "text": "◀ retrógrado: el movimiento del día es negativo",
+  "lost": []
+ },
+ "ceaa63e9ccd1f0b9": {
+  "text": "movimiento directo ▶",
+  "lost": []
+ },
+ "1c0faea73fee0b13": {
+  "text": "no hay movimiento neto entre las dos medianoche",
+  "lost": []
+ },
+ "2190530faae178be": {
+  "text": "El Ascendente entre cuatro celdas de la tabla",
+  "lost": []
+ },
+ "762bcfb4c59faaed": {
+  "text": "El Medio Cielo entre dos columnas de la tabla",
+  "lost": []
+ },
+ "ec03d9677a259163": {
+  "text": "El planeta entre dos posiciones de medianoche",
+  "lost": []
+ },
+ "08e459dcf8e955f2": {
+  "text": "Un recuadro con cuatro celdas de tabla: hora sideral «e» a «l», latitud «lo»° a «hi»°. Ascendentes a «lo»°: «c.EL» y «c.LL»; a «hi»°: «c.EH» y «c.LH». La línea de hora sideral de la nativa se sitúa en la proporción «st» a lo ancho del recuadro, mientras que su línea de latitud se sitúa en la proporción «lat» a lo alto del mismo.",
+  "lost": []
+ },
+ "d6954614cba6eeaa": {
+  "text": "Un regente que va de «e», MC «ve», a «l», MC «vl». La hora sideral del nativo se sitúa en la proporción «r» a lo largo de la misma.",
+  "lost": []
+ },
+ "45034cf5450fcf4e": {
+  "text": "Una regla que abarca desde la posición a las 00:00 del día del nacimiento, «v0», hasta las 00:00 del día siguiente, «v1»; movimiento «m». El nacimiento, a las «ut» UT, se sitúa en la proporción «r» a lo largo de dicha regla.",
+  "lost": []
+ },
+ "ec6e46d175ac7df7": {
+  "text": " Resultado: «v».",
+  "lost": []
+ },
+ "3b4dfc9713939494": {
+  "text": "En curso",
+  "lost": []
+ },
+ "3624b68716c1aff4": {
+  "text": "el Medio Cielo",
+  "lost": []
+ },
+ "c170445964a55c4e": {
+  "text": "el Ascendente",
+  "lost": []
+ },
+ "29a1513fb446286d": {
+  "text": "la posición del planeta",
+  "lost": []
+ },
+ "a111ade38eb1ec48": {
+  "text": "Pulse <em>«Siguiente paso»</em> para encontrar un«what», una fila de la hoja de cálculo cada vez, o <em>«Todo»</em> para ver el proceso completo.",
+  "lost": []
+ },
+ "ed14fa04c9df6371": {
+  "text": "Los controles deslizantes desplazan el elemento nativo dentro del recuadro.",
+  "lost": []
+ },
+ "72fb13e7c1fb7bd8": {
+  "text": "El control deslizante desplaza su hora sideral a lo largo de la regla, entre dos columnas de la tabla.",
+  "lost": []
+ },
+ "a435f6fe1e22c841": {
+  "text": "El control deslizante permite desplazar la hora de nacimiento a lo largo del día.",
+  "lost": []
+ },
+ "fe1351df421a981b": {
+  "text": "<b>Paso «k» de «n»</b> · fila «row»",
+  "lost": []
+ },
+ "a722330bc4a2edff": {
+  "text": "<b>Paso «k» de «n»</b>",
+  "lost": []
+ },
+ "24a1733ca8bb0ae4": {
+  "text": "directa",
+  "lost": []
+ },
+ "ea5f3f4ddac7d35d": {
+  "text": "retrogrado ℞",
+  "lost": []
+ },
+ "c37c725e1bbc494f": {
+  "text": "sin movimiento en la red",
+  "lost": []
+ },
+ "aa510540047035b5": {
+  "text": "Retrogrado: la fila 43 menos la fila 44 da como resultado un«d»e, es decir, un valor negativo, por lo que el incremento se resta de la posición a las 00:00.",
+  "lost": []
+ },
+ "5ef3bd7a82ef5ea4": {
+  "text": "Movimiento directo: la fila 43 menos la fila 44 da como resultado un«d»o, valor positivo, por lo que el incremento se suma a la posición a las 00:00.",
+  "lost": []
+ },
+ "ee77e61759871b23": {
+  "text": "Sin movimiento neto: las filas 43 y 44 son iguales, por lo que el incremento es 0 y la fila 47 corresponde a la posición a las 00:00.",
+  "lost": []
+ },
+ "4bb2427ab235c887": {
+  "text": "La fila 43 menos la fila 44 es «raw», pero el planeta cruzó los 0° de Aries: al sumar 360° se obtiene «d», un valor negativo, por lo que el planeta está retrógrado y el incremento se resta de la posición a las 00:00. El incremento de 360° se anota en las filas 45 y 47.",
+  "lost": []
+ },
+ "605935e5fdc6633a": {
+  "text": "Interpolado menos directo: «o.tot».undefined Un margen de 1′ es suficiente.",
+  "lost": []
+ },
+ "0df96e3e15598a6b": {
+  "text": "Relación de la hora de nacimiento",
+  "lost": []
+ },
+ "bf5ba5480975cb2e": {
+  "text": "Movimiento planetario",
+  "lost": []
+ },
+ "f6308069ff2d55c7": {
+  "text": "Hemisferio sur",
+  "lost": []
+ },
+ "d52bee2f6924a178": {
+  "text": "Relación ST",
+  "lost": []
+ },
+ "b143f5bcd0d12780": {
+  "text": "Interpolación del MC",
+  "lost": []
+ },
+ "e2ea75d78bf8f242": {
+  "text": "Cálculo directo del MC",
+  "lost": []
+ },
+ "217f5de369fe7e58": {
+  "text": "ASC entre ST, latitudes inferiores «lo»°",
+  "lost": []
+ },
+ "3241b8f6faad4e87": {
+  "text": "ASC entre ST, latitud superior «hi»°",
+  "lost": []
+ },
+ "3094fa7a01642bf6": {
+  "text": "Relación de latitud",
+  "lost": []
+ },
+ "cc091d20a6cbe1cc": {
+  "text": "ASC entre latitudes",
+  "lost": []
+ },
+ "b16f1f66543d3256": {
+  "text": "Diferencia",
+  "lost": []
+ },
+ "d12f1fabbb58a9af": {
+  "text": "Incremento",
+  "lost": []
+ },
+ "2a6ecbeef4c9c39a": {
+  "text": "Hora universal en el momento del nacimiento",
+  "lost": []
+ },
+ "67d2c1d085d2f01a": {
+  "text": "Relación de la hora de nacimiento <small>= 8 ÷ 24</small>",
+  "lost": []
+ },
+ "ab8dd19ce2c733bc": {
+  "text": "Longitud a las 00:00 del día siguiente",
+  "lost": []
+ },
+ "babdc783f8877c1c": {
+  "text": "Longitud a las 00:00 del día de nacimiento",
+  "lost": []
+ },
+ "b973c6f6b8f5b478": {
+  "text": "Posición del planeta <small>= «f»</small>",
+  "lost": []
+ },
+ "97880e4dcf2d4797": {
+  "text": "Signo del MC en la hora solar local (LST) original <small>según la tabla</small>",
+  "lost": []
+ },
+ "266377b1974f7509": {
+  "text": "LST convertida <small>= LST«f»</small>",
+  "lost": []
+ },
+ "2b1d08159096d32a": {
+  "text": "LST convertida",
+  "lost": []
+ },
+ "c0d9384546a72802": {
+  "text": "ST de Native",
+  "lost": []
+ },
+ "f91679ac892a8262": {
+  "text": "ST anterior <small>en la tabla</small>",
+  "lost": []
+ },
+ "c0e7ebc5b87b51fa": {
+  "text": "Relación ST <small>= diferencia ÷ 4′</small>",
+  "lost": []
+ },
+ "02ac21c9352f4192": {
+  "text": "MC posterior <small>a partir de la tabla</small>",
+  "lost": []
+ },
+ "eebff6fe32b4c0b0": {
+  "text": "MC anterior <small>de la tabla</small>",
+  "lost": []
+ },
+ "a554aaf8a5c8f854": {
+  "text": "MC del nativo <small>interpolado = «f»</small>",
+  "lost": []
+ },
+ "2fe0a1870ecb021b": {
+  "text": "MC, se mantiene el signo original",
+  "lost": []
+ },
+ "9ff993b0035c2201": {
+  "text": "RAMC <small>= LST × 15</small>",
+  "lost": []
+ },
+ "0289cbd327adcb8d": {
+  "text": "Oblicuidad de la eclíptica",
+  "lost": []
+ },
+ "a06895c5c1f419fa": {
+  "text": "Arctan(tan RAMC ÷ cos OE)",
+  "lost": []
+ },
+ "44ce8b4be65d0031": {
+  "text": "El MC del nativo <small>en posición directa</small>",
+  "lost": []
+ },
+ "89843429291d6c1c": {
+  "text": "Directa, según la oblicuidad de la tabla<small>«v»</small>",
+  "lost": []
+ },
+ "9b9f6bb73381642c": {
+  "text": "ASC posterior",
+  "lost": []
+ },
+ "221f4e4c8bd9c159": {
+  "text": "ASC anterior",
+  "lost": []
+ },
+ "bf104ed632a04d51": {
+  "text": "ASC en «lat»° <small>= «f»</small>",
+  "lost": []
+ },
+ "87a0786688897e31": {
+  "text": "Latitud del nativo",
+  "lost": []
+ },
+ "5766d24126d1169a": {
+  "text": "Latitud inferior <small>en la tabla</small>",
+  "lost": []
+ },
+ "84313ed34b52710d": {
+  "text": "Latitud más elevada <small>en la tabla</small>",
+  "lost": []
+ },
+ "6456b2e931ecdf50": {
+  "text": "Relación de latitud <small>= 37 ÷ «div»</small>",
+  "lost": []
+ },
+ "dbb067eff8a75b54": {
+  "text": "Diferencia <small>= «f»</small>",
+  "lost": []
+ },
+ "a77d10c2d00db3fa": {
+  "text": "ASC natal <small>= «f»</small>",
+  "lost": []
+ },
+ "2052cdfb45017acd": {
+  "text": "ASC, signo opuesto",
+  "lost": []
+ },
+ "61b0e9fc449521a2": {
+  "text": "ASC del nativo <small>a partir de la LST, la latitud y la oblicuidad</small>",
+  "lost": []
+ },
+ "b83095e8b36a2a60": {
+  "text": "La efeméride proporciona las posiciones a las 00:00 en Greenwich. El nativo nació a las «ut», hora universal.",
+  "lost": []
+ },
+ "b3ce612d91df508a": {
+  "text": "Divida entre 24 horas: «sum». Esa era la parte del día que había transcurrido cuando nació el nativo.",
+  "lost": []
+ },
+ "844ee0108145e2b8": {
+  "text": "Según las efemérides, la posición a las 00:00 del día siguiente: «sign», lo que equivale a «abs» de longitud absoluta.",
+  "lost": []
+ },
+ "4900715a7a5f03f5": {
+  "text": "Y a las 00:00 del día del nacimiento: «sign», que es «abs».",
+  "lost": []
+ },
+ "933e5969e911f997": {
+  "text": "El movimiento diario se calcula restando la longitud del día siguiente de la del día de nacimiento: «expr». El resultado es negativo: el planeta está retrógrado, es decir, se mueve hacia atrás. La fila 45 recoge su tamaño: «d».",
+  "lost": []
+ },
+ "9ef16815221eada8": {
+  "text": "El movimiento diario es la longitud del día siguiente menos la del día de nacimiento: «expr». Es positivo: el planeta avanzó e«d»os ese día, en movimiento directo.",
+  "lost": []
+ },
+ "db725292bba8839b": {
+  "text": "El movimiento diurno es la longitud del día siguiente restada de la del día de nacimiento: «expr». No hay movimiento neto entre las dos medianoche, por lo que el incremento es 0.",
+  "lost": []
+ },
+ "533961eed3d1a03f": {
+  "text": "Cruzó los 0° de Aries en sentido directo, por lo que se suman 360° a la longitud del día siguiente.",
+  "lost": []
+ },
+ "41594de3854ae111": {
+  "text": "Cruzó los 0° de Aries en retroceso, por lo que se toman 360° a partir de la longitud del día siguiente.",
+  "lost": []
+ },
+ "c27364a3b718632e": {
+  "text": "La parte de ese movimiento que corresponde al nativo: «sum».",
+  "lost": []
+ },
+ "c62db1f9130b6ddc": {
+  "text": "Retrogrado, por lo que debe restarse de la posición a las 00:00: «sum», es decir, «sign».",
+  "lost": []
+ },
+ "9bf6dc75cefb2fe1": {
+  "text": "Súmelo a la posición a las 00:00: «sum», es decir, «sign».",
+  "lost": []
+ },
+ "a1cdc2fb898acfd2": {
+  "text": "La tabla está elaborada para el hemisferio norte. En primer lugar, fíjese en el signo en el MC a la hora local estándar (LST) del nativo, que es las «lst»: se trata de ««name»». Mantendremos ese signo al final.",
+  "lost": [
+   "«name»"
+  ]
+ },
+ "aa293402e3e2d14d": {
+  "text": "Reste doce horas: «sum». Introduzca en la tabla esta hora convertida, en la misma latitud norte.",
+  "lost": []
+ },
+ "d63b95e10e4f3584": {
+  "text": "La hora sideral del nativo es «st». La tabla está dividida cada 4′, por lo que se encuentra entre dos columnas.",
+  "lost": []
+ },
+ "a8e24a337558b714": {
+  "text": "La columna inmediatamente anterior es «earlier»; la siguiente es «later».",
+  "lost": []
+ },
+ "bd3f4f04e583f84f": {
+  "text": "El nativo es un«d», más allá de la columna anterior; esto se puede ver sin necesidad de realizar cálculos.",
+  "lost": []
+ },
+ "1ff21f23034ccf0d": {
+  "text": "Divida por el intervalo de 4′: «sum». Esta relación indica la distancia a la que se encuentra el nativo dentro del cuadro, y todas las interpolaciones de ST la utilizan.",
+  "lost": []
+ },
+ "fd109b6c14147272": {
+  "text": "Según la tabla, el MC a un«t»o es «v».",
+  "lost": []
+ },
+ "43be01c6ee90539e": {
+  "text": "Y en «t» se encuentra «v».",
+  "lost": []
+ },
+ "2b4299f3fd579d94": {
+  "text": "El MC varía según «d» a lo largo de la casilla.",
+  "lost": []
+ },
+ "270754c3a427e10d": {
+  "text": "La parte que corresponde al autor: «sum».",
+  "lost": []
+ },
+ "86e30e2080914f3e": {
+  "text": "Añádalo al MC anterior: «sum», es decir, «sign». Signo opuesto, tal y como cabría esperar para la hora convertida.",
+  "lost": []
+ },
+ "7d5f4d9e9799a755": {
+  "text": "Devuélvale el signo que tenía en la hora solar local (LST) del nativo: «sign».",
+  "lost": []
+ },
+ "1f0c9226ceea96f1": {
+  "text": "Para comprobarlo con una calculadora, convierta la LST en arco: «sum» de ascensión recta.",
+  "lost": []
+ },
+ "fb2ef2213cb2ce91": {
+  "text": "La oblicuidad de su programa, es decir, 23° 26′: aquí «v».",
+  "lost": []
+ },
+ "1ac546c0d9e4375d": {
+  "text": "arctan(tan RAMC ÷ cos OE) = «v». Cerca de la RAMC, por lo que no es necesaria ninguna corrección.",
+  "lost": []
+ },
+ "49f5fddf59a069c4": {
+  "text": "Cálculo directo: «sign». Interpolado menos directo: «gap».",
+  "lost": []
+ },
+ "a54275b13887c5d2": {
+  "text": "Borde inferior del recuadro, latitud «lo»°. Según la tabla, el ASC en «t» es «v».",
+  "lost": []
+ },
+ "fdb2d6b1f5232f7f": {
+  "text": "A lo largo del borde inferior, el ASC varía en «d».",
+  "lost": []
+ },
+ "327ee819bf598742": {
+  "text": "La parte del nativo, según la relación ST: «sum».",
+  "lost": []
+ },
+ "3cad01d23239320c": {
+  "text": "Súmelo al valor anterior: el ASC para su ST a «lo»° es «v». Ese es el punto situado en el borde inferior.",
+  "lost": []
+ },
+ "9ee416999f93e720": {
+  "text": "Ahora, el borde superior, latitud «hi»°. El ASC en «t» es «v».",
+  "lost": []
+ },
+ "64db8269378bf5d6": {
+  "text": "A lo largo del borde superior, el ASC varía en «d».",
+  "lost": []
+ },
+ "216e0e8f4b7686f2": {
+  "text": "De nuevo la misma proporción: «sum».",
+  "lost": []
+ },
+ "f3fcb6538851199d": {
+  "text": "Súmelo al valor anterior: el ASC para su ST a «hi»° es «v». Ese es el punto situado en el borde superior.",
+  "lost": []
+ },
+ "915c0cb0381aad97": {
+  "text": "Su latitud es de «v», entre las filas de «lo»° y «hi»°.",
+  "lost": []
+ },
+ "4e44e16e05a75eaf": {
+  "text": "La fila inferior es de«lo»°.",
+  "lost": []
+ },
+ "9902033dfe7099b4": {
+  "text": "La fila superior corresponde a «hi»°.",
+  "lost": []
+ },
+ "2bb408a0d43f018f": {
+  "text": "Se trata de un ««d»» situado encima de la fila inferior.",
+  "lost": [
+   "«d»"
+  ]
+ },
+ "bf84ad1d43c4ddeb": {
+  "text": "Divida por el «div» entre filas: la relación de latitud es «r». Esa es la línea horizontal.",
+  "lost": []
+ },
+ "051f4083652eaef1": {
+  "text": "Los dos valores extremos difieren en un«d»o.",
+  "lost": []
+ },
+ "f88cecaa7f340cd8": {
+  "text": "Su aportación, según la proporción de latitud: «sum».",
+  "lost": []
+ },
+ "8d6ad52eeb0245b4": {
+  "text": "Desplácese desde el valor de latitud más bajo hacia el más alto: «sum», es decir, «sign». El punto donde se cruzan ambas líneas.",
+  "lost": []
+ },
+ "2da4bc643e8d336e": {
+  "text": "Para un nacimiento en el hemisferio sur, asigne al Ascendente el signo opuesto al que figura en la lista: «sign».",
+  "lost": []
+ },
+ "8fc1ff2b25acccdb": {
+  "text": "Si se calcula directamente, el Ascendente es «sign». Si se interpol: «gap».",
+  "lost": []
+ },
+ "67f3eaf1c770461f": {
+  "text": "Una vez más, directamente, con la propia oblicuidad de e«obl» de la tabla: «sign».",
+  "lost": []
+ },
+ "54b9f6d7db188ef0": {
+  "text": "<p>Una tabla de casas recoge los Ascendentes y los Mediocielos a intervalos regulares de tiempo sideral —en este caso, cada 4′ de TS, lo que equivale a 1° de RAMC—. Todo lo que contiene viene determinado por ese único valor. Un mismo TS solo tiene un Mediocielo posible, pero muchos Ascendentes, uno por cada latitud de nacimiento.</p>\n         <p>Nuestra nativa nació con una hora sideral local de 17:39:47 a 44° 58′ 48″ N. Ninguno de estos valores figura en la tabla. Ella se encuentra <em>entre líneas</em>: entre dos columnas de hora sideral y dos filas de latitud. El recuadro del diagrama corresponde a esas cuatro celdas de la tabla, y las dos líneas la representan a ella.</p>\n         <p>La interpolación no es más que determinar dónde se cruzan las líneas.</p>",
+  "lost": []
+ },
+ "721815bcd982617b": {
+  "text": "Arrastre el control deslizante <span class=\"term\">de la columna «ST»</span> situado debajo del diagrama: la línea dorada se desplazará por el recuadro. Arrastre el control deslizante <span class=\"term lat\">de la fila de latitud</span>: la línea azul se moverá hacia arriba y hacia abajo. El recuadro permanece fijo; los botones ◀ ▶ cambian de columna, desplazando el recuadro a nuevas celdas de la tabla (parpadea brevemente al moverse, a menos que su sistema solicite una reducción de movimiento). La opción <em>«Empezar de nuevo»</em> devuelve a la alumna al punto en el que se encontraba en la lección.",
+  "lost": []
+ },
+ "0e5e754822c04ce1": {
+  "text": "<p>Su hora de nacimiento (ST) es 17:39:47. La tabla indica 17:36:00 en un lado y 17:40:00 en el otro. Se encuentra 3′ 47″ más allá de la columna anterior, dentro de un intervalo de 4′.</p>\n         <p>Divida uno por el otro: 3′ 47″ son 227 segundos, 4′ son 240, y 227 ÷ 240 = 0,9458333. Esa es su <span class=\"term\">relación de la Hora Estelar</span>: la distancia que ocupa en la casilla, expresada como fracción. Se puede apreciar, sin necesidad de realizar cálculos, que se encuentra prácticamente al otro lado.</p>\n         <p>Todas las magnitudes que dependen de ST —el MC y cada Ascendente— se interpolarán con esta misma relación.</p>",
+  "lost": []
+ },
+ "85e7bd5f6cb7d437": {
+  "text": "La franja situada debajo del diagrama muestra la fila en la que nos encontramos: la relación. Arrastre el control deslizante hacia la izquierda hasta la mitad de la columna y observe cómo la relación desciende hasta aproximadamente 0,5.",
+  "lost": []
+ },
+ "802d2f55c8ba4334": {
+  "text": "Interpolación del Medio Cielo",
+  "lost": []
+ },
+ "f0ae1db9aafc07a8": {
+  "text": "<p>El MC a las 17:36 está a 264° 29′ 30″; a las 17:40 está a 265° 24′ 38″. La diferencia es de 55′ 08″. Ella se encuentra en el 0,9458333 de ese trayecto, por lo que su parte de esa diferencia es 55′ 08″ × 0,9458333 = 52′ 09″.</p>\n         <p>Sume el incremento al MC anterior: 264° 29′ 30″ + 52′ 09″ = 265° 21′ 39″, lo que equivale a 25° 21′ 39″ de Sagitario.</p>\n         <p>La diferencia, multiplicada por la relación, se suma al valor anterior. Ese patrón constituye la interpolación en su totalidad; el Ascendente simplemente lo repite tres veces.</p>",
+  "lost": []
+ },
+ "1e2db6d898499fd4": {
+  "text": "Pulse <em>«Siguiente paso»</em> cinco veces. Cada vez que pulse este botón, la tira situada debajo del diagrama se desplazará una fila hacia abajo en la hoja de trabajo; a la quinta vez, la respuesta aparecerá en la regla.",
+  "lost": []
+ },
+ "49a79c7361bf5212": {
+  "text": "Consúltela directamente",
+  "lost": []
+ },
+ "d05e7ccbfb0cf0c0": {
+  "text": "<p>El MC también puede calcularse directamente: <span class=\"mono\">arctan(tan RAMC ÷ cos OE)</span>, donde RAMC es la LST × 15 y OE es la oblicuidad de la eclíptica. Si el resultado no se aproxima al RAMC, sume o reste 180°.</p>\n         <p>Para nuestro nativo, un RAMC de 264° 56′ 45″ y una OE de 23° 26′ 54″ dan como resultado 85° 21′ 41″; esto dista mucho de 264°, por lo que hay que sumar 180°: 265° 21′ 41″.</p>\n         <p>A solo 2″ del valor interpolado, y la página puede indicar de dónde proceden. Calculado directamente con la oblicuidad propia de la tabla, 23° 26′, el MC es 265° 21′ 39″ —exactamente el valor interpolado—. Por lo tanto, esas 2″ corresponden a la oblicuidad: la tabla se elaboró para exactamente 23° 26′. La línea recta de la interpolación, allí donde la eclíptica se curva, supone aquí menos de una décima de segundo.</p>",
+  "lost": []
+ },
+ "8702333bef74e8af": {
+  "text": "Pulse <em>«Siguiente paso»</em> cinco veces más para realizar el cálculo directo; la última fila lo repite con la oblicuidad de la tabla. A continuación, <em>abra la hoja de cálculo</em> para ver las catorce filas juntas.",
+  "lost": []
+ },
+ "423d07d75608ea5a": {
+  "text": "El Ascendente requiere dos relaciones",
+  "lost": []
+ },
+ "2028ccb46fd68471": {
+  "text": "<p>El Medio Cielo depende únicamente de la hora solar; el Ascendente depende también de la latitud. Y su latitud, 44° 58′ 48″, tampoco es un grado exacto. Por lo tanto, se encuentra entre dos columnas <em>y</em> entre dos filas: cuatro valores del Ascendente la enmarcan.</p>\n         <p>La línea dorada representa su relación de ST entre las columnas; la línea azul, su latitud entre 44° y 45°. Su Ascendente verdadero se encuentra donde se cruzan ambas líneas.</p>\n         <p>Lo hallamos en tres pasos: el Ascendente correspondiente a su ST en la latitud más baja; el mismo en la latitud más alta; y, a continuación, el punto situado entre ambos, según su relación de latitud.</p>",
+  "lost": []
+ },
+ "8d414ba3b78f20b4": {
+  "text": "Pulse <em>«Siguiente paso»</em> diez veces, leyendo la tira a medida que avanza. A la décima vez, aparecerá un punto donde la línea dorada se cruza con el borde inferior: el Ascendente de su carta natal a 44°.",
+  "lost": []
+ },
+ "d7c6a7bee9426d0f": {
+  "text": "A lo largo de los bordes superior e inferior",
+  "lost": []
+ },
+ "94eb714f81257b3a": {
+  "text": "<p>A 44°, el Ascendente pasa de 348° 48′ 41″ a las 17:36 a 350° 39′ 41″ a las 17:40, lo que supone una diferencia de 1° 51′ 00″. Multiplíquelo por la relación ST: 1° 44′ 59″. Súmelo al valor anterior: 350° 33′ 40″. Ese es el punto situado en el borde inferior.</p>\n         <p>A 45°, lo mismo: de 348° 31′ 22″ a 350° 25′ 09″, diferencia de 1° 53′ 47″, incremento de 1° 47′ 37″, Ascendente 350° 18′ 59″. Ese es el borde superior.</p>\n         <p>Ambos valores están próximos, pero no son iguales, y queremos ser precisos: unos pocos minutos del Ascendente son importantes para muchas técnicas.</p>",
+  "lost": []
+ },
+ "50c4f5f39f9e1077": {
+  "text": "Si pulsa <em>«Siguiente paso</em>» seis veces más, aparecerá el segundo punto en el borde superior. A continuación, pulse <em>«Todo»</em> y arrastre el control deslizante <span class=\"term lat\">de la fila de latitud</span> hasta el extremo superior: la línea azul se sitúa en el borde superior, a 45° 00′ 00″, y la fila 41 corresponde exactamente a ese punto, 350° 18′ 59″.",
+  "lost": []
+ },
+ "1e12ec97d7aa9ba5": {
+  "text": "En el margen: la relación de latitud",
+  "lost": []
+ },
+ "595df3567de1fc44": {
+  "text": "<p>Su latitud es de 58′ 48″ más allá de los 44°, dentro de un intervalo de 60′: una <span class=\"term lat\">relación</span> <span class=\"term lat\">de latitud</span> de 0,98. Los dos valores extremos difieren en 14′ 41″; su parte es 14′ 41″ × 0,98 = 14′ 23″.</p>\n         <p>Ahora avance desde el valor de latitud más bajo hacia el más alto. En este caso, el valor en 45° es menor, por lo que debe restar: 350° 33′ 40″ − 14′ 23″ = 350° 19′ 17″, es decir, 20° 19′ 17″ de Piscis.</p>\n         <p>La hoja de cálculo lo expresa como una regla: si la fila 30 es menor, se suma; si la fila 36 es menor, se resta. El diagrama lo explica de forma más sencilla: la respuesta se encuentra donde se cruzan las líneas.</p>",
+  "lost": []
+ },
+ "83bab958fc28b410": {
+  "text": "Pulse <em>«Siguiente paso»</em> seis veces para llegar a la fila 41: el punto verde se sitúa en la intersección. A continuación, pruebe con el símbolo ▼ situado junto al control deslizante de latitud: cada vez que lo pulse, el recuadro se desplazará una fila hacia abajo en la tabla y mantendrá su posición dentro de ella. Aquí, las filas están separadas por 1°; por debajo de los 20°, la tabla avanza en incrementos de 5°, y la fila 38 se divide entonces en intervalos de 5° en lugar de 60′.",
+  "lost": []
+ },
+ "0718853af59d0c18": {
+  "text": "<p>Janus asigna a este nativo un Ascendente de 20° 18′ 32″; el cálculo directo a partir de nuestra LST redondeada da como resultado 20° 18′ 54″; la interpolación arroja 20° 19′ 17″. Ninguno de ellos coincide, y eso es normal.</p>\n         <p>La página puede mostrar de dónde proceden sus propios 23″. Ambos cálculos parten de la misma LST, 17:39:47, pero no de la misma oblicuidad: el cálculo directo utiliza 23° 26′ 54″, mientras que la tabla, 23° 26′. Calculado directamente a 23° 26′, el Ascendente es 20° 19′ 17″ —exactamente el valor interpolado—. Por lo tanto, toda la diferencia aquí se debe a la oblicuidad; la línea recta de la interpolación presenta un desvío de aproximadamente 0,1″ en esta latitud.</p>\n         <p>La interpolación tiene un error propio cuando el Ascendente se desplaza rápidamente, como ocurre cerca de los polos, y uno mayor con pasos más amplios; por eso las tablas se redondean a 4′. Janus también puede diferir por otra razón, que se explica en la lección: un programa mantiene fracciones de segundo en el tiempo sideral. Esta página asigna a ambos cálculos la misma LST, por lo que no puede mostrar eso. Por lo tanto, no se preocupe si sus valores interpolados difieren ligeramente de los de su programa: la regla general de la lección es que una diferencia de hasta 1′ es aceptable.</p>",
+  "lost": []
+ },
+ "3c8b33905028f459": {
+  "text": "En la pestaña <em>«Hoja de trabajo»</em>, establezca la oblicuidad en 23° 26′: la diferencia que aparece en la nota debajo de la hoja de trabajo se reduce a 0″. A continuación, pulse ▲ junto al control deslizante de latitud hasta que la fila alcance los 59°–60°: la diferencia que se observa allí, −7″, corresponde únicamente a la interpolación. Vuelva a establecer la oblicuidad en 23° 26′ 54″ y el resultado pasa a ser +2′ 34″: la oblicuidad aporta +2′ 41″ y la interpolación −7″. La contribución de la oblicuidad aumenta cerca de los polos.",
+  "lost": []
+ },
+ "7cd5ac4f08718456": {
+  "text": "<p>La tabla está elaborada para el hemisferio norte. Para un nacimiento en el hemisferio sur, observe en primer lugar en qué signo se encuentra el MC a la hora local estándar (LST) del nativo. A continuación, sume o reste 12:00:00 a la LST y consulte la tabla como de costumbre, en la misma latitud norte.</p>\n         <p>El MC que encuentre estará en el signo opuesto: utilice el signo original. El Ascendente que encuentre también estará en el signo opuesto: asígnele el signo opuesto al que figura en la tabla.</p>\n         <p>El ejemplo corresponde a un nativo situado a 45° S con una LST de 16:00:00. El MC está a 2° 05′ de Sagitario. Al convertir a 4:00:00, la tabla indica 2° 05′ de Géminis —conviértalo en Sagitario— y un Ascendente de 7° 15′ de Virgo, que pasa a ser 7° 15′ de Piscis.</p>",
+  "lost": []
+ },
+ "625d978ee6eff728": {
+  "text": "La franja se encuentra en la fila S2, el segundo de los pasos que añade un nacimiento en el hemisferio sur; la S5, al final, asigna al Ascendente el signo opuesto. Pulse <em>«Todo</em>»: la respuesta que figura en el diagrama es el valor corregido de Piscis, y el cálculo directo lo confirma.",
+  "lost": []
+ },
+ "a0bf0ce970ec9754": {
+  "text": "<p>Una efeméride recoge las posiciones a las 00:00 horas de Greenwich cada día. La nativa nació a las 15:55 UT, momento en el que habían transcurrido 15:55 ÷ 24 = 0,6631944 del día. Esa es su <span class=\"term\">relación horaria de nacimiento</span>, y desempeña el papel que antes desempeñaba la relación ST.</p>\n         <p>El Sol se encontraba a 29° 21′ 50″ de Capricornio a medianoche, y a 0° 22′ 55″ de Acuario a la medianoche siguiente: un movimiento de 1° 01′ 05″. Su parte es 1° 01′ 05″ × 0,6631944 = 40′ 31″. Si se suma a la posición de medianoche, la posición del Sol al nacer es de 0° 02′ 21″ de Acuario.</p>\n         <p>La misma hoja de cálculo aplica este procedimiento a todos los planetas; solo cambian las dos posiciones.</p>",
+  "lost": []
+ },
+ "a98e8d7225a74989": {
+  "text": "Pulse <em>«Siguiente paso»</em> hasta llegar al final. A continuación, arrastre el control deslizante <span class=\"term\">de</span> <span class=\"term\">la</span> <span class=\"term\">hora de nacimiento</span>: un nacimiento al mediodía ocupa la mitad del movimiento diario, redondeado al segundo más cercano; un nacimiento a las 00:00 no ocupa ninguno.",
+  "lost": []
+ },
+ "6582396aad44fc97": {
+  "text": "Retrogrado: restar",
+  "lost": []
+ },
+ "a99bd6ec9e2274db": {
+  "text": "<p>Saturno estaba retrógrado ese día, tal y como se muestra en gris en la efeméride: 19° 02′ 56″ de Virgo a medianoche, 19° 00′ 40″ al día siguiente. Calcule el movimiento del día como de costumbre, restando la longitud del día siguiente de la del día de nacimiento: 19° 00′ 40″ − 19° 02′ 56″ = −2′ 16″. El resultado es negativo porque se desplazaba hacia atrás: eso es lo que significa «retrogrado».</p>\n         <p>La diferencia es de 2′ 16″; el incremento, 2′ 16″ × 0,6631944 = 1′ 30″. El único cambio es que lo restamos del inicio del día: 19° 02′ 56″ − 1′ 30″ = 19° 01′ 26″ en Virgo.</p>\n         <p>Tome el movimiento a través de los 0° de Aries cuando el planeta lo cruza. De 29° de Piscis a 1° de Aries son +2°, hacia adelante, no −358°: cuente más allá de los 360°. De 1° de Aries de vuelta a 29° de Piscis son −2°, retrógrado. La parte rellena de la regla se vuelve roja siempre que el movimiento es negativo.</p>",
+  "lost": []
+ },
+ "cac82e1768861a5c": {
+  "text": "Basta con pulsar dos veces más en <em>«Siguiente paso»</em> para completarlo. A continuación, <em>abra la hoja de cálculo</em> e introduzca un planeta de su propia página de efemérides —la medianoche de su cumpleaños y del día siguiente— y compare la fila 47 con su carta astral. Pruebe con 29° de Piscis y 1° de Aries para ver el paso de 360° que figura en la fila 45.",
+  "lost": []
+ },
+ "62a3ad0fef668c4e": {
+  "text": "AR",
+  "lost": []
+ },
+ "8d655be6142e6021": {
+  "text": "TA",
+  "lost": []
+ },
+ "78414175292d8e8a": {
+  "text": "GE",
+  "lost": []
+ },
+ "5065f3689a7d7b68": {
+  "text": "CN",
+  "lost": []
+ },
+ "6989995295daa295": {
+  "text": "LE",
+  "lost": []
+ },
+ "85ebe39d57f29d27": {
+  "text": "VI",
+  "lost": []
+ },
+ "ba32a770871155f7": {
+  "text": "LI",
+  "lost": []
+ },
+ "59aa962f7269a10c": {
+  "text": "SC",
+  "lost": []
+ },
+ "9832b282b4c3133a": {
+  "text": "SG",
+  "lost": []
+ },
+ "f19057bfb81b419d": {
+  "text": "CP",
+  "lost": []
+ },
+ "8bf9c844c5d894e7": {
+  "text": "AQ",
+  "lost": []
+ },
+ "fa7ff6fb00a7ace8": {
+  "text": "PI",
+  "lost": []
+ },
+ "e0996a37c13d44c3": {
+  "text": "primero",
+  "lost": []
+ },
+ "352f7829a2384b00": {
+  "text": "segundo",
+  "lost": []
+ },
+ "34fb3300b9a77beb": {
+  "text": "tercero",
+  "lost": []
+ },
+ "2db18e1d98e7ab7f": {
+  "text": "cuarto",
+  "lost": []
+ },
+ "5ad43148c90a8f2d": {
+  "text": "quinto",
+  "lost": []
+ },
+ "04053a7b8a695782": {
+  "text": "sexto",
+  "lost": []
+ },
+ "11aee249173e887d": {
+  "text": "séptimo",
+  "lost": []
+ },
+ "dd5d5862925f1f95": {
+  "text": "octavo",
+  "lost": []
+ },
+ "a511b41abd529a23": {
+  "text": "noveno",
+  "lost": []
+ },
+ "e4b1f7a0eb242369": {
+  "text": "décimo",
+  "lost": []
+ },
+ "50376c5fc311dcec": {
+  "text": "undécimo",
+  "lost": []
+ },
+ "ae8d22fc84726d9e": {
+  "text": "duodécimo",
+  "lost": []
+ },
+ "38fc16a1b71a6407": {
+  "text": "The Reckoner",
+  "lost": []
+ },
+ "f087b6707b9974ea": {
+  "text": "Aritmética en sistemas sexagesimales: se muestran todas las operaciones de traslado y préstamo",
+  "lost": []
+ },
+ "61cc55aa04531847": {
+  "text": "Añadir",
+  "lost": []
+ },
+ "ae5f61e523ef1946": {
+  "text": "Restar",
+  "lost": []
+ },
+ "c8d581f2c60a0597": {
+  "text": "Al sistema decimal",
+  "lost": []
+ },
+ "cbd8d55c118fd6c5": {
+  "text": "En grados",
+  "lost": []
+ },
+ "a05433a3f696b057": {
+  "text": "Signos",
+  "lost": []
+ },
+ "f34fb98df83b62de": {
+  "text": "Tiempo ↔ arco",
+  "lost": []
+ },
+ "44c57abd888a66b3": {
+  "text": "Restablecer",
+  "lost": []
+ },
+ "4ad0d835738aeaf9": {
+  "text": "Ocultar el proceso de cálculo",
+  "lost": []
+ },
+ "dd28e7957b916bf7": {
+  "text": "Mostrar el siguiente paso (Espacio)",
+  "lost": []
+ },
+ "6ec994543ee000df": {
+  "text": "Mostrar todos los pasos",
+  "lost": []
+ },
+ "3e15ac7882aa8da5": {
+  "text": "Práctica",
+  "lost": []
+ },
+ "bbd6d8c64d0c5882": {
+  "text": "Practique esto",
+  "lost": []
+ },
+ "1baa06b4c8bc2d63": {
+  "text": "Problema",
+  "lost": []
+ },
+ "7c7f5d049fad2569": {
+  "text": "Nivel",
+  "lost": []
+ },
+ "b02da8077deeb3d2": {
+  "text": "Gentle — grados y minutos",
+  "lost": []
+ },
+ "22f29be4e0fc0e5e": {
+  "text": "Ordinario — con segundos",
+  "lost": []
+ },
+ "88429ab9552b8430": {
+  "text": "Completo — saltos de línea y cruces",
+  "lost": []
+ },
+ "5e71f748869186d4": {
+  "text": "Nuevo problema",
+  "lost": []
+ },
+ "1e6e76ec12a7722a": {
+  "text": "Seleccione un modo debajo de la pizarra y, a continuación, pulse <em>«Nuevo problema</em>».",
+  "lost": []
+ },
+ "3ae5ff6e1731b62d": {
+  "text": "Su respuesta",
+  "lost": []
+ },
+ "4b5e84be0e45d1f4": {
+  "text": "Comprobar",
+  "lost": []
+ },
+ "4a23b8e1aef43a6c": {
+  "text": "Mostrar el proceso de cálculo",
+  "lost": []
+ },
+ "954daa8b00335c66": {
+  "text": "Derecha",
+  "lost": []
+ },
+ "ac4792cfd4868383": {
+  "text": "Streak",
+  "lost": []
+ },
+ "77003d07271f1497": {
+  "text": "Lo mejor",
+  "lost": []
+ },
+ "14226fe791fece6a": {
+  "text": "Sus propios números",
+  "lost": []
+ },
+ "dd37d0d1b615bba6": {
+  "text": "Resuelva uno de mis problemas",
+  "lost": []
+ },
+ "05c07ee8a5dfbebc": {
+  "text": "Resuelva el ejercicio",
+  "lost": []
+ },
+ "657dc95e0ae4c8e9": {
+  "text": "La pizarra oculta el resultado hasta que se va avanzando paso a paso por el proceso de cálculo, de modo que puede comprobar los deberes sin que se le revele la respuesta de antemano. <kbd>Introduzca</kbd> las operaciones; <kbd>la tecla «N»</kbd> le propone un nuevo problema; <kbd>la barra espaciadora</kbd> muestra un paso.",
+  "lost": []
+ },
+ "03b34e8afed01768": {
+  "text": "Las reglas",
+  "lost": []
+ },
+ "eaa220743de9a61b": {
+  "text": "Llevar y tomar prestado en sistemas de base sesenta",
+  "lost": []
+ },
+ "32c8677e35c0aed5": {
+  "text": "60″ equivalen a 1′; 60′ equivalen a 1°. Cuando una columna alcance 60, quédese con el resto y traspase 1 hacia la izquierda. Cuando no pueda restar, pida prestado 1 de la izquierda como si fuera 60.",
+  "lost": []
+ },
+ "88cb5de7071c9ec1": {
+  "text": "El círculo mide 360°",
+  "lost": []
+ },
+ "03e96f27e2eb84c6": {
+  "text": "Si se supera los 360°, reste 360°. Si el término superior de una resta es menor que el inferior, sume primero 360° al término superior.",
+  "lost": []
+ },
+ "bf3da184a9de4260": {
+  "text": "A decimales: dividir hacia la izquierda",
+  "lost": []
+ },
+ "8f607aaa38580552": {
+  "text": "Los segundos ÷ 60 se suman a los minutos; los minutos ÷ 60 se suman a los grados. Cinco decimales son más que suficientes.",
+  "lost": []
+ },
+ "106c3e6c3290dd5e": {
+  "text": "A grados: multiplique hacia la derecha",
+  "lost": []
+ },
+ "30d6fce4fd5e8f6a": {
+  "text": "La fracción multiplicada por 60 da los minutos; la nueva fracción multiplicada por 60 da los segundos. Redondee los segundos.",
+  "lost": []
+ },
+ "b7b744e452396096": {
+  "text": "Longitud absoluta",
+  "lost": []
+ },
+ "6e31a86dc362d0f4": {
+  "text": "Cada signo comienza 30° después del anterior, contando a partir de los 0° de Aries. Sume el inicio del signo a los grados que hay dentro del mismo; divida por 30 para retroceder.",
+  "lost": []
+ },
+ "ef2bbad02b549346": {
+  "text": "Tiempo y arco",
+  "lost": []
+ },
+ "ae81baa10f5ac39a": {
+  "text": "El cielo gira 15° en una hora. Multiplique el tiempo por 15 para obtener el arco; divida el arco entre 15 para obtener el tiempo.",
+  "lost": []
+ },
+ "34a7e3cc7d8aebf4": {
+  "text": "Los doce signos",
+  "lost": []
+ },
+ "eee009ef96d4c0ba": {
+  "text": "Si el resultado presenta una desviación exacta de 30°, el grado inicial del signo es incorrecto. Si la desviación es de 360°, se ha olvidado aplicar el retorno.",
+  "lost": []
+ },
+ "5ccf241662a8b1e9": {
+  "text": "¿Por qué sesenta?",
+  "lost": []
+ },
+ "f1be9e23f7a1381c": {
+  "text": "Los babilonios contaban en sesenas, y todos los astrónomos desde entonces han heredado este sistema: un círculo de 360°, un grado de 60 minutos y un minuto de 60 segundos. El número sesenta es divisible sin resto por 2, 3, 4, 5, 6, 10, 12, 15, 20 y 30, por lo que las fracciones de un círculo rara vez dejan resto. Los zījes de Bagdad se escribían en esta notación, utilizando letras del alfabeto en lugar de números, y aún hoy se siguen elaborando así las cartas astronómicas dibujadas a mano.",
+  "lost": []
+ },
+ "606bb0106b6568a7": {
+  "text": "No es habitual sumar longitudes en una carta astral impresa. Sin embargo, los «Lots» son distancias entre dos puntos, la tabla de casas se introduce según la hora sideral, y una longitud solo se convierte en una corrección horaria al dividirla entre quince —y ahí es cuando entra en juego la calculadora—.",
+  "lost": []
+ },
+ "5306d2346c2dfe53": {
+  "text": "Sigue la lección 5, apartados 2 y 6, del <em>curso de astrología natal tradicional</em> de Ben Dykes. La guía paso a paso utiliza sus ejemplos: las figuras 1, 3, 4 y 5; la resta 16° − 279° del apartado 2; y la hoja de ejercicios correspondiente a una persona nacida en Minneapolis. El valor de 371° del paso 3 es el suyo; los dos números que lo componen son nuestros.",
+  "lost": []
+ },
+ "3f6622f7df3fbfc1": {
+  "text": "grados decimales",
+  "lost": []
+ },
+ "48a693c488b52c76": {
+  "text": "Suma",
+  "lost": []
+ },
+ "faf4b679b166b46c": {
+  "text": "Resta",
+  "lost": []
+ },
+ "4cd82d27b5f55a60": {
+  "text": "A decimales",
+  "lost": []
+ },
+ "8f0e5a098677bc34": {
+  "text": "En grados",
+  "lost": []
+ },
+ "e17674f762c41095": {
+  "text": "práctica",
+  "lost": []
+ },
+ "c3499c2729730a7f": {
+  "text": "ejemplo",
+  "lost": []
+ },
+ "afba2fe73363466c": {
+  "text": "Pulse <em>«Siguiente paso»</em> para resolverlo paso a paso, o <em>«Todo»</em> para ver el ejercicio completo.",
+  "lost": []
+ },
+ "a16a4eda7cb2c8e9": {
+  "text": "Respuesta",
+  "lost": []
+ },
+ "0413134a216425c2": {
+  "text": "«v»° de arco",
+  "lost": []
+ },
+ "0669db12e5d39ae8": {
+  "text": "el RAMC · «v»° como decimal",
+  "lost": []
+ },
+ "5f7c36ac96d67775": {
+  "text": "«v» las horas como número decimal",
+  "lost": []
+ },
+ "b8bee70b13054dba": {
+  "text": "Añada «a» y «b».",
+  "lost": []
+ },
+ "3b230bd6c210ca0f": {
+  "text": "Reste «b» de «a».",
+  "lost": []
+ },
+ "d90a01e81aec2ef8": {
+  "text": "Convierta ««x»» a grados decimales.",
+  "lost": [
+   "«x»"
+  ]
+ },
+ "255a1c747a2bc674": {
+  "text": "Convierta ««x»» a grados, minutos y segundos.",
+  "lost": [
+   "«x»"
+  ]
+ },
+ "d5a2ab54431557b3": {
+  "text": "¿Cuál es la longitud absoluta de ««pos»»?",
+  "lost": [
+   "«pos»"
+  ]
+ },
+ "dbdf28513b95ba9e": {
+  "text": "Escriba ««x»» como un grado dentro de su signo.",
+  "lost": [
+   "«x»"
+  ]
+ },
+ "dec9482a37084990": {
+  "text": "¿A qué distancia se encuentra, contando hacia adelante a lo largo del zodíaco, de «a» a «b»?",
+  "lost": []
+ },
+ "fde58295627fe588": {
+  "text": "Tiempo sideral «t»: ¿qué grado de ascensión recta se encuentra en el meridiano?",
+  "lost": []
+ },
+ "ab52a175ad2bbdba": {
+  "text": "Una longitud de «x»: ¿a cuánto tiempo equivale eso (dividido entre 15)?",
+  "lost": []
+ },
+ "157375e58cfba2f5": {
+  "text": "para convertir a decimal, dividir hacia la izquierda",
+  "lost": []
+ },
+ "e14c5364b33b836f": {
+  "text": "desplácelo hacia la izquierda",
+  "lost": []
+ },
+ "afd269ff08967633": {
+  "text": "para convertir a grados, multiplique hacia la derecha",
+  "lost": []
+ },
+ "e8b5a1be4e698111": {
+  "text": "separar la fracción",
+  "lost": []
+ },
+ "12b35cc77f489aa6": {
+  "text": "redondeado al segundo más cercano",
+  "lost": []
+ },
+ "551a3673c24241fc": {
+  "text": "el primer grado del signo",
+  "lost": []
+ },
+ "b321713b81d2a921": {
+  "text": "longitud absoluta",
+  "lost": []
+ },
+ "76287cbbd98d2690": {
+  "text": "«d» ÷ 30 = «q», resto «r»°",
+  "lost": []
+ },
+ "f9210e56cf97fedf": {
+  "text": "«q» signos completos",
+  "lost": []
+ },
+ "5ac523d6b6af0ce0": {
+  "text": "de principio a fin, de forma lineal",
+  "lost": []
+ },
+ "1a06a7f2819badd3": {
+  "text": "inicio, absoluto",
+  "lost": []
+ },
+ "148699b384e9ca75": {
+  "text": "fin, al cruzar los 0° de Aries",
+  "lost": []
+ },
+ "b8030f12fe46b168": {
+  "text": "fin, absoluto",
+  "lost": []
+ },
+ "b389de35648e0c44": {
+  "text": "tiempo sideral × 15",
+  "lost": []
+ },
+ "974af431164fe818": {
+  "text": "arco ÷ 15",
+  "lost": []
+ },
+ "45b6fa28e55ffa0a": {
+  "text": " + el ««x»» de los traspasos",
+  "lost": [
+   "«x»"
+  ]
+ },
+ "171a3b4ba93c14c6": {
+  "text": "«lhs» = «sum». Como el resultado es un 60 completo, se mantiene ««keep»» y se traslada ««from»» como ««to»» a la columna de los minutos.",
+  "lost": [
+   "«keep»",
+   "«from»",
+   "«to»"
+  ]
+ },
+ "0a60b794658f9fcd": {
+  "text": "«lhs» = «sum». Como es menor de 60, se mantiene tal cual.",
+  "lost": []
+ },
+ "684b5f01b80308ef": {
+  "text": "«lhs» = «sum». Mantenga ««keep»» y traslade ««from»» como ««to»» a los grados.",
+  "lost": [
+   "«keep»",
+   "«from»",
+   "«to»"
+  ]
+ },
+ "91bdc818fe5bedde": {
+  "text": "«lhs» = «sum». Es menor de 60, por lo que se mantiene.",
+  "lost": []
+ },
+ "7d374c27da8edae9": {
+  "text": "«lhs» = «sum». Como es inferior a 360°, esta es la respuesta.",
+  "lost": []
+ },
+ "afdb42eb466f2116": {
+  "text": "«sum»° se encuentra más allá del extremo del círculo. El recuento vuelve a empezar en 0° una vez que se alcanza los 360°, por lo que debe restarse 360°: «calc».",
+  "lost": []
+ },
+ "86bccb9fdbba58b6": {
+  "text": "«a» es más pequeño que «b», por lo que la línea superior es más pequeña que la inferior. Añada primero un círculo completo: «calc». A continuación, reste como de costumbre.",
+  "lost": []
+ },
+ "f6f5e347044b8539": {
+  "text": "«v.a» es inferior a «v.b», pero la columna de los minutos está vacía y no hay nada que prestar. Por lo tanto, se debe tomar prestado dos veces: primero «v.oneDeg» de los grados como «v.sixtyMin», y luego «v.oneMin» de estos como «v.sixtySec». Esto deja «v.left», y los segundos pasan a ser «v.top». A continuación, «v.calc».",
+  "lost": []
+ },
+ "9baea36ae886eb0a": {
+  "text": "«v.a» es menor que «v.b», por lo que no podemos restar directamente. Pida prestado «v.oneMin» —es decir, «v.sixtySec»— de los minutos: «v.a» se convierte en «v.top», y los minutos se reducen a «v.min». A continuación, «v.calc».",
+  "lost": []
+ },
+ "6bc42f370bbe3112": {
+  "text": "«lhs» = «res». No es necesario tomar prestado.",
+  "lost": []
+ },
+ "dae6efaa5a041875": {
+  "text": "«v.before» es menor que «v.b»: se toma prestado «v.oneDeg» como «v.sixtyMin» de los grados, lo que da «v.top», y los grados se reducen a «v.deg». A continuación, «v.calc».",
+  "lost": []
+ },
+ "fd9f0cafa4ad4bae": {
+  "text": "Solo quedan «left», ya que hemos tomado prestado «oneMin». «calc».",
+  "lost": []
+ },
+ "d95485d3bd75c655": {
+  "text": "«calc». (Recuerde el grado que hemos prestado a los minutos.)",
+  "lost": []
+ },
+ "f307652ee07bf5bb": {
+  "text": "Empiece por la derecha. Hay 60″ en un minuto, así que divida los segundos entre 60: «calc». Esa fracción corresponde a los minutos.",
+  "lost": []
+ },
+ "d0b88d592225cd97": {
+  "text": "Añádalo a los minutos completos: «calc». La columna de los segundos ha desaparecido.",
+  "lost": []
+ },
+ "5881394682d480ac": {
+  "text": "Ahora divida los minutos entre 60: «calc». Esa fracción corresponde a los grados.",
+  "lost": []
+ },
+ "36fb562badf83156": {
+  "text": "Añádalo a los grados completos: «calc». Bastan cinco decimales; descarte el resto.",
+  "lost": []
+ },
+ "5ac28ab4da6dc7e2": {
+  "text": "Comience por la izquierda. Separe los grados enteros («d») y reserve la fracción («f») para trabajar con ella.",
+  "lost": []
+ },
+ "f3a887f5b2c5def7": {
+  "text": "Multiplique la fracción por 60 para convertirla en minutos: «calc».",
+  "lost": []
+ },
+ "c90f77b03b54d622": {
+  "text": "Deje a un lado los minutos enteros, «m», y conserve la nueva fracción «f».",
+  "lost": []
+ },
+ "6d4f83f0106ebe28": {
+  "text": "Multiplíquelo por 60 para convertirlo en segundos: «calc».",
+  "lost": []
+ },
+ "6fe63d8da5ac1425": {
+  "text": "Redondee al segundo más cercano: «calc». Sesenta segundos equivalen a un minuto completo, por lo que debe realizar el traslado. La respuesta es «ans».",
+  "lost": []
+ },
+ "19d37e8ff603e98d": {
+  "text": "El traslado alcanza los 360°, el círculo completo, que vuelve a ser 0°.",
+  "lost": []
+ },
+ "f77db78526d19f98": {
+  "text": "Sume los grados que hay dentro del signo al grado inicial de dicho signo: «calc».",
+  "lost": []
+ },
+ "b8b43261e68e6dc4": {
+  "text": "Divida los grados entre 30 para contar los signos completos: «calc», resto «rem». «q» han transcurrido signos completos.",
+  "lost": []
+ },
+ "524803d363afc367": {
+  "text": "Indique ambas ubicaciones como longitud absoluta. Inicio: «calc».",
+  "lost": []
+ },
+ "db93653ea9e5a97a": {
+  "text": "Fin: «calc».",
+  "lost": []
+ },
+ "49ebe2d63193d34c": {
+  "text": "Si contamos hacia adelante partiendo de «start», cruzamos la línea de los 0° de Aries antes de llegar al final. Por lo tanto, hay que sumar 360° al punto final: «calc». Ahora la resta se realiza correctamente.",
+  "lost": []
+ },
+ "a0297d56fcfb151d": {
+  "text": "El punto final se encuentra más adelante en el zodíaco que el punto de partida y no se cruza el 0° de Aries, por lo que no es necesaria ninguna corrección. Reste como de costumbre.",
+  "lost": []
+ },
+ "57b27acbe2fdb923": {
+  "text": "Los cielos giran 15° en una hora. Horas: «calc».",
+  "lost": []
+ },
+ "fccf3c6e15877fac": {
+  "text": "Minutos de tiempo: ««calc»» de arco, que equivale a ««conv.v»» («conv.mm» ÷ 60 = «conv.d» resto «conv.r»).",
+  "lost": [
+   "«calc»",
+   "«conv.v»"
+  ]
+ },
+ "0b2770aab605da20": {
+  "text": "Segundos de tiempo: un«calc»o de arco, que equivale a «conv».",
+  "lost": []
+ },
+ "5e13534a63b07cda": {
+  "text": "Quince grados equivalen a una hora. «calc», resto «rem».",
+  "lost": []
+ },
+ "b6acf48bbf1dd343": {
+  "text": "Convierta los grados restantes en minutos de arco y sume los minutos: «conv». A continuación, «calc», resto «rem».",
+  "lost": []
+ },
+ "13eec4e6786fdb96": {
+  "text": "Convierta los minutos restantes en segundos de arco y sume los segundos: «conv». A continuación, «calc», redondeado a «rounded». Sesenta segundos de tiempo equivalen a un minuto completo, por lo que debe pasarlo al siguiente.",
+  "lost": []
+ },
+ "adfd28283c13dbbc": {
+  "text": "Así pues, un«arc»e de arco equivale a un«time»e de tiempo.",
+  "lost": []
+ },
+ "fbc63d4038f63fa3": {
+  "text": "Correcto.",
+  "lost": []
+ },
+ "c53c562dab4b33b3": {
+  "text": "Sí.",
+  "lost": []
+ },
+ "1919e7be217e0a6e": {
+  "text": "Correcto.",
+  "lost": []
+ },
+ "c3181f58c79b55a5": {
+  "text": "Eso es todo.",
+  "lost": []
+ },
+ "de04e0a8362e3fe8": {
+  "text": "Exactamente.",
+  "lost": []
+ },
+ "03d15cf64a498914": {
+  "text": " Pulse la tecla N para ver otro ejemplo.",
+  "lost": []
+ },
+ "c0e683408453fa89": {
+  "text": "Muy cerca: compruebe los últimos decimales; mantenga cinco.",
+  "lost": []
+ },
+ "c8048c0c169bbd10": {
+  "text": "Se trata de los minutos escritos tras un punto, sin dividir entre 60.",
+  "lost": []
+ },
+ "d230209b9937bb2b": {
+  "text": "Divida hacia la izquierda: primero los segundos ÷ 60 y, a continuación, los minutos ÷ 60.",
+  "lost": []
+ },
+ "d426a413d3ce6bd7": {
+  "text": "Las horas no cuadran: grados ÷ 15; guarde el resto para los minutos.",
+  "lost": []
+ },
+ "304047226f2d5582": {
+  "text": "Los minutos no cuadran: recuerde convertir los grados restantes en 60′ cada uno.",
+  "lost": []
+ },
+ "4d18de1c3e5dfbb2": {
+  "text": "Los segundos no cuadran: los minutos restantes se convierten en 60″ cada uno y, a continuación, se dividen entre 15.",
+  "lost": []
+ },
+ "7350d87ccdfe5cbc": {
+  "text": "Grado correcto, signo incorrecto: vuelva a contar los signos completos — han pasado «n».",
+  "lost": []
+ },
+ "83b951ddf6bfeda5": {
+  "text": "Signo correcto: el grado es el resto tras dividir entre 30, sin modificar los minutos ni los segundos.",
+  "lost": []
+ },
+ "82cde7c007881cc5": {
+  "text": "Divida los grados entre 30: el cociente indica los signos transcurridos, y el resto corresponde al grado dentro del siguiente.",
+  "lost": []
+ },
+ "b83855dd91547362": {
+  "text": "Ha retrocedido más allá de los 0° de Aries; sume primero 360° a la línea superior.",
+  "lost": []
+ },
+ "e6d6ea363b09e8fa": {
+  "text": "Desviación de un círculo completo: reste 360° cuando los grados alcancen los 360.",
+  "lost": []
+ },
+ "e400e5605da4dd4e": {
+  "text": "Desviación de «deg»°: el grado inicial de un signo es incorrecto.",
+  "lost": []
+ },
+ "210507ab68c05602": {
+  "text": "Solo los segundos están desajustados.",
+  "lost": []
+ },
+ "669101134184fdac": {
+  "text": "Los minutos no cuadran: ¿ha incluido el traslado o la toma prestada de los segundos?",
+  "lost": []
+ },
+ "a031cf5aa06592df": {
+  "text": "Los grados no cuadran: compruebe el traslado o la toma prestada de los minutos.",
+  "lost": []
+ },
+ "064ee66fd9482a16": {
+  "text": "Desviación de exactamente una unidad: se ha omitido un traslado o una toma prestada.",
+  "lost": []
+ },
+ "22d3f764ec312072": {
+  "text": "Si una columna tiene 60 o más, se lleva a la izquierda.",
+  "lost": []
+ },
+ "c1fabba11105c9ee": {
+  "text": "Todavía no. Repase paso a paso el proceso en la pizarra para encontrar el error.",
+  "lost": []
+ },
+ "bfabc871a86fc63d": {
+  "text": "Escriba primero su respuesta en las casillas.",
+  "lost": []
+ },
+ "3d5124d7f6a54834": {
+  "text": "La resta se realiza en el orden inverso: reste la línea inferior de la superior.",
+  "lost": []
+ },
+ "761ece57679b07cb": {
+  "text": "El contador cruza los 0° de Aries: sume primero 360° al punto final.",
+  "lost": []
+ },
+ "656ddd0228a8154f": {
+  "text": "Los grados van de 0 a 359: 360° es el círculo completo, que vuelve a ser 0°.",
+  "lost": []
+ },
+ "d2d05836c1b2033c": {
+  "text": "Correcto, pero no a la primera, así que no cuenta. Pulse N para volver a intentarlo.",
+  "lost": []
+ },
+ "f2a7b182fdaca3ac": {
+  "text": "Escriba el número decimal utilizando únicamente dígitos y un punto, como 23,43666.",
+  "lost": []
+ },
+ "029c9a73f1751b73": {
+  "text": "Solo los minutos están desajustados.",
+  "lost": []
+ },
+ "1d539af43ebb49f6": {
+  "text": "Solo los grados están desajustados.",
+  "lost": []
+ },
+ "02678031ecd162be": {
+  "text": "Hay una diferencia de exactamente un minuto: revise de nuevo cada columna.",
+  "lost": []
+ },
+ "1815120f1c34de2f": {
+  "text": "Si hay una diferencia de exactamente un grado, revise de nuevo cada columna.",
+  "lost": []
+ },
+ "ec45467ace47325f": {
+  "text": "Escriba números enteros, con minutos y segundos del 0 al 59.",
+  "lost": []
+ },
+ "58f5898aa8e51f07": {
+  "text": "Falta un segundo: la fracción es de medio segundo o más, por lo que debe redondearse al alza.",
+  "lost": []
+ },
+ "0dc215fe206b96b0": {
+  "text": "Un segundo de más: la fracción es inferior a medio segundo, por lo que se redondea hacia abajo.",
+  "lost": []
+ },
+ "c74a12a3e25684f3": {
+  "text": "Ya se ha calculado. Pulse N para un nuevo problema.",
+  "lost": []
+ },
+ "56638fa0a04e56c2": {
+  "text": "Correcto, pero se veía el proceso de cálculo, así que no cuenta. Pulse N para intentar otra vez.",
+  "lost": []
+ },
+ "916a78d701ded328": {
+  "text": "Primero",
+  "lost": []
+ },
+ "2a4bcae654f264da": {
+  "text": "Segundo",
+  "lost": []
+ },
+ "3f66052a107eaf9b": {
+  "text": "De",
+  "lost": []
+ },
+ "c12db254124ecdce": {
+  "text": "Grados decimales",
+  "lost": []
+ },
+ "7bb0ddf9221c03b8": {
+  "text": "Tarea",
+  "lost": []
+ },
+ "9c2844bfd9583b5f": {
+  "text": "Signo → absoluto",
+  "lost": []
+ },
+ "421972e4e1ddd92e": {
+  "text": "Absoluto → signo",
+  "lost": []
+ },
+ "65d19ef2e63cc9d4": {
+  "text": "Distancia de A a B",
+  "lost": []
+ },
+ "65c540e7c8df9be6": {
+  "text": "A (o la posición)",
+  "lost": []
+ },
+ "ca4aa699716da973": {
+  "text": "Tiempo × 15 → arco",
+  "lost": []
+ },
+ "66d53730de407252": {
+  "text": "Arco ÷ 15 → tiempo",
+  "lost": []
+ },
+ "6c82e6dd86807ee3": {
+  "text": "Hora",
+  "lost": []
+ },
+ "853a983f6b8abdb9": {
+  "text": "Arco",
+  "lost": []
+ },
+ "bd4a1a23810df30f": {
+  "text": "Grados del 0 al 359, minutos y segundos del 0 al 59.",
+  "lost": []
+ },
+ "48380b7242501057": {
+  "text": "Un número decimal comprendido entre 0 y 360.",
+  "lost": []
+ },
+ "c485fa53aee0ed2a": {
+  "text": "Los grados dentro de un signo van del 0 al 29.",
+  "lost": []
+ },
+ "0a0dd63bfc186eab": {
+  "text": "La longitud absoluta va de 0 a 359°.",
+  "lost": []
+ },
+ "1452f3b89e98ab99": {
+  "text": "Horas del 0 al 23, minutos y segundos del 0 al 59.",
+  "lost": []
+ },
+ "c816b0a49b765292": {
+  "text": "En la pizarra. Siga los pasos o escriba su respuesta arriba y compruébela.",
+  "lost": []
+ },
+ "8b3d8d665a765918": {
+  "text": "Iniciar sesión",
+  "lost": []
+ },
+ "33a783add30fb01f": {
+  "text": "Abreviatura.",
+  "lost": []
+ },
+ "db88a49c8c4217e1": {
+  "text": "Comienza en",
+  "lost": []
+ },
+ "f334ae2efa6ce53e": {
+  "text": "Contar en sesenas",
+  "lost": []
+ },
+ "4b902dfd05d817f2": {
+  "text": "<p>Un círculo tiene 360°, un grado tiene 60 minutos (60′) y un minuto tiene 60 segundos (60″). Podríamos profundizar aún más en tercios, pero resulta engorroso y casi siempre innecesario.</p>\n         <p>Dado que las unidades se expresan en sesenas, siguen aplicándose las reglas habituales de la aritmética en columnas: solo hay que recordar que una columna se llena a <em>sesenta</em>, no a diez. Ese único dato constituye el contenido completo de esta página.</p>\n         <p>La pizarra trabaja una columna cada vez y indica lo que está haciendo. Los dígitos <span class=\"term\">de latón</span> situados encima de una columna son los llevados; los tachados son los prestados.</p>",
+  "lost": []
+ },
+ "1fb8e72f0f683c15": {
+  "text": "Pulse <em>«Siguiente paso»</em> debajo de la pizarra tres veces y observe cómo se van llenando las columnas desde la derecha.",
+  "lost": []
+ },
+ "7915805c24cee47d": {
+  "text": "Suma: se lleva sesenta como si fuera uno",
+  "lost": []
+ },
+ "d15ea808dcdc5b23": {
+  "text": "<p>Este es el ejemplo de la lección. En la columna de los segundos, 12″ y 56″ suman 68″. Son más segundos de los que hay en un minuto, por lo que solo conservamos 8″ y pasamos los otros 60″ a la columna de los minutos como 1′.</p>\n         <p>El resto de la suma es sencillo: 26′ + 13′ + 1′ = 40′, y 23° + 48° = 71°.</p>\n         <p>Empiece siempre por la derecha. El saldo se traslada hacia la izquierda, y no se puede saber qué contiene la columna de los minutos hasta que se haya completado la columna de los segundos.</p>",
+  "lost": []
+ },
+ "13dde08898d2e40a": {
+  "text": "Pulse <em>«Restablecer»</em> y vuelva a seguir los pasos; esta vez, diga en voz alta cada columna antes de revelarla.",
+  "lost": []
+ },
+ "7ed61b44e605890d": {
+  "text": "Más allá del extremo del círculo",
+  "lost": []
+ },
+ "3c850319fa2c7fbd": {
+  "text": "<p>La columna de grados puede llegar hasta los 360°. Si se sobrepasa, reste 360° y obtendrá la respuesta, ya que el recuento vuelve a empezar en 0° una vez que se alcanzan los 360°.</p>\n         <p>En este caso, 340° + 31° = 371°, por lo que la respuesta es 371° − 360° = 11°. En el zodíaco, eso equivale a 11° de Aries: hemos sobrepasado el final de Piscis y hemos vuelto a empezar.</p>\n         <p>La pizarra muestra el salto de columna como un número tachado, ya que se trata de una corrección de los grados, no de una cuarta columna.</p>",
+  "lost": []
+ },
+ "409e1c599d429345": {
+  "text": "Muestre todos los pasos. A continuación, abra <em>«Práctica»</em>, seleccione el nivel <em>«Completo»</em> y pulse <em>«Nuevo problema</em>»: todas las sumas que aparecen allí se ajustan al sistema sexagesimal.",
+  "lost": []
+ },
+ "123c5df2c1cc289f": {
+  "text": "Resta: se toma prestado uno como sesenta",
+  "lost": []
+ },
+ "b85050f09ecc616f": {
+  "text": "<p>El otro ejemplo de la lección. En la columna de los segundos, 12″ es menor que 56″, por lo que no podemos restar directamente. Tomamos prestado 1′ —que equivale a 60″— de la columna de los minutos, lo que da un total de 72″. Entonces, 72″ − 56″ = 16″.</p>\n         <p>Ahora, la columna de los minutos: solo quedan 25′, ya que hemos tomado prestado 1′. Por lo tanto, 25′ − 13′ = 12′. El resto debería resultar obvio.</p>\n         <p>Los dígitos tachados en la pizarra son exactamente las marcas de lápiz que se harían en un papel.</p>",
+  "lost": []
+ },
+ "08a04ad39b541fae": {
+  "text": "Siga paso a paso el proceso. Observe que el préstamo se muestra en el momento en que es necesario, en el paso de los segundos, y luego simplemente se tiene en cuenta en el paso de los minutos.",
+  "lost": []
+ },
+ "939ac6d04e7cad21": {
+  "text": "Cuando la parte superior es más pequeña",
+  "lost": []
+ },
+ "184e587d4eaf609c": {
+  "text": "<p>Si los grados de la fila superior son menores que los de la inferior —como al restar 279° de 16°—, basta con sumar primero 360° a los 16° y obtendrá la respuesta.</p>\n         <p>Se trata del mismo ciclo que antes, visto desde el otro lado. Estamos retrocediendo más allá de los 0° de Aries, por lo que nos «prestamos» un círculo completo para que la resta se realice correctamente.</p>\n         <p>La respuesta, 97°, corresponde a 7° de Cáncer. Cuéntelo en una rueda astrológica: desde los 9° de Capricornio (279°) hasta los 16° de Aries hay 97°.</p>",
+  "lost": []
+ },
+ "e30176e6f267257f": {
+  "text": "Mostrar todo. A continuación, pruebe lo contrario en la pestaña «Práctica» con sus propios números: reste 16° de 279° y compruebe que la suma de las dos respuestas es 360°.",
+  "lost": []
+ },
+ "ad422092f92db52f": {
+  "text": "<p>A la hora de realizar cálculos, suele resultar más sencillo disponer de un único número decimal. Considérelo como una contracción: los segundos se agrupan en los minutos, y los minutos, a su vez, en los grados.</p>\n         <p>Divida de derecha a izquierda. 12″ ÷ 60 = 0,2, que se suma a los 26′ para dar 26,2′. A continuación, 26,2′ ÷ 60 = 0,43666, que se suma a los 23° para dar 23,43666°.</p>\n         <p>En una calculadora, esto es una serie ininterrumpida de pasos: 12 ÷ 60, + 26, ÷ 60, + 23. Cinco decimales son más que suficientes para trabajar con cartas náuticas.</p>",
+  "lost": []
+ },
+ "db05fbd184fa26d8": {
+  "text": "Siga los pasos y, a continuación, calcule su propio Ascendente en la pestaña «Práctica». Compárelo con la visualización decimal de su programa, si dispone de ella.",
+  "lost": []
+ },
+ "25c4f8f919ac613b": {
+  "text": "<p>El proceso inverso consiste en una expansión. Desprecie los grados enteros y multiplique la fracción por 60 para obtener los minutos; desprecie los minutos enteros y multiplique la nueva fracción por 60 para obtener los segundos.</p>\n         <p>0,43666 × 60 = 26,1996′, es decir, 26′ y una fracción de 0,1996. A continuación, 0,1996 × 60 = 11,976″, lo que se redondea a 12″. Volvemos así a 23° 26′ 12″.</p>\n         <p>El redondeo final es la razón por la que un valor convertido puede diferir de su programa en un segundo. No se trata de un error.</p>",
+  "lost": []
+ },
+ "d46084c54cd1022b": {
+  "text": "Muestre todo. A continuación, tome la respuesta, conviértala de nuevo a decimal en el modo <em>«A decimal</em>» y compruebe que el ciclo se cierra.",
+  "lost": []
+ },
+ "19406f79a333f76d": {
+  "text": "Signos y longitud absoluta",
+  "lost": []
+ },
+ "b01f12f3374f88d4": {
+  "text": "<p>Una carta astral indica 25° 21′ 41″ de Sagitario. Una tabla de casas, así como gran parte de la aritmética de esta lección, requiere que ese valor se considere un recuento único a partir de 0° de Aries: su <span class=\"term\">longitud absoluta</span>.</p>\n         <p>Cada signo tiene una longitud de 30°, y Sagitario es el noveno signo, por lo que le preceden ocho signos completos —240°—. Sume los grados dentro del signo: 240° + 25° 21′ 41″ = 265° 21′ 41″. Este es el Medio Cielo de la lección.</p>\n         <p>Para retroceder, divida los grados entre 30: el cociente indica el número de signos completos transcurridos, y el resto corresponde al grado dentro del siguiente signo. El anillo en la pizarra indica dónde se sitúa el punto.</p>",
+  "lost": []
+ },
+ "5fbfebd044949a86": {
+  "text": "Mostrar todo. A continuación, en la sección «Práctica», en el nivel <em>«Suave»</em>, realice cinco de estos ejercicios hasta que los grados iniciales del signo le salgan de forma automática.",
+  "lost": []
+ },
+ "dfaa17d9e545be89": {
+  "text": "Distancia a lo largo de 0° de Aries",
+  "lost": []
+ },
+ "86d65ab9af8bed5e": {
+  "text": "<p>En ocasiones, se necesita la distancia exacta entre dos puntos del zodíaco, y lo único que se conoce son sus posiciones dentro de sus signos. Convierta ambos en longitud absoluta y reste. Muchos cálculos se realizan de esta manera.</p>\n         <p>Pero si está midiendo desde una posición tardía del zodíaco hasta una temprana —en este caso, como se muestra en la figura 3 de la lección, desde los 17° de Acuario hacia adelante hasta los 23° de Aries—, cruzará la línea de los 0° de Aries. Sume primero 360° al punto final y, a continuación, reste como de costumbre.</p>\n         <p>Si no está seguro, cuente hacia adelante en incrementos de 5° en una rueda de cartas astronómicas para aproximarse. Si se desvía en 30°, es que ha cometido algún error.</p>",
+  "lost": []
+ },
+ "9d0e96a9d4c31b7f": {
+  "text": "Siga paso a paso el proceso y observe cómo el arco de latón del anillo cruza la línea roja de Aries. La resta que aparece debajo se realiza de la misma forma que antes, en columnas.",
+  "lost": []
+ },
+ "7de73ebcf4c32bdd": {
+  "text": "Tiempo en arco",
+  "lost": []
+ },
+ "abb689a06fa05461": {
+  "text": "<p>La hora sideral es un reloj de 24 horas que indica qué grado de ascensión recta se encuentra en el meridiano. Los cielos giran 360° en 24 horas, por lo que una hora equivale a 15° de arco; el tiempo se convierte en arco multiplicándolo por 15.</p>\n         <p>Multiplique cada unidad por separado y, a continuación, sume las columnas: 17 h × 15 = 255°, 39 m × 15 = 585′ = 9° 45′, y 47 s × 15 = 705″ = 11′ 45″. En total, 264° 56′ 45″.</p>\n         <p>Esta es la posición nativa de la alumna: su hora sideral local de las 17:39:47 da un RAMC de 264° 56′ 45″, a partir del cual se calcula el Medio Cielo.</p>",
+  "lost": []
+ },
+ "0148e89e1017eb73": {
+  "text": "Mostrar todo. A continuación, calcule la hora sideral de una de sus propias cartas astronómicas y conviértala a RAMC aquí; compárela con su programa.",
+  "lost": []
+ },
+ "87d6f1f74b856847": {
+  "text": "Arco en el tiempo",
+  "lost": []
+ },
+ "48aa5659e62653ac": {
+  "text": "<p>Para la corrección de la longitud se necesita el proceso inverso: la longitud del lugar de nacimiento, dividida entre 15, es la diferencia entre la hora sideral de Greenwich y la hora sideral local.</p>\n         <p>Minneapolis se encuentra a 93° 15′ 48″ O. 93° ÷ 15 = 6 h con 3° de resto; 3° equivalen a 180′, más 15′ dan 195′, y 195′ ÷ 15 = 13 m exactamente; 48″ ÷ 15 = 3,2 s. Por lo tanto, la corrección es de 6 h 13 m 03 s, que se resta porque la ciudad se encuentra al oeste de Greenwich.</p>\n         <p>Esto abarca el cálculo aritmético del §2 y las conversiones de la primera hoja de ejercicios del §6. Las sumas de horas, minutos y segundos de la hoja de ejercicios siguen las mismas reglas de columna; su aceleración (9,86 segundos por hora) es una multiplicación que en esta página no se realiza. El resto de la lección consiste en consultar datos en tablas —y en realizar este cálculo aritmético con esmero—.</p>",
+  "lost": []
+ },
+ "4463a5e29fa842fa": {
+  "text": "Mostrar todo. A continuación, vaya a «Práctica» y trabaje cada modo en el nivel <em>«Ordinario»</em> hasta que pueda completar una serie de cinco sin cometer ningún error.",
+  "lost": []
+ },
+ "48c98cab7866e606": {
+  "text": "Sol",
+  "lost": []
+ },
+ "846b90266cabf4b3": {
+  "text": "Luna",
+  "lost": []
+ },
+ "606cb109e24d7820": {
+  "text": "Mercurio",
+  "lost": []
+ },
+ "710689724688f399": {
+  "text": "Venus",
+  "lost": []
+ },
+ "1778011d76abab63": {
+  "text": "Marte",
+  "lost": []
+ },
+ "88d1577dcc4f245a": {
+  "text": "Júpiter",
+  "lost": []
+ },
+ "7c14ab20f3a9f832": {
+  "text": "Saturno",
+  "lost": []
+ },
+ "0fe90a57fa4608d3": {
+  "text": "Aldebarán",
+  "lost": []
+ },
+ "fa571a7fd3124ae6": {
+  "text": "Regulus",
+  "lost": []
+ },
+ "5bcb4cec4497ffd1": {
+  "text": "Antares",
+  "lost": []
+ },
+ "35867502a56ec18f": {
+  "text": "Fomalhaut",
+  "lost": []
+ },
+ "31bd6c11b24af273": {
+  "text": "El planetario de Sayyid",
+  "lost": []
+ },
+ "f738a218f219a9ff": {
+  "text": "Los modelos de Ptolomeo, vistos desde el polo de la eclíptica",
+  "lost": []
+ },
+ "f949d34c5a95a2d7": {
+  "text": "Mostrar u ocultar la ficha de lectura",
+  "lost": []
+ },
+ "334460037081189e": {
+  "text": "Escena",
+  "lost": []
+ },
+ "8458445d8d97c476": {
+  "text": "Conjunción",
+  "lost": []
+ },
+ "2d2cb022bc3d26bd": {
+  "text": "Velocidad",
+  "lost": []
+ },
+ "eb9a4bc1c0c153e4": {
+  "text": "Fecha",
+  "lost": []
+ },
+ "24345a14377fd821": {
+  "text": "Hoy",
+  "lost": []
+ },
+ "6eac4590225a10b4": {
+  "text": "Hechos",
+  "lost": []
+ },
+ "f055f18aeadcf431": {
+  "text": "Capas",
+  "lost": []
+ },
+ "b0c1abe3a275d04c": {
+  "text": "Vuelva a colocar este paso en su posición inicial",
+  "lost": []
+ },
+ "68c2cc7f0ceaa3e4": {
+  "text": "Modelo",
+  "lost": []
+ },
+ "ff56ad97455cbca0": {
+  "text": "Descentrado",
+  "lost": []
+ },
+ "e040db2b7f1361a9": {
+  "text": "Movimiento",
+  "lost": []
+ },
+ "2f38169a712e499b": {
+  "text": "Trazar",
+  "lost": []
+ },
+ "b3d97fd6dece388a": {
+  "text": "Cielo",
+  "lost": []
+ },
+ "a3e5fb38511b72d9": {
+  "text": "Las posiciones se derivan de la geometría de Ptolomeo, utilizando los parámetros modernos que figuran en la figura 27 de la lección y las longitudes medias del sistema J2000. Se ajustan al cielo real con una precisión de uno o dos grados —suficiente para reconocer a Marte esta noche, pero insuficiente para elaborar una carta astral—.",
+  "lost": []
+ },
+ "17c03d0c53b34eef": {
+  "text": "Parámetros (Figura 27)",
+  "lost": []
+ },
+ "1f637f6de32ee8a2": {
+  "text": "La excentricidad es la distancia desde la Tierra hasta el centro del deferente, expresada como una fracción del radio de este; el equante se sitúa en el doble de dicha distancia. El epiciclo es una fracción del mismo radio. Los apogeos corresponden al año 2020 y se desplazan aproximadamente 1° cada 72 años.",
+  "lost": []
+ },
+ "0518ae8570bcbd24": {
+  "text": "Períodos (Figura 28)",
+  "lost": []
+ },
+ "c38a5eff9d7e2436": {
+  "text": "Lo que el modelo no es",
+  "lost": []
+ },
+ "ce4531c00934efce": {
+  "text": "No se trata de una efeméride. Se han omitido los mecanismos tolemaicos completos de Mercurio y de la Luna (Ben los describe con diagramas en su obra «Leopoldo de Austria»); aquí, la Luna se mueve a su velocidad media. Se ignora la latitud eclíptica, por lo que todo se sitúa en el plano sobre el que se observa desde arriba.",
+  "lost": []
+ },
+ "bb0b1cf200c9c5c5": {
+  "text": "Y, sin embargo, Marte entra en movimiento retrógrado un día antes de lo que lo hace en realidad, y las estaciones se ajustan con una precisión de una décima de día. Esa era la idea de Ptolomeo: bastan unos pocos círculos y una tabla de correcciones para predecir el cielo durante siglos.",
+  "lost": []
+ },
+ "f8b50af378dc8794": {
+  "text": "<b>Para </b>la cohorte<b> de Fomalhaut</b>, Fomalhaut, el Vigilante del Sur, aparece dibujado en el borde de cada escena en su longitud actual, acompañado de las otras tres estrellas reales. La boca del pez del sur es hacia donde se dirige lentamente el equinoccio.",
+  "lost": []
+ },
+ "e70e2724ed8c3c45": {
+  "text": "Se basa en la lección 5, apartados 4 y 5, del <em>curso de astrología natal tradicional</em> de Ben Dykes, así como en el simulador de modelos planetarios que él recomienda; las figuras (16-28) son suyas. Lectura recomendada: James Evans, <em>*The History and Practice of Ancient Astronomy</em>*.",
+  "lost": []
+ },
+ "5d12bd53552cafc4": {
+  "text": "Reproducir",
+  "lost": []
+ },
+ "781961bc81c25697": {
+  "text": "Pausa",
+  "lost": []
+ },
+ "4d4ce73b15660f20": {
+  "text": "Ficha",
+  "lost": []
+ },
+ "e6bfe39e0e166699": {
+  "text": "Ocultar tarjeta",
+  "lost": []
+ },
+ "51400ad21cb197a7": {
+  "text": "Epiciclo",
+  "lost": []
+ },
+ "13a8c6208a51d71a": {
+  "text": "Excentricidad",
+  "lost": []
+ },
+ "348f24da359b0bc1": {
+  "text": "Velocidad en °/día",
+  "lost": []
+ },
+ "ef46325c0ae83a5a": {
+  "text": "Apogeo",
+  "lost": []
+ },
+ "b2dd5dffcd96f215": {
+  "text": "Período tropical",
+  "lost": []
+ },
+ "d66f8297fda5f3a1": {
+  "text": "Años menores",
+  "lost": []
+ },
+ "4b4a647961dce314": {
+  "text": "O · Sayyid",
+  "lost": []
+ },
+ "b3f9fadab0ed0a8a": {
+  "text": "apogeo",
+  "lost": []
+ },
+ "742dbec072d6b8fe": {
+  "text": "perigeo",
+  "lost": []
+ },
+ "5f00f7a0a9f5e57d": {
+  "text": "media",
+  "lost": []
+ },
+ "eace64e8c5760c33": {
+  "text": "equante",
+  "lost": []
+ },
+ "bd7580126b941404": {
+  "text": "encuentro",
+  "lost": []
+ },
+ "94509ddf85cc3f8c": {
+  "text": "prevención",
+  "lost": []
+ },
+ "10e85307ec7eafc0": {
+  "text": "retorno tropical",
+  "lost": []
+ },
+ "69bbb56d0ac39508": {
+  "text": "El Sol",
+  "lost": []
+ },
+ "a77c1b28f3e4696a": {
+  "text": "excéntrico",
+  "lost": []
+ },
+ "f039c6383fcb5063": {
+  "text": "Sol medio",
+  "lost": []
+ },
+ "28d2279f9e096fe3": {
+  "text": "Sol verdadero",
+  "lost": []
+ },
+ "295e0d358155206b": {
+  "text": "Ecuación",
+  "lost": []
+ },
+ "e4123eff4b8461e9": {
+  "text": "Concéntrico: el Sol verdadero se sitúa sobre el Sol medio y la ecuación es igual a cero.",
+  "lost": []
+ },
+ "4fb90c8d57bd78b7": {
+  "text": "La tabla de ecuaciones recoge esta corrección para cada posición media.",
+  "lost": []
+ },
+ "4ed3cf8b690e06fe": {
+  "text": "retrógrado",
+  "lost": []
+ },
+ "51cda54aed2354d8": {
+  "text": "Media",
+  "lost": []
+ },
+ "88b33e4e12f75ac8": {
+  "text": "Verdadero",
+  "lost": []
+ },
+ "58be57c1fa330010": {
+  "text": "Movimiento diario",
+  "lost": []
+ },
+ "6ba0e7e7046acac4": {
+  "text": "K se desplaza junto al Sol medio; Venus gira a su alrededor por el epiciclo.",
+  "lost": []
+ },
+ "124cfeeb291fe737": {
+  "text": "El radio del epiciclo apunta siempre hacia el Sol medio.",
+  "lost": []
+ },
+ "3d4db13a5f36335c": {
+  "text": "conjunción",
+  "lost": []
+ },
+ "fcbe0d61d58fcd34": {
+  "text": "«glyph» verdadero",
+  "lost": []
+ },
+ "6da7969e75c6a703": {
+  "text": "Separación verdadera.",
+  "lost": []
+ },
+ "d8aa09691a25ed66": {
+  "text": "Separación media.",
+  "lost": []
+ },
+ "11c2a9f3e63a77a3": {
+  "text": "Conjunción media: ambos apuntan al mismo grado, medido en sus equantes. Verdadera: tal y como los vemos.",
+  "lost": []
+ },
+ "c86168beb32c9793": {
+  "text": "La Luna",
+  "lost": []
+ },
+ "a55ccaf1ca245c8f": {
+  "text": "conjuntivo",
+  "lost": []
+ },
+ "53c0d6cad2a45be6": {
+  "text": "prevencional",
+  "lost": []
+ },
+ "adf2acd6e0b5bc85": {
+  "text": "Elongación",
+  "lost": []
+ },
+ "e1c99deed0738a4d": {
+  "text": "«deg»° · «d» días desde el encuentro",
+  "lost": []
+ },
+ "17dc9a83744348b2": {
+  "text": "Reunión",
+  "lost": []
+ },
+ "509d3ee4d65f5902": {
+  "text": "Prevención",
+  "lost": []
+ },
+ "efa316e37ef251b2": {
+  "text": "Nacido tras el encuentro y antes de la prevención: una natividad conjuncional.",
+  "lost": []
+ },
+ "7020e78387b1a315": {
+  "text": "Nacido tras la prevención y antes del siguiente encuentro: una natividad preventiva.",
+  "lost": []
+ },
+ "d1ae4609d49c2481": {
+  "text": "Las estaciones",
+  "lost": []
+ },
+ "707f49e50bf9def2": {
+  "text": "según el modelo",
+  "lost": []
+ },
+ "89677615c2ec030b": {
+  "text": "Primavera",
+  "lost": []
+ },
+ "7c92fc5cf65f2ba5": {
+  "text": "Verano",
+  "lost": []
+ },
+ "36da464823405731": {
+  "text": "Otoño",
+  "lost": []
+ },
+ "24615d93d230ffac": {
+  "text": "Invierno",
+  "lost": []
+ },
+ "c6f558cc26ce508d": {
+  "text": "«v» días",
+  "lost": []
+ },
+ "324dbbb61402aacd": {
+  "text": "El más largo hacia el apogeo en Cáncer, el más corto hacia el perigeo en Capricornio. Si el círculo fuera concéntrico, los cuatro serían e«v»es.",
+  "lost": []
+ },
+ "0c775f0ba6b58cc1": {
+  "text": "Círculo deferente",
+  "lost": []
+ },
+ "881ba2ecd0c63288": {
+  "text": "el excéntrico",
+  "lost": []
+ },
+ "f429cfa92ec9246c": {
+  "text": "Línea apsidal",
+  "lost": []
+ },
+ "c19d87bef234898a": {
+  "text": "apogeo · perigeo",
+  "lost": []
+ },
+ "69b835d53eddf858": {
+  "text": "para los planetas",
+  "lost": []
+ },
+ "69aba6f983b7e4cb": {
+  "text": "Ecuante",
+  "lost": []
+ },
+ "a44d2f3a4ae9bea6": {
+  "text": "E, con el doble de excentricidad",
+  "lost": []
+ },
+ "49c5cda0913cfbf6": {
+  "text": "Círculo concéntrico",
+  "lost": []
+ },
+ "200f8b810526b223": {
+  "text": "el movimiento medio",
+  "lost": []
+ },
+ "5d25ce9fcdcbf113": {
+  "text": "Posición verdadera",
+  "lost": []
+ },
+ "b12e4172ca41239f": {
+  "text": "el propio cuerpo",
+  "lost": []
+ },
+ "a518965c0bdbd4a7": {
+  "text": "Posición media",
+  "lost": []
+ },
+ "23a0ad4ea062719a": {
+  "text": "cuerpo gris",
+  "lost": []
+ },
+ "d4b23dbbcf9160db": {
+  "text": "Rayos hacia el zodíaco",
+  "lost": []
+ },
+ "026e60ceabca62b9": {
+  "text": "lo que ve Sayyid",
+  "lost": []
+ },
+ "7353c26980889aa8": {
+  "text": "Trayectoria en el plano",
+  "lost": []
+ },
+ "d0a7f86dcf75e271": {
+  "text": "los bucles",
+  "lost": []
+ },
+ "35ec57b5e6d6c483": {
+  "text": "Traza en el borde",
+  "lost": []
+ },
+ "6a279ede509510a0": {
+  "text": "en rojo cuando están retrógrados",
+  "lost": []
+ },
+ "14ed1fd9edc8621a": {
+  "text": "Estrellas reales",
+  "lost": []
+ },
+ "8d7bf8f334e10fc3": {
+  "text": "con Fomalhaut",
+  "lost": []
+ },
+ "2228985493d9e43e": {
+  "text": "Etiquetas",
+  "lost": []
+ },
+ "4c1cb2facd9252d0": {
+  "text": "Medir las estaciones",
+  "lost": []
+ },
+ "f0a8f8a520f6a77b": {
+  "text": "Pasar a la siguiente estación",
+  "lost": []
+ },
+ "6039cdbc9f685cee": {
+  "text": "Próxima conjunción media",
+  "lost": []
+ },
+ "c4358de8586dc24f": {
+  "text": "Próxima conjunción verdadera",
+  "lost": []
+ },
+ "b64b410288e8e0cb": {
+  "text": "Fije la fecha en la de hoy",
+  "lost": []
+ },
+ "54d738015e145c7b": {
+  "text": "Acto I · El Sol",
+  "lost": []
+ },
+ "d59b533cff153b29": {
+  "text": "Acto II · Marte",
+  "lost": []
+ },
+ "de0ade8d740f1e49": {
+  "text": "Acto III · Júpiter y Saturno",
+  "lost": []
+ },
+ "3d15fb43acf3b4ab": {
+  "text": "Acto IV · La Luna",
+  "lost": []
+ },
+ "90aa77be6daea905": {
+  "text": "Un universo vacío",
+  "lost": []
+ },
+ "71e08a59b58a8e37": {
+  "text": "<p>Nos encontramos en el espacio exterior, flotando en el polo de la eclíptica, contemplando la Tierra desde arriba. Sayyid se sitúa en el punto O, en el centro, y puede observar en todas las direcciones. El zodíaco constituye el borde exterior, con 0° de Aries a la derecha y las longitudes discurriendo en sentido antihorario.</p>\n         <p>Las cuatro estrellas reales vigilan el borde en sus longitudes actuales: Aldebarán, Régulo, Antares y, para esta cohorte, Fomalhaut.</p>\n         <p>Aún no existe nada más. A partir de esto, construiremos el modelo del Sol.</p>",
+  "lost": []
+ },
+ "21490f6c715504c3": {
+  "text": "Busque Fomalhaut en el borde, un poco adentrado en Piscis. Pulse <em>«Reproducir»</em> bajo el cielo y observe cómo avanza la fecha; todavía no se mueve nada, porque no hay nada que se mueva.",
+  "lost": []
+ },
+ "4ef5bc3a0ef6f8b0": {
+  "text": "Un Sol medio concéntrico",
+  "lost": []
+ },
+ "39b1065834af548e": {
+  "text": "<p>Añada la trayectoria circular del Sol como si compartiera centro con la Tierra. Esta gran esfera es el <span class=\"term\">deferente</span>: es la esfera que gira, y el Sol se desplaza sobre ella. (Imaginemos que es el propio Sol el que se mueve.)</p>\n         <p>Si esto fuera cierto, se movería a una velocidad uniforme a nuestro alrededor y alcanzaría cada cuarto tras 91,31 días. Esa velocidad es su <span class=\"term g\">movimiento medio</span>, 0° 59′ 08″ al día, y su posición en cualquier día es su <span class=\"term g\">posición media</span>.</p>\n         <p>El disco gris representa el Sol medio. En este momento es también el Sol verdadero, ya que el círculo tiene su centro en nosotros.</p>",
+  "lost": []
+ },
+ "efc10ee3ec8560c9": {
+  "text": "Observe cómo el rayo gris recorre el borde a un ritmo constante. La lámina muestra que la ecuación —la diferencia entre la media y la verdadera— es exactamente cero.",
+  "lost": []
+ },
+ "50fc7fc66e0d81c1": {
+  "text": "Descentrado: el excéntrico",
+  "lost": []
+ },
+ "d8802da25d157f98": {
+  "text": "<p>Sin embargo, el Sol verdadero no se mueve a esa velocidad. En algunas partes del zodíaco parece más rápido, en otras más lento: una <span class=\"term\">anomalía zodiacal</span>. Algo que se mueve cerca de nosotros parece moverse más rápido; algo más lejano, más lento.</p>\n         <p>Por lo tanto, desplace su círculo fuera del centro, alejándolo de Sayyid, en la dirección en la que parece más lento: hacia el centro de Cáncer. El círculo es ahora <span class=\"term\">excéntrico</span>, con su centro C desplazado en 0,0335 de su radio.</p>\n         <p>La línea que pasa por O y C es la <span class=\"term g\">línea apsidal</span>. El punto en el que se cruza con el círculo más alejado de nosotros es el <span class=\"term g\">apogeo</span>, situado a 13° 16′ de Cáncer en el año 2000; en el punto opuesto, en Capricornio, se encuentra el <span class=\"term g\">perigeo</span>.</p>",
+  "lost": []
+ },
+ "b74b3125837931c6": {
+  "text": "El círculo acaba de desplazarse hacia fuera. En la pestaña <em>«Capas»</em>, el control deslizante <em>«Descentrado»</em> desplaza a C entre las posiciones concéntrica y excéntrica; arrástrelo y observe cómo el Sol dorado se aleja del gris.",
+  "lost": []
+ },
+ "10e8ae2684e67e33": {
+  "text": "Media y verdadera, y la ecuación",
+  "lost": []
+ },
+ "4e69333624d5950d": {
+  "text": "<p>Ahora hay dos soles. El gris se encuentra donde cabría esperar que estuviera si su esfera fuera concéntrica: la posición media. El dorado es donde realmente lo vemos: la posición verdadera, en la excéntrica.</p>\n         <p>Cerca del apogeo, el Sol verdadero va por detrás del medio, ya que esa parte del círculo está lejos de nosotros y parece que se demora; cerca del perigeo, se adelanta. Solo en el apogeo y en el perigeo coinciden ambos.</p>\n         <p>El ángulo entre los dos rayos constituye la <span class=\"term v\">ecuación</span>. Una tabla de movimiento medio indica la posición del Sol gris para cualquier día; una tabla de ecuaciones proporciona esta corrección; si se suma, se obtiene la posición del Sol verdadero en menos de un minuto. Ese es todo el secreto de Ptolomeo.</p>",
+  "lost": []
+ },
+ "11bb0fbd5eb9a84c": {
+  "text": "Observe la ecuación que aparece en la pantalla: es igual a cero en torno a los 13° de Cáncer y los 13° de Capricornio, y alcanza casi 2° en el intervalo entre ambos. Pulse <em>−30 d</em> varias veces para ejecutarla en sentido inverso.",
+  "lost": []
+ },
+ "112e55ea1a9b3b0c": {
+  "text": "Por qué el verano es la estación más larga",
+  "lost": []
+ },
+ "9cff7f84b5f2479f": {
+  "text": "<p>La mayor parte del círculo excéntrico se encuentra hacia el apogeo que hacia el perigeo. Entre 0° de Cáncer y 0° de Libra, el Sol debe recorrer el lado largo y lejano, por lo que el verano es más largo; entre Capricornio y Aries, recorre el lado corto y cercano, y el invierno es más breve.</p>\n         <p>Enhorabuena: hemos modelado el movimiento del Sol. El modelo da como resultado una primavera de 92,8 días, un verano de 93,7, un otoño de 89,9 y un invierno de 89,0: los valores reales con una precisión de una décima de día.</p>",
+  "lost": []
+ },
+ "edd8e1a7f9571ea0": {
+  "text": "Pulse <em>«Medir las estaciones»</em> arriba: la lámina recoge las cuatro duraciones que predice el modelo. A continuación, pulse <em>«Reproducir»</em> y cuente usted mismo los días desde los 0° de Cáncer hasta los 0° de Libra.",
+  "lost": []
+ },
+ "f70502429c4cc4d8": {
+  "text": "Un deferente para Marte",
+  "lost": []
+ },
+ "f1ad9f54b4e4d04e": {
+  "text": "<p>Vacíe de nuevo el universo e introduzca el deferente excéntrico de Marte. No necesitamos saber dónde se encuentra el Sol para construirlo, ni necesitamos distancias reales: solo proporciones y velocidades.</p>\n         <p>Su apogeo se sitúa en 150,5°, cerca del inicio de Virgo, y su deferente da una vuelta completa en su período tropical de 1,88 años. Esto resuelve su anomalía zodiacal, tal y como ocurrió con el Sol.</p>\n         <p>Pero Marte presenta una segunda anomalía de la que carece el Sol: una de carácter <span class=\"term r\">direccional</span>. En ocasiones, se desplaza hacia atrás.</p>",
+  "lost": []
+ },
+ "fbc69f6079a0b1fe": {
+  "text": "Este deferente por sí solo nunca puede hacer que Marte se mueva de forma retrógrada: observe cómo el rayo rojo solo avanza lentamente alrededor del borde.",
+  "lost": []
+ },
+ "63643eca8bae6288": {
+  "text": "El epiciclo",
+  "lost": []
+ },
+ "c2db085299d90d9a": {
+  "text": "<p>Coloque un pequeño círculo, el <span class=\"term\">epiciclo</span>, sobre el deferente, en el lugar donde se encontraba Marte, con su centro en K. Marte recorre el epiciclo una vez por cada ciclo de retrogradación, mientras que el epiciclo completo gira alrededor del deferente.</p>\n         <p>En la mitad superior del epiciclo, la más alejada de nosotros, se mueve de forma directa. En la mitad inferior, la más cercana a nosotros, parece moverse hacia atrás. Cerca de los extremos, parece ralentizarse, detenerse y permanecer estacionario.</p>\n         <p>La línea pálida es su trayectoria en el plano: los famosos bucles. Las marcas en el borde son lo que ve Sayyid: doradas cuando se mueve en sentido directo, rojas cuando lo hace en sentido retrógrado.</p>",
+  "lost": []
+ },
+ "1b3507c460d836b8": {
+  "text": "Pulse <em>«Reproducir»</em> y espere a que el rayo rojo vacile, se detenga y vuelva atrás. Marte se encuentra en su mitad inferior. El movimiento diario de la placa pasa a ser negativo.",
+  "lost": []
+ },
+ "933da30611c80f49": {
+  "text": "El movimiento retrógrado, tal y como lo ve Sayyid",
+  "lost": []
+ },
+ "7b0c83950525504a": {
+  "text": "<p>Siga el recorrido de Marte por su epiciclo, tal y como se muestra en la figura 25. En la mitad superior se observa que se mueve en sentido directo. A medida que desciende por el lado, reduce su velocidad y se detiene. A continuación, pasa a moverse en sentido retrógrado y recorre de nuevo los mismos grados, hasta que vuelve a detenerse en la parte inferior del otro lado y retoma el movimiento directo.</p>\n         <p>Mientras tanto, el epiciclo sigue moviéndose a lo largo del deferente, por lo que su movimiento global sigue siendo hacia delante: dos pasos adelante, uno atrás.</p>\n         <p>Dado que se conoce la geometría, una tabla de ecuaciones convierte las posiciones medias en posiciones verdaderas: una corrección para el deferente y otra adicional para el epiciclo.</p>",
+  "lost": []
+ },
+ "dcb9b14ee83ab2d5": {
+  "text": "Pulse <em>«Saltar a la siguiente estación</em>»: la fecha avanza hasta el día en que Marte se detiene, y el movimiento diario de la placa se sitúa prácticamente en cero. Púlselo de nuevo para pasar a la siguiente estación.",
+  "lost": []
+ },
+ "deaadc5d0f386739": {
+  "text": "El equante",
+  "lost": []
+ },
+ "e68532beebe720e2": {
+  "text": "<p>Había un problema. Al moverse K de forma uniforme a lo largo del deferente, los movimientos retrógrados se producían en lugares erróneos y duraban lo que no debían. El modelo solo se ajustaba a los datos babilónicos si K <em>no</em> se movía de forma uniforme —y no existe una tabla sencilla para ello—.</p>\n         <p>Entonces, Ptolomeo se dio cuenta de lo siguiente: visto desde un punto de la línea apsidal situado casi exactamente al doble de distancia de la Tierra que C, K <em>sí</em> parece moverse uniformemente. Ese punto es el <span class=\"term s\">equante</span>, E. Si se mide el movimiento medio en el círculo del equante y se ajusta la geometría, las tablas funcionan.</p>\n         <p>No a todo el mundo le gustó; se trataba de un dispositivo de cálculo, no de algo «real». Y, sin embargo, el equante se sitúa casi exactamente en el foco vacío de la elipse del planeta —un punto real, descubierto dieciséis siglos antes—.</p>",
+  "lost": []
+ },
+ "e83ad139fed3005b": {
+  "text": "Observe la línea azul punteada que va de E a K: gira a una velocidad perfectamente uniforme. A continuación, en la pestaña <em>«Capas»,</em> desmarque <em>«Ecuante</em>»: ahora K se mueve de manera uniforme visto desde C, y las estaciones se desvían de sus fechas reales.",
+  "lost": []
+ },
+ "02e5949018c696ff": {
+  "text": "Los demás planetas",
+  "lost": []
+ },
+ "788b3cb7c5d74374": {
+  "text": "<p>La misma máquina sirve para Júpiter y Saturno, con epiciclos más pequeños y deferentes más lentos: cuanto más lejos está el planeta, más pequeñas son sus órbitas y mayor es su número en un circuito. Obsérvese lo grandes que son, en comparación, la excentricidad y el epiciclo de Marte; por eso su sistema resultaba tan evidentemente erróneo sin el equante, y los demás lo eran en menor medida.</p>\n         <p>Venus es diferente. Se trata de un planeta inferior: el centro K de su epiciclo se desplaza junto al Sol medio, y él gira en torno a K en un epiciclo que mide casi tres cuartas partes del tamaño del deferente. Nunca puede observarse lejos del Sol.</p>",
+  "lost": []
+ },
+ "51bcea232e1f6d01": {
+  "text": "Utilice el selector de planetas situado bajo el cielo para visitar Saturno (un epiciclo minúsculo, con una órbita de treinta años) y Venus (el enorme epiciclo encadenado al Sol). Mercurio y la Luna son aún más complicados, por lo que se dejan en manos de Leopoldo de Austria.",
+  "lost": []
+ },
+ "f9114cd79b6367ab": {
+  "text": "Conjunciones medias y verdaderas",
+  "lost": []
+ },
+ "eb5a9d170889c862": {
+  "text": "<p>En la astrología mundana persa, las conjunciones de Saturno y Júpiter, que se producen cada veinte años aproximadamente, marcan etapas de la historia. Durante siglos, los astrólogos utilizaron sus conjunciones <span class=\"term g\">medias</span>: el momento en el que cada uno, en su propia esfera, apunta al mismo grado, medido según el movimiento medio sobre el equante.</p>\n         <p>Esto difiere de una conjunción <span class=\"term\">verdadera</span>, cuando los observamos juntos desde la Tierra: los dos marcadores grises coinciden meses antes o después de que lo hagan los dos rayos de color.</p>\n         <p>La gran conjunción de 2020 tuvo lugar el 21 de diciembre en el primer grado de Acuario; el modelo sitúa su conjunción media en el mes de septiembre anterior.</p>",
+  "lost": []
+ },
+ "2727860a3fa9efc9": {
+  "text": "Pulse <em>«Siguiente conjunción media»</em> y observe cómo los dos marcadores grises coinciden en un grado, mientras que los planetas reales siguen separados. A continuación, pulse <em>«Siguiente conjunción real</em>».",
+  "lost": []
+ },
+ "74b5a72a7f2ca9c5": {
+  "text": "El mes tropical",
+  "lost": []
+ },
+ "3a033f500081095e": {
+  "text": "<p>En la astrología tradicional se distinguen dos tipos de meses. El <span class=\"term\">mes tropical</span> es el tiempo que tarda la Luna en recorrer el zodíaco y volver al mismo grado: 27 días, 7 horas y 43 minutos.</p>\n         <p>Comienza con un encuentro entre el Sol y la Luna. Ella se separa de él y recorre todo el camino; el arco dorado representa su recorrido desde el encuentro. Cuando vuelve al grado del encuentro, ha transcurrido un mes tropical, pero el Sol no se ha quedado quieto.</p>\n         <p>La medicina astrológica utiliza este mes: las cartas astronómicas que indican el inicio de una enfermedad siguen a la Luna a partir de su grado en dicha carta.</p>",
+  "lost": []
+ },
+ "70795f3c6d7277e4": {
+  "text": "Pulse <em>«Reproducir»</em> a un día por segundo. Observe cómo la Luna alcanza la marca denominada «retorno tropical» tras unos 27 días, y fíjese en que el Sol se ha desplazado unos 27°.",
+  "lost": []
+ },
+ "668365ec4dd3d875": {
+  "text": "El mes sinódico y la prevención",
+  "lost": []
+ },
+ "ea79e6597bb80377": {
+  "text": "<p>El <span class=\"term\">mes sinódico</span> es el tiempo que transcurre entre dos encuentros sucesivos del Sol y la Luna: unos dos días más, 29,5 días de media, ya que la Luna debe alcanzar a un Sol que se ha desplazado.</p>\n         <p>A mitad de camino entre ambos encuentros, la Luna se sitúa opuesta al Sol: la <span class=\"term r\">«prevención»</span>, del latín «ir por delante», traducción exacta de la palabra árabe que designa la oposición Sol-Luna, es decir, la Luna llena. Dado que el Sol sigue moviéndose, la prevención no se produce a 180°, sino a unos 194° del encuentro.</p>\n         <p>En ambos casos nos centramos en el grado de la Luna: el grado del encuentro es aquel que comparte con el Sol; el de la «prevención» es el suyo propio, en oposición a él.</p>",
+  "lost": []
+ },
+ "e94072800ba856fb": {
+  "text": "Observe cómo la Luna pasa por la marca roja de «prevención» situada en el lado opuesto del Sol y, a continuación, contemple su nuevo encuentro más adelante a lo largo del borde. La lámina indica ambas fechas.",
+  "lost": []
+ },
+ "4826e744fea9a657": {
+  "text": "¿Conjuntivo o preventivo?",
+  "lost": []
+ },
+ "8d6e7eddf611943b": {
+  "text": "<p>Cada natividad es bien <span class=\"term\">«conjuntiva»</span> —es decir, nacida en las dos semanas posteriores a una conjunción, antes de la prevención— o bien <span class=\"term r\">«preventiva»</span>, nacida después de la prevención y antes de la siguiente conjunción. Esto se refiere a la lunación más reciente y se utiliza en los cálculos de longevidad y en otros contextos.</p>\n         <p>La lámina indica los datos correspondientes a la fecha bajo el cielo: el grado y la fecha de la última conjunción, de la prevención y del veredicto.</p>\n         <p>Con esto concluye la parte de astronomía de la lección. A partir de aquí, se trata de tablas y de la aritmética necesaria para introducir los datos en ellas —para lo cual sirven <em>The Reckoner</em> y <em>Between the Lines</em>—.</p>",
+  "lost": []
+ },
+ "aa645d7386ff508c": {
+  "text": "Introduzca su propia fecha de nacimiento en el cuadro de fecha situado debajo del cielo. ¿Cuál es la suya? A continuación, fije la fecha en la de hoy y compruebe en qué momento tuvo lugar la conjunción de este mes.",
+  "lost": []
+ }
+}

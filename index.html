@@ -88,6 +88,19 @@
     margin:0;
   }
   .lede em{color:var(--vellum);font-style:italic}
+  .topline{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:0 0 .9rem}
+  .topline .mark{margin:0}
+  .langsw select{
+    background:rgba(13,18,32,.88);border:1px solid var(--line);border-radius:2px;
+    color:var(--brass);font-family:var(--f-ui);font-size:.72rem;font-weight:500;
+    letter-spacing:.06em;padding-block:4px;padding-left:8px;padding-right:6px;
+    cursor:pointer;transition:border-color .15s;
+  }
+  .langsw select:hover{border-color:var(--brass)}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  /* CJK: more leading, no faux italic */
+  body.cjk .lede,body.cjk .piece p.desc{line-height:1.85}
+  body.cjk em,body.cjk .piece .sub{font-style:normal}
 
   .rule{
     height:1px;
@@ -174,84 +187,325 @@
 <div class="wrap">
 
   <header>
-    <p class="mark">Dār al-Ḥikma</p>
-    <h1>The House of Wisdom</h1>
+    <div class="topline">
+      <p class="mark">Dār al-Ḥikma</p>
+      <div class="langsw">
+        <label class="visually-hidden" for="langSel" data-i18n="language">Language</label>
+        <select id="langSel">
+          <option value="en" lang="en">English</option>
+          <option value="nb" lang="nb">Norsk bokmål</option>
+          <option value="es" lang="es">Español</option>
+          <option value="fr" lang="fr">Français</option>
+          <option value="de" lang="de">Deutsch</option>
+          <option value="zh" lang="zh-Hans">简体中文</option>
+          <option value="ja" lang="ja">日本語</option>
+        </select>
+      </div>
+    </div>
+    <h1 data-i18n="h1">The House of Wisdom</h1>
     <p class="arabic" lang="ar" dir="rtl">دار الحكمة</p>
-    <p class="lede">Small self-contained pieces. Each one is a <em>single page</em> — open it, use it, save it if you like. Nothing you need to install, nothing phoning home.</p>
+    <p class="lede" data-i18n-html="lede">Small self-contained pieces. Each one is a <em>single page</em> — open it, use it, save it if you like. Nothing you need to install, nothing phoning home.</p>
   </header>
 
   <div class="rule"></div>
 
-  <h2>The shelf</h2>
+  <h2 data-i18n="shelf">The shelf</h2>
 
   <ul class="shelf">
     <li>
       <a class="piece" href="sayyids-sphere/">
-        <div class="piece-head"><h3>Sayyid's Sphere</h3></div>
-        <p class="sub">Three reference frames, one turning sky.</p>
-        <p class="desc">An interactive celestial sphere that holds the horizonal, equatorial and ecliptical frames together at once, so a single point can be named three ways as the sky turns. Includes an eleven-step walkthrough, a latitude and sidereal-time drive, and the quadrant problem laid out in full.</p>
+        <div class="piece-head"><h3 data-i18n-html="sayyids-sphere.name">Sayyid's Sphere</h3></div>
+        <p class="sub" data-i18n="sayyids-sphere.sub">Three reference frames, one turning sky.</p>
+        <p class="desc" data-i18n="sayyids-sphere.desc">An interactive celestial sphere that holds the horizonal, equatorial and ecliptical frames together at once, so a single point can be named three ways as the sky turns. Includes an eleven-step walkthrough, a latitude and sidereal-time drive, and the quadrant problem laid out in full.</p>
         <div class="tags">
-          <span class="tag">Astronomy</span>
-          <span class="tag">Interactive</span>
-          <span class="tag">7 languages</span>
+          <span class="tag" data-i18n="tag.Astronomy">Astronomy</span>
+          <span class="tag" data-i18n="tag.Interactive">Interactive</span>
+          <span class="tag" data-i18n="tag.7 languages">7 languages</span>
         </div>
       </a>
     </li>
     <li>
       <a class="piece" href="sayyids-orrery/">
-        <div class="piece-head"><h3>Sayyid's Orrery</h3></div>
-        <p class="sub">Ptolemy's models, seen from the pole of the ecliptic.</p>
-        <p class="desc">The eccentric Sun, deferents, epicycles and the equant, the mean conjunctions of Jupiter and Saturn, and the Moon's two months — animated on real dates, with Sayyid at the centre and the royal stars on the rim. Set your birthday and see whether you were born conjunctional or preventional.</p>
+        <div class="piece-head"><h3 data-i18n-html="sayyids-orrery.name">Sayyid's Orrery</h3></div>
+        <p class="sub" data-i18n="sayyids-orrery.sub">Ptolemy's models, seen from the pole of the ecliptic.</p>
+        <p class="desc" data-i18n="sayyids-orrery.desc">The eccentric Sun, deferents, epicycles and the equant, the mean conjunctions of Jupiter and Saturn, and the Moon's two months — animated on real dates, with Sayyid at the centre and the royal stars on the rim. Set your birthday and see whether you were born conjunctional or preventional.</p>
         <div class="tags">
-          <span class="tag">Astronomy</span>
-          <span class="tag">Interactive</span>
-          <span class="tag">7 languages</span>
+          <span class="tag" data-i18n="tag.Astronomy">Astronomy</span>
+          <span class="tag" data-i18n="tag.Interactive">Interactive</span>
+          <span class="tag" data-i18n="tag.7 languages">7 languages</span>
         </div>
       </a>
     </li>
     <li>
       <a class="piece" href="reckoner/">
-        <div class="piece-head"><h3>The Reckoner</h3></div>
-        <p class="sub">Arithmetic in sixties.</p>
-        <p class="desc">Degrees, minutes and seconds added, subtracted and converted with every carry and borrow shown; signs to absolute longitude, time to arc and back. An eleven-step walkthrough on the lesson's own examples, endless practice with diagnostic hints, and a slate that works your homework without telling you the answer first.</p>
+        <div class="piece-head"><h3 data-i18n-html="reckoner.name">The Reckoner</h3></div>
+        <p class="sub" data-i18n="reckoner.sub">Arithmetic in sixties.</p>
+        <p class="desc" data-i18n="reckoner.desc">Degrees, minutes and seconds added, subtracted and converted with every carry and borrow shown; signs to absolute longitude, time to arc and back. An eleven-step walkthrough on the lesson's own examples, endless practice with diagnostic hints, and a slate that works your homework without telling you the answer first.</p>
         <div class="tags">
-          <span class="tag">Arithmetic</span>
-          <span class="tag">Practice</span>
-          <span class="tag">7 languages</span>
+          <span class="tag" data-i18n="tag.Arithmetic">Arithmetic</span>
+          <span class="tag" data-i18n="tag.Practice">Practice</span>
+          <span class="tag" data-i18n="tag.7 languages">7 languages</span>
         </div>
       </a>
     </li>
     <li>
       <a class="piece" href="takht/">
-        <div class="piece-head"><h3>The Takht (<span lang="ar" dir="rtl">تخت</span>)</h3></div>
-        <p class="sub">The calculator beside the three books.</p>
-        <p class="desc">Built for casting charts by hand. Enter angles and times as they're written, switch between absolute longitude and zodiacal signs, and form and apply interpolation ratios. Registers hold your LST, RAMC and obliquity, and the history keeps every step of the work. Bring a table of houses, an ephemeris and an atlas. Add the Takht to your phone and work offline.</p>
+        <div class="piece-head"><h3 data-i18n-html="takht.name">The Takht (<span lang="ar" dir="rtl">تخت</span>)</h3></div>
+        <p class="sub" data-i18n="takht.sub">The calculator beside the three books.</p>
+        <p class="desc" data-i18n="takht.desc">Built for casting charts by hand. Enter angles and times as they're written, switch between absolute longitude and zodiacal signs, and form and apply interpolation ratios. Registers hold your LST, RAMC and obliquity, and the history keeps every step of the work. Bring a table of houses, an ephemeris and an atlas. Add the Takht to your phone and work offline.</p>
         <div class="tags">
-          <span class="tag">Calculation</span>
-          <span class="tag">Calculator</span>
-          <span class="tag">7 languages</span>
+          <span class="tag" data-i18n="tag.Calculation">Calculation</span>
+          <span class="tag" data-i18n="tag.Calculator">Calculator</span>
+          <span class="tag" data-i18n="tag.7 languages">7 languages</span>
         </div>
       </a>
     </li>
     <li>
       <a class="piece" href="between-the-lines/">
-        <div class="piece-head"><h3>Between the Lines</h3></div>
-        <p class="sub">Interpolation in a table of houses.</p>
-        <p class="desc">The Midheaven by sidereal time, the Ascendant by sidereal time and latitude, a planet by the hour of birth — the two ratios drawn as crossing lines, the lesson's worksheet filled one row at a time, and the direct calculation beside it so you can see why your program differs.</p>
+        <div class="piece-head"><h3 data-i18n-html="between-the-lines.name">Between the Lines</h3></div>
+        <p class="sub" data-i18n="between-the-lines.sub">Interpolation in a table of houses.</p>
+        <p class="desc" data-i18n="between-the-lines.desc">The Midheaven by sidereal time, the Ascendant by sidereal time and latitude, a planet by the hour of birth — the two ratios drawn as crossing lines, the lesson's worksheet filled one row at a time, and the direct calculation beside it so you can see why your program differs.</p>
         <div class="tags">
-          <span class="tag">Calculation</span>
-          <span class="tag">Interactive</span>
-          <span class="tag">7 languages</span>
+          <span class="tag" data-i18n="tag.Calculation">Calculation</span>
+          <span class="tag" data-i18n="tag.Interactive">Interactive</span>
+          <span class="tag" data-i18n="tag.7 languages">7 languages</span>
         </div>
       </a>
     </li>
   </ul>
 
   <footer>
-    Built in the open · <a href="https://github.com/dar-al-hikma/dar-al-hikma.github.io">Source on GitHub</a> · <a href="feed.xml">RSS feed</a><br>
-    Every piece here is one HTML file. Save any piece and it still works.
+    <span data-i18n="footer.built">Built in the open</span> · <a href="https://github.com/dar-al-hikma/dar-al-hikma.github.io" data-i18n="footer.source">Source on GitHub</a> · <a href="feed.xml" data-i18n="footer.rss">RSS feed</a><br>
+    <span data-i18n="footer.save">Every piece here is one HTML file. Save any piece and it still works.</span>
   </footer>
 
 </div>
+<script>
+// The shelf in the reader's language: the one last chosen in any piece (dah.lang), else the
+// browser's, else English. The English is the page itself; a key a language lacks stays English.
+(function(){
+  var I18N = {
+    nb: {
+      "h1": "Visdommens hus",
+      "lede": "Små, selvstendige verk. Hvert av dem er <em>én enkelt side</em> — åpne den, bruk den, lagre den om du vil. Du trenger ikke installere noe, og ingenting sendes noe sted.",
+      "shelf": "Hyllen",
+      "sayyids-sphere.name": "Sayyids himmelkule",
+      "sayyids-sphere.sub": "Tre referanserammer, én roterende himmel.",
+      "sayyids-sphere.desc": "En interaktiv himmelkule som viser horisontrammen, ekvatorrammen og ekliptikkrammen samtidig, slik at ett og samme punkt kan angis på tre måter mens himmelen dreier. Med en gjennomgang i elleve steg, styring av breddegrad og stjernetid, og kvadrantproblemet lagt fram i sin helhet.",
+      "sayyids-orrery.name": "Sayyids planetarium",
+      "sayyids-orrery.sub": "Ptolemaios’ modeller, sett fra ekliptikkens pol.",
+      "sayyids-orrery.desc": "Den eksentriske Solen, deferenter, episykler og ekvanten, middelkonjunksjonene mellom Jupiter og Saturn og Månens to måneder — animert på virkelige datoer, med Sayyid i sentrum og kongestjernene på kanten. Legg inn fødselsdatoen din og se om fødselen din er en konjunksjonsfødsel eller en preventiofødsel.",
+      "reckoner.name": "Regnemesteren",
+      "reckoner.sub": "Regning i sekstitallsystemet.",
+      "reckoner.desc": "Grader, minutter og sekunder lagt sammen, trukket fra og regnet om, med hver mente og hvert lån vist; tegn til absolutt lengde, tid til bue og tilbake. En gjennomgang i elleve steg med leksjonens egne eksempler, ubegrenset øving med hint som peker ut feilen, og en tavle som regner gjennom leksene dine uten å gi deg svaret først.",
+      "takht.name": "Takhten (<span lang=\"ar\" dir=\"rtl\">تخت</span>)",
+      "takht.sub": "Kalkulatoren ved siden av de tre bøkene.",
+      "takht.desc": "Laget for å sette opp horoskoper for hånd. Skriv inn vinkler og tider slik de står skrevet, veksle mellom absolutt lengde og dyrekretstegn, og finn og bruk interpolasjonsforhold. Variablene holder LST, RAMC og ekliptikkens skjevhet, og historikken tar vare på hvert steg i utregningen. Ta med en hustabell, en efemeride og et atlas. Legg Takhten til på telefonen og regn uten nett.",
+      "between-the-lines.name": "Mellom linjene",
+      "between-the-lines.sub": "Interpolasjon i en hustabell.",
+      "between-the-lines.desc": "Midthimmelen etter stjernetid, ascendanten etter stjernetid og breddegrad, en planet etter fødselstiden — de to forholdene tegnet som linjer som krysser hverandre, leksjonens arbeidsark fylt ut én rad om gangen, og den direkte beregningen ved siden av, så du ser hvorfor programmet ditt gir et annet svar.",
+      "tag.7 languages": "7 språk",
+      "tag.Arithmetic": "Regning",
+      "tag.Astronomy": "Astronomi",
+      "tag.Calculation": "Beregning",
+      "tag.Calculator": "Kalkulator",
+      "tag.Interactive": "Interaktiv",
+      "tag.Practice": "Øving",
+      "footer.built": "Utviklet åpent",
+      "footer.source": "Kildekode på GitHub",
+      "footer.rss": "RSS-feed",
+      "footer.save": "Hvert verk her er én HTML-fil. Lagre hvilket som helst av dem, så virker det fortsatt.",
+      "language": "Språk"
+    },
+    es: {
+      "h1": "La Casa de la Sabiduría",
+      "lede": "Piezas pequeñas e independientes. Cada una es una <em>sola página</em>: ábrala, úsela y, si quiere, guárdela. No hay nada que instalar, y nada se envía a ninguna parte.",
+      "shelf": "La estantería",
+      "sayyids-sphere.name": "La esfera de Sayyid",
+      "sayyids-sphere.sub": "Tres sistemas de referencia, un solo cielo que gira.",
+      "sayyids-sphere.desc": "Una esfera celeste interactiva que reúne a la vez los sistemas horizontal, ecuatorial y eclíptico, de modo que un mismo punto puede nombrarse de tres maneras mientras gira el cielo. Incluye una guía de once pasos, controles de latitud y de tiempo sidéreo, y el problema de los cuadrantes expuesto por completo.",
+      "sayyids-orrery.name": "El planetario de Sayyid",
+      "sayyids-orrery.sub": "Los modelos de Ptolomeo, vistos desde el polo de la eclíptica.",
+      "sayyids-orrery.desc": "El Sol excéntrico, los deferentes, los epiciclos y el ecuante, las conjunciones medias de Júpiter y Saturno y los dos meses de la Luna, animados sobre fechas reales, con Sayyid en el centro y las estrellas reales en el borde. Introduzca su fecha de nacimiento y vea si su natividad es conjuncional o prevencional.",
+      "reckoner.name": "El calculista",
+      "reckoner.sub": "Aritmética en base sesenta.",
+      "reckoner.desc": "Grados, minutos y segundos que se suman, se restan y se convierten con cada acarreo y cada préstamo a la vista; de signos a longitud absoluta, de tiempo a arco y viceversa. Una guía de once pasos con los propios ejemplos de la lección, práctica sin fin con pistas que señalan el error, y una pizarra que desarrolla sus deberes sin darle antes la respuesta.",
+      "takht.name": "El takht (<span lang=\"ar\" dir=\"rtl\">تخت</span>)",
+      "takht.sub": "La calculadora que acompaña a los tres libros.",
+      "takht.desc": "Pensado para levantar cartas a mano. Introduzca ángulos y tiempos tal como se escriben, pase de la longitud absoluta a los signos del zodíaco y viceversa, y forme y aplique proporciones de interpolación. Las variables guardan el LST, la RAMC y la oblicuidad, y el historial conserva cada paso del cálculo. Tenga a mano una tabla de casas, unas efemérides y un atlas. Añada el takht a su móvil y trabaje sin conexión.",
+      "between-the-lines.name": "Entre líneas",
+      "between-the-lines.sub": "Interpolación en una tabla de casas.",
+      "between-the-lines.desc": "El Medio Cielo por el tiempo sidéreo, el Ascendente por el tiempo sidéreo y la latitud, un planeta por la hora de nacimiento: las dos proporciones dibujadas como líneas que se cruzan, la hoja de trabajo de la lección rellenada fila a fila y, al lado, el cálculo directo, para que vea por qué su programa da otro resultado.",
+      "tag.7 languages": "7 idiomas",
+      "tag.Arithmetic": "Aritmética",
+      "tag.Astronomy": "Astronomía",
+      "tag.Calculation": "Cálculo",
+      "tag.Calculator": "Calculadora",
+      "tag.Interactive": "Interactivo",
+      "tag.Practice": "Práctica",
+      "footer.built": "Desarrollado en abierto",
+      "footer.source": "Código fuente en GitHub",
+      "footer.rss": "Canal RSS",
+      "footer.save": "Cada pieza es un único archivo HTML. Guarde la que quiera y seguirá funcionando.",
+      "language": "Idioma"
+    },
+    fr: {
+      "h1": "La Maison de la sagesse",
+      "lede": "De petits ouvrages autonomes. Chacun tient en une <em>seule page</em> — ouvrez-le, utilisez-le, enregistrez-le si vous le souhaitez. Rien à installer, rien n’est envoyé nulle part.",
+      "shelf": "L’étagère",
+      "sayyids-sphere.name": "La Sphère de Sayyid",
+      "sayyids-sphere.sub": "Trois repères, un ciel qui tourne.",
+      "sayyids-sphere.desc": "Une sphère céleste interactive qui réunit à la fois les repères horizontal, équatorial et écliptique, pour qu’un même point puisse être nommé de trois façons pendant que le ciel tourne. Avec un parcours en onze étapes, des réglages de latitude et de temps sidéral, et le problème des quadrants exposé en entier.",
+      "sayyids-orrery.name": "Le Planétaire de Sayyid",
+      "sayyids-orrery.sub": "Les modèles de Ptolémée, vus depuis le pôle de l’écliptique.",
+      "sayyids-orrery.desc": "Le Soleil excentrique, les déférents, les épicycles et l’équant, les conjonctions moyennes de Jupiter et de Saturne, et les deux mois de la Lune — animés sur des dates réelles, avec Sayyid au centre et les étoiles royales sur le pourtour. Saisissez votre date de naissance et voyez si votre nativité est conjonctionnelle ou préventionnelle.",
+      "reckoner.name": "Le Calculateur",
+      "reckoner.sub": "Arithmétique sexagésimale.",
+      "reckoner.desc": "Degrés, minutes et secondes additionnés, soustraits et convertis, chaque retenue et chaque emprunt sous vos yeux ; des signes à la longitude absolue, du temps à l’arc et inversement. Un parcours en onze étapes sur les exemples mêmes de la leçon, des exercices à volonté avec des indices qui ciblent l’erreur, et une ardoise qui déroule vos devoirs sans vous livrer la réponse d’avance.",
+      "takht.name": "Le Takht (<span lang=\"ar\" dir=\"rtl\">تخت</span>)",
+      "takht.sub": "La calculatrice à poser à côté des trois livres.",
+      "takht.desc": "Conçu pour dresser les thèmes à la main. Saisissez angles et temps tels qu’ils sont écrits, passez de la longitude absolue aux signes du zodiaque et inversement, formez et appliquez les rapports d’interpolation. Les variables conservent votre LST, votre RAMC et l’obliquité, et l’historique garde chaque étape du calcul. Munissez-vous d’une table des maisons, d’éphémérides et d’un atlas. Ajoutez le Takht à votre téléphone et travaillez hors ligne.",
+      "between-the-lines.name": "Entre les lignes",
+      "between-the-lines.sub": "Interpoler dans une table des maisons.",
+      "between-the-lines.desc": "Le Milieu du Ciel par le temps sidéral, l’Ascendant par le temps sidéral et la latitude, une planète par l’heure de naissance — les deux rapports tracés en lignes qui se croisent, la feuille de calcul de la leçon remplie ligne après ligne, et le calcul direct à côté, pour voir pourquoi votre logiciel trouve autre chose.",
+      "tag.7 languages": "7 langues",
+      "tag.Arithmetic": "Arithmétique",
+      "tag.Astronomy": "Astronomie",
+      "tag.Calculation": "Calcul",
+      "tag.Calculator": "Calculatrice",
+      "tag.Interactive": "Interactif",
+      "tag.Practice": "Exercices",
+      "footer.built": "Développé au grand jour",
+      "footer.source": "Code source sur GitHub",
+      "footer.rss": "Flux RSS",
+      "footer.save": "Chaque ouvrage est un seul fichier HTML. Enregistrez n’importe lequel : il fonctionne toujours.",
+      "language": "Langue"
+    },
+    de: {
+      "h1": "Das Haus der Weisheit",
+      "lede": "Kleine, in sich geschlossene Stücke. Jedes ist eine <em>einzige Seite</em> — öffnen, benutzen und, wenn Sie mögen, speichern. Sie müssen nichts installieren, und nichts wird irgendwohin gesendet.",
+      "shelf": "Das Regal",
+      "sayyids-sphere.name": "Sayyids Sphäre",
+      "sayyids-sphere.sub": "Drei Bezugssysteme, ein sich drehender Himmel.",
+      "sayyids-sphere.desc": "Eine interaktive Himmelssphäre, die Horizont-, Äquator- und Ekliptiksystem gleichzeitig zeigt, sodass sich ein und derselbe Punkt auf drei Arten benennen lässt, während der Himmel sich dreht. Mit einem Rundgang in elf Schritten, Reglern für Breite und Sternzeit und dem Quadrantenproblem in aller Ausführlichkeit.",
+      "sayyids-orrery.name": "Sayyids Planetarium",
+      "sayyids-orrery.sub": "Ptolemäus’ Modelle, vom Pol der Ekliptik aus gesehen.",
+      "sayyids-orrery.desc": "Die exzentrische Sonne, Deferenten, Epizykel und der Äquant, die mittleren Konjunktionen von Jupiter und Saturn und die zwei Monate des Mondes — nach wirklichen Kalenderdaten bewegt, mit Sayyid in der Mitte und den Königssternen am Rand. Geben Sie Ihr Geburtsdatum ein und sehen Sie, ob Sie konjunktional oder präventional geboren sind.",
+      "reckoner.name": "Der Rechenmeister",
+      "reckoner.sub": "Rechnen in Sechzigern.",
+      "reckoner.desc": "Grad, Minuten und Sekunden addiert, subtrahiert und umgerechnet, jeder Übertrag und jedes Borgen sichtbar; Zeichen in absolute Länge, Zeit in Bogen und zurück. Ein Rundgang in elf Schritten an den Beispielen der Lektion selbst, Übungsaufgaben ohne Ende mit Hinweisen, die den Fehler aufspüren, und eine Tafel, die Ihre Hausaufgaben durchrechnet, ohne Ihnen vorher die Lösung zu verraten.",
+      "takht.name": "Das Takht (<span lang=\"ar\" dir=\"rtl\">تخت</span>)",
+      "takht.sub": "Der Rechner neben den drei Büchern.",
+      "takht.desc": "Gebaut, um Horoskope von Hand zu stellen. Geben Sie Winkel und Zeiten so ein, wie sie geschrieben stehen, wechseln Sie zwischen absoluter Länge und Tierkreiszeichen, und bilden und verwenden Sie Interpolationsfaktoren. Variablen speichern LST, RAMC und Schiefe, und der Verlauf bewahrt jeden Rechenschritt. Halten Sie eine Häusertabelle, eine Ephemeride und einen Atlas bereit. Legen Sie das Takht auf den Startbildschirm Ihres Smartphones und arbeiten Sie offline.",
+      "between-the-lines.name": "Zwischen den Zeilen",
+      "between-the-lines.sub": "Interpolation in einer Häusertabelle.",
+      "between-the-lines.desc": "Das MC nach der Sternzeit, der Aszendent nach Sternzeit und Breite, ein Planet nach der Geburtsstunde — die beiden Faktoren als sich kreuzende Linien gezeichnet, das Arbeitsblatt der Lektion Zeile für Zeile ausgefüllt und die direkte Berechnung daneben, damit Sie sehen, warum Ihr Programm abweicht.",
+      "tag.7 languages": "7 Sprachen",
+      "tag.Arithmetic": "Rechnen",
+      "tag.Astronomy": "Astronomie",
+      "tag.Calculation": "Berechnung",
+      "tag.Calculator": "Rechner",
+      "tag.Interactive": "Interaktiv",
+      "tag.Practice": "Übung",
+      "footer.built": "Offen entwickelt",
+      "footer.source": "Quellcode auf GitHub",
+      "footer.rss": "RSS-Feed",
+      "footer.save": "Jedes Stück hier ist eine einzige HTML-Datei. Speichern Sie eines davon, und es funktioniert weiterhin.",
+      "language": "Sprache"
+    },
+    zh: {
+      "h1": "智慧宫",
+      "lede": "一件件小巧、自成一体的作品。每一件都只是<em>一个网页</em>——打开就能用，喜欢的话就存下来。不必安装任何东西，也不向任何地方发送数据。",
+      "shelf": "书架",
+      "sayyids-sphere.name": "赛义德的天球",
+      "sayyids-sphere.sub": "三套参考系，一片旋转的天空。",
+      "sayyids-sphere.desc": "一个交互式天球，把地平、赤道、黄道三套坐标系同时放在一起，让天空转动时，同一个点可以用三种方式命名。附十一步分步讲解、纬度与恒星时调节，以及完整展开的象限难题。",
+      "sayyids-orrery.name": "赛义德的行星仪",
+      "sayyids-orrery.sub": "托勒密的模型，从黄极俯瞰。",
+      "sayyids-orrery.desc": "偏心的太阳、均轮、本轮与匀速点，木星与土星的平合，月亮的两种月——都按真实日期演示，赛义德居于中心，皇家恒星守在边缘。输入你的生日，看看你是朔生还是望生。",
+      "reckoner.name": "逢六十进一",
+      "reckoner.sub": "六十进制算术。",
+      "reckoner.desc": "度、分、秒的加、减与换算，每一次进位与借位都摆在眼前；星座位置化为绝对黄经，时间化为角度，也可反过来换算。十一步分步讲解用的正是课中的例题；练习无穷无尽，并附诊断提示；还有一块算板，陪你演算作业，却不会先把答案告诉你。",
+      "takht.name": "Takht 沙盘（<span lang=\"ar\" dir=\"rtl\">تخت</span>）",
+      "takht.sub": "摆在三本书旁边的计算器。",
+      "takht.desc": "为手工起盘而造。角度和时间照书上的写法输入，可在绝对黄经与星座内度数之间切换，还能求出并运用插值比例。变量存放你的 LST、RAMC 和黄赤交角，历史记录保留演算的每一步。备好宫位表、星历表和地图集即可。把 Takht 添加到手机上，离线也能用。",
+      "between-the-lines.name": "字里行间",
+      "between-the-lines.sub": "宫位表中的插值。",
+      "between-the-lines.desc": "按恒星时求中天，按恒星时与纬度求上升点，按出生时刻求行星位置——两个比例画成相交的直线，本课的计算表一行一行填出，旁边附上直接计算，让你看清你的软件为什么得出不同的结果。",
+      "tag.7 languages": "7 种语言",
+      "tag.Arithmetic": "算术",
+      "tag.Astronomy": "天文",
+      "tag.Calculation": "推算",
+      "tag.Calculator": "计算器",
+      "tag.Interactive": "交互",
+      "tag.Practice": "练习",
+      "footer.built": "公开开发",
+      "footer.source": "GitHub 上的源代码",
+      "footer.rss": "RSS 订阅",
+      "footer.save": "这里的每件作品都是一个 HTML 文件。随便保存哪一件，照样能用。",
+      "language": "语言"
+    },
+    ja: {
+      "h1": "知恵の館",
+      "lede": "それだけで完結する小さな作品を集めました。どれも<em>単一のページ</em>です——開いて、使って、よければ保存してください。インストールは不要で、外部への送信も一切ありません。",
+      "shelf": "棚",
+      "sayyids-sphere.name": "サイイドの天球",
+      "sayyids-sphere.sub": "三つの座標系、ひとつのめぐる空。",
+      "sayyids-sphere.desc": "地平・赤道・黄道の三つの座標系を一度に重ねて示す、操作できる天球です。空がめぐるなか、ひとつの点を三通りに言い表せます。11 ステップの解説、緯度と恒星時のスライダー、そして象限の問題の詳しい図解を収めています。",
+      "sayyids-orrery.name": "サイイドのオーラリー",
+      "sayyids-orrery.sub": "プトレマイオスのモデルを、黄道の極から見る。",
+      "sayyids-orrery.desc": "離心円を回る太陽、従円と周転円とエカント、木星と土星の平均の合、そして月の二つの「月」（回帰月と朔望月）——それらが実際の日付どおりに動きます。中心にはサイイド、縁には王家の星。誕生日を入れて、自分が朔の出生か望の出生かを確かめてみてください。",
+      "reckoner.name": "暦算",
+      "reckoner.sub": "六十進の計算。",
+      "reckoner.desc": "度・分・秒の足し算・引き算・換算を、繰り上がりも繰り下がりもすべて見せながら行います。サインから絶対黄経へ、時間から角度へ、そしてその逆も。教本の例題そのものを使った 11 ステップの解説、つまずきを見抜くヒントつきの尽きない練習問題、そして先に答えを明かさずに宿題の計算をたどれる石板を備えています。",
+      "takht.name": "タフト（砂盤）（<span lang=\"ar\" dir=\"rtl\">تخت</span>）",
+      "takht.sub": "三冊の本のかたわらに置く計算機。",
+      "takht.desc": "チャートを手で立てるために作りました。角度や時間を書かれているとおりに入力し、絶対黄経とサインの表記を切り替え、補間の比を求めて当てはめられます。LST・RAMC・黄道傾斜角は変数メモリーに登録でき、履歴には計算の一歩一歩が残ります。ハウス表、天文暦、地図帳を手元にご用意ください。タフトをスマートフォンに追加すれば、オフラインでも使えます。",
+      "between-the-lines.name": "行間を読む",
+      "between-the-lines.sub": "ハウス表の補間。",
+      "between-the-lines.desc": "恒星時から MC を、恒星時と緯度からアセンダントを、出生時刻から惑星の位置を求めます。二つの比は交差する線として描かれ、教本のワークシートは一行ずつ埋まっていき、そのかたわらには直接計算も並ぶので、お使いのソフトの値がなぜ違うのかがわかります。",
+      "tag.7 languages": "7 言語",
+      "tag.Arithmetic": "算術",
+      "tag.Astronomy": "天文学",
+      "tag.Calculation": "計算",
+      "tag.Calculator": "計算機",
+      "tag.Interactive": "インタラクティブ",
+      "tag.Practice": "練習",
+      "footer.built": "オープンに開発しています",
+      "footer.source": "GitHub のソースコード",
+      "footer.rss": "RSS フィード",
+      "footer.save": "ここにある作品は、どれもひとつの HTML ファイルです。どれを保存しても、そのまま動きます。",
+      "language": "言語"
+    }
+  };
+  var TAGS = { en:'en', nb:'nb', es:'es', fr:'fr', de:'de', zh:'zh-Hans', ja:'ja' };
+  var els = document.querySelectorAll('[data-i18n],[data-i18n-html]'), EN = {};
+  function key(el){ return el.getAttribute('data-i18n') || el.getAttribute('data-i18n-html'); }
+  for (var i = 0; i < els.length; i++){ var e = els[i]; EN[key(e)] = e.hasAttribute('data-i18n-html') ? e.innerHTML : e.textContent; }
+  function pick(){
+    var saved = null;
+    try { saved = localStorage.getItem('dah.lang') || localStorage.getItem('sayyid.lang'); } catch (e) {}
+    if (saved && TAGS[saved]) return saved;
+    var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+    for (var i = 0; i < list.length; i++){ var t = String(list[i]).toLowerCase();
+      if (/^(nb|no|nn)\b/.test(t)) return 'nb';
+      var cs = ['es','fr','de','zh','ja','en'];
+      for (var j = 0; j < cs.length; j++) if (t.indexOf(cs[j]) === 0) return cs[j]; }
+    return 'en';
+  }
+  var sel = document.getElementById('langSel');
+  function apply(l, save){
+    var T = I18N[l] || {};
+    for (var i = 0; i < els.length; i++){ var e = els[i], k = key(e), v = T[k] != null ? T[k] : EN[k];
+      if (e.hasAttribute('data-i18n-html')) e.innerHTML = v; else e.textContent = v; }
+    document.documentElement.setAttribute('lang', TAGS[l]);
+    document.body.classList.toggle('cjk', l === 'zh' || l === 'ja');
+    sel.value = l;
+    if (save) try { localStorage.setItem('dah.lang', l); } catch (e) {}
+  }
+  sel.addEventListener('change', function(){ apply(TAGS[sel.value] ? sel.value : 'en', true); });
+  apply(pick(), false);
+})();
+</script>
 </body>
 </html>

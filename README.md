@@ -48,7 +48,8 @@ The other pieces have suites run by hand; each README says how:
 ## Adding a piece
 
 1. `mkdir <piece-slug>` and drop the file in as `index.html`.
-2. Add a `<li>` to the shelf in the root `index.html`.
+2. Add a `<li>` to the shelf in the root `index.html`, and its strings to the
+   shelf's language table at the foot of that page.
 3. Add a row to the table above.
 4. Add an `<item>` at the top of `feed.xml` (title, link, guid, date,
    description) and update its `<lastBuildDate>`. Feed readers and the
@@ -75,7 +76,8 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
   whole phrase comes from one font.
 - **Seven languages, one file.** Every string a piece shows lives in its language
   table (`TX` in Sayyid's Sphere, `I18N` in the others); a missing key falls back
-  to English. The choice is shared across the shelf under `localStorage["dah.lang"]`.
+  to English. The choice is shared across the shelf under `localStorage["dah.lang"]`;
+  until the reader makes one, the shelf and the pieces follow the browser's language.
   A term reads the same in every piece: [GLOSSARY.md](GLOSSARY.md) gives each
   language's rendering, following the English of Dykes's course.
 - **Dark palette**, shared across the shelf and the pieces:

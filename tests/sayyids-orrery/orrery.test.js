@@ -137,6 +137,10 @@ const sdeg = d => ((d % 360) + 540) % 360 - 180;
     await go(4); await act('seasons'); await page.waitForFunction(() => document.querySelector('#plate').textContent.includes(L().plate.seasonsT), null, { timeout: 3000 }).catch(() => {});
     const ds = ((await plate()).match(/\d+[.,]\d(?!\d)/g) || []).map(x => +x.replace(',', '.'));
     check(G, `Measure the seasons: the plate gives ${Object.values(SEASONS_2026).join(', ')} days, each within 0.15`, ds.length >= 4 && Object.values(SEASONS_2026).every((v, i) => near(ds[i], v, .15)), ds.join(' '));
+    // the eccentric step slides 0 → 100% over 1.6 s; a step left for mid-slide keeps its own value
+    await go(2); await page.waitForTimeout(300); await go(1); await page.waitForTimeout(2000);
+    const ecc = await page.evaluate(() => state.escale);
+    check(G, 'Leaving the eccentric step mid-slide: the concentric step stays at 0%', ecc === 0, String(ecc));
     // stations: the plate's daily motion reads zero, retrograde and direct in turn
     await go(7); const kinds = [];
     for (let k = 0; k < 2; k++) { await act('station');

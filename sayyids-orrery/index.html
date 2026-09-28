@@ -1584,7 +1584,7 @@ $('#back30').addEventListener('click', ()=>{ state.plateHold = null; state.t -= 
 $('#fwd30').addEventListener('click', ()=>{ state.plateHold = null; state.t += 30; state.dirty = true; });
 $('#cardBtn').addEventListener('click', ()=>{ const c = $('#card'); c.classList.toggle('hidden'); const open = !c.classList.contains('hidden'); $('#cardBtn').setAttribute('aria-pressed', open?'true':'false'); $('#cardBtn').textContent = open?L().hideCard:L().card; document.body.classList.toggle('cardopen', open); resize(); });
 document.body.classList.add('cardopen');
-$('#eccRange').addEventListener('input', e=>{ state.escale = Number(e.target.value); $('#eccOut').textContent = Math.round(state.escale*100)+'%'; state.dirty = true; });
+$('#eccRange').addEventListener('input', e=>{ eccAnim++; state.escale = Number(e.target.value); $('#eccOut').textContent = Math.round(state.escale*100)+'%'; state.dirty = true; });
 $('#spanRange').addEventListener('input', e=>{ state.span = Number(e.target.value); $('#spanOut').textContent = L().days(state.span); state.dirty = true; });
 
 // layers
@@ -1623,15 +1623,16 @@ const WALK = [
   {act:3, scene:'moon', date:'2026-10-10', snapConj:true, layers:{ray:true,labels:true}, play:true, speed:1},
   {act:3, scene:'moon', date:'2026-10-10', layers:{ray:true,labels:true}, play:false, speed:1, actions:['today']}
 ];
-let walkIdx = 0;
+let walkIdx = 0, eccAnim = 0;
 function applyStep(w){
+  eccAnim++;   // a step, or the slider, stops any eccentricity still sliding
   state.scene = w.scene; setScene(w.scene); if (w.planet){ state.planet = w.planet; $('#planetSel').value = w.planet; state.span = {mars:780,venus:584,jupiter:400,saturn:380}[w.planet]; }
   setLayers(Object.assign({}, ALL_ON, w.layers||{})); state.t = D(w.date); if (w.speed){ state.speed = w.speed; $('#speedRange').value = Math.log10(w.speed); $('#speedOut').textContent = fmtSpeed(w.speed); }
   if (w.escale!==undefined){ if (w.animateEcc){ animateEcc(0,1); } else { state.escale = w.escale; $('#eccRange').value = w.escale; $('#eccOut').textContent = Math.round(w.escale*100)+'%'; } }
   if (w.snapConj) state.t = moonModel(state.t).tConj;
   setPlay(!!w.play); state.dirty = true;
 }
-function animateEcc(a,b){ const t0 = performance.now(); state.escale = a; const step = now => { const k = Math.min(1,(now-t0)/1600); const s = a + (b-a)*(1-Math.pow(1-k,3)); state.escale = s; $('#eccRange').value = s; $('#eccOut').textContent = Math.round(s*100)+'%'; state.dirty = true; if (k<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+function animateEcc(a,b){ const id = ++eccAnim, t0 = performance.now(); state.escale = a; const step = now => { if (id !== eccAnim) return; const k = Math.min(1,(now-t0)/1600); const s = a + (b-a)*(1-Math.pow(1-k,3)); state.escale = s; $('#eccRange').value = s; $('#eccOut').textContent = Math.round(s*100)+'%'; state.dirty = true; if (k<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
 function showWalk(i){
   walkIdx = Math.max(0, Math.min(WALK.length-1, i)); const w = WALK[walkIdx];
   paintWalk(); applyStep(w); $('#paneWalk').scrollTop = 0;

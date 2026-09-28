@@ -27,10 +27,17 @@ Deutsch, 简体中文 and 日本語.
 ├── FONT-LICENSES.md    the embedded typefaces and their licences
 ├── GLOSSARY.md         the shelf's terms, and how each language renders them
 ├── .nojekyll           serve files as-is, no Jekyll pass
-└── <piece>/
-    ├── index.html      the piece, complete in itself
-    └── …               optional: manifest, icons, offline worker
+├── <piece>/
+│   ├── index.html      the piece, complete in itself
+│   └── …               optional: manifest, icons, offline worker
+└── tests/<piece>/      a piece's tests, where it has them
 ```
+
+## Tests
+
+The Takht has a test suite in [`tests/takht/`](tests/takht/). GitHub runs it on every pull
+request that touches the Takht, and `tests/takht/run-all.sh` runs it locally (Node and
+Playwright with Chromium). Its README says how to check a new or changed translation.
 
 ## Adding a piece
 

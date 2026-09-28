@@ -1,0 +1,92 @@
+// The number model: exact typed arithmetic (+ − ×), binary elsewhere, display forms, the limits, conversion.
+const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, summary } = H;
+(async () => {
+  const { browser, page, errs } = await H.open(); let v;
+  await fresh(page, 'arc');
+  // exact typed decimals
+  v = await run(page, 'AC dec 0.1 + 0.2 =');            check('0.1 + 0.2 = 0.3', v.val + '|' + v.sval.dx, '0.3|0.3');
+  v = await run(page, 'AC dec 0.3 - 0.1 - 0.2 =');      check('0.3 − 0.1 − 0.2 = 0', v.val + '|' + v.sval.v, '0|0');
+  v = await run(page, 'AC dec 1 - 0.9 =');              check('1 − 0.9 = 0.1', v.val, '0.1');
+  v = await run(page, 'AC dec 0.7 * 3 =');              check('0.7 × 3 = 2.1 (rule: typed products are exact)', v.val + '|' + v.sval.dx, '2.1|2.1');
+  v = await run(page, '+ 0.1 =');                       check('  + 0.1 = 2.2', v.val, '2.2');
+  v = await run(page, 'AC dec 0.1 * 0.2 =');            check('0.1 × 0.2 = 0.02', v.val, '0.02');
+  v = await run(page, 'AC dec n 0.25 * 0.2 =');         check('−0.25 × 0.2 = −0.05', v.val, '−0.05');
+  v = await run(page, 'AC dec n 0.25 * n 0.2 =');       check('−0.25 × −0.2 = 0.05', v.val, '0.05');
+  v = await run(page, 'AC dec n 0.5 * 0 =');            check('−0.5 × 0 = 0, no minus', v.val + '|' + v.sval.dx, '0|0');
+  v = await run(page, 'AC dec 1.1 * 1.1 * 1.1 =');      check('1.1 × 1.1 × 1.1 = 1.331', v.val, '1.331');
+  v = await run(page, 'AC dec 0.1 + 0.2 = * 3 =');      check('(0.1 + 0.2) × 3 = 0.9', v.val, '0.9');
+  v = await run(page, 'AC dec 0.7 * 3 = - 2.1 =');      check('0.7 × 3 − 2.1 = 0 exactly', v.sval.v, 0);
+  v = await run(page, 'AC dec 2.50 * 4 =');             check('2.50 × 4 = 10', v.val, '10');
+  v = await run(page, 'AC dec 0.123456 * 0.654321 =');  check('0.123456 × 0.654321 = 0.080779853376', v.sval.dx, '0.080779853376');
+  v = await run(page, 'AC dec 999999999999 * 999999999999 ='); check('24-digit product kept exactly', v.sval.dx + '|' + v.val, '999999999998000000000001|9.999…×1023');
+  v = await run(page, '* 999999999999 =');              check('a product past 30 digits falls back to binary', v.sval.dx == null && isFinite(v.sval.v), true);
+  v = await run(page, 'AC dec 0.7 / 3 =');              check('division is binary: 0.7 ÷ 3', v.val + '|' + (v.sval.dx == null), '0.2333333…|true');
+  v = await run(page, 'AC dec 2 / 3 =');                check('2 ÷ 3 = 0.6666666…', v.val, '0.6666666…');
+  v = await run(page, 'AC dec 1 / 3 * 3 =');            check('1 ÷ 3 × 3 = 1', v.val, '1');
+  v = await run(page, 'AC M:time 15 u 55 / 24 u = * 3 ='); check('a computed number × a typed one is binary', v.sval.dx == null, true);
+  await fresh(page, 'arc');
+  v = await run(page, 'AC dec 0.7 * 3 = >x');           await page.reload(); await page.waitForFunction(() => window.takht); await fresh(page, 'arc');
+  v = await run(page, 'AC dec @x * 2 =');               check('a stored product keeps its digits across a reload: 2.1 × 2 = 4.2', v.val + '|' + v.sval.dx, '4.2|4.2');
+  // display forms
+  v = await run(page, 'AC dec 100000 * 1000000 =');     check('1e11 shows all digits', v.val, '100000000000');
+  v = await run(page, 'AC dec 12345678901 * 10 =');     check('123456789010 keeps its zero', v.val, '123456789010');
+  v = await run(page, 'AC dec 99999999999 + 1 =');      check('99999999999 + 1', v.val, '100000000000');
+  v = await run(page, 'AC dec 1000000 * 1000000 =');    check('1e12 in exponent form', v.val + '|' + v.live, '1×1012|1000000 × 1000000 = 1 times 10 to the power 12');
+  v = await run(page, 'AC dec 123456 * 10000000 =');    check('1.23456e12', v.val, '1.234…×1012');
+  v = await run(page, 'AC dec 999999999999 + 0.5 =');   check('999999999999.5 shows the cut', v.val, '999999999999…');
+  v = await run(page, 'AC M:arc 0 u 0 u 1 sin');        check('sin 1″', v.val, '0.0000048…');
+  v = await run(page, '* 0.0000001 =');                 check('4.848…×10⁻¹³', v.val + '|' + v.live, '4.848…×10−13|0.0000048… × 0.0000001 = 4.848… times 10 to the power −13');
+  v = await run(page, 'AC dec 0.00000009 * 1 =');       check('9×10⁻⁸', v.val, '9×10−8');
+  v = await run(page, 'AC dec 0.0000001 * 1 u =');      check('0.0000001 × 1° note', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.0003″');
+  // trig ranges
+  v = await run(page, 'AC dec 1 asin');                 check('asin 1 = 90°', v.val, dms(S(90)));
+  v = await run(page, 'AC dec 1.0000001 asin');         check('asin 1.0000001 refused', v.msgBad, true);
+  v = await run(page, 'AC dec n 1 acos');               check('acos −1 = 180°', v.val, dms(S(180)));
+  v = await run(page, 'AC n . 5 asin');                 check('± . 5 sin⁻¹ = −30°', v.val, '−' + dms(S(30)));
+  v = await run(page, 'AC dec . 5 n asin');             check('. 5 ± sin⁻¹ = −30°', v.val, '−' + dms(S(30)));
+  v = await run(page, 'AC dec n . 5 acos');             check('± . 5 cos⁻¹ = 120°', v.val, dms(S(120)));
+  v = await run(page, 'AC dec n 1 atan');               check('atan −1 wraps to 315° with the note', v.val + '|' + v.note, '315° 00′ 00″|−45° 00′ 00″ → 315° 00′ 00″');
+  v = await run(page, 'AC dec 12.32470 atan');          check('atan 12.32470 = 85° 21′ 41″', v.val + '|' + v.note, '85° 21′ 41″|rounded from 85° 21′ 40.69″');
+  v = await run(page, 'AC M:arc 90 tan');               check('tan 90° refused', v.msgBad, true);
+  v = await run(page, 'AC M:arc 270 tan');              check('tan 270° refused', v.msgBad, true);
+  v = await run(page, 'AC M:arc 89 u 59 u 59 tan');     check('tan 89° 59′ 59″', v.val, '206264.806241…');
+  // conversion: the lesson's way, carrying 60″, no wrap inside the conversion
+  await wrap(page, false);
+  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap off: 359.999999999 = 360°', v.val, dms(S(360)));
+  v = await run(page, 'AC M:arc dec 360.999999999 =');  check('wrap off: 360.999999999 = 361°', v.val, dms(S(361)));
+  v = await run(page, 'AC M:arc dec n 359.999999999 ='); check('wrap off: −359.999999999 = −360°', v.val, '−' + dms(S(360)));
+  v = await run(page, 'AC M:arc dec 999999.999999 =');  check('wrap off: 999999.999999 = 1000000°', v.val, dms(S(1000000)));
+  v = await run(page, 'AC M:time dec 359.999999999 =');  check('wrap off, time: 360:00:00', v.val, hms(S(360)));
+  for (const mode of ['arc', 'time']) { const bad = await page.evaluate((mode) => { const t = window.takht, out = []; let seed = 7; const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    for (let i = 0; i < 300; i++) { const x = +(rnd() * 9999).toFixed(Math.floor(rnd() * 8)); t.press('AC'); t.press('mode:' + mode); t.press('dec'); for (const c of String(x)) t.press(c); t.press('='); const want = Math.round(x * 3600); if (t.state.val.k !== 'sex' || t.state.val.sec !== want) out.push({ x, got: t.state.val.sec, want }); } return out; }, mode);
+    check(`${mode}: 300 random decimals convert to round(x·3600)`, bad.length, 0, JSON.stringify(bad.slice(0, 3))); }
+  await wrap(page, true);
+  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap on: 359.999999999 → 0° and says so', v.val + '|' + v.note, '0° 00′ 00″|rounded from 359° 59′ 59.99″ · 360° 00′ 00″ → 0° 00′ 00″');
+  v = await run(page, 'AC M:arc dec n 359.999999999 ='); check('wrap on: −359.999999999 stays −360°', v.val, '−' + dms(S(360)));
+  v = await run(page, 'AC M:arc dec 23.43666 =');       check('23.43666 = 23° 26′ 12″', v.val, dms(S(23,26,12)));
+  // the limit: 10,000,000° or h on the raw result, before any wrap; operands built with wrap off
+  await wrap(page, false);
+  await press(page, 'AC M:arc dec 9999999 = >x AC M:arc dec 9999900 = >ratio AC M:time dec 9999999 = >LST AC M:arc dec 5000000 = >RAMC');
+  await wrap(page, true);
+  const big = 'That result is too large for the Takht.';
+  v = await run(page, 'AC @x + @x =');                  check('9999999° + 9999999° refused', v.msgBad + '|' + v.msg, 'true|' + big);
+  v = await run(page, 'AC @x + 1 u =');                 check('9999999° + 1° refused', v.msgBad, true);
+  v = await run(page, 'AC @x + 0 u 59 u 59 =');         check('9999999° 59′ 59″ allowed → 279° 59′ 59″', v.val, dms(S(279,59,59)));
+  v = await run(page, 'AC @x - n 1 u =');               check('9999999° − (−1°) refused', v.msgBad, true);
+  v = await run(page, 'AC @x n - 1 u =');               check('−9999999° − 1° refused', v.msgBad, true);
+  v = await run(page, 'AC @ratio p180');                check('+180 on 9999900° refused', v.msgBad, true);
+  v = await run(page, 'AC @RAMC p180');                 check('+180 on 5000000° → 140°', v.val + '|' + v.note, '140° 00′ 00″|5000180° 00′ 00″ → 140° 00′ 00″');
+  v = await run(page, 'AC @RAMC * 2 =');                check('5000000° × 2 refused', v.msgBad, true);
+  v = await run(page, 'AC @RAMC * 1.9999999 =');        check('5000000° × 1.9999999 → 279° 30′', v.val, dms(S(279,30)));
+  v = await run(page, 'AC @x / 0.9999999 =');           check('9999999° ÷ 0.9999999 refused', v.msgBad, true);
+  v = await run(page, 'AC @LST + @LST =');              check('9999999 h + 9999999 h refused', v.msgBad, true);
+  v = await run(page, 'AC @LST x15');                   check('9999999 h ×15 refused', v.msgBad, true);
+  v = await run(page, 'AC @x d15');                     check('9999999° ÷15 = 666666:36:00', v.val, hms(S(666666,36)));
+  v = await run(page, 'AC M:arc 5 * 1999999 =');        check('5° × 1999999 → 275°', v.val, dms(S(275)));
+  v = await run(page, 'AC M:arc 5 * 2000000 =');        check('5° × 2000000 refused', v.msgBad, true);
+  v = await run(page, 'AC M:arc dec 10000000 =');       check('typed 10000000 = refused', v.msgBad, true);
+  v = await run(page, 'AC M:arc dec 9999999.9999 =');   check('typed 9999999.9999 = refused (rounds to 10000000°)', v.msgBad, true);
+  let s = 'AC dec 999999999999 * 999999999999 ='; for (let i = 0; i < 23; i++) s += ' * 999999999999 ='; v = await run(page, s); check('10²⁹⁹ accepted', v.val, '9.999…×10299');
+  v = await run(page, '* 999999999999 =');              check('overflow refused, operation kept open', v.msgBad + '|' + v.pending, 'true|9.999…×10299 ×');
+  check('no page errors', errs.join('|'), ''); summary(); await browser.close();
+})();

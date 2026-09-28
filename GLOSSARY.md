@@ -71,9 +71,9 @@ language.
   *Not:* zh: 表格（指单元格时）
 - **Concentric.** Sharing the earth's centre.
   **nb** konsentrisk · **es** concéntrico · **fr** concentrique · **de** konzentrisch · **zh** 同心（同心圆） · **ja** 同心円（同心の）
-- **Culminate, anti-culminate.** To cross the upper meridian (culminate) or the lower meridian (anti-culminate). Keep the wording hemisphere-neutral: north and south swap south of the equator.
-  **nb** kulminere / antikulminere · **es** culminar / anticulminar · **fr** culmination / anticulmination (culminer) · **de** kulminieren / Kulmination; Antikulmination (oberer/unterer Meridian) · **zh** 上中天 / 经过下子午圈 · **ja** 上方正中／下方正中（上の／下の子午圏）
-  *Not:* fr: `passage au méridien`; ja: 南中／北中 as the terms (they swap south of the equator)
+- **Culminate, anti-culminate.** To cross the upper meridian (culminate) or the lower meridian (anti-culminate). The course (Lesson 4) puts it from a northern observer: stars "culminate in the south" and "anti-culminate in the north"; ja follows it with 南中／北中.
+  **nb** kulminere / antikulminere · **es** culminar / anticulminar · **fr** culmination / anticulmination (culminer) · **de** kulminieren / Kulmination; Antikulmination (oberer/unterer Meridian) · **zh** 上中天 / 经过下子午圈 · **ja** 南中／北中（上の／下の子午圏を通過）
+  *Not:* fr: `passage au méridien`
 - **Cusp.** In quadrant houses, the degree where one house begins.
   **nb** husspiss *(proposed)* · **es** cúspide *(proposed)* · **fr** cuspide *(proposed)* · **de** Häuserspitze *(proposed)* · **zh** 宫头 *(proposed)* · **ja** カスプ *(proposed)*
 

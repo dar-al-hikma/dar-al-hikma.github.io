@@ -1153,7 +1153,7 @@ async function r5Side(){
     const p = await fresh({ lang, width: 390, height: 844 });
     for (const [w, h] of [[360, 640], [390, 844], [414, 896], [768, 1024], [810, 1080]]){
       await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(40);
-      let taps = 0, moved = 0; const lost = {};
+      let taps = 0, moved = 0; const lost = {}, where = [];
       const tapAt = async (tab, setup, sel) => {
         await p.evaluate(([tab, setup, sel]) => { document.getElementById(tab).click(); if (setup.walk !== undefined) showWalk(setup.walk); else { state.mode = setup.mode; PRESETS[setup.mode === 'planet' ? 'sun' : 'lesson'](); state.reveal = setup.reveal; setNote(); render(); }
           const r = document.querySelector(sel).getBoundingClientRect(); scrollTo(0, scrollY + r.top - innerHeight * 0.55); }, [tab, setup, sel]);
@@ -1162,10 +1162,11 @@ async function r5Side(){
         await p.mouse.click(b.x, b.y); await p.waitForTimeout(30);
         const a = await p.evaluate(([sel, x, y]) => { const e = document.elementFromPoint(x, y), k = e && e.closest('button,input,select,[role=tab]'); return { top: document.querySelector(sel).getBoundingClientRect().top, same: !!k && k === document.querySelector(sel), under: k ? (k.id || k.dataset.preset || k.tagName) : 'none', tab: !!(k && k.getAttribute('role') === 'tab') }; }, [sel, b.x, b.y]);
         taps++; if (Math.abs(a.top - b.top) > 0.5) moved++; if (!a.same) lost[a.under] = (lost[a.under] || 0) + 1;
+        if (Math.abs(a.top - b.top) > 0.5 || !a.same) where.push(`${sel} ${JSON.stringify(setup)} ${(a.top - b.top).toFixed(1)}px`);
       };
       for (const [m, rv] of [['asc', 0], ['asc', 4], ['mc', 0], ['mc', 6], ['planet', 0], ['planet', 3]]) for (const pr of (m === 'planet' ? ['sun', 'saturn'] : ['lesson', 'south'])) await tapAt('tabWs', { mode: m, reveal: rv }, `[data-preset=${pr}]`);
       for (let i = 0; i < 10; i++){ await tapAt('tabWalk', { walk: i }, '#nextBtn'); await tapAt('tabWalk', { walk: i + 1 }, '#prevBtn'); }
-      check(G, `${lang}@${w}×${h}: ${taps} taps on presets and on Back/Next: none moves its control, a second tap lands on it`, moved === 0 && Object.keys(lost).length === 0, `moved ${moved}; ${JSON.stringify(lost)}`);
+      check(G, `${lang}@${w}×${h}: ${taps} taps on presets and on Back/Next: none moves its control, a second tap lands on it`, moved === 0 && Object.keys(lost).length === 0, `moved ${moved}; ${JSON.stringify(lost)}; ${where.join('; ')}`);
     }
     await close(p);
   }

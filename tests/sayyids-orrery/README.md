@@ -2,7 +2,7 @@
 
 Checks for `sayyids-orrery/index.html`: the principles it teaches and the claims it makes, then its walkthrough, every language and phone layouts. It is not a precision test; tolerances are what the page claims (a degree or two, a day or so). Expected values come from Lesson 5 (Figures 27 and 28), from real events (published ephemerides, UT) and from the geometry itself; none is read from the page.
 
-Not run automatically: run it by hand before changing the page. It takes about 15 seconds.
+GitHub runs it on every pull request that touches the Orrery or its tests; run it by hand before changing the page. It takes about 15 seconds.
 
 ## Running
 

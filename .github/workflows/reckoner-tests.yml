@@ -1,0 +1,30 @@
+# Runs the Reckoner's tests (tests/reckoner/) when the Reckoner or its tests change.
+# Shell steps only, no third-party actions: the runner's own git and Node, and Playwright from npm.
+name: Reckoner tests
+on:
+  pull_request:
+    paths: ['reckoner/**', 'tests/reckoner/**', '.github/workflows/reckoner-tests.yml']
+  push:
+    branches: [main]
+    paths: ['reckoner/**', 'tests/reckoner/**', '.github/workflows/reckoner-tests.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+      - name: Install Playwright and Chromium
+        working-directory: tests
+        run: |
+          node --version
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run the suite
+        run: node tests/reckoner/reckoner.test.js

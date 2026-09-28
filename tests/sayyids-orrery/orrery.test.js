@@ -126,8 +126,9 @@ const sdeg = d => ((d % 360) + 540) % 360 - 180;
     const go = async i => { await page.click(`#pips button:nth-child(${i + 1})`); await page.waitForTimeout(60); };
     const plate = () => page.$eval('#plate', e => e.innerText.replace(/\s+/g, ' '));
     const pause = async () => page.evaluate(() => { if (typeof setPlay === 'function') setPlay(false); });
-    // press a step's action and wait for the plate to redraw, not a fixed time
-    const act = async k => { const before = await plate(); await page.click(`#stepActions [data-action="${k}"]`);
+    // press a step's action and wait for the plate to redraw, not a fixed time; pause first, so that a playing
+    // step's own frames cannot pass for the redraw (every action pauses anyway)
+    const act = async k => { await pause(); const before = await plate(); await page.click(`#stepActions [data-action="${k}"]`);
       await page.waitForFunction(b => document.querySelector('#plate').innerText.replace(/\s+/g, ' ') !== b, before, { timeout: 3000 }).catch(() => {}); };
     // Start over puts the step back
     await go(3); await pause(); await page.fill('#dateIn', '1999-01-01'); await page.dispatchEvent('#dateIn', 'change');

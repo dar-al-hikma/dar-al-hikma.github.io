@@ -39,6 +39,11 @@ The Takht has a test suite in [`tests/takht/`](tests/takht/). GitHub runs it on 
 request that touches the Takht, and `tests/takht/run-all.sh` runs it locally (Node and
 Playwright with Chromium). Its README says how to check a new or changed translation.
 
+Between the Lines and Sayyid's Sphere have suites in
+[`tests/between-the-lines/`](tests/between-the-lines/) and
+[`tests/sayyids-sphere/`](tests/sayyids-sphere/), run by hand (about 40 and 20 minutes);
+each README says how.
+
 ## Adding a piece
 
 1. `mkdir <piece-slug>` and drop the file in as `index.html`.

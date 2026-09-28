@@ -99,7 +99,7 @@ const tagsOf = s => (s.match(/<\/?[a-z][^>]*>/gi) || []).map(t => t.replace(/\s.
   await group('pieces', async G => {
     // the name on the shelf is the piece's own title in that language (the Takht's Arabic aside)
     for (const l of LANGS) { const p = await open({ store: { 'dah.lang': l } }); const bad = [];
-      const names = await p.page.evaluate(() => [...document.querySelectorAll('.piece h3')].map(e => { const c = e.cloneNode(true); c.querySelectorAll('[lang=ar]').forEach(a => a.remove()); return c.textContent.replace(/\s*[(（]\s*[)）]\s*$/, '').trim(); }));
+      const names = await p.page.evaluate(() => [...document.querySelectorAll('.piece h3')].map(e => { const c = e.cloneNode(true); c.querySelectorAll('[lang=ar]').forEach(a => a.remove()); return c.textContent.replace(/\s*[、,]\s*(?=[)）]\s*$)/, '').replace(/\s*[(（]\s*[)）]\s*$/, '').trim(); }));
       for (let i = 0; i < PIECES.length; i++) { const q = await p.ctx.newPage(); await q.goto('file://' + path.join(ROOT, PIECES[i], 'index.html'), { waitUntil: 'load' }); await q.waitForTimeout(150);
         const title = (await q.title()).split(/\s[—–-]\s/)[0].trim(), h = await q.evaluate(() => (document.querySelector('h1') || {}).textContent || '');
         if (!(names[i] && (h.includes(names[i]) || title.includes(names[i])))) bad.push(`${PIECES[i]}: shelf "${names[i]}", page "${h.trim() || title}"`); await q.close(); }

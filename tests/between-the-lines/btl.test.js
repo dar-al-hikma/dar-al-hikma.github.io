@@ -1151,18 +1151,24 @@ async function r5Side(){
   const G = 'R5-P2-1 side-panel controls still';
   for (const lang of ['en', 'de', 'ja']){
     const p = await fresh({ lang, width: 390, height: 844 });
+    // wait until the layout is still (controls and scroll unchanged over three frames, at most ~1.5 s), not a fixed time:
+    // on a loaded machine the first tap after a resize could otherwise be measured before the page had settled
+    const settle = () => p.evaluate(() => new Promise(res => { let last = '', same = 0, n = 0;
+      const sig = () => scrollY + '|' + [...document.querySelectorAll('button,[data-preset]')].map(e => Math.round(e.getBoundingClientRect().top)).join(',');
+      const tick = () => { const s = sig(); same = s === last ? same + 1 : 0; last = s; if (same >= 3 || ++n > 90) res(); else requestAnimationFrame(tick); };
+      requestAnimationFrame(tick); }));
     for (const [w, h] of [[360, 640], [390, 844], [414, 896], [768, 1024], [810, 1080]]){
-      await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(40);
+      await p.setViewportSize({ width: w, height: h }); await settle();
       let taps = 0, moved = 0; const lost = {}, where = [];
       const tapAt = async (tab, setup, sel) => {
         await p.evaluate(([tab, setup, sel]) => { document.getElementById(tab).click(); if (setup.walk !== undefined) showWalk(setup.walk); else { state.mode = setup.mode; PRESETS[setup.mode === 'planet' ? 'sun' : 'lesson'](); state.reveal = setup.reveal; setNote(); render(); }
           const r = document.querySelector(sel).getBoundingClientRect(); scrollTo(0, scrollY + r.top - innerHeight * 0.55); }, [tab, setup, sel]);
-        await p.waitForTimeout(30);
-        const b = await p.$eval(sel, e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, top: r.top }; });
+        await settle();
+        const b = await p.$eval(sel, e => { const r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, top: r.top, sy: scrollY }; });
         await p.mouse.click(b.x, b.y); await p.waitForTimeout(30);
         const a = await p.evaluate(([sel, x, y]) => { const e = document.elementFromPoint(x, y), k = e && e.closest('button,input,select,[role=tab]'); return { top: document.querySelector(sel).getBoundingClientRect().top, same: !!k && k === document.querySelector(sel), under: k ? (k.id || k.dataset.preset || k.tagName) : 'none', tab: !!(k && k.getAttribute('role') === 'tab') }; }, [sel, b.x, b.y]);
         taps++; if (Math.abs(a.top - b.top) > 0.5) moved++; if (!a.same) lost[a.under] = (lost[a.under] || 0) + 1;
-        if (Math.abs(a.top - b.top) > 0.5 || !a.same) where.push(`${sel} ${JSON.stringify(setup)} ${(a.top - b.top).toFixed(1)}px`);
+        if (Math.abs(a.top - b.top) > 0.5 || !a.same) where.push(`${sel} ${JSON.stringify(setup)} ${(a.top - b.top).toFixed(1)}px, scroll ${b.sy}→${await p.evaluate(() => scrollY)}`);
       };
       for (const [m, rv] of [['asc', 0], ['asc', 4], ['mc', 0], ['mc', 6], ['planet', 0], ['planet', 3]]) for (const pr of (m === 'planet' ? ['sun', 'saturn'] : ['lesson', 'south'])) await tapAt('tabWs', { mode: m, reveal: rv }, `[data-preset=${pr}]`);
       for (let i = 0; i < 10; i++){ await tapAt('tabWalk', { walk: i }, '#nextBtn'); await tapAt('tabWalk', { walk: i + 1 }, '#prevBtn'); }

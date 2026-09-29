@@ -1,0 +1,30 @@
+# Runs the shelf's tests (tests/shelf/) when the shelf, a piece or the tests change.
+# Shell steps only, no third-party actions: the runner's own git and Node, and Playwright from npm.
+name: Shelf tests
+on:
+  pull_request:
+    paths: ['index.html', '*/index.html', 'tests/shelf/**', '.github/workflows/shelf-tests.yml']
+  push:
+    branches: [main]
+    paths: ['index.html', '*/index.html', 'tests/shelf/**', '.github/workflows/shelf-tests.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+      - name: Install Playwright and Chromium
+        working-directory: tests
+        run: |
+          node --version
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run the suite
+        run: node tests/shelf/shelf.test.js

@@ -2,7 +2,7 @@
 
 The regression suite for `between-the-lines/index.html`, from its review rounds: about 1,800 checks. Expected values come from the lesson PDF (pp. 30–40; `pdf_p34.json` transcribes the table of houses on p. 34), from exact integer-second arithmetic and from a vector (atan2) calculation written in the suite; none is read from the page.
 
-Not run automatically: run it by hand before changing the page. A full run takes about 40 minutes on four cores.
+GitHub runs it on every pull request that touches the page or its tests; run it by hand before changing the page. A full run takes about 40 minutes on four cores.
 
 ## Running
 

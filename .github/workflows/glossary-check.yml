@@ -1,0 +1,24 @@
+# Fails when a form GLOSSARY.md marks as wrong appears on the shelf or in a piece (tests/glossary/).
+# Shell steps only, no third-party actions: the runner's own git and Node, and Playwright from npm.
+name: Glossary check
+on:
+  pull_request:
+    paths: ['GLOSSARY.md', 'index.html', '*/index.html', 'tests/glossary/**', '.github/workflows/glossary-check.yml']
+  push:
+    branches: [main]
+    paths: ['GLOSSARY.md', 'index.html', '*/index.html', 'tests/glossary/**', '.github/workflows/glossary-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+      - name: Run the suite
+        run: node tests/glossary/glossary.test.js

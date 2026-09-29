@@ -2,7 +2,7 @@
 
 The suite for `sayyids-sphere/index.html`, from its review rounds: finding checks, each targeting one fix, and guards for what must not change. Expected values come from Lessons 4 and 5, from a J2000 star catalogue written in the suite, and from an independent mpmath model (`ref.py`, through `expect.py`); none is read from the page.
 
-Not run automatically: run it by hand before changing the page. A full run takes about 20–25 minutes on four cores; R5, the label-overlap scan over 7,920 states, is most of it.
+GitHub runs it on every pull request that touches the Sphere or its tests; run it by hand before changing the page. A full run takes about 20–25 minutes on four cores; R5, the label-overlap scan over 7,920 states, is most of it.
 
 ## Running
 

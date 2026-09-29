@@ -1,0 +1,35 @@
+# Runs Sayyid's Sphere's tests (tests/sayyids-sphere/, about 25 minutes) when the Sphere or its tests change.
+# Shell steps only, no third-party actions: the runner's own git and Node, and Playwright from npm.
+name: Sphere tests
+on:
+  pull_request:
+    paths: ['sayyids-sphere/**', 'tests/sayyids-sphere/**', '.github/workflows/sphere-tests.yml']
+  push:
+    branches: [main]
+    paths: ['sayyids-sphere/**', 'tests/sayyids-sphere/**', '.github/workflows/sphere-tests.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Check out
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+      - name: Python with mpmath
+        run: |
+          python3 -m venv "$RUNNER_TEMP/py"
+          "$RUNNER_TEMP/py/bin/pip" install -q mpmath
+          echo "$RUNNER_TEMP/py/bin" >> "$GITHUB_PATH"
+      - name: Install Playwright and Chromium
+        working-directory: tests
+        run: |
+          node --version
+          npm install --no-save --no-audit --no-fund playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run the suite
+        run: node tests/sayyids-sphere/sphere.test.js

@@ -35,15 +35,20 @@ Deutsch, 简体中文 and 日本語.
 
 ## Tests
 
-The Takht has a test suite in [`tests/takht/`](tests/takht/). GitHub runs it on every pull
-request that touches the Takht, and `tests/takht/run-all.sh` runs it locally (Node and
-Playwright with Chromium). Its README says how to check a new or changed translation.
+Each piece has a suite in `tests/<piece>/`, the shelf in [`tests/shelf/`](tests/shelf/), and
+[`tests/glossary/`](tests/glossary/) fails if a form [GLOSSARY.md](GLOSSARY.md) marks as wrong
+appears anywhere. GitHub runs a suite on every pull request that touches its page or its tests
+(one workflow each in `.github/workflows/`); each README says how to run it locally.
 
-The other pieces have suites run by hand; each README says how:
-[`tests/sayyids-sphere/`](tests/sayyids-sphere/) (about 20 minutes),
-[`tests/sayyids-orrery/`](tests/sayyids-orrery/) (15 seconds),
-[`tests/reckoner/`](tests/reckoner/) (20 seconds) and
-[`tests/between-the-lines/`](tests/between-the-lines/) (40 minutes).
+| Suite | Time |
+|---|---|
+| [`tests/takht/`](tests/takht/) (`run-all.sh`) | 4 minutes |
+| [`tests/sayyids-sphere/`](tests/sayyids-sphere/) | 25 minutes |
+| [`tests/sayyids-orrery/`](tests/sayyids-orrery/) | 15 seconds |
+| [`tests/reckoner/`](tests/reckoner/) | 20 seconds |
+| [`tests/between-the-lines/`](tests/between-the-lines/) | 40 minutes |
+| [`tests/shelf/`](tests/shelf/) | a minute |
+| [`tests/glossary/`](tests/glossary/) | under a second |
 
 ## Adding a piece
 

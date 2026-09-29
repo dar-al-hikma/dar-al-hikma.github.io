@@ -2,7 +2,7 @@
 
 The suite for `reckoner/index.html`, from its review rounds: about 200 checks. Expected values come from Lesson 5 (pp. 4–7, 30–33) and exact arithmetic; none is read from the page.
 
-Not run automatically: run it by hand before changing the page. It takes about 20 seconds.
+GitHub runs it on every pull request that touches the Reckoner or its tests; run it by hand before changing the page. It takes about 20 seconds.
 
 ## Running
 

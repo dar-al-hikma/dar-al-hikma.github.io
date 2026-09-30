@@ -37,7 +37,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC M:arc 0 u 0 u 1 sin');        check('sin 1″', v.val, '0.0000048…');
   v = await run(page, '* 0.0000001 =');                 check('4.848…×10⁻¹³', v.val + '|' + v.live, '4.848…×10−13|0.0000048… × 0.0000001 = 4.848… times 10 to the power −13');
   v = await run(page, 'AC dec 0.00000009 * 1 =');       check('9×10⁻⁸', v.val, '9×10−8');
-  v = await run(page, 'AC dec 0.0000001 * 1 u =');      check('0.0000001 × 1° note', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.0003″');
+  v = await run(page, 'AC dec 0.0000001 * 1 u =');      check('0.0000001 × 1° note', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.0003…″');
   // trig ranges
   v = await run(page, 'AC dec 1 asin');                 check('asin 1 = 90°', v.val, dms(S(90)));
   v = await run(page, 'AC dec 1.0000001 asin');         check('asin 1.0000001 refused', v.msgBad, true);
@@ -61,7 +61,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
     for (let i = 0; i < 300; i++) { const x = +(rnd() * 9999).toFixed(Math.floor(rnd() * 8)); t.press('AC'); t.press('mode:' + mode); t.press('dec'); for (const c of String(x)) t.press(c); t.press('='); const want = Math.round(x * 3600); if (t.state.val.k !== 'sex' || t.state.val.sec !== want) out.push({ x, got: t.state.val.sec, want }); } return out; }, mode);
     check(`${mode}: 300 random decimals convert to round(x·3600)`, bad.length, 0, JSON.stringify(bad.slice(0, 3))); }
   await wrap(page, true);
-  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap on: 359.999999999 → 0° and says so', v.val + '|' + v.note, '0° 00′ 00″|rounded from 359° 59′ 59.99″ · 360° 00′ 00″ → 0° 00′ 00″');
+  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap on: 359.999999999 → 0° and says so', v.val + '|' + v.note, '0° 00′ 00″|rounded from 359° 59′ 59.99…″ · 360° 00′ 00″ → 0° 00′ 00″');
   v = await run(page, 'AC M:arc dec n 359.999999999 ='); check('wrap on: −359.999999999 stays −360°', v.val, '−' + dms(S(360)));
   v = await run(page, 'AC M:arc dec 23.43666 =');       check('23.43666 = 23° 26′ 12″', v.val, dms(S(23,26,12)));
   // the limit: 10,000,000° or h on the raw result, before any wrap; operands built with wrap off

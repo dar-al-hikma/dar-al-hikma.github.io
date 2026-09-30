@@ -1,5 +1,5 @@
 // Lesson 5 §2 and §6 as printed (pp. 6–7, 30–40), and the Help recipes exactly as Help prints them.
-const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary } = H;
+const H = require('./h'); const { run, press, fresh, view, dms, hms, S, check, summary } = H;
 (async () => {
   const { browser, page, errs } = await H.open(); let v;
   await fresh(page, 'time');
@@ -19,7 +19,7 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
   v = await run(page, '>ratio');                             check('row 19 ratio exact', v.regs.ratio.v, 227/240);
   await fresh(page, 'arc');
   v = await run(page, 'AC 265 u 24 u 38 - 264 u 29 u 30 ='); check('row 22', v.val, dms(S(0,55,8)));
-  v = await run(page, '* @ratio =');                         check('row 23', v.val + '|' + v.note, '0° 52′ 09″|rounded from 0° 52′ 08.81″');
+  v = await run(page, '* @ratio =');                         check('row 23', v.val + '|' + v.note, '0° 52′ 09″|rounded from 0° 52′ 08.81…″');
   v = await run(page, '+ 264 u 29 u 30 =');                  check('row 24 MC interpolated', v.val, dms(S(265,21,39)));
   v = await run(page, 'AC 350 u 39 u 41 - 348 u 48 u 41 ='); check('row 28', v.val, dms(S(1,51,0)));
   v = await run(page, '* @ratio =');                         check('row 29', v.val, dms(S(1,44,59)));
@@ -55,7 +55,13 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
   v = await run(page, 'AC @RAMC tan / @OE cos = atan p180'); check('Help MC recipe', v.val, dms(S(265,21,41)));
   v = await run(page, 'AC @LST - M:time 17 u 36 = / 0 u 4 = >ratio'); check('Help ST-ratio recipe', v.val, '0.9458333…');
   await press(page, 'AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x');
-  v = await run(page, 'AC @RAMC cos n / @x = atan');         check('Help direct ASC (p. 37: 20° 18′ 54″ ♓)', v.val, dms(S(350,18,54)));
+  const ratioBefore = (await view(page)).regs.ratio.v;
+  v = await run(page, 'AC @OE sin * @φ tan = * @RAMC sin = + @OE cos =');   // step 3: only its sign is used, nothing is stored
+  const sameSign = Math.sign(v.sval.v) === Math.sign(v.regs.x.v);
+  check('Help direct ASC step 3 leaves the ratio register alone', v.regs.ratio.v, ratioBefore);
+  v = await run(page, 'AC @RAMC cos n / @x = atan' + (sameSign ? ' p180' : '')); check('Help direct ASC (p. 37: 20° 18′ 54″ ♓)', v.val, dms(S(350,18,54)));
+  const step3 = await page.evaluate(() => [...document.querySelectorAll('.recipe .seq')].map(r => r.textContent).find(t => /^3\.OE/.test(t)));
+  check('Help prints direct ASC step 3 without sto', /sto/.test(step3), false, step3);
   // §11.2 signed entry
   await fresh(page, 'arc');
   v = await run(page, 'AC n 93 u 15 u 48 d15');              check('±93°15′48″ ÷15', v.val, '−' + hms(S(6,13,3)));

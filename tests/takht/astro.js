@@ -53,5 +53,12 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
     check(`polar circle, ${name}: denominator is noise (degenerate, as Help says)`, Math.abs(v.regs.x.v) < 1e-12, true, String(v.regs.x.v)); }
   const help = await page.evaluate(() => { const o = {}; for (const l of Object.keys(window.takht.I18N)) o[l] = window.takht.I18N[l].ui.rAscNote; return o; });
   check('Help (en) pairs the northern circle with RAMC 270° and the southern with 90°', /northern polar circle[^.]*RAMC 270°, or the southern one with RAMC 90°/.test(help.en), true);
+  // --- past the polar circles, one second of RAMC apart, the ASC jumps 180°: Help's sign test (step 3 against x) picks the eastern root
+  await press(page, 'AC 23 u 26 u 54 >OE AC 69 u 0 u 0 >φ');
+  for (const [s, want] of [[50, S(295,45,47)], [51, S(115,45,47)]]) {
+    await press(page, `AC 297 u 44 u ${s} >RAMC AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x`);
+    v = await run(page, 'AC @OE sin * @φ tan = * @RAMC sin = + @OE cos ='); const same = Math.sign(v.sval.v) === Math.sign(v.regs.x.v);
+    v = await run(page, 'AC @RAMC cos n / @x = atan' + (same ? ' p180' : ''));
+    check(`69° N, RAMC 297° 44′ ${s}″: the sign test gives the eastern ASC`, v.sval.sec, want, v.val); }
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

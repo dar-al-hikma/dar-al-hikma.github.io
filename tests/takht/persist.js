@@ -39,6 +39,10 @@ const H = require('./h'); const { press, view, check, summary, dms, S } = H;
     for (const l of await p.evaluate(() => Object.keys(window.takht.I18N))) { await p.evaluate(l => { window.takht.applyLang(l); window.takht.press('help'); }, l); await p.keyboard.press('Escape'); } await p.waitForTimeout(300);
     const other = reqs.filter(u => !u.endsWith('index.html') && !/manifest\.webmanifest|icon-.*\.png/.test(u)); check(`network with install files ${withFiles ? 'present' : 'absent'}: only the page and its own files`, other.join(',') + '|' + errs.join(','), '|');
     check(`  fonts loaded from the inline data`, await p.evaluate(() => [...document.fonts].every(f => f.status === 'loaded')), true); await c.close(); }
+  // leading zeros in a saved exact form do not move the exponent
+  for (const [reg, want] of [[{k:'dec', v:1, dx:'0000000000001'}, '1° 00′ 00″ × 1 = 1° 00′ 00″'], [{k:'dec', v:0.1, dx:'0000000000000.1'}, '1° 00′ 00″ × 0.1 = 0° 06′ 00″']]) {
+    const z = await withStore(JSON.stringify({ratio: reg}), 'en'); await press(z.p, 'AC M:arc 1 u * @ratio =');
+    check(`saved dx ${reg.dx} shows as its value`, (await view(z.p)).last, want); await z.c.close(); }
   check('size within the 450 KiB ceiling', require('fs').statSync(H.PAGE).size < 460800, true, String(require('fs').statSync(H.PAGE).size));
   summary(); await browser.close();
 })();

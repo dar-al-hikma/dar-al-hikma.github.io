@@ -46,7 +46,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC dec . 5 n asin');             check('. 5 ± sin⁻¹ = −30°', v.val, '−' + dms(S(30)));
   v = await run(page, 'AC dec n . 5 acos');             check('± . 5 cos⁻¹ = 120°', v.val, dms(S(120)));
   v = await run(page, 'AC dec n 1 atan');               check('atan −1 wraps to 315° with the note', v.val + '|' + v.note, '315° 00′ 00″|−45° 00′ 00″ → 315° 00′ 00″');
-  v = await run(page, 'AC dec 12.32470 atan');          check('atan 12.32470 = 85° 21′ 41″', v.val + '|' + v.note, '85° 21′ 41″|rounded from 85° 21′ 40.69″');
+  v = await run(page, 'AC dec 12.32470 atan');          check('atan 12.32470 = 85° 21′ 41″', v.val + '|' + v.note, '85° 21′ 41″|rounded from 85° 21′ 40.69…″');
   v = await run(page, 'AC M:arc 90 tan');               check('tan 90° refused', v.msgBad, true);
   v = await run(page, 'AC M:arc 270 tan');              check('tan 270° refused', v.msgBad, true);
   v = await run(page, 'AC M:arc 89 u 59 u 59 tan');     check('tan 89° 59′ 59″', v.val, '206264.806241…');
@@ -88,5 +88,14 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC M:arc dec 9999999.9999 =');   check('typed 9999999.9999 = refused (rounds to 10000000°)', v.msgBad, true);
   let s = 'AC dec 999999999999 * 999999999999 ='; for (let i = 0; i < 23; i++) s += ' * 999999999999 ='; v = await run(page, s); check('10²⁹⁹ accepted', v.val, '9.999…×10299');
   v = await run(page, '* 999999999999 =');              check('overflow refused, operation kept open', v.msgBad + '|' + v.pending, 'true|9.999…×10299 ×');
+  // a computed value within binary noise of a half is the half the display shows: sin 30° is held as 0.49999999999999994
+  await fresh(page, 'arc'); await press(page, 'AC 30 sin >ratio');
+  v = await run(page, 'AC 0 u 0 u 1 * @ratio =');      check('1″ × sin 30° = 1″, as 1″ × 0.5', v.last + '|' + v.note, '0° 00′ 01″ × 0.5 = 0° 00′ 01″|rounded from 0° 00′ 00.5″');
+  v = await run(page, 'AC n 0 u 0 u 1 * @ratio =');    check('  −1″ × sin 30° = −1″', v.val, '−0° 00′ 01″');
+  v = await run(page, 'AC 60 cos >ratio AC 0 u 0 u 1 * @ratio ='); check('  1″ × cos 60° = 1″', v.val, dms(S(0,0,1)));
+  v = await run(page, 'AC 29 u 59 u 59 sin >ratio AC 0 u 0 u 1 * @ratio ='); check('  a value truly below a half still rounds down (sin 29° 59′ 59″)', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.49…″');
+  v = await run(page, 'AC 0 u 0 u 1 d15');             check('1″ ÷ 15: the note marks its cut digits', v.note, 'rounded from 00:00:00.06…');
+  await fresh(page, 'time'); v = await run(page, 'AC 15 u 55 accel'); check('accel 15:55:00: the note marks its cut digits', v.note, 'rounded from 156.93… s');
+  await fresh(page, 'arc');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

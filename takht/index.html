@@ -734,7 +734,7 @@ I18N.en = {
     rSouth: 'Southern births, by the table',
     rSouthNote: 'Look up the new ST and work as usual, then press <b>+180</b> on the MC and on the ASC: both take the opposite sign.',
     rAscDirect: 'Direct ASC',
-    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. Past the polar circles the ASC can jump by 180°: if the result equals the MC, or lies exactly opposite it, to the second, decide by sign instead. Work <b>OE sin × φ tan × RAMC sin + OE cos =</b> and press <b>+180</b> only if the answer has the same sign as <b>x</b>; if it is exactly 0, there is no rising point at that instant. At the northern polar circle (latitude 90° minus <b>OE</b>) with RAMC 270°, or the southern one with RAMC 90°, the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC. Past the polar circles the ASC can jump by 180°: if the result equals the MC, or lies exactly opposite it, to the second, decide by sign instead. Work <b>OE sin × φ tan × RAMC sin + OE cos =</b> and note the sign of the answer; if it is exactly 0, there is no rising point at that instant. Otherwise repeat step 3, and press <b>+180</b> only if that sign is the sign of <b>x</b>. At the northern polar circle (latitude 90° minus <b>OE</b>) with RAMC 270°, or the southern one with RAMC 90°, the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Signed values',
     rSignedNote: 'With wrap on, a result stays signed if any value in it was negative; times always wrap. For declinations and latitudes, tap <b>wrap</b> on the display to turn it off. <b>+</b> 360 brings a negative longitude into the circle.',
     hRegs: 'Registers',
@@ -787,6 +787,7 @@ I18N.en = {
     typeAfter: op => `Type the number after ${op} first.`,
     arcTime: add => `Arc and time can't be ${add ? 'added' : 'subtracted'}. A table's sidereal time is still a time: type it in h.`,
     decSex: (add, u = '° ′ ″') => `A decimal and ${u} cannot be ${add ? 'added' : 'subtracted'}. Press dec on the decimal to turn it into ${u}.`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `A decimal and ${u} cannot be ${add ? 'added' : 'subtracted'}. Press C twice, type the decimal, press dec, then ${op}.`,
     arcTimeDiv: "An angle can't be divided by a time, or a time by an angle.",
     ratioHint: '× needs a plain number. A ratio is time ÷ time (÷ 24 h m s) or angle ÷ angle.',
     numByQty: "A plain number can't be divided by ° ′ ″ or h m s.",
@@ -932,7 +933,7 @@ I18N.nb = {
     rSouth: 'Sørlige halvkule, med tabellen <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Slå opp den nye ST-en og regn som vanlig, og trykk så på <b>+180</b> for MC og for AC: begge får motsatt tegn.',
     rAscDirect: 'AC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. På breddegrader høyere enn polarsirklenes kan AC hoppe 180°: er svaret likt MC, eller rett motsatt, på sekundet, avgjør du med fortegnet i stedet. Regn ut <b>OE sin × φ tan × RAMC sin + OE cos =</b> og trykk på <b>+180</b> bare hvis svaret har samme fortegn som <b>x</b>; er det nøyaktig 0, finnes det ikke noe oppgangspunkt i det øyeblikket. Ved RAMC 270° på den nordlige polarsirkelen (breddegrad 90° minus <b>OE</b>), eller RAMC 90° på den sørlige, faller ekliptikken sammen med horisonten. Da finnes det ingen entydig ascendant, uansett hva trinn 3 gir. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC. På breddegrader høyere enn polarsirklenes kan AC hoppe 180°: er svaret likt MC, eller rett motsatt, på sekundet, avgjør du med fortegnet i stedet. Regn ut <b>OE sin × φ tan × RAMC sin + OE cos =</b> og noter fortegnet på svaret; er det nøyaktig 0, finnes det ikke noe oppgangspunkt i det øyeblikket. Ellers gjentar du trinn 3 og trykker på <b>+180</b> bare hvis fortegnet er det samme som for <b>x</b>. Ved RAMC 270° på den nordlige polarsirkelen (breddegrad 90° minus <b>OE</b>), eller RAMC 90° på den sørlige, faller ekliptikken sammen med horisonten. Da finnes det ingen entydig ascendant, uansett hva trinn 3 gir. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Verdier med fortegn',
     rSignedNote: 'Med reduksjon på beholder et resultat fortegnet hvis en av verdiene i det var negativ; tider reduseres alltid. For deklinasjoner og breddegrader, trykk på <b>reduksjon</b> i skjermen for å slå den av. <b>+</b> 360 bringer en negativ lengde inn i sirkelen.',
     hRegs: 'Variabler',
@@ -985,6 +986,7 @@ I18N.nb = {
     typeAfter: op => `Skriv tallet etter ${op} først.`,
     arcTime: add => `Bue og tid kan ikke ${add ? 'adderes' : 'subtraheres'}. Stjernetid fra en tabell er en tid: skriv den i h.`,
     decSex: (add, u = '° ′ ″') => `Et desimaltall og ${u} kan ikke ${add ? 'adderes' : 'subtraheres'}. Trykk på dec på desimaltallet for å gjøre det om til ${u}.`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `Et desimaltall og ${u} kan ikke ${add ? 'adderes' : 'subtraheres'}. C to ganger, skriv desimaltallet, dec, så ${op}.`,
     arcTimeDiv: 'En vinkel kan ikke deles på en tid, eller en tid på en vinkel.',
     ratioHint: '× trenger et vanlig tall. Et forhold er tid ÷ tid (÷ 24 h m s) eller vinkel ÷ vinkel.',
     numByQty: 'Et vanlig tall kan ikke deles på ° ′ ″ eller h m s.',
@@ -1131,7 +1133,7 @@ I18N.es = {
     rSouth: 'Hemisferio sur, con la tabla <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Busque el nuevo TS y calcule como siempre; después pulse <b>+180</b> sobre el MC y sobre el ASC: ambos toman el signo opuesto.',
     rAscDirect: 'ASC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Más allá de los círculos polares el ASC puede saltar 180°: si el resultado coincide al segundo con el MC, o con su opuesto exacto, el MC no decide: decida por el signo. Calcule <b>OE sen × φ tan × RAMC sen + OE cos =</b> y pulse <b>+180</b> solo si el resultado tiene el mismo signo que <b>x</b>; si es exactamente 0, en ese instante no hay Ascendente. En el círculo polar ártico (latitud 90° menos <b>OE</b>) con una ARMC de 270°, o en el antártico con una ARMC de 90°, la eclíptica coincide con el horizonte y no hay un Ascendente único, dé lo que dé el paso 3. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Guarde antes <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC. Más allá de los círculos polares el ASC puede saltar 180°: si el resultado coincide al segundo con el MC, o con su opuesto exacto, el MC no decide: decida por el signo. Calcule <b>OE sen × φ tan × RAMC sen + OE cos =</b> y anote el signo del resultado; si es exactamente 0, en ese instante no hay Ascendente. Si no, repita el paso 3 y pulse <b>+180</b> solo si ese signo es el de <b>x</b>. En el círculo polar ártico (latitud 90° menos <b>OE</b>) con una ARMC de 270°, o en el antártico con una ARMC de 90°, la eclíptica coincide con el horizonte y no hay un Ascendente único, dé lo que dé el paso 3. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valores con signo',
     rSignedNote: 'Con la reducción activada, un resultado conserva el signo si alguno de sus valores era negativo; los tiempos se reducen siempre. Para declinaciones y latitudes, pulse <b>reducir</b> en la pantalla para desactivarla. <b>+</b> 360 lleva una longitud negativa al círculo.',
     hRegs: 'Variables',
@@ -1184,6 +1186,7 @@ I18N.es = {
     typeAfter: op => `Escriba primero el número que va después de ${op}.`,
     arcTime: add => `No se pueden ${add ? 'sumar' : 'restar'} arco y tiempo. El tiempo sidéreo de una tabla es un tiempo: escríbalo en h.`,
     decSex: (add, u = '° ′ ″') => `No se pueden ${add ? 'sumar' : 'restar'} un decimal y ${u}. Pulse dec sobre el decimal para convertirlo en ${u}.`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `No se pueden ${add ? 'sumar' : 'restar'} un decimal y ${u}. Pulse C dos veces, escriba el decimal, pulse dec y luego ${op}.`,
     arcTimeDiv: 'Un ángulo no se divide por un tiempo, ni un tiempo por un ángulo.',
     ratioHint: '× necesita un número simple. Una proporción es tiempo ÷ tiempo (÷ 24 h m s) o ángulo ÷ ángulo.',
     numByQty: 'Un número simple no se divide por ° ′ ″ ni por h m s.',
@@ -1329,7 +1332,7 @@ I18N.fr = {
     rSouth: 'Hémisphère sud, avec la table <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Cherchez le nouveau TS et calculez comme d’habitude, puis appuyez sur <b>+180</b> pour le MC et pour l’ASC : tous deux prennent le signe opposé.',
     rAscDirect: 'ASC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Au-delà des cercles polaires, l’ASC peut sauter de 180° : si le résultat est égal au MC, ou exactement opposé, à la seconde près, décidez plutôt par le signe. Calculez <b>OE sin × φ tan × RAMC sin + OE cos =</b> et appuyez sur <b>+180</b> seulement si le résultat a le même signe que <b>x</b> ; s’il vaut exactement 0, il n’y a pas de point de lever à cet instant. Sur le cercle polaire arctique (latitude 90° moins <b>OE</b>) avec une ARMC de 270°, ou sur le cercle polaire antarctique avec une ARMC de 90°, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC. Au-delà des cercles polaires, l’ASC peut sauter de 180° : si le résultat est égal au MC, ou exactement opposé, à la seconde près, décidez plutôt par le signe. Calculez <b>OE sin × φ tan × RAMC sin + OE cos =</b> et notez le signe du résultat ; s’il vaut exactement 0, il n’y a pas de point de lever à cet instant. Sinon, refaites l’étape 3 et appuyez sur <b>+180</b> seulement si ce signe est celui de <b>x</b>. Sur le cercle polaire arctique (latitude 90° moins <b>OE</b>) avec une ARMC de 270°, ou sur le cercle polaire antarctique avec une ARMC de 90°, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valeurs signées',
     rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour désactiver la réduction. <b>+</b> 360 ramène une longitude négative dans le cercle.',
     hRegs: 'Variables',
@@ -1382,6 +1385,7 @@ I18N.fr = {
     typeAfter: op => `Tapez d’abord le nombre qui suit ${op}.`,
     arcTime: add => `Arc et temps ne ${add ? 's’additionnent' : 'se soustraient'} pas. Le TS d’une table est un temps : saisissez-le en h.`,
     decSex: (add, u = '° ′ ″') => `On ne peut pas ${add ? 'additionner' : 'soustraire'} un décimal et des ${u}. Appliquez dec au décimal pour le convertir en ${u}.`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `On ne peut pas ${add ? 'additionner' : 'soustraire'} un décimal et des ${u}. C deux fois, saisissez le décimal, dec, puis ${op}.`,
     arcTimeDiv: 'Un angle ne se divise pas par un temps, ni un temps par un angle.',
     ratioHint: '× attend un nombre simple. Un rapport est temps ÷ temps (÷ 24 h m s) ou angle ÷ angle.',
     numByQty: 'Un nombre simple ne se divise pas par des ° ′ ″ ni par des h m s.',
@@ -1527,7 +1531,7 @@ I18N.de = {
     rSouth: 'Südhalbkugel, mit der Tabelle <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Die neue Sternzeit nachschlagen und wie gewohnt rechnen, dann <b>+180</b> auf MC und AC anwenden: beide bekommen das gegenüberliegende Zeichen.',
     rAscDirect: 'AC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf das MC folgen. Jenseits der Polarkreise kann der AC um 180° springen: Stimmt das Ergebnis auf die Sekunde mit dem MC überein oder liegt ihm genau gegenüber, entscheidet stattdessen das Vorzeichen. <b>OE sin × φ tan × RAMC sin + OE cos =</b> rechnen und <b>+180</b> nur drücken, wenn das Ergebnis dasselbe Vorzeichen hat wie <b>x</b>; ist es genau 0, gibt es in diesem Augenblick keinen Aufgangspunkt. Bei RAMC 270° am nördlichen Polarkreis (Breite 90° minus <b>OE</b>) oder RAMC 90° am südlichen Polarkreis fällt die Ekliptik mit dem Horizont zusammen. Dann gibt es keinen eindeutigen Aszendenten, unabhängig vom Ergebnis in Schritt 3. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf das MC folgen. Jenseits der Polarkreise kann der AC um 180° springen: Stimmt das Ergebnis auf die Sekunde mit dem MC überein oder liegt ihm genau gegenüber, entscheidet stattdessen das Vorzeichen. <b>OE sin × φ tan × RAMC sin + OE cos =</b> rechnen und das Vorzeichen des Ergebnisses notieren; ist es genau 0, gibt es in diesem Augenblick keinen Aufgangspunkt. Sonst Schritt 3 wiederholen und <b>+180</b> nur drücken, wenn dieses Vorzeichen dem von <b>x</b> gleicht. Bei RAMC 270° am nördlichen Polarkreis (Breite 90° minus <b>OE</b>) oder RAMC 90° am südlichen Polarkreis fällt die Ekliptik mit dem Horizont zusammen. Dann gibt es keinen eindeutigen Aszendenten, unabhängig vom Ergebnis in Schritt 3. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Werte mit Vorzeichen',
     rSignedNote: 'Mit Reduktion bleibt ein Ergebnis vorzeichenbehaftet, wenn einer seiner Werte negativ war; Zeiten werden immer reduziert. Für Deklinationen und Breiten tippen Sie <b>Reduktion</b> in der Anzeige an, um sie auszuschalten. <b>+</b> 360 bringt eine negative Länge in den Kreis.',
     hRegs: 'Variablen',
@@ -1580,6 +1584,7 @@ I18N.de = {
     typeAfter: op => `Geben Sie zuerst die Zahl nach ${op} ein.`,
     arcTime: add => `Bogen und Zeit lassen sich nicht ${add ? 'addieren' : 'subtrahieren'}. Tabellen-Sternzeit ist Zeit: in h eingeben.`,
     decSex: (add, u = '° ′ ″') => `Eine Dezimalzahl und ${u} lassen sich nicht ${add ? 'addieren' : 'subtrahieren'}. Erst mit dec in ${u} umwandeln.`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `Dezimalzahl und ${u} sind nicht ${add ? 'addierbar' : 'subtrahierbar'}: zweimal C, Zahl eingeben, dec, dann ${op}.`,
     arcTimeDiv: 'Ein Winkel lässt sich nicht durch eine Zeit teilen, eine Zeit nicht durch einen Winkel.',
     ratioHint: '× braucht eine einfache Zahl. Ein Faktor ist Zeit ÷ Zeit (÷ 24 h m s) oder Winkel ÷ Winkel.',
     numByQty: 'Eine einfache Zahl lässt sich nicht durch ° ′ ″ oder h m s teilen.',
@@ -1725,7 +1730,7 @@ I18N.zh = {
     rSouth: '南半球，查表<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '查新的恒星时，照常计算，然后对 MC 和 ASC 各按一次 <b>+180</b>：两者都取对宫星座。',
     rAscDirect: '直接计算 ASC<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。纬度高于极圈时，ASC 可能跳变 180°：如果结果精确到秒与 MC 相同，或与之恰好相对，就改用正负号判断。计算 <b>OE sin × φ tan × RAMC sin + OE cos =</b>，只有当结果与 <b>x</b> 同号时才按 <b>+180</b>；若结果恰好为 0，则此刻没有升起点。位于北极圈上（纬度为 90° 减 <b>OE</b>）且 RAMC 为 270°，或位于南极圈上且 RAMC 为 90° 时，黄道与地平圈重合；无论第 3 步得出什么，都没有唯一的上升点。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
+    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内，否则按 <b>+180</b>。纬度高于极圈时，ASC 可能跳变 180°：如果结果精确到秒与 MC 相同，或与之恰好相对，就改用正负号判断。计算 <b>OE sin × φ tan × RAMC sin + OE cos =</b>，记下结果的正负号；若结果恰好为 0，则此刻没有升起点。否则重做第 3 步，只有当该正负号与 <b>x</b> 相同时才按 <b>+180</b>。位于北极圈上（纬度为 90° 减 <b>OE</b>）且 RAMC 为 270°，或位于南极圈上且 RAMC 为 90° 时，黄道与地平圈重合；无论第 3 步得出什么，都没有唯一的上升点。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
     rSigned: '带正负号的值',
     rSignedNote: '开启化归时，只要参与运算的值有一个是负数，结果就保留正负号；时间总是化归。计算赤纬和纬度时，点显示屏上的 <b>化归</b> 把它关掉。<b>+</b> 360 把负的黄经带回圆周之内。',
     hRegs: '变量',
@@ -1778,6 +1783,7 @@ I18N.zh = {
     typeAfter: op => `请先输入 ${op} 后面的数。`,
     arcTime: add => `角度和时间不能${add ? '相加' : '相减'}。表中的恒星时是时间：请用 h 输入。`,
     decSex: (add, u = '° ′ ″') => `小数和 ${u} 不能${add ? '相加' : '相减'}。在小数上按 dec，把它化为 ${u}。`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `小数和 ${u} 不能${add ? '相加' : '相减'}。按两次 C，输入小数，按 dec，再按 ${op}。`,
     arcTimeDiv: '角度不能除以时间，时间也不能除以角度。',
     ratioHint: '× 后面要跟普通的数。比例是时间 ÷ 时间（÷ 24 h m s）或角度 ÷ 角度。',
     numByQty: '普通的数不能除以 ° ′ ″ 或 h m s。',
@@ -1923,7 +1929,7 @@ I18N.ja = {
     rSouth: '南半球・表を使う場合<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '新しい恒星時で表を引き、いつもどおり計算してから、MC と ASC にそれぞれ <b>+180</b> を押します。どちらも反対側のサインになります。',
     rAscDirect: 'ASC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。緯度が極圏より高いと ASC は 180° 跳ぶことがあります。答えが秒まで MC と同じか、ちょうど反対のときは、MC ではなく符号で決めます。<b>OE sin × φ tan × RAMC sin + OE cos =</b> を計算し、その値が <b>x</b> と同じ符号のときだけ <b>+180</b> を押します。ちょうど 0 なら、その瞬間には昇る点がありません。北極圏の境界（緯度 90° − <b>OE</b>）で RAMC が 270°、または南極圏の境界で RAMC が 90° のときは、黄道が地平圏と重なり、手順 3 の結果にかかわらず ASC は一つに定まりません。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。教本のチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
+    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲になければ <b>+180</b> を押します。緯度が極圏より高いと ASC は 180° 跳ぶことがあります。答えが秒まで MC と同じか、ちょうど反対のときは、MC ではなく符号で決めます。<b>OE sin × φ tan × RAMC sin + OE cos =</b> を計算して、その値の符号を控えます。ちょうど 0 なら、その瞬間には昇る点がありません。そうでなければ手順 3 をもう一度行い、控えた符号が <b>x</b> と同じときだけ <b>+180</b> を押します。北極圏の境界（緯度 90° − <b>OE</b>）で RAMC が 270°、または南極圏の境界で RAMC が 90° のときは、黄道が地平圏と重なり、手順 3 の結果にかかわらず ASC は一つに定まりません。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。教本のチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
     rSigned: '符号つきの値',
     rSignedNote: '範囲補正がオンでも、計算に負の値が含まれていれば結果は符号つきのままです。時間は常に補正されます。赤緯や緯度を扱うときは、表示の <b>範囲補正</b> を押してオフにします。<b>+</b> 360 で負の黄経を円の中に戻せます。',
     hRegs: '変数メモリー',
@@ -1945,7 +1951,7 @@ I18N.ja = {
     kNeg: '符号を反転',
     hAbout: 'このページについて',
     course: `Ben Dykes の <em>Traditional Natal Astrology Course</em> 第 5 課 §2・§6 に準拠しています。例題のチャートは Dykes によるものです。`,
-    about: `<i>Takht</i>（タフト）は、昔の計算家が計算に使った砂の板です。${DAH} の一部です。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。`
+    about: `<i>タフト</i>（砂盤）は、昔の計算家が計算に使った砂の板です。${DAH} の一部です。フォント：EB Garamond、IBM Plex Mono、IBM Plex Sans Condensed、Noto Sans Symbols（SIL Open Font License）。`
   },
   m: {
     manyDigits: 'これ以上の桁は入りません。',
@@ -1976,6 +1982,7 @@ I18N.ja = {
     typeAfter: op => `先に ${op} のあとの数を入力してください。`,
     arcTime: add => `角度と時間は${add ? '足せ' : '引け'}ません。表の恒星時は時間です。h で入力します。`,
     decSex: (add, u = '° ′ ″') => `小数と ${u} は${add ? '足せ' : '引け'}ません。小数に dec を押して ${u} にします。`,
+    decSexLeft: (add, u = '° ′ ″', op = '+') => `小数と ${u} は${add ? '足せ' : '引け'}ません。C を 2 回押し、小数を入力して dec、それから ${op} を押します。`,
     arcTimeDiv: '角度を時間で、時間を角度で割ることはできません。',
     ratioHint: '× には普通の数を使います。比率は時間 ÷ 時間（÷ 24 h m s）か角度 ÷ 角度です。',
     numByQty: '普通の数を ° ′ ″ や h m s で割ることはできません。',
@@ -2111,7 +2118,11 @@ function dxMul(x, y){
 }
 const clean = y => Math.abs(y) < 1e-12 ? 0 : y;
 const isInt = x => Number.isInteger(x) || (Math.round(x) !== 0 && Math.abs(x - Math.round(x)) <= 4*Number.EPSILON*Math.abs(x));
-const roundSec = x => x < 0 ? -Math.round(-x) : Math.round(x);
+// half away from zero, and a computed value within binary noise of a half is that half, as the display shows it:
+// 1″ × sin 30° (0.49999999999999994) is 1″ × 0.5, which comes to 1″
+const roundSec = x => { const a = Math.abs(x), h = Math.floor(a) + 0.5, r = (a >= h || h - a <= 4*Number.EPSILON*h) ? h + 0.5 : h - 0.5; return x < 0 ? -r : r; };
+// … after digits a note leaves out; binary noise is not a digit
+const cutMark = (shown, x) => Math.abs(+shown - x) > Math.max(Math.abs(x), 1)*1e-12 ? '…' : '';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const isScalarOp = op => op === '×' || op === '÷';
 // the right-hand value starts as a plain number after × and ÷, and after + or − when the left is a number
@@ -2178,7 +2189,8 @@ function fmtNum(v, dx){
   if (v === 0) return '0';
   const a = Math.abs(v);
   if (dx != null){   // exact digits: 1 + 1.002 shows 2.002, as it is; the form is chosen from the digits too
-    const [i, f = ''] = dx.replace('-', '').split('.'), all = (i + f).replace(/^0+/, '');
+    let [i, f = ''] = dx.replace('-', '').split('.'); i = i.replace(/^0+(?=\d)/, '');   // 007 is 7, as its value is
+    const all = (i + f).replace(/^0+/, '');
     const e = i !== '0' ? i.length - 1 : -(f.length - f.replace(/^0+/, '').length) - 1;   // the exponent, exactly
     if (e >= -7 && e < 12){
       const p = Math.max(0, Math.min(7, 12 - i.length)), kept = f.slice(0, p).replace(/0+$/, '');
@@ -2205,7 +2217,7 @@ function fmtExact(x, mode){
   if (x !== 0 && Math.abs(x) < 1e-8) return fmtNum(x) + (mode === TIME ? ' s' : '″');
   const a = Math.abs(x), d = Math.floor(a/3600), m = Math.floor((a - d*3600)/60), s = a - d*3600 - m*60;
   let p = 2; while (p < 8 && s > 0 && +truncFixed(s, p) === Math.floor(s)) p++;   // 0.00036″, not 00″
-  let ss = N(truncFixed(s, p)); if (s < 10) ss = '0' + ss;
+  const t = truncFixed(s, p); let ss = N(t) + cutMark(t, s); if (s < 10) ss = '0' + ss;
   const sg = x < 0 ? MINUS : '';
   return mode === TIME ? `${sg}${pad2(d)}:${pad2(m)}:${ss}` : `${sg}${d}° ${pad2(m)}′ ${ss}″`;
 }
@@ -2408,7 +2420,7 @@ function slotToFields(m, advance){
   const e = S.entry, {op, a} = S.pending;
   if (op === '×' && a.k === 'sex') return refuse(M().ratioHint);
   if (op === '÷' && a.k === 'dec') return refuse(M().numByQty);
-  if (op === '+' || op === '−') return refuse(M().decSex(op === '+', unitLabel(m)));
+  if (op === '+' || op === '−') return refuse(M().decSexLeft(op === '+', unitLabel(m), op));
   if (op === '÷' && a.mode !== m) return refuse(M().arcTimeDiv);
   if (e.t.includes('.')) return refuse(M().decToFields(unitLabel(m)));
   const f0 = e.t.replace(/^0+(?=\d)/, '');
@@ -2507,7 +2519,8 @@ function evaluate0(op, a, b){
         return {val: dec(v, null, dx), notes: []}; }
       return {val: dec(op === '+' ? a.v + b.v : a.v - b.v), notes: []};
     }
-    return refuse(M().decSex(op === '+', unitLabel(a.k === 'sex' ? a.mode : b.mode)));
+    // the decimal on the right can still be turned by dec; one already on the left of the operation cannot
+    return refuse(a.k === 'dec' ? M().decSexLeft(op === '+', unitLabel(b.mode), op) : M().decSex(op === '+', unitLabel(a.mode)));
   }
   if (op === '÷' && (b.k === 'dec' ? b.v === 0 || (b.dx != null && !/[1-9]/.test(b.dx)) || (b.rq && !b.rq[0]) : b.sec === 0)) return refuse(M().divZero);
   if (a.k === 'sex' && b.k === 'sex'){
@@ -2610,7 +2623,7 @@ const U = {
     if (v.sec < 0 || v.sec > FULL.time) return refuse(M().accelRange);
     const exact = v.sec/3600*9.86, r = roundSec(exact), out = sex(r, TIME);
     return {val: out, line: `${fmtV(v)} × ${N('9.86')} s/h = ${fmtV(out)}`,
-            notes: isInt(exact) ? [] : [M().rounded(N(truncFixed(exact, exact < 0.01 ? 4 : 2)) + ' s')]};
+            notes: isInt(exact) ? [] : [M().rounded(N(truncFixed(exact, exact < 0.01 ? 4 : 2)) + cutMark(truncFixed(exact, exact < 0.01 ? 4 : 2), exact) + ' s')]};
   },
   x15(v){
     if (v.k !== 'sex') return refuse(M().x15Dec);
@@ -2933,18 +2946,18 @@ function unsheetTape(ev){
 window.matchMedia('(max-width:600px)').addEventListener('change', unsheetTape);
 
 // keys: clicks, and holds for registers and C
-let holdTimer = 0, held = false;
+let holdTimer = 0, held = null;   // the key whose hold has fired: its own release click is not a press
 document.querySelectorAll('[data-k]').forEach(b => {
   const k = b.dataset.k;
   const holdable = k.startsWith('reg:') || k === 'C';
   b.addEventListener('pointerdown', ev => {
     if (ev.pointerType === 'mouse' && ev.button !== 0) return;
     ev.preventDefault(); // keep focus off the keys, so Enter and Space stay calculator keys
-    held = false;
+    held = null;
     if (holdable){
       clearTimeout(holdTimer);
       holdTimer = setTimeout(() => {
-        held = true;
+        held = b;
         if (navigator.vibrate) try { navigator.vibrate(12); } catch (e) {}
         press(k === 'C' ? 'AC' : 'store:' + k.slice(4));
       }, HOLD_MS);
@@ -2955,11 +2968,13 @@ document.querySelectorAll('[data-k]').forEach(b => {
   b.addEventListener('pointerleave', cancel);
   b.addEventListener('pointercancel', cancel);
   b.addEventListener('contextmenu', ev => ev.preventDefault());
-  b.addEventListener('click', () => {
+  b.addEventListener('click', ev => {
     clearTimeout(holdTimer);
     // a clicked calculator key takes the keyboard back from a history line or control that kept focus
     const a = document.activeElement; if (a && a !== document.body && a !== b) a.blur();
-    if (held){ held = false; return; } press(k);
+    // a hold released off its key leaves no click of its own, so a later keyboard press (detail 0) is never taken for it
+    const own = held === b && ev.detail > 0; held = null;
+    if (own) return; press(k);
   });
 });
 

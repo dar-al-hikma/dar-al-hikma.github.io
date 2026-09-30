@@ -40,7 +40,7 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
   v = await run(page, 'AC M:time 0 / 24 u =');                              check('UT 00:00 ÷ 24 h', v.val, '0');
   v = await run(page, 'AC M:time 24 / 24 u =');                             check('UT 24:00 ÷ 24 h', v.val, '1');
   v = await run(page, 'AC M:time 23 u 59 u 59 accel');                      check('accel 23:59:59', v.val, hms(237));
-  v = await run(page, 'AC M:time 0 u 0 u 1 accel');                         check('accel 1 s note', v.val + '|' + v.note, '00:00:00|rounded from 0.0027 s');
+  v = await run(page, 'AC M:time 0 u 0 u 1 accel');                         check('accel 1 s note', v.val + '|' + v.note, '00:00:00|rounded from 0.0027… s');
   // a computed ratio is exact: 13:55:12 is 50,112 s and 50112/86400 = 29/50, so 25″ × the ratio is 14.5″ exactly and rounds
   // half away from zero to 15″ (its binary value, 0.58 × 25 = 14.4999…, would give 14″)
   await fresh(page, 'time'); await press(page, 'AC M:time 13 u 55 u 12 / 24 u = >ratio');

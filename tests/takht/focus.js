@@ -48,5 +48,13 @@ const H = require('./h'); const { press, view, fresh, check, summary, dms, S } =
     await page.keyboard.press('Backspace'); got.push(await live()); await page.keyboard.press('s');
     check(`${lang}: the live region names the field after the unit key and Backspace, and the sign when it changes`, got.join(', '), want.join(', '));
     check(`${lang}: no errors`, errs.join('|'), ''); await page.context().close(); }
+  // a completed hold released off its key leaves no click; the next keyboard press on another key still counts
+  { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 } }); await fresh(page); await press(page, 'AC 5 + 3 =');
+    const bx = await page.locator('.k[data-reg="x"]').boundingBox();
+    await page.mouse.move(bx.x + bx.width/2, bx.y + bx.height/2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.move(5, 5); await page.mouse.up();
+    check('hold x released off the key stores 8°', (await view(page)).regs.x.sec, S(8));
+    await page.locator('[data-k="7"]').focus(); await page.keyboard.press('Enter');
+    check('  then Enter on 7 types 7 at once', (await view(page)).val, dms(S(7)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
   summary(); await browser.close();
 })();

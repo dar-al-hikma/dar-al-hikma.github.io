@@ -42,6 +42,7 @@ const H = require('./h'); const { check, summary } = H;
   check('  in Japanese 黄経, the LST recipe keeping 経度', await lon('ja'), 'vLongEcl|黄経|vLong|経度');
   check('  in Norwegian lengde, the LST recipe keeping lengdegrad', await lon('nb'), 'vLongEcl|lengde|vLong|lengdegrad');
   await page.evaluate(() => window.takht.applyLang('en'));
+  check('ja About names the Takht タフト (砂盤), as the glossary settles', await page.evaluate(() => window.takht.I18N.ja.ui.about.startsWith('<i>タフト</i>（砂盤）')), true);
   check('no page errors', errs.join(' | '), '');
   summary(); await browser.close();
 })();

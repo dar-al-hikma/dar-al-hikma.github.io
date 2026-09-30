@@ -98,8 +98,8 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   await page.keyboard.press('Escape'); await page.keyboard.press('Escape'); await page.keyboard.press('?'); check('keyboard: ? opens Help', await page.evaluate(() => document.querySelector('#help').classList.contains('open')), true); await page.keyboard.press('Escape');
   // mixed kinds: a decimal on the right can be turned by dec; one already on the left of + cannot, so the message says start again
   await fresh(page, 'time'); await press(page, 'AC M:time 1 u >LST');
-  v = await run(page, 'AC dec .5 + @LST =');            check('decimal + time, decimal on the left: start again', v.msg, 'A decimal and h m s cannot be added. Press C twice, type the decimal, press dec, then +.');
-  v = await run(page, 'C C dec .5 dec + @LST =');        check('  following it gives 01:30:00', v.val, hms(S(1,30)));
+  v = await run(page, 'AC dec 1.5 + @LST =');           check('decimal + time, decimal on the left: start again', v.msg, 'A decimal and h m s cannot be added. Press C twice, dec, type the decimal, dec, then +.');
+  v = await run(page, 'C C dec 1.5 dec + @LST =');       check('  its keys exactly as printed give 1.5 h + 1 h = 02:30:00', v.val, hms(S(2,30)));
   v = await run(page, 'AC @LST + dec .5 =');             check('time + decimal, decimal on the right: press dec on it', v.msg, 'A decimal and h m s cannot be added. Press dec on the decimal to turn it into h m s.');
   v = await run(page, 'dec =');                          check('  following it gives 01:30:00', v.val, hms(S(1,30)));
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();

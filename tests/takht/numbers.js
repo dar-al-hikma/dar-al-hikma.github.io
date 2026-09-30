@@ -95,6 +95,15 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC 60 cos >ratio AC 0 u 0 u 1 * @ratio ='); check('  1″ × cos 60° = 1″', v.val, dms(S(0,0,1)));
   v = await run(page, 'AC 29 u 59 u 59 sin >ratio AC 0 u 0 u 1 * @ratio ='); check('  a value truly below a half still rounds down (sin 29° 59′ 59″)', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.49…″');
   v = await run(page, 'AC 0 u 0 u 1 d15');             check('1″ ÷ 15: the note marks its cut digits', v.note, 'rounded from 00:00:00.06…');
+  // typed ÷ typed is kept exact, so a value just below a half-second rounds down however large or small
+  await wrap(page, false);
+  v = await run(page, 'AC M:arc dec 999999778471 / 1000001 = * 1 u ='); check('999999778471 ÷ 1000001 × 1° = 999998° 46′ 42″ (2.5 µs below the half)', v.val + '|' + v.note, '999998° 46′ 42″|rounded from 999998° 46′ 42.49…″');
+  v = await run(page, 'AC M:arc dec 999999778471 / 1000001 = n * 1 u ='); check('  and negated, −999998° 46′ 42″', v.val, '−999998° 46′ 42″');
+  // sin 30° is a half at any size: 2000° 00′ 01″ × sin 30° = 1000° 00′ 00.5″ → 1000° 00′ 01″
+  v = await run(page, 'AC 30 sin >ratio AC 1 u * dec 2000 = + 0 u 0 u 1 = * @ratio ='); check('2000° 00′ 01″ × sin 30° = 1000° 00′ 01″', v.val, '1000° 00′ 01″');
+  await wrap(page, true);
+  v = await run(page, 'AC M:arc dec 737361111103 / 999999999989 = * 1 u ='); check('737361111103 ÷ 999999999989 × 1° = 0° 44′ 14″ (below the half by 5×10^−13″)', v.val, '0° 44′ 14″');
+  v = await run(page, 'AC M:arc dec 1 / 3 = * 0 u 0 u 3 ='); check('(1 ÷ 3) × 3″ = 1″ exactly, no rounding note', v.val + '|' + v.note, '0° 00′ 01″|');
   await fresh(page, 'time'); v = await run(page, 'AC 15 u 55 accel'); check('accel 15:55:00: the note marks its cut digits', v.note, 'rounded from 156.93… s');
   await fresh(page, 'arc');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();

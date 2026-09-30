@@ -53,12 +53,19 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
     check(`polar circle, ${name}: denominator is noise (degenerate, as Help says)`, Math.abs(v.regs.x.v) < 1e-12, true, String(v.regs.x.v)); }
   const help = await page.evaluate(() => { const o = {}; for (const l of Object.keys(window.takht.I18N)) o[l] = window.takht.I18N[l].ui.rAscNote; return o; });
   check('Help (en) pairs the northern circle with RAMC 270° and the southern with 90°', /northern polar circle[^.]*RAMC 270°, or the southern one with RAMC 90°/.test(help.en), true);
-  // --- past the polar circles, one second of RAMC apart, the ASC jumps 180°: Help's sign test (step 3 against x) picks the eastern root
-  await press(page, 'AC 23 u 26 u 54 >OE AC 69 u 0 u 0 >φ');
-  for (const [s, want] of [[50, S(295,45,47)], [51, S(115,45,47)]]) {
-    await press(page, `AC 297 u 44 u ${s} >RAMC AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x`);
-    v = await run(page, 'AC @OE sin * @φ tan = * @RAMC sin = + @OE cos ='); const same = Math.sign(v.sval.v) === Math.sign(v.regs.x.v);
-    v = await run(page, 'AC @RAMC cos n / @x = atan' + (same ? ' p180' : ''));
-    check(`69° N, RAMC 297° 44′ ${s}″: the sign test gives the eastern ASC`, v.sval.sec, want, v.val); }
+  // --- past the polar circles the ASC jumps 180°. Where the result equals the MC, or lies opposite it, to the second, Dykes' rule
+  // cannot choose; Help's tie-break (OE sin × φ tan × RAMC sin + OE cos against x) does. Charts a second of RAMC either side of a jump.
+  await press(page, 'AC 23 u 26 u 54 >OE');
+  for (const [lat, ramc, want] of [[69, S(297,44,50), S(295,45,47)], [69, S(297,44,51), S(115,45,47)], [67, S(258,8,9), S(79,5,28)]]) {
+    await press(page, `AC M:arc ${lat} u 0 u 0 >φ AC ${secToKeys(ramc)} >RAMC`);
+    v = await run(page, 'AC @RAMC tan / @OE cos = atan'); let mcD = v.sval.sec;
+    if (wrap360((mcD - ramc) / 3600) > 90 && wrap360((mcD - ramc) / 3600) < 270) mcD = (await run(page, 'p180')).sval.sec;
+    await press(page, 'AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x');
+    v = await run(page, 'AC @RAMC cos n / @x = atan'); const r = v.sval.sec, d = ((r - mcD) % 1296000 + 1296000) % 1296000;
+    const tie = d <= 1 || d >= 1295999 || Math.abs(d - 648000) <= 1;
+    check(`${lat}° N, RAMC ${dms(ramc)}: the result ties with the MC, so Dykes' rule alone cannot choose`, tie, true, `${dms(r)} against MC ${dms(mcD)}`);
+    const k = (await run(page, 'AC @OE sin * @φ tan * @RAMC sin + @OE cos =')).sval.v, x = v.regs.x.v;
+    v = await run(page, `AC @RAMC cos n / @x = atan${Math.sign(k) === Math.sign(x) ? ' p180' : ''}`);
+    check(`  the tie-break gives the eastern ASC`, v.val, dms(want)); }
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

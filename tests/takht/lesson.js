@@ -55,13 +55,9 @@ const H = require('./h'); const { run, press, fresh, view, dms, hms, S, check, s
   v = await run(page, 'AC @RAMC tan / @OE cos = atan p180'); check('Help MC recipe', v.val, dms(S(265,21,41)));
   v = await run(page, 'AC @LST - M:time 17 u 36 = / 0 u 4 = >ratio'); check('Help ST-ratio recipe', v.val, '0.9458333…');
   await press(page, 'AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x');
-  const ratioBefore = (await view(page)).regs.ratio.v;
-  v = await run(page, 'AC @OE sin * @φ tan = * @RAMC sin = + @OE cos =');   // step 3: only its sign is used, nothing is stored
-  const sameSign = Math.sign(v.sval.v) === Math.sign(v.regs.x.v);
-  check('Help direct ASC step 3 leaves the ratio register alone', v.regs.ratio.v, ratioBefore);
-  v = await run(page, 'AC @RAMC cos n / @x = atan' + (sameSign ? ' p180' : '')); check('Help direct ASC (p. 37: 20° 18′ 54″ ♓)', v.val, dms(S(350,18,54)));
-  const step3 = await page.evaluate(() => [...document.querySelectorAll('.recipe .seq')].map(r => r.textContent).find(t => /^3\.OE/.test(t)));
-  check('Help prints direct ASC step 3 without sto', /sto/.test(step3), false, step3);
+  v = await run(page, 'AC @RAMC cos n / @x = atan');         check('Help direct ASC (p. 37: 20° 18′ 54″ ♓)', v.val, dms(S(350,18,54)));
+  const rows = await page.evaluate(() => [...document.querySelectorAll('.recipe .seq')].map(r => r.textContent).filter(t => /^[1-9]\./.test(t)));
+  check('Help prints the direct ASC in the lesson\'s four steps', rows.join(' / '), '1.OEcos×RAMCsin=stox / 2.OEsin×φtan+x=stox / 3.RAMCcos±÷x=tan−1 / 4.+180');
   // §11.2 signed entry
   await fresh(page, 'arc');
   v = await run(page, 'AC n 93 u 15 u 48 d15');              check('±93°15′48″ ÷15', v.val, '−' + hms(S(6,13,3)));

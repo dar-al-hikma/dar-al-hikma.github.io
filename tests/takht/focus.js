@@ -30,6 +30,8 @@ const H = require('./h'); const { press, view, fresh, check, summary, dms, S } =
     await press(page, 'AC M:arc 5 + 3 ='); await page.click('#tapeHandle'); await page.waitForTimeout(350);
     await page.setViewportSize({ width: 844, height: 390 }); await page.waitForTimeout(350);
     check('390×844 → 844×390 with History open: calculator not inert, scrim hidden, no dialog left', await page.evaluate(() => [document.querySelector('.calc').inert, document.querySelector('.page').inert, getComputedStyle(document.querySelector('#scrim')).pointerEvents, String(document.querySelector('#tape').getAttribute('aria-modal'))].join('|')), 'false|false|none|null');
+    check('  focus goes to the latest history line, not to "clear history"', await page.evaluate(() => { const a = document.activeElement, ls = document.querySelectorAll('#tapeList .tl'); return a === ls[ls.length - 1]; }), true);
+    await page.keyboard.press('Enter'); await page.waitForTimeout(100); check('  Enter there keeps the history and brings back 8°', (await view(page)).n + '|' + (await view(page)).val, '1|' + dms(S(8)));
     await page.keyboard.press('Escape'); await page.waitForTimeout(100); check('  Escape then leaves 8° on the display', (await view(page)).val, dms(S(8)));
     let reached = false; for (let i = 0; i < 60 && !reached; i++) { await page.keyboard.press('Tab'); reached = await page.evaluate(() => !!document.activeElement.closest('.calc')); }
     check('  Tab reaches the calculator', reached, true);

@@ -2825,7 +2825,8 @@ function unsheetTape(ev){
   opener = null; closeSheets();
   const a = document.activeElement;
   if (a && a.closest && a.closest('#tape') && a.offsetParent !== null) return;
-  const f = [...$('#tape').querySelectorAll('button, [tabindex="0"]')].find(x => x.offsetParent !== null);
+  // the latest line, not "clear history": Enter there only brings the result back
+  const f = [...$('#tape').querySelectorAll('.tl')].pop() || [...$('#tape').querySelectorAll('button, [tabindex="0"]')].find(x => x.offsetParent !== null);
   if (f) f.focus({preventScroll:true});
 }
 window.matchMedia('(max-width:600px)').addEventListener('change', unsheetTape);

@@ -28,19 +28,19 @@ Key labels (`keys.*`) may be left out; the English label is then used, as it is 
 | File | What it holds |
 |---|---|
 | `h.js` | Harness: opens a page, presses keys, reads the state; `fresh()` pins the state a test assumes (AC, arc, sign off, wrap on); independent formatting and astronomy (`mcSec`, `ascSec` by atan2); `check`/`summary`. |
-| `i18n.js` | Every language complete against English (key labels excepted), each entry the same kind, no empty or unknown keys; the language menu; no "undefined", "NaN" or code on the page or in Help in any language; the language tag. |
+| `i18n.js` | Every language complete against English (key labels excepted), each entry the same kind, no empty or unknown keys; the language menu; no "undefined", "NaN" or code on the page or in Help in any language; the language tag; the ecliptic longitude in Signed values, apart from the LST recipe's geographic one. |
 | `lesson.js` | Lesson rows 8–47, p. 31, §2; the Help recipes exactly as printed; §11.2 signed entry. |
 | `astro.js` | MC at 25 RAMCs against atan2; direct ASC at 150 RAMC/latitude pairs below the polar circles; Dykes' table (14 ASCs, 2 MCs); the southern-birth method against a direct calculation; the polar circles and the Help text for them. |
-| `recipes.js` | UT across midnight with and without DST; LST east and west past 24 h and below 0; ST ratio on a column and straddling 24:00; planets direct and retrograde across 0° Aries at three ratios, and at a station; the latitude-ratio note for a southern birth; `accel` edges. |
+| `recipes.js` | UT across midnight with and without DST; LST east and west past 24 h and below 0; ST ratio on a column and straddling 24:00; planets direct and retrograde across 0° Aries at three ratios, and at a station; the latitude-ratio note for a southern birth; the UT note's DST and the cusp note's polar circles; `accel` edges; computed ratios exact under × and ÷ (half seconds, both signs, a sweep of birth ratios against exact rationals) beside typed controls. |
 | `numbers.js` | Exact typed `+ − ×`, binary `÷`, display forms (12+ digits, exponents, the cut mark, tiny values), trig ranges, decimal conversion with the 60″ carry, the 10,000,000° limit on every path, overflow. |
 | `state.js` | Operator changes, C and AC in each slot, refused `=` keeping the operation, `±` and `dec` at each stage, the unit key and °/h after each operator, recall into the right slot, sign entry, wrap and language mid-entry, keyboard shortcuts. |
 | `fuzz.js` | Random presses with language and wrap changes; invariants on display, history, seconds, numbers and sign entry. |
-| `persist.js` | Registers, wrap and language across a reload; blocked and corrupt storage; network (the page and its own install files only); the 450 KiB size ceiling. |
-| `focus.js` | Help and the phone history sheet: focus in, Tab trapped, Escape and focus return; Enter/Space on focused keys; the live region; hold C and hold a register; 300 history lines at three desktop sizes. |
+| `persist.js` | Registers, wrap and language across a reload; an exact ratio across a reload; blocked and corrupt storage; stored numbers whose forms disagree, and seconds past the limit, dropped; every kind of register kept; saved languages that are not the page's own (`__proto__`, `toString`); network (the page and its own install files only); the 450 KiB size ceiling. |
+| `focus.js` | Help and the phone history sheet: focus in, Tab trapped, Escape and focus return; the sheet across a turn to landscape; Enter/Space on focused keys; the live region, including the field and sign being typed (English and German); hold C and hold a register; 300 history lines at three desktop sizes. |
 | `layout.js` | Six phone viewports × every language: the longest value of each form, every message, a long history line, the sheet; the 42 px key floor and the 34 px value floor (documented exceptions: German sign entry at 320–325 px, wrap-off values of 10,000° and more); the tablet and desktop breakpoints. |
 | `width.js` | The sign placeholder at 1 px steps 320–360 in German and at key widths in the other languages. |
 | `display.js` | Displays that cut digits never show less than the value held; exact typed sums and the decimal view of arc and time. |
-| `offline.js` | Served over http, then cut off: the page reopens from its own address and its start_url and still calculates; the manifest and icons load; nothing outside the Takht is requested. |
+| `offline.js` | Served over http, then cut off: the page reopens from its own address and its start_url and still calculates; the manifest and icons load; nothing outside the Takht is requested; the worker clears only older Takht caches, not another page's. |
 
 ## Key language
 

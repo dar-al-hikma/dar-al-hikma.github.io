@@ -79,7 +79,7 @@ language.
 
 ## D
 
-- **Daylight saving time.** Summer time; subtract an hour before converting a birth time to UT.
+- **Daylight saving time.** Summer time; subtract the shift in force at the birth, usually an hour, before converting a birth time to UT by the standard zone.
   **nb** sommertid · **es** horario de verano · **fr** heure d'été · **de** Sommerzeit · **zh** 夏令时 · **ja** 夏時間
   *Not:* fr: `heure avancée`
 - **Declination (Dec).** Distance north or south of the celestial equator; the equator's counterpart of latitude.

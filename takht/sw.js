@@ -6,8 +6,9 @@ const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png',
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 });
+// Only the Takht's own older copies are cleared: other pages on this site keep their caches under other names.
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('takht-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 // The copy answers at once; a fresh one is fetched behind it when there is a connection, for the next opening.
 self.addEventListener('fetch', e => {

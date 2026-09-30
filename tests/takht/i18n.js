@@ -35,6 +35,12 @@ const H = require('./h'); const { check, summary } = H;
     check(`${l}: the page and its help show no "undefined", "NaN" or code`, r.hits.join(' | '), '');
     check(`${l}: the page's language tag is set`, !!r.tag && r.tag !== 'undefined', true, r.tag);
   }
+  // Signed values brings an ecliptic longitude back into the circle; the LST recipe's longitude is geographic
+  const lon = async l => page.evaluate(l => { window.takht.applyLang(l); const r = sel => document.querySelector(`.recipe:has([data-i18n-html="${sel}"]) .vc[data-i18n^="vLong"]`);
+    return [r('rSigned').dataset.i18n, r('rSigned').textContent, r('rLST').dataset.i18n, r('rLST').textContent].join('|'); }, l);
+  check('Signed values: the ecliptic longitude (vLongEcl), in Chinese 黄经', await lon('zh'), 'vLongEcl|黄经|vLong|经度');
+  check('  in Japanese 黄経, the LST recipe keeping 経度', await lon('ja'), 'vLongEcl|黄経|vLong|経度');
+  check('  in Norwegian lengde, the LST recipe keeping lengdegrad', await lon('nb'), 'vLongEcl|lengde|vLong|lengdegrad');
   await page.evaluate(() => window.takht.applyLang('en'));
   check('no page errors', errs.join(' | '), '');
   summary(); await browser.close();

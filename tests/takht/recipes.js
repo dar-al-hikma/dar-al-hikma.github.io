@@ -33,10 +33,39 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
   v = await run(page, 'AC 169 u 0 u 40 - 169 u 2 u 56 =');                  check('direct line on a retrograde planet gives ~360° (Help warns)', v.val, dms(S(359,57,44)));
   // latitude ratio, southern birth: the table's latitudes carry no sign
   v = await run(page, 'AC 33 u 52 >φ @φ - 33 = / 1 u =');                  check('latitude ratio with |φ|', v.val, '0.8666666…');
+  // DST is the shift in force (Lord Howe Island's is 30 min), taken off before the standard zone; the ASC runs forward only below the polar circles
+  const ut = await page.evaluate(() => window.takht.I18N.en.ui.rUTnote); check('Help: UT note no longer says to take 1 h off, and names the standard zone', !/take 1 h off first/.test(ut) && /standard time/.test(ut) && /shift in force/.test(ut), true, ut);
+  const cusp = await page.evaluate(() => window.takht.I18N.en.ui.rCuspNote); check('Help: cusp note limits the forward ASC to below the polar circles', /ASC below the polar circles/.test(cusp) && /Past the polar circles/.test(cusp), true, cusp);
   const note = await page.evaluate(() => window.takht.I18N.en.ui.rLatNote); check('Help says to store a southern φ without ±', /store <b>φ<\/b> without <b>±<\/b>/.test(note), true, note);
   v = await run(page, 'AC M:time 0 / 24 u =');                              check('UT 00:00 ÷ 24 h', v.val, '0');
   v = await run(page, 'AC M:time 24 / 24 u =');                             check('UT 24:00 ÷ 24 h', v.val, '1');
   v = await run(page, 'AC M:time 23 u 59 u 59 accel');                      check('accel 23:59:59', v.val, hms(237));
   v = await run(page, 'AC M:time 0 u 0 u 1 accel');                         check('accel 1 s note', v.val + '|' + v.note, '00:00:00|rounded from 0.0027 s');
+  // a computed ratio is exact: 13:55:12 is 50,112 s and 50112/86400 = 29/50, so 25″ × the ratio is 14.5″ exactly and rounds
+  // half away from zero to 15″ (its binary value, 0.58 × 25 = 14.4999…, would give 14″)
+  await fresh(page, 'time'); await press(page, 'AC M:time 13 u 55 u 12 / 24 u = >ratio');
+  v = await run(page, 'AC M:arc 0 u 0 u 25 * @ratio =');                   check('birth ratio 29/50: 25″ × ratio = 15″ (14.5″ exactly)', v.val + '|' + v.note, dms(15) + '|rounded from 0° 00′ 14.5″');
+  v = await run(page, 'AC M:arc n 0 u 0 u 25 * @ratio =');                 check('  −25″ × ratio = −15″', v.val, dms(-15));
+  v = await run(page, 'AC M:arc 100 u 0 u 25 - 100 = * @ratio = + 100 ='); check('  planet 100°00′00″ → 100°00′25″ at 13:55:12 UT', v.val, dms(S(100,0,15)));
+  v = await run(page, 'AC @ratio n M:arc * 0 u 0 u 25 =');                 check('  −ratio × 25″ = −15″ (± keeps it exact)', v.val, dms(-15));
+  v = await run(page, 'AC M:arc 0 u 0 u 25 * 0.58 =');                     check('  typed 0.58 × 25″ = 15″ (in its digits, as before)', v.val, dms(15));
+  v = await run(page, 'AC M:arc 0 u 0 u 25 * 0.57999999 =');               check('  typed 0.57999999 × 25″ = 14″ (14.49999975″: no tolerance)', v.val, dms(14));
+  // ÷ by a ratio: 0°01′36″ ÷ 1° = 96/3600, and 3″ ÷ 96/3600 = 112.5″ exactly → 113″ (binary: 112.4999…)
+  v = await run(page, 'AC M:arc 0 u 1 u 36 / 1 u = >x AC 0 u 0 u 3 / @x ='); check('3″ ÷ (1′36″ ÷ 1°) = 113″ (112.5″ exactly)', v.val + '|' + v.note, dms(113) + '|rounded from 0° 01′ 52.5″');
+  v = await run(page, 'AC M:arc n 0 u 0 u 3 / @x =');                      check('  −3″ ÷ the same ratio = −113″', v.val, dms(-113));
+  v = await run(page, 'AC @x n >x AC M:arc 0 u 0 u 3 / @x =');             check('  3″ ÷ the negated ratio = −113″', v.val, dms(-113));
+  v = await run(page, 'AC M:arc 0 u 1 u 0 / 0 u 1 u 0 = >x AC 0 u 0 u 25 / @x ='); check('  25″ ÷ a ratio of 1 = 25″, no rounding note', v.val + '|' + v.note, dms(25) + '|');
+  // the sweep: every half case p/100 × s″ that birth times reach (p·s ending in 50), both signs, and s = 1..59 at a spread
+  // of birth times, including the review's 0.29, 0.57, 0.58 and 0.7; expected values by exact rational rounding
+  const exact = (s, ut) => { const N = BigInt(Math.abs(s)) * BigInt(ut), D = 86400n, q = Number(N / D + ((N % D) * 2n >= D ? 1n : 0n)); return s < 0 && q ? -q : q; };
+  const byUT = new Map(); const add = (ut, s) => { if (!byUT.has(ut)) byUT.set(ut, []); byUT.get(ut).push(s); };
+  for (let p = 1; p < 100; p++) for (let s = 1; s < 60; s++) if ((p * s) % 100 === 50) { add(p * 864, s); add(p * 864, -s); }
+  for (const ut of [29 * 864, 57 * 864, 58 * 864, 70 * 864, S(0,0,1), S(3,17,41), S(7,7,7), S(11,59,59), S(19,48,31), S(23,59,59)]) for (let s = 1; s < 60; s++) add(ut, s);
+  const cases = [...byUT].map(([ut, ss]) => ({ ut, setup: H.tokens(`AC M:time ${H.secToKeys(ut)} / 24 u = >ratio`), runs: ss.map(s => ({ s, keys: H.tokens(`AC M:arc ${s < 0 ? 'n ' : ''}0 u 0 u ${Math.abs(s)} * @ratio =`) })) }));
+  const got = await page.evaluate(cs => cs.map(c => { const t = window.takht; document.querySelector('#tapeClear').click(); c.setup.forEach(k => t.press(k));
+    return c.runs.map(r => { r.keys.forEach(k => t.press(k)); return t.state.val.sec; }); }), cases);
+  const wrong = [], total = cases.reduce((n, c) => n + c.runs.length, 0);
+  cases.forEach((c, i) => c.runs.forEach((r, j) => { const w = exact(r.s, c.ut); if (got[i][j] !== w) wrong.push(`${H.hms(c.ut)} ÷ 24 h × ${r.s}″: ${got[i][j]} for ${w}`); }));
+  check(`birth ratio × seconds rounds exactly, half away from zero (${total} cases)`, wrong.slice(0, 5).join('; '), '');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

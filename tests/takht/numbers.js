@@ -104,6 +104,12 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   await wrap(page, true);
   v = await run(page, 'AC M:arc dec 737361111103 / 999999999989 = * 1 u ='); check('737361111103 ÷ 999999999989 × 1° = 0° 44′ 14″ (below the half by 5×10^−13″)', v.val, '0° 44′ 14″');
   v = await run(page, 'AC M:arc dec 1 / 3 = * 0 u 0 u 3 ='); check('(1 ÷ 3) × 3″ = 1″ exactly, no rounding note', v.val + '|' + v.note, '0° 00′ 01″|');
+  // an exact fraction shows its own digits: ½ − 1/18014398509481982 is 0.4999999…, not the 0.5 of its nearest double
+  await press(page, 'AC dec 4503599 * 1000000000 + 627370495 = >x AC dec 9007199 * 1000000000 + 254740991 = >ratio');
+  v = await run(page, 'AC @x / @ratio =');                check('4503599627370495 ÷ 9007199254740991 shows 0.4999999…', v.val, '0.4999999…');
+  v = await run(page, '* 0 u 0 u 1 =');                   check('  × 1″: the history line agrees with its result', v.last, '0.4999999… × 0° 00′ 01″ = 0° 00′ 00″');
+  v = await run(page, 'AC @ratio - 1 = >x AC @ratio / @x ='); check('9007199254740991 ÷ 9007199254740990 shows 1…, so sin⁻¹ refusing it is no surprise', v.val, '1…');
+  v = await run(page, 'AC M:time 15 u 55 / 24 u =');      check('  an ordinary ratio shows as before', v.val, '0.6631944…');
   await fresh(page, 'time'); v = await run(page, 'AC 15 u 55 accel'); check('accel 15:55:00: the note marks its cut digits', v.note, 'rounded from 156.93… s');
   await fresh(page, 'arc');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();

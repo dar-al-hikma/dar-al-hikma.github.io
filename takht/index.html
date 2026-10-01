@@ -787,6 +787,7 @@ I18N.en = {
     typeAfter: op => `Type the number after ${op} first.`,
     arcTime: add => `Arc and time can't be ${add ? 'added' : 'subtracted'}. A table's sidereal time is still a time: type it in h.`,
     decSex: (add, u = '° ′ ″') => `A decimal and ${u} cannot be ${add ? 'added' : 'subtracted'}. Press dec on the decimal to turn it into ${u}.`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `A decimal and ${u} cannot be ${add ? 'added' : 'subtracted'}. Tap ${m}, then press dec on the decimal.`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `A decimal and ${u} cannot be ${add ? 'added' : 'subtracted'}. Press C twice, dec, type the decimal, dec, then ${op}.`,
     arcTimeDiv: "An angle can't be divided by a time, or a time by an angle.",
     ratioHint: '× needs a plain number. A ratio is time ÷ time (÷ 24 h m s) or angle ÷ angle.',
@@ -986,6 +987,7 @@ I18N.nb = {
     typeAfter: op => `Skriv tallet etter ${op} først.`,
     arcTime: add => `Bue og tid kan ikke ${add ? 'adderes' : 'subtraheres'}. Stjernetid fra en tabell er en tid: skriv den i h.`,
     decSex: (add, u = '° ′ ″') => `Et desimaltall og ${u} kan ikke ${add ? 'adderes' : 'subtraheres'}. Trykk på dec på desimaltallet for å gjøre det om til ${u}.`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `Et desimaltall og ${u} kan ikke ${add ? 'adderes' : 'subtraheres'}. Trykk på ${m}, så på dec på desimaltallet.`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `Et desimaltall og ${u} kan ikke ${add ? 'adderes' : 'subtraheres'}. C to ganger, dec, skriv desimaltallet, dec, så ${op}.`,
     arcTimeDiv: 'En vinkel kan ikke deles på en tid, eller en tid på en vinkel.',
     ratioHint: '× trenger et vanlig tall. Et forhold er tid ÷ tid (÷ 24 h m s) eller vinkel ÷ vinkel.',
@@ -1186,6 +1188,7 @@ I18N.es = {
     typeAfter: op => `Escriba primero el número que va después de ${op}.`,
     arcTime: add => `No se pueden ${add ? 'sumar' : 'restar'} arco y tiempo. El tiempo sidéreo de una tabla es un tiempo: escríbalo en h.`,
     decSex: (add, u = '° ′ ″') => `No se pueden ${add ? 'sumar' : 'restar'} un decimal y ${u}. Pulse dec sobre el decimal para convertirlo en ${u}.`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `No se pueden ${add ? 'sumar' : 'restar'} un decimal y ${u}. Pulse ${m} y luego la tecla dec sobre el decimal.`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `No se pueden ${add ? 'sumar' : 'restar'} un decimal y ${u}. Pulse C dos veces, dec, escriba el decimal, dec y luego ${op}.`,
     arcTimeDiv: 'Un ángulo no se divide por un tiempo, ni un tiempo por un ángulo.',
     ratioHint: '× necesita un número simple. Una proporción es tiempo ÷ tiempo (÷ 24 h m s) o ángulo ÷ ángulo.',
@@ -1385,6 +1388,7 @@ I18N.fr = {
     typeAfter: op => `Tapez d’abord le nombre qui suit ${op}.`,
     arcTime: add => `Arc et temps ne ${add ? 's’additionnent' : 'se soustraient'} pas. Le TS d’une table est un temps : saisissez-le en h.`,
     decSex: (add, u = '° ′ ″') => `On ne peut pas ${add ? 'additionner' : 'soustraire'} un décimal et des ${u}. Appliquez dec au décimal pour le convertir en ${u}.`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `On ne peut pas ${add ? 'additionner' : 'soustraire'} un décimal et des ${u}. Touchez ${m}, puis dec sur le décimal.`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `On ne peut pas ${add ? 'additionner' : 'soustraire'} un décimal et des ${u}. C deux fois, dec, saisissez le décimal, dec, puis ${op}.`,
     arcTimeDiv: 'Un angle ne se divise pas par un temps, ni un temps par un angle.',
     ratioHint: '× attend un nombre simple. Un rapport est temps ÷ temps (÷ 24 h m s) ou angle ÷ angle.',
@@ -1584,6 +1588,7 @@ I18N.de = {
     typeAfter: op => `Geben Sie zuerst die Zahl nach ${op} ein.`,
     arcTime: add => `Bogen und Zeit lassen sich nicht ${add ? 'addieren' : 'subtrahieren'}. Tabellen-Sternzeit ist Zeit: in h eingeben.`,
     decSex: (add, u = '° ′ ″') => `Eine Dezimalzahl und ${u} lassen sich nicht ${add ? 'addieren' : 'subtrahieren'}. Erst mit dec in ${u} umwandeln.`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `Dezimalzahl und ${u} sind nicht ${add ? 'addierbar' : 'subtrahierbar'}: erst ${m}, dann die Taste dec auf die Dezimalzahl.`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `Dezimalzahl und ${u} sind nicht ${add ? 'addierbar' : 'subtrahierbar'}: zweimal C, dec, Zahl eingeben, dec, dann ${op}.`,
     arcTimeDiv: 'Ein Winkel lässt sich nicht durch eine Zeit teilen, eine Zeit nicht durch einen Winkel.',
     ratioHint: '× braucht eine einfache Zahl. Ein Faktor ist Zeit ÷ Zeit (÷ 24 h m s) oder Winkel ÷ Winkel.',
@@ -1783,6 +1788,7 @@ I18N.zh = {
     typeAfter: op => `请先输入 ${op} 后面的数。`,
     arcTime: add => `角度和时间不能${add ? '相加' : '相减'}。表中的恒星时是时间：请用 h 输入。`,
     decSex: (add, u = '° ′ ″') => `小数和 ${u} 不能${add ? '相加' : '相减'}。在小数上按 dec，把它化为 ${u}。`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `小数和 ${u} 不能${add ? '相加' : '相减'}。先点 ${m}，再在小数上按 dec。`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `小数和 ${u} 不能${add ? '相加' : '相减'}。按两次 C，按 dec，输入小数，再按 dec，然后按 ${op}。`,
     arcTimeDiv: '角度不能除以时间，时间也不能除以角度。',
     ratioHint: '× 后面要跟普通的数。比例是时间 ÷ 时间（÷ 24 h m s）或角度 ÷ 角度。',
@@ -1982,6 +1988,7 @@ I18N.ja = {
     typeAfter: op => `先に ${op} のあとの数を入力してください。`,
     arcTime: add => `角度と時間は${add ? '足せ' : '引け'}ません。表の恒星時は時間です。h で入力します。`,
     decSex: (add, u = '° ′ ″') => `小数と ${u} は${add ? '足せ' : '引け'}ません。小数に dec を押して ${u} にします。`,
+    decSexMode: (add, u = '° ′ ″', m = '°') => `小数と ${u} は${add ? '足せ' : '引け'}ません。${m} を押してから、小数に dec を押します。`,
     decSexLeft: (add, u = '° ′ ″', op = '+') => `小数と ${u} は${add ? '足せ' : '引け'}ません。C を 2 回、dec、小数を入力、dec、それから ${op} を押します。`,
     arcTimeDiv: '角度を時間で、時間を角度で割ることはできません。',
     ratioHint: '× には普通の数を使います。比率は時間 ÷ 時間（÷ 24 h m s）か角度 ÷ 角度です。',
@@ -2172,16 +2179,27 @@ function validVal(v){
   const dx = v.dx != null ? v.dx : v.txt;   // older typed saves carried txt before dx existed
   return q ? Object.assign(dec(v.v, v.txt, dx), {rq: [q[0], q[1]]}) : dec(v.v, v.txt, dx);
 }
-function load(){
+function loadRegs(){
   REGS.forEach(n => S.regs[n] = null);
   S.regs.OE = sex(toSec({d:23, m:26, s:0}), ARC);
   try {
     const r = JSON.parse(localStorage.getItem(LS_REGS) || 'null');
     if (r && typeof r === 'object') REGS.forEach(n => { if (n in r) S.regs[n] = validVal(r[n]); });
   } catch (e) {}
+}
+function load(){
+  loadRegs();
   try { if (localStorage.getItem(LS_WRAP) === 'off') S.wrap = false; } catch (e) {}
 }
-function saveRegs(){ try { localStorage.setItem(LS_REGS, JSON.stringify(S.regs)); } catch (e) {} }
+// one register into what is saved now, so a second open Takht's older copy of the others is never written back
+function saveReg(n){
+  try {
+    let r = null; try { r = JSON.parse(localStorage.getItem(LS_REGS) || 'null'); } catch (e) {}
+    if (!r || typeof r !== 'object' || Array.isArray(r)) r = {};
+    r[n] = S.regs[n];
+    localStorage.setItem(LS_REGS, JSON.stringify(r));
+  } catch (e) {}
+}
 function saveWrap(){ try { localStorage.setItem(LS_WRAP, S.wrap ? 'on' : 'off'); } catch (e) {} }
 
 // ---------- formatting ----------
@@ -2212,7 +2230,16 @@ function fmtNum(v, dx){
   const s = truncFixed(a, Math.max(0, Math.min(7, 12 - String(Math.floor(a)).length)));
   return N((v < 0 ? MINUS : '') + s) + (Math.abs(+s - a) > a*1e-14 ? '…' : '');
 }
-function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v, v.dx)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
+// the decimal digits of n/d, enough for every form fmtNum chooses; a 1 is added past them when the fraction goes on,
+// so 4503599627370495/9007199254740991 shows 0.4999999…, never the 0.5 its nearest double would give
+function rqDigits([n, d]){
+  let N = BigInt(n), D = BigInt(d); const neg = N < 0n; if (neg) N = -N;
+  let r = N % D, f = '', sig = (N / D) > 0n ? (N / D).toString().length : 0;
+  while (r && sig < 30 && f.length < 400){ r *= 10n; const q = r / D; r %= D; f += q; if (sig || q) sig++; }
+  if (r) f += '1';
+  return (neg ? '-' : '') + (N / D).toString() + (f ? '.' + f : '');
+}
+function fmtV(v){ return v.k === 'dec' ? (v.txt != null ? v.txt.replace('-', MINUS) : fmtNum(v.v, v.dx != null ? v.dx : v.rq ? rqDigits(v.rq) : undefined)) : fmtSex(v.sec, v.mode); }  // typed decimals keep the point they were typed with
 // an operand on the tape: if it was typed in sign notation, give both
 function fmtOperand(v){ return (v.k === 'sex' && v.fromSign) ? `${fmtSignPlain(v.sec)} (${fmtSex(v.sec, ARC)})` : fmtV(v); }
 // a result on the tape: with sign on, the sign form and the absolute value
@@ -2535,7 +2562,10 @@ function evaluate0(op, a, b){
       return {val: dec(op === '+' ? a.v + b.v : a.v - b.v), notes: []};
     }
     // the decimal on the right can still be turned by dec; one already on the left of the operation cannot
-    return refuse(a.k === 'dec' ? M().decSexLeft(op === '+', unitLabel(b.mode), op) : M().decSex(op === '+', unitLabel(a.mode)));
+    // dec turns the decimal into the selected units; if those are not the left value's, the units come first
+    return refuse(a.k === 'dec' ? M().decSexLeft(op === '+', unitLabel(b.mode), op)
+      : S.mode !== a.mode ? M().decSexMode(op === '+', unitLabel(a.mode), a.mode === TIME ? 'h' : '°')
+      : M().decSex(op === '+', unitLabel(a.mode)));
   }
   if (op === '÷' && (b.k === 'dec' ? b.v === 0 || (b.dx != null && !/[1-9]/.test(b.dx)) || (b.rq && !b.rq[0]) : b.sec === 0)) return refuse(M().divZero);
   if (a.k === 'sex' && b.k === 'sex'){
@@ -2743,7 +2773,7 @@ function store(n){
   S.sto = false;
   const v = operand(); if (!v) return;
   S.regs[n] = v.k === 'sex' ? sex(v.sec, v.mode) : copy(v);
-  saveRegs();
+  saveReg(n);
   addTape(`${fmtOperand(v)} → ${n}`, [], copy(v), 'reg');
   say(M().stored(n));
   const k = document.querySelector(`.k[data-reg="${n}"]`);
@@ -3042,6 +3072,12 @@ document.addEventListener('keydown', ev => {
   press(k);
 });
 window.addEventListener('resize', fit);
+// another open Takht stored a register or changed wrap: take it in, so a recall here gives what was stored there
+window.addEventListener('storage', ev => {
+  if (ev.key === LS_REGS || ev.key === null) loadRegs();
+  if (ev.key === LS_WRAP || ev.key === null) { try { S.wrap = localStorage.getItem(LS_WRAP) !== 'off'; } catch (e) {} }
+  render();
+});
 
 load();
 S.entry = newEntry(expectedKind());   // the empty display: ± here starts a negative entry

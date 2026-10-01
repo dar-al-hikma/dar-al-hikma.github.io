@@ -43,6 +43,14 @@ const H = require('./h'); const { press, view, check, summary, dms, S } = H;
   for (const [reg, want] of [[{k:'dec', v:1, dx:'0000000000001'}, '1° 00′ 00″ × 1 = 1° 00′ 00″'], [{k:'dec', v:0.1, dx:'0000000000000.1'}, '1° 00′ 00″ × 0.1 = 0° 06′ 00″']]) {
     const z = await withStore(JSON.stringify({ratio: reg}), 'en'); await press(z.p, 'AC M:arc 1 u * @ratio =');
     check(`saved dx ${reg.dx} shows as its value`, (await view(z.p)).last, want); await z.c.close(); }
+  // two open Takhts: B storing LST keeps A's RAMC and OE, and B recalls A's RAMC without a reload
+  { const c = await browser.newContext(), A = await c.newPage(), B = await c.newPage();
+    for (const p of [A, B]) { await p.goto(H.URL); await p.waitForFunction(() => window.takht); }
+    await press(A, 'AC M:arc 264 u >RAMC AC 23 u 26 u 54 >OE'); await press(B, 'AC M:time 17 u 39 u 47 >LST');
+    await A.reload(); await A.waitForFunction(() => window.takht); const r = (await view(A)).regs;
+    check('two tabs: B storing LST keeps the RAMC and OE A stored', [r.RAMC && r.RAMC.sec, r.OE && r.OE.sec, r.LST && r.LST.sec].join('|'), [S(264), S(23,26,54), S(17,39,47)].join('|'));
+    await press(A, 'AC M:arc 100 u >x'); await B.waitForTimeout(200); await press(B, 'AC @x');
+    check('  B recalls the x A just stored, without a reload', (await view(B)).val, dms(S(100))); await c.close(); }
   check('size within the 450 KiB ceiling', require('fs').statSync(H.PAGE).size < 460800, true, String(require('fs').statSync(H.PAGE).size));
   summary(); await browser.close();
 })();

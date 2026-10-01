@@ -102,5 +102,11 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   v = await run(page, 'C C dec 1.5 dec + @LST =');       check('  its keys exactly as printed give 1.5 h + 1 h = 02:30:00', v.val, hms(S(2,30)));
   v = await run(page, 'AC @LST + dec .5 =');             check('time + decimal, decimal on the right: press dec on it', v.msg, 'A decimal and h m s cannot be added. Press dec on the decimal to turn it into h m s.');
   v = await run(page, 'dec =');                          check('  following it gives 01:30:00', v.val, hms(S(1,30)));
+  // the decimal on the right, but the other units selected: dec would convert into those, so choose the units first
+  await fresh(page, 'arc');
+  v = await run(page, 'AC M:arc 5 + M:time dec .5 =');   check('5° + (h selected) 0.5: tap ° first', v.msg, 'A decimal and ° ′ ″ cannot be added. Tap °, then press dec on the decimal.');
+  v = await run(page, 'M:arc dec =');                     check('  following it gives 5° 30′ 00″', v.val, dms(S(5,30)));
+  v = await run(page, 'AC M:time 5 u − M:arc dec .5 =');  check('05:00:00 − (° selected) 0.5: tap h first', v.msg, 'A decimal and h m s cannot be subtracted. Tap h, then press dec on the decimal.');
+  v = await run(page, 'M:time dec =');                    check('  following it gives 04:30:00', v.val, hms(S(4,30)));
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

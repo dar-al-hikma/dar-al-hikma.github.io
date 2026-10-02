@@ -51,6 +51,44 @@ const H = require('./h'); const { press, view, check, summary, dms, S } = H;
     check('two tabs: B storing LST keeps the RAMC and OE A stored', [r.RAMC && r.RAMC.sec, r.OE && r.OE.sec, r.LST && r.LST.sec].join('|'), [S(264), S(23,26,54), S(17,39,47)].join('|'));
     await press(A, 'AC M:arc 100 u >x'); await B.waitForTimeout(200); await press(B, 'AC @x');
     check('  B recalls the x A just stored, without a reload', (await view(B)).val, dms(S(100))); await c.close(); }
+  // two tabs storing at the same moment, a clear, a failed save, and saves by an older build (round 6, S6-5):
+  // a register a tab confirmed as stored is never lost or reverted by another tab's save
+  { const K = 'dah.takht.registers', c = await browser.newContext(), A = await c.newPage(), B = await c.newPage(), P = await c.newPage(), C = await c.newPage();
+    await C.addInitScript(() => { const set = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === 'dah.takht.registers' && window.__full) throw new DOMException('full', 'QuotaExceededError'); return set.call(this, k, v); }; });
+    for (const p of [A, B, P, C]) { await p.goto(H.URL); await p.waitForFunction(() => window.takht); }
+    const regs = p => p.evaluate(() => JSON.parse(JSON.stringify(window.takht.state.regs)));
+    const saved = () => P.evaluate(() => JSON.parse(localStorage.getItem('dah.takht.registers') || '{}'));
+    const settle = () => A.waitForTimeout(250), at = (o, n) => o[n] ? o[n].sec : null;
+    const store = (p, n) => p.evaluate(n => window.takht.press('store:' + n), n);
+    let lost = 0, stale = 0;
+    for (let i = 1; i <= 30; i++){
+      await press(A, `AC M:time ${i % 24} u ${i}`); await press(B, `AC M:arc ${i} u ${i}`);
+      await Promise.all([store(A, 'LST'), store(B, 'RAMC')]); await settle();
+      const want = { LST: S(i % 24, i), RAMC: S(i, i) };
+      for (const o of [await regs(A), await regs(B), await saved()]) for (const n of ['LST', 'RAMC']) { if (at(o, n) == null) lost++; else if (at(o, n) !== want[n]) stale++; } }
+    check('two tabs storing LST and RAMC at once (30 rounds): no register lost from either tab or from storage', lost, 0);
+    check('  and none left at an older value', stale, 0);
+    let split = 0;
+    for (let i = 1; i <= 15; i++){
+      await press(A, `AC M:arc ${i} u`); await press(B, `AC M:arc ${100 + i} u`);
+      await Promise.all([store(A, 'x'), store(B, 'x')]); await settle();
+      const xs = [at(await regs(A), 'x'), at(await regs(B), 'x'), at(await saved(), 'x')]; if (new Set(xs).size !== 1 || ![S(i), S(100 + i)].includes(xs[0])) split++; }
+    check('the same register stored in two tabs at once (15 rounds): one value, the later save, in both tabs and storage', split, 0);
+    await P.evaluate(() => localStorage.clear()); await settle(); const a = await regs(A), b = await regs(B);
+    check('a clear by any page of the site leaves both tabs their registers', [at(a, 'LST'), at(a, 'RAMC'), at(b, 'x')].every(v => v != null), true);
+    await C.evaluate(() => { window.__full = true; }); await press(C, 'AC M:arc 23 u 26 u 54 >OE'); const cm = (await view(C)).msg;
+    await press(A, 'AC M:arc 50 u >x'); await settle(); const cr = await regs(C);
+    check('a save that fails in one tab, then another tab saves: it keeps its value and takes the other\'s', [cm.startsWith('Stored in OE for now:'), at(cr, 'OE'), at(cr, 'x')].join('|'), ['true', S(23,26,54), S(50)].join('|'));
+    await C.evaluate(() => { window.__full = false; });
+    await P.evaluate(() => { const r = JSON.parse(localStorage.getItem('dah.takht.registers') || '{}'); r.φ = { k: 'sex', sec: 44 * 3600, mode: 'arc' }; localStorage.setItem('dah.takht.registers', JSON.stringify(r)); });   // an older build: copies the mark it read
+    await settle(); await P.evaluate(() => { const r = JSON.parse(localStorage.getItem('dah.takht.registers') || '{}'); delete r._w; r.ratio = { k: 'dec', v: 0.25, txt: '0.25', dx: '0.25' }; localStorage.setItem('dah.takht.registers', JSON.stringify(r)); });   // and with no mark at all
+    await settle(); const a2 = await regs(A), b2 = await regs(B);
+    check('an older build\'s saves (mark copied, or none) are taken in by both tabs', [at(a2, 'φ'), at(b2, 'φ'), a2.ratio && a2.ratio.v, b2.ratio && b2.ratio.v].join('|'), [S(44), S(44), 0.25, 0.25].join('|'));
+    await press(A, 'AC M:time 7 u 7 >LST'); await settle();
+    await P.evaluate(() => { const r = JSON.parse(localStorage.getItem('dah.takht.registers') || '{}'); r.LST = { k: 'sex', sec: 3600, mode: 'time' }; localStorage.setItem('dah.takht.registers', JSON.stringify(r)); });   // an older build's stale copy of LST
+    await settle(); const ls = [at(await regs(A), 'LST'), at(await regs(B), 'LST'), at(await saved(), 'LST')];
+    check('an older build writing back a stale LST: the tab that stored LST keeps it and puts it back in storage and in the other tab', ls.join('|'), [S(7,7), S(7,7), S(7,7)].join('|'));
+    await c.close(); }
   check('size within the 450 KiB ceiling', require('fs').statSync(H.PAGE).size < 460800, true, String(require('fs').statSync(H.PAGE).size));
   summary(); await browser.close();
 })();

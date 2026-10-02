@@ -67,6 +67,6 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
     const k = (await run(page, 'AC @OE sin * @φ tan * @RAMC sin + @OE cos =')).sval.v, x = v.regs.x.v;
     v = await run(page, `AC @RAMC cos n / @x = atan${Math.sign(k) === Math.sign(x) ? ' p180' : ''}`);
     check(`  the tie-break gives the eastern ASC`, v.val, dms(want)); }
-  check('Help (en): after working K for its sign, repeat step 3 before +180', /note the sign[^.]*\. Otherwise repeat step 3, and press <b>\+180<\/b> only if that sign/.test(help.en), true);
+  check('Help (en): after working K for its sign, repeat step 3 before +180', /note the sign[^.]*, then repeat step 3 and press <b>\+180<\/b> only if that sign/.test(help.en), true);
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

@@ -56,5 +56,41 @@ const H = require('./h'); const { press, view, fresh, check, summary, dms, S } =
     await page.locator('[data-k="7"]').focus(); await page.keyboard.press('Enter');
     check('  then Enter on 7 types 7 at once', (await view(page)).val, dms(S(7)));
     check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // holds by touch, through the gesture pipeline a phone uses (CDP touch events): a hold is one action, and its release
+  // is not also a press; a tap straight after it counts (round 6, S6-8 and S6-20)
+  { const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true }); const page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(e.message));
+    await page.goto(H.URL); await page.waitForFunction(() => window.takht); await fresh(page); const cdp = await ctx.newCDPSession(page);
+    const at = async sel => { const r = await page.locator(sel).first().boundingBox(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; };
+    const touch = async (sel, ms) => { const p = await at(sel); await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [p] }); await page.waitForTimeout(ms); await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await page.waitForTimeout(80); };
+    await press(page, 'AC 5 + 3 ='); const n = (await view(page)).n; await touch('[data-k="reg:x"]', 800); let v = await view(page);
+    check('touch hold on x stores 8° and adds one history line (no recall from its release)', [v.regs.x && v.regs.x.sec, v.n - n, v.last].join('|'), [S(8), 1, '8° 00′ 00″ → x'].join('|'));
+    await touch('[data-k="reg:x"]', 60); check('  a touch tap on x straight after it recalls x', (await view(page)).last, 'x → 8° 00′ 00″');
+    await press(page, 'AC M:arc 5 + 3'); await touch('#kC', 800); v = await view(page);
+    check('touch hold on C clears all, and its release does not arm C again', [v.pending, v.val, await page.evaluate(() => window.takht.state.cArmed), await page.$eval('#kC', e => e.textContent)].join('|'), ['', dms(0), false, 'C'].join('|'));
+    await press(page, 'AC M:arc 5 +'); await touch('[data-k="reg:x"]', 800); const m1 = (await view(page)).msg; await press(page, '='); v = await view(page);
+    check('a touch store refused for want of a number keeps its reason, and = refuses again (no x recalled into the slot)', [m1, v.msgBad, v.pending, v.val].join('|'), ['Type the number after + first.', true, '5° 00′ 00″ +', dms(0)].join('|'));
+    await press(page, 'AC 5 + 3 ='); await page.tap('#tapeHandle'); await page.waitForTimeout(350); const hd = await at('.tape-head');
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [hd] });
+    for (let i = 1; i <= 8; i++) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: hd.x, y: hd.y + i * 15 }] }); await page.waitForTimeout(16); }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await page.waitForTimeout(350);
+    check('a touch swipe down the history sheet\'s head closes it', await page.evaluate(() => document.querySelector('#tape').classList.contains('open')), false);
+    check('  no errors', errs.join('|'), ''); await ctx.close(); }
+  // a mouse hold released on its key swallows only its own click: Enter on another key just after still counts
+  { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 } }); await fresh(page); await press(page, 'AC 5 + 3 =');
+    const bx = await page.locator('.k[data-reg="x"]').boundingBox();
+    await page.mouse.move(bx.x + bx.width / 2, bx.y + bx.height / 2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.up(); await page.waitForTimeout(50);
+    check('mouse hold on x released on the key stores 8°, one line', (await view(page)).last, '8° 00′ 00″ → x');
+    await page.locator('[data-k="7"]').focus(); await page.keyboard.press('Enter');
+    check('  then Enter on 7 types 7 at once', (await view(page)).val, dms(S(7)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // on a phone Help starts under the display, so the value stays in sight; the Tab trap, Escape and focus return as before (U-5)
+  for (const [w, h] of [[320,568],[350,600],[360,560],[375,553],[390,664],[390,844]]) { const { page, errs } = await H.open({ browser, viewport: { width: w, height: h }, touch: true }); const tag = `${w}×${h}`;
+    await press(page, 'AC M:arc 5 + 3'); await page.click('.helpbtn'); await page.waitForTimeout(350);
+    const g = await page.evaluate(() => ({ top: document.querySelector('#help').getBoundingClientRect().top, display: document.querySelector('.display').getBoundingClientRect().bottom, focus: document.activeElement.id }));
+    check(`${tag} Help starts at or below the display's bottom, with focus inside`, [g.top >= g.display - 0.5, g.focus].join('|'), 'true|helpClose', JSON.stringify(g));
+    const seen = new Set(); for (let i = 0; i < 30; i++) { await page.keyboard.press('Tab'); seen.add(await page.evaluate(() => document.activeElement.closest('#help') ? 'in' : 'out')); }
+    await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+    check(`${tag}   Tab stays inside; Escape closes it and returns focus to ?`, [...seen].join(',') + '|' + await page.evaluate(() => document.querySelector('#help').classList.contains('open') + '|' + document.activeElement.className), 'in|false|helpbtn');
+    check(`${tag}   no errors`, errs.join('|'), ''); await page.context().close(); }
   summary(); await browser.close();
 })();

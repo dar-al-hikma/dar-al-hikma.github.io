@@ -89,5 +89,6 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
   A term reads the same in every piece: [GLOSSARY.md](GLOSSARY.md) gives each
   language's rendering, following the English of Dykes's course.
 - **Dark palette**, shared across the shelf and the pieces:
-  `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`
+  `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`;
+  secondary text `--muted-2:#7F879C`, at least 4.5:1 on the panels
 - **No build tooling.** If a piece ever needs a build, it belongs in its own repo.

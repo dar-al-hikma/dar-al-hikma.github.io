@@ -76,6 +76,9 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
   offline worker beside its `index.html`, as the Takht does. The worker caches
   only the piece's own files, from where it was served, and the page works
   without any of them. A piece that gains a file adds it to its worker's list.
+  A piece's manifest carries an explicit `id` of its own path (`"/reckoner/"`,
+  say); the Takht's `"./"` resolves to the site root and is kept only because
+  installed copies already carry it.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.

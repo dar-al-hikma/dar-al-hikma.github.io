@@ -20,6 +20,13 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   await f(); v = await run(page, '5 + M:time 3 = @OE =');  check('  or recall a register', v.val, dms(S(28,26)));
   await f(); v = await run(page, '5 / 0 =');            check('÷ 0 refused, operation kept', v.msgBad + '|' + v.pending, 'true|5° 00′ 00″ ÷');
   v = await run(page, '2 =');                           check('  then 2 =', v.val, dms(S(2,30)));
+  // the unit key over a number slot with nothing typed in it starts an empty entry: = asks for the number, as after + u
+  await f(); v = await run(page, '5 / 30 u sin u =');   check('÷, a computed number, then the unit key: = asks for the number', [v.msg, v.pending].join('|'), 'Type the number after ÷ first.|5° 00′ 00″ ÷');
+  v = await run(page, '3 =');                           check('  then 3 =', v.val, '1.6666666…');
+  await f(); v = await run(page, '5 / u =');            check('÷ then the unit key alone: = asks for the number', [v.msg, v.pending].join('|'), 'Type the number after ÷ first.|5° 00′ 00″ ÷');
+  await f(); v = await run(page, 'dec 2 * u =');        check('number × then the unit key alone: = asks for the number', [v.msg, v.pending].join('|'), 'Type the number after × first.|2 ×');
+  await f(); v = await run(page, '5 / 30 sin u bs bs bs ='); check('a typed number made the first field, then erased: = asks for the number', v.msg, 'Type the number after ÷ first.');
+  await f(); v = await run(page, '5 / 30 sin u =');     check('  kept: = divides by it', v.val, '0.1666666…');
   await f(); v = await run(page, '5 + 3 sin');          check('unary on the right operand', v.val + '|' + v.right, '0.0523359…|true');
   v = await run(page, '=');                             check('  = then refuses arc + number', v.msgBad, true);
   v = await run(page, 'dec =');                         check('  dec converts it, = adds', v.val, dms(S(5,3,8)));
@@ -96,5 +103,23 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   await page.keyboard.press('T'); await page.keyboard.press('d'); v = await H.view(page); check('keyboard: T, d', v.val, '15.91666 h');
   await page.keyboard.press('d'); await page.keyboard.press('n'); v = await H.view(page); check('keyboard: n', v.val, '−' + hms(S(15,55)));
   await page.keyboard.press('Escape'); await page.keyboard.press('Escape'); await page.keyboard.press('?'); check('keyboard: ? opens Help', await page.evaluate(() => document.querySelector('#help').classList.contains('open')), true); await page.keyboard.press('Escape');
+  // mixed kinds: a decimal on the right can be turned by dec; one already on the left of + cannot, so the message says start again
+  await fresh(page, 'time'); await press(page, 'AC M:time 1 u >LST');
+  v = await run(page, 'AC dec 1.5 + @LST =');           check('decimal + time, decimal on the left: start again', v.msg, 'A decimal and h m s cannot be added. Press C twice, dec, type the decimal, dec, then +.');
+  v = await run(page, 'C C dec 1.5 dec + @LST =');       check('  its keys exactly as printed give 1.5 h + 1 h = 02:30:00', v.val, hms(S(2,30)));
+  v = await run(page, 'AC @LST + dec .5 =');             check('time + decimal, decimal on the right: press dec on it', v.msg, 'A decimal and h m s cannot be added. Press dec on the decimal to turn it into h m s.');
+  v = await run(page, 'dec =');                          check('  following it gives 01:30:00', v.val, hms(S(1,30)));
+  // the decimal on the right, but the other units selected: dec would convert into those, so choose the units first
+  await fresh(page, 'arc');
+  v = await run(page, 'AC M:arc 5 + M:time dec .5 =');   check('5° + (h selected) 0.5: tap ° first', v.msg, 'A decimal and ° ′ ″ cannot be added. Tap °, then press dec on the decimal.');
+  v = await run(page, 'M:arc dec =');                     check('  following it gives 5° 30′ 00″', v.val, dms(S(5,30)));
+  v = await run(page, 'AC M:time 5 u − M:arc dec .5 =');  check('05:00:00 − (° selected) 0.5: tap h first', v.msg, 'A decimal and h m s cannot be subtracted. Tap h, then press dec on the decimal.');
+  v = await run(page, 'M:time dec =');                    check('  following it gives 04:30:00', v.val, hms(S(4,30)));
+  // the pocket-calculator habits: 2326 and 23 . are refused with the unit key named, in arc and in time (U-3)
+  await f(); v = await run(page, '2 3 2 6');            check('2326 in arc: 232° kept, the refusal names ° ′ ″', v.val + '|' + v.msg, dms(S(232)) + '|Degrees run 0–360. For the minutes, press ° ′ ″.');
+  await f(); v = await run(page, '2 3 .');              check('23 . in arc: the refusal names ° ′ ″, then dec', v.val + '|' + v.msg, dms(S(23)) + '|For the minutes, press ° ′ ″. For a decimal, press dec first.');
+  await f(); v = await run(page, '23 u 26 .');          check('  a point in the minutes names the seconds', v.msg, 'For the seconds, press ° ′ ″. For a decimal, press dec first.');
+  await fresh(page, 'time'); v = await run(page, '2 3 2 6'); check('2326 in time: 23 h kept, the refusal names h m s', v.val + '|' + v.msg, hms(S(23)) + '|Hours run 0–24. For the minutes, press h m s.');
+  await fresh(page, 'time'); v = await run(page, '2 3 .');   check('23 . in time: the refusal names h m s, then dec', v.val + '|' + v.msg, hms(S(23)) + '|For the minutes, press h m s. For a decimal, press dec first.');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

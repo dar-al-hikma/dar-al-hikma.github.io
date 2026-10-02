@@ -26,7 +26,7 @@ async function measure(page, exempt) { return page.evaluate((exempt) => {
     await page.evaluate(() => { const S = window.takht.state; if (S.view.sign) window.takht.press('sign'); document.querySelector('#wrapChip').click(); });
     await press(page, 'AC M:arc n 359 u 59 u 59 * 27000 ='); let p = await measure(page, true); if (p.length) problems.push(`${tag} wrap-off millions: ${p.join(', ')}`);
     await page.evaluate(() => document.querySelector('#wrapChip').click());
-    const msgs = await page.evaluate((lang) => { const I = window.takht.I18N, en = I.en.m, L = I[lang].m || {}; const a = { signDigits: ['° ′ ″'], minTwo: ['h m s'], minRange: [false], decRead: [true], notHour: [359], modeSet: [false], modeFresh: [false], chooseSign: ['° ′ ″'], typeAfter: ['÷'], arcTime: [false], decSex: [false], decToFields: ['h m s'], numStays: ['h m s'], fwdDec: ['tan⁻¹'], fwdTime: ['tan⁻¹'], invSex: ['tan⁻¹', '12,32470'], invRange: ['cos⁻¹'], stayDec: ['÷'], regEmpty: ['ratio'], stored: ['RAMC'], broughtBack: ['−359° 59′ 59″'], rounded: ['−359° 59′ 59.9999″'] };
+    const msgs = await page.evaluate((lang) => { const I = window.takht.I18N, en = I.en.m, L = I[lang].m || {}; const a = { signDigits: ['° ′ ″'], minTwo: ['h m s'], minRange: [false], decRead: [true], notHour: [359], modeSet: [false], modeFresh: [false], chooseSign: ['° ′ ″'], typeAfter: ['÷'], arcTime: [false], decSex: [false], decToFields: ['h m s'], numStays: ['h m s'], fwdDec: ['tan⁻¹'], fwdTime: ['tan⁻¹'], invSex: ['tan⁻¹', '12,32470'], invRange: ['cos⁻¹'], stayDec: ['÷'], regEmpty: ['ratio'], stored: ['RAMC'], storedOnly: ['RAMC'], wholeNumbers: ['° ′ ″', 1], degreesNext: ['° ′ ″'], hoursNext: ['h m s'], broughtBack: ['−359° 59′ 59″'], rounded: ['−359° 59′ 59.9999″'] };
       const o = {}; for (const k of Object.keys(en)) { const f = L[k] || en[k]; o[k] = typeof f === 'function' ? f(...(a[k] || [])) : f; } return o; }, lang);
     await press(page, 'AC M:arc n 359 u 59 u 59 =');
     for (const [k, text] of Object.entries(msgs)) { await page.evaluate(t => { const m = document.querySelector('#msg'); m.innerHTML = String(t).replace(/⁻¹/g, '<sup>−1</sup>'); m.className = 'msg show bad'; }, text); p = await measure(page, false); if (p.length) problems.push(`${tag} message ${k}: ${p.join(', ')}`); }
@@ -39,5 +39,47 @@ async function measure(page, exempt) { return page.evaluate((exempt) => {
     const want = w < 820 ? { w: 420, below: true, beside: false, h: false, centred: true } : { w: 420, below: false, beside: true, h: false, centred: true };
     if (JSON.stringify(r) !== JSON.stringify(want)) problems.push(`${w}×${h}: ${JSON.stringify(r)}`); await page.context().close(); }
   check(`phone layouts at ${VIEWS.length} viewports × ${LANGS.length} languages, and 7 tablet/desktop breakpoints`, problems.join('\n'), '');
+  // the value stays readable when the indicator chips wrap at 320 px: its rendered box, not its font size (round 6, S6-6)
+  for (const [lang, keys, label] of [['en', 'AC 23 u 26 u 12 = sto', 'sto armed'], ['en', 'AC 23 u 26 u 12 = dec sto', 'dec view, sto armed'],
+      ['en', 'AC 23 u 26 u 12 = sign sto', 'sign view, sto armed'], ['de', 'W:off AC 23 u 26 u 12 = dec', 'German, wrap off, dec view']]){
+    const { page } = await H.open({ browser, viewport: { width: 320, height: 568 }, lang }); await H.fresh(page);
+    for (const t of keys.split(' ')) { if (t === 'W:off') await H.wrap(page, false); else await press(page, t); }
+    const r = await page.evaluate(() => { const v = document.querySelector('#val'), cs = getComputedStyle(v), keys = [...document.querySelectorAll('.calc .k')].map(k => k.getBoundingClientRect().height).filter(Boolean);
+      return { h: v.getBoundingClientRect().height, lh: parseFloat(cs.lineHeight), fs: parseFloat(cs.fontSize), key: Math.min(...keys), scroll: document.scrollingElement.scrollHeight - innerHeight }; });
+    check(`320×568 ${label}: the value's box holds a whole line, keys ≥ 42 px, no scroll`, [r.h >= r.lh, r.fs >= 34, r.key >= 41.9, r.scroll <= 0].join('|'), 'true|true|true|true', JSON.stringify(r));
+    await page.context().close(); }
+  // the field being typed is underlined in full, inside the value's box (round 6, S6-9)
+  for (const [w, h] of [[320, 568], [390, 600], [390, 844], [1024, 768]]){
+    const { page } = await H.open({ browser, viewport: { width: w, height: h } }); await H.fresh(page); await press(page, 'AC 5 u');
+    const b = await page.$eval('#val', e => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; });
+    const png = (await page.screenshot({ clip: b })).toString('base64');
+    const rows = await page.evaluate(async b64 => { const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; const g = c.getContext('2d'); g.drawImage(img, 0, 0); const d = g.getImageData(0, 0, c.width, c.height).data; let n = 0;
+      for (let y = 0; y < c.height; y++) { let k = 0; for (let x = 0; x < c.width; x++) { const i = (y * c.width + x) * 4; if (Math.abs(d[i] - 0xE3) < 24 && Math.abs(d[i + 1] - 0xAA) < 24 && Math.abs(d[i + 2] - 0x3E) < 24) k++; } if (k > 8) n++; }
+      return n; }, png);
+    check(`${w}×${h}: the current field's underline shows all three brass rows`, rows >= 3, true, `rows ${rows}`); await page.context().close(); }
+  // the chip row stays one row in every state, and the = row above the history handle, at default and 150 % text (U-1)
+  { const bad = [], STATES = [['sto armed', 'AC 23 u 26 u 12 = sto'], ['dec view, sto armed', 'AC 23 u 26 u 12 = dec sto'], ['sign view, sto armed', 'AC 23 u 26 u 12 = sign sto'],
+      ['wrap off, sign view', 'W:off AC 23 u 26 u 12 = sign'], ['sign view, a two-line refusal', 'AC 23 u 26 u 12 = sign C 10 u 75']];
+    for (const [w, h] of VIEWS) for (const lang of LANGS) for (const fs of ['', '150%']) {
+      const { page } = await H.open({ browser, viewport: { width: w, height: h }, lang });
+      if (fs) await page.evaluate(s => { document.documentElement.style.fontSize = s; }, fs);
+      for (const [name, keys] of STATES) { await H.fresh(page);
+        for (const t of keys.split(' ')) { if (t === 'W:off') await H.wrap(page, false); else await press(page, t); }
+        const r = await page.evaluate(() => { const chips = [...document.querySelectorAll('#inds .ind')], eq = document.querySelector('[data-k="="]').getBoundingClientRect(), hd = document.querySelector('#tapeHandle').getBoundingClientRect();
+          return { rows: new Set(chips.map(c => Math.round(c.getBoundingClientRect().top))).size, past: Math.round(eq.bottom - hd.top) }; });
+        if (r.rows !== 1 || r.past > 0) bad.push(`${w}×${h} ${lang}${fs ? ' at 150 %' : ''}, ${name}: ${r.rows} chip rows, = ${r.past} px past the handle`); }
+      await page.context().close(); }
+    check(`chip states at ${VIEWS.length} viewports × ${LANGS.length} languages × two text sizes: one chip row, = above the handle`, bad.join('\n'), ''); }
+  // the history handle cuts a long line at its start and keeps its end, the result (U-2)
+  for (const [w, h] of [[320, 568], [390, 844]]) { const bad = [];
+    for (const lang of LANGS) { const { page } = await H.open({ browser, viewport: { width: w, height: h }, lang }); await H.fresh(page);
+      await press(page, 'AC 359 u 59 u 59 + 359 u 59 u 59 =');
+      const r = await page.evaluate(() => { const sp = document.querySelector('#tapePreview'), b = sp.getBoundingClientRect(), tn = [], tw = document.createTreeWalker(sp, NodeFilter.SHOW_TEXT);
+        while (tw.nextNode()) tn.push(tw.currentNode); const at = (n, i) => { const g = document.createRange(); g.setStart(n, i); g.setEnd(n, i + 1); return g.getBoundingClientRect(); };
+        const first = at(tn[0], 0), last = at(tn[tn.length - 1], tn[tn.length - 1].length - 1);
+        return { text: sp.textContent, cut: sp.scrollWidth > sp.clientWidth, firstOut: first.left < b.left - 0.5, lastIn: last.width > 0 && last.left >= b.left - 0.5 && last.right <= b.right + 0.5 }; });
+      if (!r.text.endsWith('= 359° 59′ 58″') || !r.lastIn || (r.cut && !r.firstOut)) bad.push(`${lang}: ${JSON.stringify(r)}`); await page.context().close(); }
+    check(`${w}×${h}: a long history line shows its result on the handle, cut at its start, in every language`, bad.join('\n'), ''); }
   summary(); await browser.close();
 })();

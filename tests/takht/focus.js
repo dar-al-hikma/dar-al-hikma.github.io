@@ -1,4 +1,5 @@
-// Focus and keyboard with real clicks and key presses; the 300-line history on desktop.
+// Focus and keyboard with real clicks and key presses; the 300-line history on desktop; the history sheet across a turn to
+// landscape; the field and sign being typed, said in the live region.
 const H = require('./h'); const { press, view, fresh, check, summary, dms, S } = H;
 (async () => {
   const browser = await H.chromium.launch();
@@ -24,5 +25,72 @@ const H = require('./h'); const { press, view, fresh, check, summary, dms, S } =
     await press(page, 'AC M:arc 5 + 3'); const c = await (await page.$('#kC')).boundingBox(); await page.mouse.move(c.x + c.width / 2, c.y + c.height / 2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.up(); await page.waitForTimeout(50); let v = await view(page); check(`${tag} hold C → all clear`, v.pending + '|' + v.val, '|0° 00′ 00″');
     await press(page, 'AC M:arc 7'); const x = await (await page.$('[data-k="reg:x"]')).boundingBox(); await page.mouse.move(x.x + x.width / 2, x.y + x.height / 2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.up(); await page.waitForTimeout(50); v = await view(page); check(`${tag} hold x stores`, v.regs.x && v.regs.x.sec, S(7));
     await page.click('#kC'); await page.click('#kC'); await page.waitForTimeout(50); check(`${tag} tap C twice → all clear`, (await view(page)).msg, 'All clear.'); check(`${tag} no errors`, errs.join('|'), ''); await page.context().close(); }
+  // History open on a phone, then turned to landscape: the sheet gives way to the history beside the keys
+  { const { page, errs } = await H.open({ browser, viewport: { width: 390, height: 844 }, touch: true });
+    await press(page, 'AC M:arc 5 + 3 ='); await page.click('#tapeHandle'); await page.waitForTimeout(350);
+    await page.setViewportSize({ width: 844, height: 390 }); await page.waitForTimeout(350);
+    check('390×844 → 844×390 with History open: calculator not inert, scrim hidden, no dialog left', await page.evaluate(() => [document.querySelector('.calc').inert, document.querySelector('.page').inert, getComputedStyle(document.querySelector('#scrim')).pointerEvents, String(document.querySelector('#tape').getAttribute('aria-modal'))].join('|')), 'false|false|none|null');
+    check('  focus goes to the latest history line, not to "clear history"', await page.evaluate(() => { const a = document.activeElement, ls = document.querySelectorAll('#tapeList .tl'); return a === ls[ls.length - 1]; }), true);
+    await page.keyboard.press('Enter'); await page.waitForTimeout(100); check('  Enter there keeps the history and brings back 8°', (await view(page)).n + '|' + (await view(page)).val, '1|' + dms(S(8)));
+    await page.keyboard.press('Escape'); await page.waitForTimeout(100); check('  Escape then leaves 8° on the display', (await view(page)).val, dms(S(8)));
+    let reached = false; for (let i = 0; i < 60 && !reached; i++) { await page.keyboard.press('Tab'); reached = await page.evaluate(() => !!document.activeElement.closest('.calc')); }
+    check('  Tab reaches the calculator', reached, true);
+    await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(350); await page.click('#tapeHandle'); await page.waitForTimeout(350); await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+    check('  back on the phone: the sheet opens and Escape closes it, 8° kept', await page.evaluate(() => document.querySelector('#tape').classList.contains('open') + '|' + document.querySelector('.calc').inert) + '|' + (await view(page)).val, 'false|false|' + dms(S(8)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // the field being typed and the sign chosen are said in the live region, as the look of the display shows them
+  for (const [lang, want] of [['en', ['minutes', 'seconds', 'minutes', 'degrees', 'hours', 'Aries', 'Taurus', 'seconds']], ['de', ['Minuten', 'Sekunden', 'Minuten', 'Grad', 'Stunden', 'Widder', 'Stier', 'Sekunden']]]) {
+    const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 }, lang }); await fresh(page); const live = async () => (await view(page)).live; const got = [];
+    await page.keyboard.type('5'); await page.keyboard.press("'"); got.push(await live()); await page.keyboard.press("'"); got.push(await live());
+    await page.keyboard.press('Backspace'); got.push(await live()); await page.keyboard.press('Backspace'); got.push(await live());
+    await fresh(page, 'time'); await page.keyboard.type('5'); await page.keyboard.press("'"); await page.keyboard.press('Backspace'); got.push(await live());
+    await fresh(page); await page.keyboard.press('s'); await page.keyboard.type("1'2'3'"); got.push(await live()); await page.keyboard.press("'"); got.push(await live());
+    await page.keyboard.press('Backspace'); got.push(await live()); await page.keyboard.press('s');
+    check(`${lang}: the live region names the field after the unit key and Backspace, and the sign when it changes`, got.join(', '), want.join(', '));
+    check(`${lang}: no errors`, errs.join('|'), ''); await page.context().close(); }
+  // a completed hold released off its key leaves no click; the next keyboard press on another key still counts
+  { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 } }); await fresh(page); await press(page, 'AC 5 + 3 =');
+    const bx = await page.locator('.k[data-reg="x"]').boundingBox();
+    await page.mouse.move(bx.x + bx.width/2, bx.y + bx.height/2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.move(5, 5); await page.mouse.up();
+    check('hold x released off the key stores 8°', (await view(page)).regs.x.sec, S(8));
+    await page.locator('[data-k="7"]').focus(); await page.keyboard.press('Enter');
+    check('  then Enter on 7 types 7 at once', (await view(page)).val, dms(S(7)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // holds by touch, through the gesture pipeline a phone uses (CDP touch events): a hold is one action, and its release
+  // is not also a press; a tap straight after it counts (round 6, S6-8 and S6-20)
+  { const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true }); const page = await ctx.newPage(); const errs = []; page.on('pageerror', e => errs.push(e.message));
+    await page.goto(H.URL); await page.waitForFunction(() => window.takht); await fresh(page); const cdp = await ctx.newCDPSession(page);
+    const at = async sel => { const r = await page.locator(sel).first().boundingBox(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; };
+    const touch = async (sel, ms) => { const p = await at(sel); await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [p] }); await page.waitForTimeout(ms); await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await page.waitForTimeout(80); };
+    await press(page, 'AC 5 + 3 ='); const n = (await view(page)).n; await touch('[data-k="reg:x"]', 800); let v = await view(page);
+    check('touch hold on x stores 8° and adds one history line (no recall from its release)', [v.regs.x && v.regs.x.sec, v.n - n, v.last].join('|'), [S(8), 1, '8° 00′ 00″ → x'].join('|'));
+    await touch('[data-k="reg:x"]', 60); check('  a touch tap on x straight after it recalls x', (await view(page)).last, 'x → 8° 00′ 00″');
+    await press(page, 'AC M:arc 5 + 3'); await touch('#kC', 800); v = await view(page);
+    check('touch hold on C clears all, and its release does not arm C again', [v.pending, v.val, await page.evaluate(() => window.takht.state.cArmed), await page.$eval('#kC', e => e.textContent)].join('|'), ['', dms(0), false, 'C'].join('|'));
+    await press(page, 'AC M:arc 5 +'); await touch('[data-k="reg:x"]', 800); const m1 = (await view(page)).msg; await press(page, '='); v = await view(page);
+    check('a touch store refused for want of a number keeps its reason, and = refuses again (no x recalled into the slot)', [m1, v.msgBad, v.pending, v.val].join('|'), ['Type the number after + first.', true, '5° 00′ 00″ +', dms(0)].join('|'));
+    await press(page, 'AC 5 + 3 ='); await page.tap('#tapeHandle'); await page.waitForTimeout(350); const hd = await at('.tape-head');
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [hd] });
+    for (let i = 1; i <= 8; i++) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: hd.x, y: hd.y + i * 15 }] }); await page.waitForTimeout(16); }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await page.waitForTimeout(350);
+    check('a touch swipe down the history sheet\'s head closes it', await page.evaluate(() => document.querySelector('#tape').classList.contains('open')), false);
+    check('  no errors', errs.join('|'), ''); await ctx.close(); }
+  // a mouse hold released on its key swallows only its own click: Enter on another key just after still counts
+  { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 } }); await fresh(page); await press(page, 'AC 5 + 3 =');
+    const bx = await page.locator('.k[data-reg="x"]').boundingBox();
+    await page.mouse.move(bx.x + bx.width / 2, bx.y + bx.height / 2); await page.mouse.down(); await page.waitForTimeout(800); await page.mouse.up(); await page.waitForTimeout(50);
+    check('mouse hold on x released on the key stores 8°, one line', (await view(page)).last, '8° 00′ 00″ → x');
+    await page.locator('[data-k="7"]').focus(); await page.keyboard.press('Enter');
+    check('  then Enter on 7 types 7 at once', (await view(page)).val, dms(S(7)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // on a phone Help starts under the display, so the value stays in sight; the Tab trap, Escape and focus return as before (U-5)
+  for (const [w, h] of [[320,568],[350,600],[360,560],[375,553],[390,664],[390,844]]) { const { page, errs } = await H.open({ browser, viewport: { width: w, height: h }, touch: true }); const tag = `${w}×${h}`;
+    await press(page, 'AC M:arc 5 + 3'); await page.click('.helpbtn'); await page.waitForTimeout(350);
+    const g = await page.evaluate(() => ({ top: document.querySelector('#help').getBoundingClientRect().top, display: document.querySelector('.display').getBoundingClientRect().bottom, focus: document.activeElement.id }));
+    check(`${tag} Help starts at or below the display's bottom, with focus inside`, [g.top >= g.display - 0.5, g.focus].join('|'), 'true|helpClose', JSON.stringify(g));
+    const seen = new Set(); for (let i = 0; i < 30; i++) { await page.keyboard.press('Tab'); seen.add(await page.evaluate(() => document.activeElement.closest('#help') ? 'in' : 'out')); }
+    await page.keyboard.press('Escape'); await page.waitForTimeout(300);
+    check(`${tag}   Tab stays inside; Escape closes it and returns focus to ?`, [...seen].join(',') + '|' + await page.evaluate(() => document.querySelector('#help').classList.contains('open') + '|' + document.activeElement.className), 'in|false|helpbtn');
+    check(`${tag}   no errors`, errs.join('|'), ''); await page.context().close(); }
   summary(); await browser.close();
 })();

@@ -37,7 +37,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC M:arc 0 u 0 u 1 sin');        check('sin 1″', v.val, '0.0000048…');
   v = await run(page, '* 0.0000001 =');                 check('4.848…×10⁻¹³', v.val + '|' + v.live, '4.848…×10−13|0.0000048… × 0.0000001 = 4.848… times 10 to the power −13');
   v = await run(page, 'AC dec 0.00000009 * 1 =');       check('9×10⁻⁸', v.val, '9×10−8');
-  v = await run(page, 'AC dec 0.0000001 * 1 u =');      check('0.0000001 × 1° note', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.0003″');
+  v = await run(page, 'AC dec 0.0000001 * 1 u =');      check('0.0000001 × 1° note', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.0003…″');
   // trig ranges
   v = await run(page, 'AC dec 1 asin');                 check('asin 1 = 90°', v.val, dms(S(90)));
   v = await run(page, 'AC dec 1.0000001 asin');         check('asin 1.0000001 refused', v.msgBad, true);
@@ -46,7 +46,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC dec . 5 n asin');             check('. 5 ± sin⁻¹ = −30°', v.val, '−' + dms(S(30)));
   v = await run(page, 'AC dec n . 5 acos');             check('± . 5 cos⁻¹ = 120°', v.val, dms(S(120)));
   v = await run(page, 'AC dec n 1 atan');               check('atan −1 wraps to 315° with the note', v.val + '|' + v.note, '315° 00′ 00″|−45° 00′ 00″ → 315° 00′ 00″');
-  v = await run(page, 'AC dec 12.32470 atan');          check('atan 12.32470 = 85° 21′ 41″', v.val + '|' + v.note, '85° 21′ 41″|rounded from 85° 21′ 40.69″');
+  v = await run(page, 'AC dec 12.32470 atan');          check('atan 12.32470 = 85° 21′ 41″', v.val + '|' + v.note, '85° 21′ 41″|rounded from 85° 21′ 40.69…″');
   v = await run(page, 'AC M:arc 90 tan');               check('tan 90° refused', v.msgBad, true);
   v = await run(page, 'AC M:arc 270 tan');              check('tan 270° refused', v.msgBad, true);
   v = await run(page, 'AC M:arc 89 u 59 u 59 tan');     check('tan 89° 59′ 59″', v.val, '206264.806241…');
@@ -61,7 +61,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
     for (let i = 0; i < 300; i++) { const x = +(rnd() * 9999).toFixed(Math.floor(rnd() * 8)); t.press('AC'); t.press('mode:' + mode); t.press('dec'); for (const c of String(x)) t.press(c); t.press('='); const want = Math.round(x * 3600); if (t.state.val.k !== 'sex' || t.state.val.sec !== want) out.push({ x, got: t.state.val.sec, want }); } return out; }, mode);
     check(`${mode}: 300 random decimals convert to round(x·3600)`, bad.length, 0, JSON.stringify(bad.slice(0, 3))); }
   await wrap(page, true);
-  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap on: 359.999999999 → 0° and says so', v.val + '|' + v.note, '0° 00′ 00″|rounded from 359° 59′ 59.99″ · 360° 00′ 00″ → 0° 00′ 00″');
+  v = await run(page, 'AC M:arc dec 359.999999999 =');  check('wrap on: 359.999999999 → 0° and says so', v.val + '|' + v.note, '0° 00′ 00″|rounded from 359° 59′ 59.99…″ · 360° 00′ 00″ → 0° 00′ 00″');
   v = await run(page, 'AC M:arc dec n 359.999999999 ='); check('wrap on: −359.999999999 stays −360°', v.val, '−' + dms(S(360)));
   v = await run(page, 'AC M:arc dec 23.43666 =');       check('23.43666 = 23° 26′ 12″', v.val, dms(S(23,26,12)));
   // the limit: 10,000,000° or h on the raw result, before any wrap; operands built with wrap off
@@ -88,5 +88,29 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC M:arc dec 9999999.9999 =');   check('typed 9999999.9999 = refused (rounds to 10000000°)', v.msgBad, true);
   let s = 'AC dec 999999999999 * 999999999999 ='; for (let i = 0; i < 23; i++) s += ' * 999999999999 ='; v = await run(page, s); check('10²⁹⁹ accepted', v.val, '9.999…×10299');
   v = await run(page, '* 999999999999 =');              check('overflow refused, operation kept open', v.msgBad + '|' + v.pending, 'true|9.999…×10299 ×');
+  // a computed value within binary noise of a half is the half the display shows: sin 30° is held as 0.49999999999999994
+  await fresh(page, 'arc'); await press(page, 'AC 30 sin >ratio');
+  v = await run(page, 'AC 0 u 0 u 1 * @ratio =');      check('1″ × sin 30° = 1″, as 1″ × 0.5', v.last + '|' + v.note, '0° 00′ 01″ × 0.5 = 0° 00′ 01″|rounded from 0° 00′ 00.5″');
+  v = await run(page, 'AC n 0 u 0 u 1 * @ratio =');    check('  −1″ × sin 30° = −1″', v.val, '−0° 00′ 01″');
+  v = await run(page, 'AC 60 cos >ratio AC 0 u 0 u 1 * @ratio ='); check('  1″ × cos 60° = 1″', v.val, dms(S(0,0,1)));
+  v = await run(page, 'AC 29 u 59 u 59 sin >ratio AC 0 u 0 u 1 * @ratio ='); check('  a value truly below a half still rounds down (sin 29° 59′ 59″)', v.val + '|' + v.note, '0° 00′ 00″|rounded from 0° 00′ 00.49…″');
+  v = await run(page, 'AC 0 u 0 u 1 d15');             check('1″ ÷ 15: the note marks its cut digits', v.note, 'rounded from 00:00:00.06…');
+  // typed ÷ typed is kept exact, so a value just below a half-second rounds down however large or small
+  await wrap(page, false);
+  v = await run(page, 'AC M:arc dec 999999778471 / 1000001 = * 1 u ='); check('999999778471 ÷ 1000001 × 1° = 999998° 46′ 42″ (2.5 µs below the half)', v.val + '|' + v.note, '999998° 46′ 42″|rounded from 999998° 46′ 42.49…″');
+  v = await run(page, 'AC M:arc dec 999999778471 / 1000001 = n * 1 u ='); check('  and negated, −999998° 46′ 42″', v.val, '−999998° 46′ 42″');
+  // sin 30° is a half at any size: 2000° 00′ 01″ × sin 30° = 1000° 00′ 00.5″ → 1000° 00′ 01″
+  v = await run(page, 'AC 30 sin >ratio AC 1 u * dec 2000 = + 0 u 0 u 1 = * @ratio ='); check('2000° 00′ 01″ × sin 30° = 1000° 00′ 01″', v.val, '1000° 00′ 01″');
+  await wrap(page, true);
+  v = await run(page, 'AC M:arc dec 737361111103 / 999999999989 = * 1 u ='); check('737361111103 ÷ 999999999989 × 1° = 0° 44′ 14″ (below the half by 5×10^−13″)', v.val, '0° 44′ 14″');
+  v = await run(page, 'AC M:arc dec 1 / 3 = * 0 u 0 u 3 ='); check('(1 ÷ 3) × 3″ = 1″ exactly, no rounding note', v.val + '|' + v.note, '0° 00′ 01″|');
+  // an exact fraction shows its own digits: ½ − 1/18014398509481982 is 0.4999999…, not the 0.5 of its nearest double
+  await press(page, 'AC dec 4503599 * 1000000000 + 627370495 = >x AC dec 9007199 * 1000000000 + 254740991 = >ratio');
+  v = await run(page, 'AC @x / @ratio =');                check('4503599627370495 ÷ 9007199254740991 shows 0.4999999…', v.val, '0.4999999…');
+  v = await run(page, '* 0 u 0 u 1 =');                   check('  × 1″: the history line agrees with its result', v.last, '0.4999999… × 0° 00′ 01″ = 0° 00′ 00″');
+  v = await run(page, 'AC @ratio - 1 = >x AC @ratio / @x ='); check('9007199254740991 ÷ 9007199254740990 shows 1…, so sin⁻¹ refusing it is no surprise', v.val, '1…');
+  v = await run(page, 'AC M:time 15 u 55 / 24 u =');      check('  an ordinary ratio shows as before', v.val, '0.6631944…');
+  await fresh(page, 'time'); v = await run(page, 'AC 15 u 55 accel'); check('accel 15:55:00: the note marks its cut digits', v.note, 'rounded from 156.93… s');
+  await fresh(page, 'arc');
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

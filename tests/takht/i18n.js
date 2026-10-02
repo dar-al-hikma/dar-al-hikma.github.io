@@ -27,7 +27,7 @@ const H = require('./h'); const { check, summary } = H;
       const texts = [document.title], skip = new Set(['SCRIPT', 'STYLE']);
       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => skip.has(n.parentNode.nodeName) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
       while (w.nextNode()) texts.push(w.currentNode.nodeValue);
-      document.querySelectorAll('[aria-label], [title], [placeholder]').forEach(e => ['aria-label', 'title', 'placeholder'].forEach(a => { if (e.hasAttribute(a)) texts.push(e.getAttribute(a)); }));
+      document.querySelectorAll('[aria-label], [title], [placeholder], [data-sr]').forEach(e => ['aria-label', 'title', 'placeholder', 'data-sr'].forEach(a => { if (e.hasAttribute(a)) texts.push(e.getAttribute(a)); }));
       const hits = texts.filter(s => /\bundefined\b|\bNaN\b|\[object |=>|function\s*\(/.test(s)).map(s => s.trim().slice(0, 60));
       return { tag: document.documentElement.lang, hits: [...new Set(hits)] }; }, l); }
     catch (e) { check(`${l}: switching to it throws no error`, e.message.split('\n')[0].replace(/^page\.evaluate: /, ''), ''); continue; }
@@ -35,6 +35,21 @@ const H = require('./h'); const { check, summary } = H;
     check(`${l}: the page and its help show no "undefined", "NaN" or code`, r.hits.join(' | '), '');
     check(`${l}: the page's language tag is set`, !!r.tag && r.tag !== 'undefined', true, r.tag);
   }
+  // Signed values brings an ecliptic longitude back into the circle; the LST recipe's longitude is geographic
+  const lon = async l => page.evaluate(l => { window.takht.applyLang(l); const r = sel => document.querySelector(`.recipe:has([data-i18n-html="${sel}"]) .vc[data-i18n^="vLong"]`);
+    return [r('rSigned').dataset.i18n, r('rSigned').textContent, r('rLST').dataset.i18n, r('rLST').textContent].join('|'); }, l);
+  check('Signed values: the ecliptic longitude (vLongEcl), in Chinese 黄经', await lon('zh'), 'vLongEcl|黄经|vLong|经度');
+  check('  in Japanese 黄経, the LST recipe keeping 経度', await lon('ja'), 'vLongEcl|黄経|vLong|経度');
+  check('  in Norwegian lengde, the LST recipe keeping lengdegrad', await lon('nb'), 'vLongEcl|lengde|vLong|lengdegrad');
+  await page.evaluate(() => window.takht.applyLang('en'));
+  check('ja About names the Takht タフト (砂盤), as the glossary settles', await page.evaluate(() => window.takht.I18N.ja.ui.about.startsWith('<i>タフト</i>（砂盤）')), true);
+  // one decimal separator per language: a typed decimal shows the language's own on the display, in #live and in the
+  // history, as a result does, and the point key is captioned with it (U-4). English writes the point, German the comma.
+  check('the separators the languages declare: en ".", de ","', await page.evaluate(() => window.takht.I18N.en.dec + window.takht.I18N.de.dec), '.,');
+  for (const l of langs) { await page.evaluate(l => window.takht.applyLang(l), l); await H.fresh(page);
+    const sep = await page.evaluate(l => window.takht.I18N[l].dec, l);
+    const a = await H.run(page, 'AC dec 2.5'), b = await H.run(page, '* 3 ='), key = await page.evaluate(() => document.querySelector('#kPoint').textContent);
+    check(`${l}: typed 2.5 × 3 shows "${sep}" on the display, in #live, in the history, and on the point key`, [a.val, a.live.startsWith(`2${sep}5,`), b.last, key].join('|'), [`2${sep}5`, true, `2${sep}5 × 3 = 7${sep}5`, sep].join('|')); }
   await page.evaluate(() => window.takht.applyLang('en'));
   check('no page errors', errs.join(' | '), '');
   summary(); await browser.close();

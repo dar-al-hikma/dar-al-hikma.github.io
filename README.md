@@ -16,6 +16,7 @@ Deutsch, 简体中文 and 日本語.
 | [Sayyid's Orrery](https://dar-al-hikma.github.io/sayyids-orrery/) | Ptolemy's models, seen from the pole of the ecliptic |
 | [The Reckoner](https://dar-al-hikma.github.io/reckoner/) | Arithmetic in sixties |
 | [The Takht](https://dar-al-hikma.github.io/takht/) (تخت) | The calculator beside the three books |
+| [The Jadāwil](https://dar-al-hikma.github.io/jadawil/) (جداول) | The tables of a zīj, beside the Takht |
 | [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses |
 
 ## Layout
@@ -91,4 +92,6 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
 - **Dark palette**, shared across the shelf and the pieces:
   `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`;
   secondary text `--muted-2:#7F879C`, at least 4.5:1 on the panels
-- **No build tooling.** If a piece ever needs a build, it belongs in its own repo.
+- **No build tooling.** A piece that needs a build keeps its sources in its own
+  repository and ships its built page here as the build gives it, never edited here.
+  The Jadāwil is the first: it is built in `dar-al-hikma/dar-al-hikma-pages-dev`.

@@ -1,0 +1,17 @@
+{
+  "id": "/jadawil/",
+  "name": "The Jadāwil",
+  "short_name": "Jadāwil",
+  "description": "The tables of a zīj, beside the Takht: a seven-planet ephemeris, a world atlas, a table of houses and a worksheet for casting a chart by hand. One page, usable offline.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070A12",
+  "theme_color": "#070A12",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

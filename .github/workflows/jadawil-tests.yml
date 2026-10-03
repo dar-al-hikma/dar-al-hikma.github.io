@@ -1,0 +1,35 @@
+# Runs the Jadāwil's tests (tests/jadawil/) whenever the Jadāwil or its tests change.
+# Shell steps only, no third-party actions: the runner's own git and Node, and Playwright and pdf-lib from npm.
+name: Jadāwil tests
+on:
+  pull_request:
+    paths: ['jadawil/**', 'tests/jadawil/**', '.github/workflows/jadawil-tests.yml']
+  push:
+    branches: [main]
+    paths: ['jadawil/**', 'tests/jadawil/**', '.github/workflows/jadawil-tests.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+      - name: Install Playwright, Chromium and pdf-lib
+        working-directory: tests/jadawil
+        run: |
+          node --version
+          npm install --no-save --no-audit --no-fund playwright@1.56.1 pdf-lib@1.17.1
+          npx playwright install --with-deps chromium
+      - name: Run the suites
+        working-directory: tests/jadawil
+        run: ./run-all.sh
+      - name: Show the failing suites' output
+        if: failure()
+        working-directory: tests/jadawil
+        run: grep -l '^FAIL' out-*.txt | xargs -r tail -n 80

@@ -9,7 +9,17 @@
     <atom:link href="https://dar-al-hikma.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Small self-contained pieces, each one a single page, made to be opened and used. New pieces as they go on the shelf.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 27 Sep 2026 07:20:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 13:57:00 GMT</lastBuildDate>
+
+    <item>
+      <title>The Jadāwil (جداول)</title>
+      <link>https://dar-al-hikma.github.io/jadawil/</link>
+      <guid isPermaLink="true">https://dar-al-hikma.github.io/jadawil/</guid>
+      <pubDate>Sat, 03 Oct 2026 13:57:00 GMT</pubDate>
+      <category>Calculation</category>
+      <category>Tables</category>
+      <description>The tables of a zīj, beside the Takht. Built for casting charts by hand: a daily ephemeris of the seven planets from 1800 to 2200, at 00:00 or 12:00 UT; an atlas of 144,876 places with their latitude, longitude and longitude correction; a pocket table of houses for your latitude and LST; and Lesson 5’s worksheet, rows 8 to 47, with the reference values filled in and every calculation left blank. Print them on Letter or A4, or save the Jadāwil as one file and work offline. Bring the Takht for the arithmetic. In seven languages.</description>
+    </item>
 
     <item>
       <title>The Takht (تخت)</title>

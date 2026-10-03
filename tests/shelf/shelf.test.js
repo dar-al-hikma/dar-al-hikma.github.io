@@ -16,7 +16,7 @@ function check(group, name, ok, detail) {
 async function group(name, fn) { try { await fn(name); } catch (e) { check(name, 'the group ran to the end', false, e.stack || e); } }
 
 // the pieces the shelf lists: their own titles are what the shelf must show
-const PIECES = ['sayyids-sphere', 'sayyids-orrery', 'reckoner', 'takht', 'between-the-lines'];
+const PIECES = ['sayyids-sphere', 'sayyids-orrery', 'reckoner', 'takht', 'jadawil', 'between-the-lines'];
 const tagsOf = s => (s.match(/<\/?[a-z][^>]*>/gi) || []).map(t => t.replace(/\s.*?(\/?)>$/, '$1>')).sort().join('');
 
 (async () => {

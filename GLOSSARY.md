@@ -23,6 +23,8 @@ language.
 - **Acceleration.** The correction of 9.86 seconds per hour of UT that turns elapsed clock time into sidereal time.
   **nb** akselerasjon (9,86 sekunder per time) · **es** aceleración (9,86 s por hora) · **fr** accélération (9,86 secondes par heure) · **de** Beschleunigung (9,86 Sekunden pro Stunde) · **zh** 加速（每小时 9.86 秒） · **ja** 加速（1 時間あたり 9.86 秒）
   *Not:* zh: `加速度`
+- **Alchabitius Semi-Arc.** The house system of the lesson's tables of houses: the Ascendant's semi-arcs trisected on the equator and carried to the ecliptic. Also spelled *Alcabitius*. Kept as the tables print it.
+  **nb** Alchabitius Semi-Arc *(proposed)* · **es** Alchabitius Semi-Arc *(proposed)* · **fr** Alchabitius Semi-Arc *(proposed)* · **de** Alchabitius Semi-Arc *(proposed)* · **zh** Alchabitius 半弧宫制 *(proposed)* · **ja** アルカビティウス半弧法 *(proposed)*
 - **Almucantarath.** A small circle of equal altitude, parallel to the horizon. The course uses the word as a synonym of altitude.
   **nb** almukantarat · **es** almicantarat (pl. almicantarats) · **fr** almicantarat · **de** Almukantarat (Pl. Almukantarate) · **zh** 等高圈 · **ja** 等高度圏
   *Not:* es: `almucantarath`; fr: `almucantarat`; zh: `地平纬圈`
@@ -39,6 +41,9 @@ language.
 - **Ascendant (ASC).** The degree of the ecliptic rising on the eastern horizon; in whole signs, the rising sign.
   **nb** ascendant (AC) · **es** Ascendente (ASC) · **fr** Ascendant (ASC) · **de** Aszendent (AC) · **zh** 上升点（ASC） · **ja** アセンダント（ASC）
   *Not:* nb: ASC as nb abbreviation (only as English gloss); es: `ascendente` (minúscula); de: ASC außer in Glossen; zh: `上升星座`
+- **Atlas.** The book of places with their latitude and longitude; one of the three books beside the Takht.
+  **nb** atlas · **es** atlas · **fr** atlas · **de** Atlas · **zh** 地图集 · **ja** 地図帳
+  *Not:* ja: `アトラス`
 - **Axial degrees, axes.** The Ascendant, Midheaven, Descendant and IC together.
   **nb** aksegrader / aksene · **es** grados axiales · **fr** degrés axiaux · **de** Achsgrade · **zh** 轴点度数（ASC、MC、DESC、IC） · **ja** 軸の度数
 - **Axis of the poles.** The line through the two celestial poles, about which the sky turns. The course calls it the **pole**, and the pieces gloss it so; do not "correct" the gloss to *axis*.
@@ -66,6 +71,9 @@ language.
   *Not:* es: `carta astronómica`, `horóscopo`; fr: `carte`, `horoscope`; ja: `ホロスコープ`
 - **Chart wheel.** The drawn circle of a chart, with the zodiac round the rim and the axes across it.
   **nb** horoskophjul · **es** rueda de la carta · **fr** roue du thème · **de** Horoskoprad · **zh** 星盘圆图（行文中亦作“星盘”） · **ja** チャートの円
+- **Clock time.** The time the clock showed at the birth, daylight saving included; clock time − UTC offset = UT.
+  **nb** klokkeslett *(proposed)* · **es** hora oficial *(proposed)* · **fr** heure légale *(proposed)* · **de** Uhrzeit *(proposed)* · **zh** 钟表时间 *(proposed)* · **ja** 時計の時刻 *(proposed)*
+  *Not:* de: Ortszeit (that is the local time of a meridian)
 - **Column, row, box.** In a table of houses, columns run by sidereal time (4′ apart) and rows by latitude (1° apart); the four cells round the native form the box.
   **nb** kolonne (ST) / rad (breddegrad) / rute · **es** columna (de TS) / fila (de latitud) / recuadro; casilla = celda · **fr** colonne (TS) / ligne (latitude) / case · **de** Spalte (Sternzeit) / Zeile (Breite) / Kasten · **zh** 列（恒星时）/ 行（纬度）/ 方框；表格单元 · **ja** 列（恒星時）／行（緯度）／枠
   *Not:* zh: 表格（指单元格时）
@@ -91,12 +99,17 @@ language.
 - **Descendant (DESC).** The degree setting on the western horizon, opposite the Ascendant.
   **nb** descendant (DC) · **es** Descendente (DESC) · **fr** Descendant (DSC) · **de** Deszendent (DC) · **zh** 下降点（DESC） · **ja** ディセンダント（DESC）
   *Not:* fr: `DESC`
+- **Difference.** The later table value minus the earlier one, before it is multiplied by the ratio. *See* Increment.
+  **nb** differanse · **es** diferencia · **fr** différence · **de** Differenz · **zh** 差值 · **ja** 差
+  *Not:* zh: `差额`
 - **Direct calculation.** Working a value out by trigonometry instead of interpolating it from the table. Not *direct motion*.
   **nb** direkte beregning / direkte verdi · **es** cálculo directo / valor directo · **fr** calcul direct / valeur directe · **de** direkte Berechnung / direkter Wert · **zh** 直接计算（直接计算值） · **ja** 直接計算（直接計算の値）
   *Not:* nb: direkte bevegelse (that is direct motion); de: direktläufig; zh: `直接值`
 
 ## E
 
+- **Earlier, later.** The two tabulated values either side of the native's: the earlier and later sidereal times (columns), MC and ASC.
+  **nb** tidligere / senere · **es** anterior / posterior · **fr** précédent / suivant · **de** früher / später (frühere Sternzeit, späteres MC, späterer AC) · **zh** 较早的 / 较晚的 · **ja** 前の／後の
 - **Eccentric, eccentricity.** A circle whose centre is not the earth; its eccentricity is how far off-centre it is.
   **nb** eksentrisk / eksentrisitet · **es** excéntrico / excentricidad · **fr** excentrique / excentricité · **de** Exzenter / exzentrisch / Exzentrizität · **zh** 偏心圆 / 偏心率 · **ja** 離心円／離心率
 - **Ecliptic.** The Sun's yearly path, the great circle of zero ecliptic latitude, tilted to the equator by the obliquity. *See* Zodiac.
@@ -135,6 +148,8 @@ language.
 - **Horizon.** The great circle at the observer's feet, dividing the sky above the earth from the sky below it.
   **nb** horisont · **es** horizonte · **fr** horizon · **de** Horizont · **zh** 地平圈（“地平之上/之下”，东地平/西地平） · **ja** 地平圏（地平）
   *Not:* zh: 地平线（仅指视觉线时可用）
+- **Hour circle.** A great circle through the celestial poles. Rendered by its definition: the usual word in each language is among the forms *Parallel of declination* forbids.
+  **nb** storsirkel gjennom himmelpolene *(proposed)* · **es** círculo máximo que pasa por los polos celestes *(proposed)* · **fr** grand cercle passant par les pôles célestes *(proposed)* · **de** Großkreis durch die Himmelspole *(proposed)* · **zh** 过天极的大圆 *(proposed)* · **ja** 天の極を通る大円 *(proposed)*
 
 ## I
 
@@ -149,6 +164,12 @@ language.
 - **Interpolation.** Finding a value between two tabulated ones in proportion to the distance between them.
   **nb** interpolasjon / interpolere · **es** interpolación / interpolar · **fr** interpolation / interpoler · **de** Interpolation / interpolieren · **zh** 插值 · **ja** 補間（補間する）
 
+## J
+
+- **Jadāwil.** Arabic *jadāwil*, tables; the piece that gathers the zīj's tables beside the Takht. Capitalised as a title, with جداول beside it.
+  **nb** Jadāwil *(proposed)* · **es** los jadāwil *(proposed)* · **fr** les Jadāwil *(proposed)* · **de** die Jadāwil *(proposed)* · **zh** Jadāwil 数表（行文作 Jadāwil） *(proposed)* · **ja** ジャダーウィル（数表） *(proposed)*
+  *Not:* ja: `ジャダウィル`
+
 ## L
 
 - **Latitude (ecliptic).** A planet's distance north or south of the ecliptic.
@@ -161,6 +182,9 @@ language.
 - **Lesson, course.** Dykes's course, whose lessons, figures and worksheets the pieces follow.
   **nb** leksjonen / kurset · **es** lección / el curso · **fr** la leçon / le cours (Traditional Natal Astrology Course) · **de** Lektion / der Kurs · **zh** 课 / 课程（本课、课中） · **ja** 教本
   *Not:* ja: `レッスン`, `講義`
+- **Local mean time.** The time of the place's own meridian, its longitude in time; the clock's time before standard time.
+  **nb** lokal middeltid *(proposed)* · **es** tiempo medio local *(proposed)* · **fr** temps moyen local *(proposed)* · **de** mittlere Ortszeit *(proposed)* · **zh** 地方平时 *(proposed)* · **ja** 地方平均時 *(proposed)*
+  *Not:* nb: `lokal gjennomsnittstid`; de: `lokale mittlere Zeit`; zh: `地方平均时`; ja: `ローカル平均時`
 - **Local sidereal time (LST).** Sidereal time at the birthplace. ×15 gives the RAMC.
   **nb** lokal stjernetid (LST) · **es** tiempo sidéreo local (TSL) · **fr** temps sidéral local (TSL) · **de** Ortssternzeit (OSZ) · **zh** 地方恒星时（LST） · **ja** 地方恒星時（LST）
   *Not:* es: LST; de: LST außer in Tastenbeschriftungen/Glossen
@@ -168,9 +192,13 @@ language.
   **nb** lengde (Lgd); absolutt lengde · **es** longitud (eclíptica) · **fr** longitude (écliptique) · **de** Länge (ekliptikale Länge) · **zh** 黄经 · **ja** 黄経
 - **Longitude (geographic).** The birthplace east or west of Greenwich; divided by 15 it becomes a correction of time.
   **nb** lengdegrad (geografisk lengde) · **es** longitud (geográfica); corrección por longitud · **fr** longitude (géographique) ; correction de longitude · **de** geographische Länge · **zh** 经度（东经 / 西经） · **ja** 経度（東経／西経）
+- **Longitude correction, longitude in time.** The birthplace's longitude ÷ 15, added east of Greenwich and subtracted west (the lesson's row 12).
+  **nb** lengdegradskorreksjon / lengdegrad i tid *(proposed)* · **es** corrección por longitud / longitud en tiempo *(proposed)* · **fr** correction de longitude / longitude en temps *(proposed)* · **de** Längenkorrektur / Länge in Zeit *(proposed)* · **zh** 经度修正 / 经度折合时间 *(proposed)* · **ja** 経度補正／経度の時間換算 *(proposed)*
 - **Lot.** A point found by measuring the distance between two places and projecting it from a third, usually the Ascendant; the Lot of Fortune is the best known. The course prefers *Lot* to *Part*.
   **nb** lodd (Lodd, «Parts») · **es** Parte (Partes) · **fr** Part (Part de Fortune) · **de** Los (Pl. Lose) · **zh** 特殊点（Lots） · **ja** ロット
   *Not:* fr: `Lot`; de: Teil, `Pars`; zh: `阿拉伯点`
+- **Lower, higher latitude.** The two latitude rows of a table of houses either side of the native's latitude.
+  **nb** lavere / høyere breddegrad · **es** latitud inferior / superior · **fr** latitude inférieure / supérieure · **de** niedrigere / höhere Breite · **zh** 较低纬度 / 较高纬度 · **ja** 低い方の緯度／高い方の緯度（低い緯度の ASC）
 
 ## M
 
@@ -190,6 +218,8 @@ language.
 
 - **Nadir.** The point directly underfoot, opposite the zenith. Not the IC, though chart software sometimes labels the IC so.
   **nb** nadir · **es** nadir · **fr** nadir · **de** Nadir · **zh** 天底 · **ja** 天底
+- **Natal Ascendant (natal ASC).** The Ascendant interpolated to the native's latitude, the lesson's row 41.
+  **nb** AC ved fødselen · **es** ASC natal · **fr** ASC natal · **de** Radix-AC · **zh** 本命 ASC · **ja** 出生図の ASC
 - **Native.** The person whose chart it is. The lesson's native is a woman; languages with gender follow that.
   **nb** den fødte · **es** nativo / la nativa (la de la lección es mujer) · **fr** native (la native de la leçon) · **de** die/der Geborene · **zh** 命主 · **ja** 出生者
   *Not:* fr: `sujet`
@@ -213,6 +243,9 @@ language.
 - **Parallel of declination.** A small circle of constant declination, parallel to the equator. The Sphere's layer labels call these "declination circles"; render them as *parallels*, since "declination circle" elsewhere names the great circle through the poles.
   **nb** deklinasjonssirkel · **es** paralelo de declinación · **fr** parallèle de déclinaison (« cercle de déclinaison » dans les calques) · **de** Deklinationskreis · **zh** 赤纬圈 · **ja** 赤緯圏
   *Not:* nb: `timesirkel`; es: `círculo de declinación`, `círculo horario`; fr: `cercle horaire`; de: `Stundenkreis`; zh: `时圈`; ja: `時圏`
+- **Pocket table (of houses).** A few rows and two columns of a table of houses, computed for the native's latitude and LST; the Jadāwil's fourth book.
+  **nb** hustabell i lommeformat; lommetabellen *(proposed)* · **es** tabla de casas de bolsillo; la tabla de bolsillo *(proposed)* · **fr** table des maisons de poche ; la table de poche *(proposed)* · **de** Häusertabelle im Taschenformat; die Taschentabelle *(proposed)* · **zh** 袖珍宫位表；袖珍表 *(proposed)* · **ja** ポケット版ハウス表；ポケット版の表 *(proposed)*
+  *Not:* zh: `口袋宫位表`; ja: `ポケットテーブル`
 - **Pole of the ecliptic.** The point 90° from every point of the ecliptic. The Orrery looks down from it, so the zodiac lies flat as the rim.
   **nb** ekliptikkens pol · **es** polo de la eclíptica · **fr** pôle de l'écliptique · **de** Pol der Ekliptik · **zh** 黄极 · **ja** 黄道の極
 - **Primary motion.** The daily east-to-west turning of the whole sky. *See* Secondary motion.
@@ -241,6 +274,8 @@ language.
 - **Reference frame.** One of the Sphere's three coordinate systems: the horizon frame (azimuth, altitude), the equatorial frame (right ascension, declination), the ecliptic frame (longitude, latitude).
   **nb** referanseramme (horisontrammen / ekvatorrammen / ekliptikkrammen) · **es** sistema de referencia (sistema horizontal / ecuatorial / eclíptico) · **fr** repère (horizontal / équatorial / écliptique) · **de** Bezugssystem (Horizontsystem / Äquatorsystem / Ekliptiksystem) · **zh** 坐标系（地平 / 赤道 / 黄道坐标系） · **ja** 座標系（地平座標系／赤道座標系／黄道座標系）
   *Not:* es: `marco`; fr: `référentiel`, `cadre`
+- **Reference values.** The values a worksheet starts from (UT, midnight GST, the longitude correction, the obliquity, the two midnights' longitudes), filled in by the page with the working left blank.
+  **nb** utgangsverdier *(proposed)* · **es** valores de referencia *(proposed)* · **fr** valeurs de référence *(proposed)* · **de** Ausgangswerte *(proposed)* · **zh** 已知数据 *(proposed)* · **ja** 参照値 *(proposed)*
 - **Register, store, recall.** The Takht's memory: store a value in a register, recall it later.
   **nb** variabel (lagre / hente fram) · **es** variable / asignar / recuperar · **fr** variable / stocker / rappeler · **de** Variable / speichern / abrufen · **zh** 变量（存储 / 调用） · **ja** メモリー（変数メモリー）／登録／呼び出し
   *Not:* fr: `registre`, `mémoire`; zh: `寄存器`
@@ -255,6 +290,8 @@ language.
 
 - **Secondary motion.** A planet's own motion forward through the zodiac, against the primary motion.
   **nb** sekundærbevegelsen *(proposed)* · **es** movimiento secundario *(proposed)* · **fr** mouvement secondaire *(proposed)* · **de** Sekundärbewegung *(proposed)* · **zh** 第二运动 *(proposed)* · **ja** 第二運動 *(proposed)*
+- **Semi-arc.** Half the arc a point of the ecliptic travels above the horizon (diurnal) or below it (nocturnal).
+  **nb** halvbue (dagbue / nattbue) *(proposed)* · **es** semiarco (diurno / nocturno) *(proposed)* · **fr** demi-arc (diurne / nocturne) *(proposed)* · **de** Halbbogen (Tag- / Nachthalbbogen) *(proposed)* · **zh** 半弧（昼半弧 / 夜半弧） *(proposed)* · **ja** 半弧（昼半弧／夜半弧） *(proposed)*
 - **Sexagesimal.** Counting in sixties: 60 seconds make a minute, 60 minutes a degree. Render the idea, not the calque "in sixty".
   **nb** sekstitallsystemet («regning med 60 som grunntall») · **es** base sesenta (de sesenta en sesenta) *(proposed)* · **fr** sexagésimal (« compter par soixante ») · **de** sexagesimal (Rechnen in Sechzigern) · **zh** 六十进制（以六十计数） · **ja** 六十進法（六十で数える）
   *Not:* nb: `i seksti` (calque)
@@ -282,11 +319,18 @@ language.
 - **Takht.** Persian *takht*, the dust board on which reckoners worked; the name of the calculator. Capitalised as a title.
   **nb** Takhten (støvtavle) · **es** el takht (tabla de polvo) · **fr** Takht (table à poussière) · **de** das Takht (Staubbrett) · **zh** Takht 沙盘（尘板） · **ja** タフト（砂盤）
   *Not:* fr: takht as name; ja: Takht in running Japanese text
+- **Terrestrial Time (TT), delta T.** The uniform time planetary positions are computed in; delta T is TT − UT, only predicted for the future.
+  **nb** terrestrisk tid (TT), delta T *(proposed)* · **es** tiempo terrestre (TT), delta T *(proposed)* · **fr** temps terrestre (TT), delta T *(proposed)* · **de** Terrestrische Zeit (TT), Delta T *(proposed)* · **zh** 地球时（TT），ΔT *(proposed)* · **ja** 地球時（TT）、ΔT *(proposed)*
 - **Thirds.** The sexagesimal unit below the second: a sixtieth of a second.
   **nb** tredjedeler · **es** terceros · **fr** tierces · **de** Terzen · **zh** 微 · **ja** 秒の下の単位（thirds）
 - **Time and arc.** Two measures of one turning: 1h = 15°, 4m = 1°. ×15 turns time into arc, ÷15 arc into time. Arc is not *angle*: keep the two words apart.
   **nb** tid ↔ bue (×15, ÷15) · **es** tiempo ↔ arco (×15, ÷15) · **fr** temps ↔ arc (×15, ÷15) · **de** Zeit ↔ Bogen (×15, ÷15) · **zh** 时间 ↔ 角度（×15，÷15） · **ja** 時間 ↔ 角度（×15, ÷15）
   *Not:* de: Winkel (für arc); ja: 弧 (for the quantity)
+- **Time zone, standard time.** The zone whose standard time the clocks keep; the lesson's row 7 writes it West +. *See* Daylight saving time, UTC offset.
+  **nb** tidssone / normaltid · **es** huso horario / hora estándar · **fr** fuseau horaire / heure normale · **de** Zeitzone / Normalzeit · **zh** 时区 / 标准时 · **ja** タイムゾーン／標準時
+- **Tropical, apparent, geocentric.** Of the ephemeris's longitudes: measured from the moving equinox, as seen (light-time and aberration included), from the earth's centre; referred to the true ecliptic and equinox of date.
+  **nb** tropisk, tilsynelatende, geosentrisk *(proposed)* · **es** tropical, aparente, geocéntrico *(proposed)* · **fr** tropical, apparent, géocentrique *(proposed)* · **de** tropisch, scheinbar, geozentrisch *(proposed)* · **zh** 回归（回归黄经）、视、地心 *(proposed)* · **ja** 回帰（回帰黄経）、視、地心 *(proposed)*
+  *Not:* es: tropical for a period (mes trópico, año trópico); fr: tropical for a period (mois tropique)
 - **Tropical month.** The Moon's return to the same longitude: 27.32 days.
   **nb** tropisk måned · **es** mes trópico · **fr** mois tropique · **de** tropischer Monat · **zh** 回归月 · **ja** 回帰月
   *Not:* es: `mes tropical`
@@ -298,6 +342,9 @@ language.
 - **Universal Time (UT).** Clock time at Greenwich; the time an ephemeris is kept in.
   **nb** universaltid (UT) · **es** tiempo universal (TU) · **fr** temps universel (TU) · **de** Weltzeit (UT) · **zh** 世界时（UT） · **ja** 世界時（UT）
   *Not:* es: `UT`; fr: `UT`
+- **UTC offset.** The clock's difference from UTC at the birth, daylight saving included, with the world's sign: west of Greenwich negative. The lesson's row 7 writes zones the other way round. A page may suggest one; the student checks it.
+  **nb** UTC-forskyvning *(proposed)* · **es** desfase UTC (desfase respecto a UTC) *(proposed)* · **fr** décalage UTC (décalage par rapport à UTC) *(proposed)* · **de** UTC-Abweichung (Abweichung von UTC) *(proposed)* · **zh** UTC 时差（与 UTC 的时差） *(proposed)* · **ja** UTC との時差 *(proposed)*
+  *Not:* nb: `UTC-offset`; es: `offset UTC`; fr: `offset UTC`; de: UTC-Offset; ja: オフセット
 
 ## W
 
@@ -317,6 +364,8 @@ language.
 - **Zenith.** The point directly overhead.
   **nb** senit · **es** cenit · **fr** zénith · **de** Zenit · **zh** 天顶 · **ja** 天頂
   *Not:* es: `zenit`
+- **Zīj.** An astronomer's handbook of tables (Arabic *zīj*, Persian *zīg*): the book Lesson 5 opens with. Kept in transliteration where the script allows.
+  **nb** zīj (astronomisk tabellverk) *(proposed)* · **es** zīj (tablas astronómicas) *(proposed)* · **fr** zīj (tables astronomiques) *(proposed)* · **de** das Zīj (astronomisches Tafelwerk) *(proposed)* · **zh** 天文表（zīj） *(proposed)* · **ja** 天文表（ズィージュ） *(proposed)*
 - **Zodiac.** The band along the ecliptic divided into the twelve signs.
   **nb** dyrekretsen · **es** zodíaco · **fr** zodiaque · **de** Tierkreis · **zh** 黄道带 · **ja** 獣帯
   *Not:* es: `zodiaco`; ja: `黄道帯`

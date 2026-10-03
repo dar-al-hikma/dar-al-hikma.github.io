@@ -44,6 +44,7 @@ appears anywhere. GitHub runs a suite on every pull request that touches its pag
 | Suite | Time |
 |---|---|
 | [`tests/takht/`](tests/takht/) (`run-all.sh`) | 4 minutes |
+| [`tests/jadawil/`](tests/jadawil/) (`run-all.sh`) | a minute |
 | [`tests/sayyids-sphere/`](tests/sayyids-sphere/) | 25 minutes |
 | [`tests/sayyids-orrery/`](tests/sayyids-orrery/) | 15 seconds |
 | [`tests/reckoner/`](tests/reckoner/) | 20 seconds |

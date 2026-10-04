@@ -1,7 +1,7 @@
 #!/bin/sh
 # Does the suite notice when a number rule breaks? Each mutation below changes one line of a copy of the page; the suite
 # must fail on every copy. Exits 1 if any mutation survives (the suite stays green with it), 2 if a line is not found.
-# Usage: tests/takht/mutation.sh   (NODE_PATH=$(npm root -g) if playwright is global; takes four suite runs)
+# Usage: tests/takht/mutation.sh   (NODE_PATH=$(npm root -g) if playwright is global; takes five suite runs)
 cd "$(dirname "$0")" || exit 2
 unset TAKHT   # each copy of the suite tests the copy of the page beside it
 HERE=$(pwd); PAGE=$(cd ../../takht && pwd)/index.html; TMP=$(mktemp -d); survived=0
@@ -25,6 +25,9 @@ mutate no-cut-mark \
 mutate no-d15-note \
   "    if (v.sec % 15) notes.push(M().rounded(fmtScaledExact(v.sec, dec(15, null, '15'), true, TIME, exact)));   // the exact quotient, not a double's digits" \
   ""
+mutate no-snap-where-made \
+  "    const val = dx != null ? dec(parseFloat(dx), null, dx) : exactProduct(a, b, op === '÷') || dec(snapHalf(op === '×' ? a.v*b.v : a.v/b.v));" \
+  "    const val = dx != null ? dec(parseFloat(dx), null, dx) : exactProduct(a, b, op === '÷') || dec(op === '×' ? a.v*b.v : a.v/b.v);"
 rm -rf "$TMP"
 printf '\n===== mutations: %s\n' "$([ $survived = 0 ] && echo 'every one caught' || echo 'one or more survived')"
 exit $survived

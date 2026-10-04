@@ -121,5 +121,35 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   await f(); v = await run(page, '23 u 26 .');          check('  a point in the minutes names the seconds', v.msg, 'For the seconds, press ° ′ ″. For a decimal, press dec first.');
   await fresh(page, 'time'); v = await run(page, '2 3 2 6'); check('2326 in time: 23 h kept, the refusal names h m s', v.val + '|' + v.msg, hms(S(23)) + '|Hours run 0–24. For the minutes, press h m s.');
   await fresh(page, 'time'); v = await run(page, '2 3 .');   check('23 . in time: the refusal names h m s, then dec', v.val + '|' + v.msg, hms(S(23)) + '|For the minutes, press h m s. For a decimal, press dec first.');
+  // round 7. S7-3: a replacement typed over a recalled value and erased leaves the slot empty: = asks for the number
+  for (const [op, k] of [['+', '+'], ['×', '*'], ['÷', '/']]) {
+    await f(); v = await run(page, `5 ${k} @OE 3 bs =`); check(`5 ${op} OE, 3 typed and erased, = asks for the number`, [v.msg, v.pending].join('|'), `Type the number after ${op} first.|5° 00′ 00″ ${op}`); }
+  await f(); v = await run(page, '5 + @OE . bs bs =');  check('5 + OE, a point typed and erased, = asks for the number', v.msg, 'Type the number after + first.');
+  await f(); await page.evaluate(() => { window.takht.state.regs.LST = null; });
+  v = await run(page, '5 + @OE 3 bs sto @LST');         check('  sto LST after the erasure refuses and stores nothing', [v.msg, v.regs.LST].join('|'), 'Type the number after + first.|');
+  await f(); v = await run(page, '5 + 0 =');            check('  control: 5 + 0 = is 5°', v.val, dms(S(5)));
+  await f(); v = await run(page, '5 * 0 =');            check('  control: 5 × 0 = is 0°', v.val, dms(0));
+  await f(); v = await run(page, '5 + @OE 3 bs 4 =');   check('  control: 5 + OE, 3 erased, 4 = is 9°', v.val, dms(S(9)));
+  // S7-6: in sign entry the point's refusal names sign, and its recovery works
+  await f(); v = await run(page, 'sign 2 3 .');         check('sign 23 . : the refusal says to turn sign off, then press dec', v.msg, 'For the minutes, press ° ′ ″. For a decimal, turn sign off, then press dec.');
+  v = await run(page, 'sign dec 2 3 . 5 =');            check('  following it, 23.5 = gives 23° 30′ 00″', v.val, dms(S(23, 30)));
+  // S7-7: an empty register while an operation waits for its number names that operation, and following it stores
+  await f(); await page.evaluate(() => { window.takht.state.regs.LST = null; });
+  v = await run(page, '5 + @LST');                      check('5 + LST (empty): the message names the + waiting for its number', v.msg, 'LST is empty. Type the number after +, then hold LST to store it.');
+  v = await run(page, '3 sto @LST');                    check('  following it (3, sto, LST) stores 3° and keeps 5° + waiting', [v.regs.LST && v.regs.LST.sec, v.pending].join('|'), `${S(3)}|5° 00′ 00″ +`);
+  await f(); await page.evaluate(() => { window.takht.state.regs.LST = null; });
+  v = await run(page, '5 + 3 @LST');                    check('  with 3 typed, the ordinary advice stands', v.msg, 'LST is empty. Hold LST, or press sto then LST, to store the display.');
+  // S7-18: a key that cancels sto keeps the cancellation beside its own message; a refusal keeps its reason alone
+  await f(); v = await run(page, '5 sto M:time');       check('5 sto, then h: sto cancelled and the mode both said', v.msg, 'sto cancelled. Time: hours, minutes, seconds.');
+  check('  sto is off', await page.evaluate(() => window.takht.state.sto), false);
+  await f(); v = await run(page, '5 + sto =');          check('5 + sto =: the refusal keeps its reason alone', v.msg + '|' + await page.evaluate(() => window.takht.state.sto), 'Type the number after + first.|false');
+  await f(); await run(page, '5 sto 3 bs .');           check('  entry edits leave sto armed', await page.evaluate(() => window.takht.state.sto), true);
+  // S7-8: ± keeps a typed number typed, so = still turns it into ° ′ ″, after store and recall as well; a computed one stays a number
+  await f(); v = await run(page, 'AC dec 23.4367 sto @x @x n'); check('typed 23.4367, sto x, x, ±: the display', v.val, '−23.4367');
+  v = await run(page, '=');                             check('  then = turns it into −23° 26′ 12″', v.val, dms(-S(23, 26, 12)));
+  await f(); v = await run(page, 'AC dec 23.4367 >x n ='); check('typed 23.4367 held into x, ±, = gives −23° 26′ 12″', v.val, dms(-S(23, 26, 12)));
+  await f(); v = await run(page, 'AC dec 1 / 4 = n =');  check('  control: a computed −0.25 stays a number on =', [v.val, v.msg].join('|'), '−0.25|This number stays a number. Press dec to turn it into ° ′ ″.');
+  await f(); v = await run(page, 'AC dec 0 >x n =');     check('  control: a typed 0, ±, = is 0°, no minus', v.val, dms(0));
+  await f();
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

@@ -6,10 +6,13 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const DIR = path.dirname(H.PAGE);
 const CACHE = fs.readFileSync(path.join(DIR, 'sw.js'), 'utf8').match(/const CACHE = '([^']+)'/)[1];   // the worker's current cache
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.webmanifest': 'application/manifest+json', '.png': 'image/png' };
-const srv = http.createServer((q, res) => { const u = decodeURIComponent(q.url.split('?')[0]);
+// every answer for the page carries its own serial number, so two requests for it give two different bodies, as a deploy between them would
+let served = 0; const reqs = [];
+const srv = http.createServer((q, res) => { const u = decodeURIComponent(q.url.split('?')[0]); reqs.push({ u, cc: q.headers['cache-control'] || '' });
   if (!u.startsWith('/takht/')) { res.writeHead(404); return res.end(); }
   const f = path.join(DIR, u.slice('/takht/'.length) || 'index.html'); if (!fs.existsSync(f)) { res.writeHead(404); return res.end(); }
-  res.writeHead(200, { 'content-type': TYPES[path.extname(f)] || 'application/octet-stream' }); res.end(fs.readFileSync(f)); });
+  res.writeHead(200, { 'content-type': TYPES[path.extname(f)] || 'application/octet-stream' });
+  res.end(f.endsWith('.html') ? fs.readFileSync(f, 'utf8') + `\n<!-- served ${++served} -->\n` : fs.readFileSync(f)); });
 (async () => { await new Promise(r => srv.listen(0, '127.0.0.1', r)); const base = `http://127.0.0.1:${srv.address().port}/takht/`;
   const b = await H.chromium.launch(); const ctx = await b.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
   // before the Takht is ever opened: another page on the same site has its own cache, and an older Takht left one
@@ -17,7 +20,13 @@ const srv = http.createServer((q, res) => { const u = decodeURIComponent(q.url.s
   await p0.evaluate(async () => { await (await caches.open('other-app-offline')).put('/elsewhere/data', new Response('sentinel')); await (await caches.open('takht-0')).put('/takht/old', new Response('old')); }); await p0.close();
   const outside = [], errors = []; ctx.on('request', r => { if (!r.url().startsWith(base) && !r.url().startsWith('data:')) outside.push(r.url()); });
   const p = await ctx.newPage(); p.on('pageerror', e => errors.push(e.message)); p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-  await p.goto(base); await p.evaluate(() => Promise.race([navigator.serviceWorker.ready.then(() => 1), new Promise(r => setTimeout(() => r(0), 3000))])); await p.reload(); await p.waitForTimeout(500);
+  await p.goto(base); await p.evaluate(() => Promise.race([navigator.serviceWorker.ready.then(() => 1), new Promise(r => setTimeout(() => r(0), 3000))]));
+  // round 7, S7-15: install asks for the page once and keeps that one answer under ./ and ./index.html
+  const installPage = reqs.filter(r => (r.u === '/takht/' || r.u === '/takht/index.html') && /max-age=0|no-cache/.test(r.cc)).map(r => r.u);
+  check('install asks the server for the page once', installPage.join(','), '/takht/');
+  check('  and keeps the same answer under ./ and ./index.html', await p.evaluate(async () => { const c = await caches.open((await caches.keys()).find(k => k.startsWith('takht-')));
+    const [a, b] = await Promise.all(['./', './index.html'].map(u => c.match(u).then(r => r ? r.text() : null))); return !!a && a === b; }), true);
+  await p.reload(); await p.waitForTimeout(500);
   check('the offline worker takes control', await p.evaluate(() => !!navigator.serviceWorker.controller), true);
   check('activation keeps another page\'s cache and clears only the older Takht one', await p.evaluate(async () => { const ks = (await caches.keys()).sort();
     const r = await (await caches.open('other-app-offline')).match('/elsewhere/data'); return ks.join(',') + '|' + (r ? await r.text() : 'gone'); }), 'other-app-offline,' + CACHE + '|sentinel');

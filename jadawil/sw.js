@@ -1,23 +1,24 @@
 // The Jadāwil keeps a copy of its own files, so that it opens with no connection, installed or not.
 // It fetches nothing but these files, from where it was served; nothing leaves the device.
 // The build writes the cache name from a hash of the files, so a new build is a new cache.
-const CACHE = 'jadawil-a3822d00076b';
+const CACHE = 'jadawil-43b9ac625272';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 const FILE_URLS = new Set(FILES.map(f => new URL(f, self.location.href).href));
 
 // ./ and ./index.html are the same page: whichever is fetched is kept under both, so the two never hold different builds.
 const PAGE = [new URL('./', self.location.href).href, new URL('./index.html', self.location.href).href];
 
-// Install and refresh ask the server, not the browser's HTTP cache: a new build is seen on the next opening.
+// Install and refresh ask the server, not the browser's HTTP cache: a new build is seen on the next opening. A redirect is
+// refused, never followed: whatever answers elsewhere is not the Jadāwil, and is never kept as its copy (J2-10).
 // The page carries the atlas, so it is fetched once and kept under both its names.
-const fromServer = href => fetch(href, { cache: 'no-cache', credentials: 'same-origin' });
+const fromServer = href => fetch(href, { cache: 'no-cache', credentials: 'same-origin', redirect: 'error' });
 self.addEventListener('install', e => {
   e.waitUntil((async () => {
     const c = await caches.open(CACHE);
     const page = await fromServer(PAGE[0]);
-    if (!page.ok) throw Error('The page could not be fetched.');
+    if (!page.ok || page.redirected) throw Error('The page could not be fetched.');
     await Promise.all([c.put(PAGE[0], page.clone()), c.put(PAGE[1], page)]);
-    await c.addAll(FILES.filter(f => !PAGE.includes(new URL(f, self.location.href).href)).map(f => new Request(f, { cache: 'no-cache' })));
+    await c.addAll(FILES.filter(f => !PAGE.includes(new URL(f, self.location.href).href)).map(f => new Request(f, { cache: 'no-cache', redirect: 'error' })));
     await self.skipWaiting();
   })());
 });

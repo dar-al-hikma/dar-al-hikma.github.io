@@ -3,7 +3,7 @@
 # Needs: node, playwright with Chromium and pdf-lib (NODE_PATH=$(npm root -g) if they are global), sha256sum.
 cd "$(dirname "$0")" || exit 2
 fail=0
-for s in hash files i18n lesson offline; do
+for s in hash files i18n lesson round2 offline; do
   printf '\n===== %s\n' "$s"
   if [ "$s" = hash ]; then ./hash.sh > "out-$s.txt" 2>&1; else node "$s.js" > "out-$s.txt" 2>&1; fi; rc=$?
   grep -E '^FAIL' -A3 "out-$s.txt"; tail -1 "out-$s.txt"

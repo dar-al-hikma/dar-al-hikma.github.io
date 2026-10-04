@@ -251,6 +251,10 @@
     }
     .display{flex:0 0 auto;min-height:150px;padding:8px 12px 6px}
     .keys{flex:1 1 auto}
+    /* the key block keeps its eight rows at the 42 px floor, and their gaps, less 3 px: a display grown by a long message
+       at large text pushes the handle down the page, which scrolls, rather than the rows running under it. The last row
+       may take 3 px of the gap above the handle; a floor past 375 px would grow the rows at default text in landscape */
+    .keys:not(.pad){min-height:calc(8 * 42px + 7 * 6px - 3px)}
     .row{height:auto;flex:1 1 var(--key-h);min-height:42px}
     .pad{flex:6.75 1 auto}
     .pad .row{flex-grow:1.35}

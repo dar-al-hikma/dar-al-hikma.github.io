@@ -51,6 +51,10 @@ const H = require('./h'); const { check, summary } = H;
     const a = await H.run(page, 'AC dec 2.5'), b = await H.run(page, '* 3 ='), key = await page.evaluate(() => document.querySelector('#kPoint').textContent);
     check(`${l}: typed 2.5 × 3 shows "${sep}" on the display, in #live, in the history, and on the point key`, [a.val, a.live.startsWith(`2${sep}5,`), b.last, key].join('|'), [`2${sep}5`, true, `2${sep}5 × 3 = 7${sep}5`, sep].join('|')); }
   await page.evaluate(() => window.takht.applyLang('en'));
+  // round 7, S7-5: no Help says numbers are always typed with a point; the keyboard takes both, and the display shows the language's own
+  const pointOnly = { en: /always (typed )?with a point/i, nb: /alltid med punktum/i, es: /siempre con punto/i, fr: /toujours avec un point/i, de: /immer mit Punkt/i };
+  const helps = await page.evaluate(() => Object.fromEntries(Object.entries(window.takht.I18N).map(([l, t]) => [l, Object.values(t.ui || {}).filter(x => typeof x === 'string').join(' ')])));
+  check('no Help says numbers are always typed with a point (S7-5)', Object.entries(pointOnly).filter(([l, re]) => re.test(helps[l] || '')).map(([l]) => l).join(','), '');
   check('no page errors', errs.join(' | '), '');
   summary(); await browser.close();
 })();

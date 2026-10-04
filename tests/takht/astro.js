@@ -53,6 +53,16 @@ const H = require('./h'); const { run, press, fresh, dms, hms, S, check, summary
     check(`polar circle, ${name}: denominator is noise (degenerate, as Help says)`, Math.abs(v.regs.x.v) < 1e-12, true, String(v.regs.x.v)); }
   const help = await page.evaluate(() => { const o = {}; for (const l of Object.keys(window.takht.I18N)) o[l] = window.takht.I18N[l].ui.rAscNote; return o; });
   check('Help (en) pairs the northern circle with RAMC 270° and the southern with 90°', /northern polar circle[^.]*RAMC 270°, or the southern one with RAMC 90°/.test(help.en), true);
+  // round 7, S7-2: the 180° after the MC are counted on through 0° Aries, never compared as plain numbers (MC + 180° can pass 360°)
+  for (const [l, t] of Object.entries(help))
+    check(`Help (${l}): the direct-ASC rule has no "MC + 180°" comparison and gives the example from 300° round to 120°`, !/MC \+ 180°/.test(t) && /300°[^.。]*120°/.test(t), true);
+  { await press(page, 'AC 23 u 26 u 0 >OE AC M:arc 300 u 0 u 0 >RAMC AC 45 u 0 u 0 >φ');
+    const mc = (await run(page, 'AC @RAMC tan / @OE cos = atan')).sval.sec;   // 297° 54′ 42″: the 180° after it pass 0° Aries
+    await press(page, 'AC @OE cos * @RAMC sin = >x AC @OE sin * @φ tan + @x = >x');
+    let asc = (await run(page, 'AC @RAMC cos n / @x = atan')).sval.sec;
+    const within = ((asc - mc) % 1296000 + 1296000) % 1296000 < 648000;   // the printed rule: from the MC, counting on through 0°
+    if (!within) asc = (await run(page, 'p180')).sval.sec;
+    check('RAMC 300°, φ 45° N: by the printed rule the result 51° 33′ 23″ lies after the MC 297° 54′ 42″ and stays', [dms(mc), dms(asc), dms(ascSec(300, 45, 23 + 26 / 60))].join('|'), [dms(S(297, 54, 42)), dms(S(51, 33, 23)), dms(S(51, 33, 23))].join('|')); }
   // --- past the polar circles the ASC jumps 180°. Where the result equals the MC, or lies opposite it, to the second, Dykes' rule
   // cannot choose; Help's tie-break (OE sin × φ tan × RAMC sin + OE cos against x) does. Charts a second of RAMC either side of a jump.
   await press(page, 'AC 23 u 26 u 54 >OE');

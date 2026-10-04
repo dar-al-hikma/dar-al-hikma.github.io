@@ -26,8 +26,10 @@ async function measure(page, exempt) { return page.evaluate((exempt) => {
     await page.evaluate(() => { const S = window.takht.state; if (S.view.sign) window.takht.press('sign'); document.querySelector('#wrapChip').click(); });
     await press(page, 'AC M:arc n 359 u 59 u 59 * 27000 ='); let p = await measure(page, true); if (p.length) problems.push(`${tag} wrap-off millions: ${p.join(', ')}`);
     await page.evaluate(() => document.querySelector('#wrapChip').click());
-    const msgs = await page.evaluate((lang) => { const I = window.takht.I18N, en = I.en.m, L = I[lang].m || {}; const a = { signDigits: ['° ′ ″'], minTwo: ['h m s'], minRange: [false], decRead: [true], notHour: [359], modeSet: [false], modeFresh: [false], chooseSign: ['° ′ ″'], typeAfter: ['÷'], arcTime: [false], decSex: [false], decToFields: ['h m s'], numStays: ['h m s'], fwdDec: ['tan⁻¹'], fwdTime: ['tan⁻¹'], invSex: ['tan⁻¹', '12,32470'], invRange: ['cos⁻¹'], stayDec: ['÷'], regEmpty: ['ratio'], stored: ['RAMC'], storedOnly: ['RAMC'], wholeNumbers: ['° ′ ″', 1], degreesNext: ['° ′ ″'], hoursNext: ['h m s'], broughtBack: ['−359° 59′ 59″'], rounded: ['−359° 59′ 59.9999″'] };
-      const o = {}; for (const k of Object.keys(en)) { const f = L[k] || en[k]; o[k] = typeof f === 'function' ? f(...(a[k] || [])) : f; } return o; }, lang);
+    const msgs = await page.evaluate((lang) => { const I = window.takht.I18N, en = I.en.m, L = I[lang].m || {}; const a = { signDigits: ['° ′ ″'], minTwo: ['h m s'], minRange: [false], decRead: [true], notHour: [359], modeSet: [false], modeFresh: [false], chooseSign: ['° ′ ″'], typeAfter: ['÷'], arcTime: [false], decSex: [false], decToFields: ['h m s'], numStays: ['h m s'], fwdDec: ['tan⁻¹'], fwdTime: ['tan⁻¹'], invSex: ['tan⁻¹', '12,32470'], invRange: ['cos⁻¹'], stayDec: ['÷'], regEmpty: ['ratio'], regEmptyAfter: ['ratio', '÷'], regEmptySign: ['ratio', '° ′ ″'], stored: ['RAMC'], storedOnly: ['RAMC'], wholeNumbers: ['° ′ ″', 1], degreesNext: ['° ′ ″'], hoursNext: ['h m s'], broughtBack: ['−359° 59′ 59″'], rounded: ['−359° 59′ 59.9999″'] };
+      const o = {}; for (const k of Object.keys(en)) { const f = L[k] || en[k]; o[k] = typeof f === 'function' ? f(...(a[k] || [])) : f; }
+      // round 7: the point refused in sign entry, and sto cancelled beside the mode the key set
+      o.wholeNumbersSign = (L.wholeNumbers || en.wholeNumbers)('° ′ ″', 1, true); const c = L.stoCancel || en.stoCancel; for (const k of ['modeSet', 'allClear', 'decRead', 'modeFresh', 'nothingToDo', 'nothingYet', 'numStays']) o['stoCancel+' + k] = c + (/。$/.test(c) ? '' : ' ') + o[k]; return o; }, lang);
     await press(page, 'AC M:arc n 359 u 59 u 59 =');
     for (const [k, text] of Object.entries(msgs)) { await page.evaluate(t => { const m = document.querySelector('#msg'); m.innerHTML = String(t).replace(/⁻¹/g, '<sup>−1</sup>'); m.className = 'msg show bad'; }, text); p = await measure(page, false); if (p.length) problems.push(`${tag} message ${k}: ${p.join(', ')}`); }
     await press(page, 'AC M:arc 89 u 59 u 59 tan'); await page.evaluate(() => document.querySelector('#tapeHandle').click()); await page.waitForTimeout(250);
@@ -81,5 +83,13 @@ async function measure(page, exempt) { return page.evaluate((exempt) => {
         return { text: sp.textContent, cut: sp.scrollWidth > sp.clientWidth, firstOut: first.left < b.left - 0.5, lastIn: last.width > 0 && last.left >= b.left - 0.5 && last.right <= b.right + 0.5 }; });
       if (!r.text.endsWith('= 359° 59′ 58″') || !r.lastIn || (r.cut && !r.firstOut)) bad.push(`${lang}: ${JSON.stringify(r)}`); await page.context().close(); }
     check(`${w}×${h}: a long history line shows its result on the handle, cut at its start, in every language`, bad.join('\n'), ''); }
+  // round 7, S7-17: on the desktop at 150 % and 200 % text a long refusal makes the display taller instead of covering the top row
+  for (const [lang, size] of [['fr', 200], ['de', 200], ['en', 150]]) { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 }, lang });
+    await page.evaluate(() => document.fonts.ready); await page.evaluate(sz => { document.documentElement.style.fontSize = sz + '%'; }, size); await H.fresh(page);
+    for (const k of ['.', '5', '+', '3', 'unit']) await page.click(`[data-k="${k}"]`);
+    const r = await page.evaluate(() => { const b = s => document.querySelector(s).getBoundingClientRect(), m = b('#msg'), t = b('.dtop'), v = b('#val');
+      return { lines: Math.round(m.height / parseFloat(getComputedStyle(document.querySelector('#msg')).lineHeight)), below: m.top >= t.bottom - 0.5, valBelow: v.top >= m.bottom - 0.5 }; });
+    check(`1024×768 ${lang} ${size} %: a ${r.lines}-line refusal stays below the top row and above the value`, [r.below, r.valBelow, errs.join('|')].join('|'), 'true|true|');
+    await page.context().close(); }
   summary(); await browser.close();
 })();

@@ -150,6 +150,10 @@ const H = require('./h'); const { run, press, fresh, wrap, signView, dms, hms, S
   await f(); v = await run(page, 'AC dec 23.4367 >x n ='); check('typed 23.4367 held into x, ±, = gives −23° 26′ 12″', v.val, dms(-S(23, 26, 12)));
   await f(); v = await run(page, 'AC dec 1 / 4 = n =');  check('  control: a computed −0.25 stays a number on =', [v.val, v.msg].join('|'), '−0.25|This number stays a number. Press dec to turn it into ° ′ ″.');
   await f(); v = await run(page, 'AC dec 0 >x n =');     check('  control: a typed 0, ±, = is 0°, no minus', v.val, dms(0));
-  await f();
+  // PR #22 review 2, F1: in sign entry an empty register's advice names the sign first, which the store needs; following it stores
+  await f(); await page.evaluate(() => { window.takht.state.regs.LST = null; });
+  v = await run(page, 'sign 2 3 @LST');                 check('sign 23, LST empty: the message says to choose the sign first', v.msg, 'LST is empty. Choose the sign first (press ° ′ ″ until it shows), then hold LST.');
+  v = await run(page, 'u u u >LST');                    check('  following it (° ′ ″ to the sign, hold LST) stores 23° Aries', v.regs.LST && v.regs.LST.sec, S(23));
+  await signView(page, false); await f();
   check('no page errors', errs.join('|'), ''); summary(); await browser.close();
 })();

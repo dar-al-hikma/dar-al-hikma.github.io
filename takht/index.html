@@ -839,6 +839,7 @@ I18N.en = {
     signTime: 'Sign notation is for arc (°). This is a time.',
     regEmpty: n => `${n} is empty. Hold ${n}, or press sto then ${n}, to store the display.`,
     regEmptyAfter: (n, op) => `${n} is empty. Type the number after ${op}, then hold ${n} to store it.`,
+    regEmptySign: (n, u) => `${n} is empty. Choose the sign first (press ${u} until it shows), then hold ${n}.`,
     stored: n => `Stored in ${n}.`,
     storedOnly: n => `Stored in ${n} for now: it could not be saved.`,
     stoArm: 'Now tap the register to store in.',
@@ -1043,6 +1044,7 @@ I18N.nb = {
     signTime: 'Tegnnotasjon er for bue (°). Dette er en tid.',
     regEmpty: n => `${n} er tom. Hold inne ${n}, eller trykk på sto og så ${n}, for å lagre.`,
     regEmptyAfter: (n, op) => `${n} er tom. Skriv tallet etter ${op}, og hold så inne ${n} for å lagre det.`,
+    regEmptySign: (n, u) => `${n} er tom. Velg tegnet først (trykk på ${u} til det vises), og hold så inne ${n}.`,
     stored: n => `Lagret i ${n}.`,
     storedOnly: n => `Lagret i ${n} bare for nå: kunne ikke lagres.`,
     stoArm: 'Trykk nå på variabelen du vil lagre i.',
@@ -1248,6 +1250,7 @@ I18N.es = {
     signTime: 'La notación por signos es para arco (°). Esto es un tiempo.',
     regEmpty: n => `${n} está vacía. Mantenga pulsada ${n}, o pulse sto y luego ${n}, para asignarle un valor.`,
     regEmptyAfter: (n, op) => `${n} está vacía. Escriba el número que va después de ${op} y mantenga pulsada ${n} para asignárselo.`,
+    regEmptySign: (n, u) => `${n} está vacía. Elija antes el signo (pulse ${u} hasta que aparezca) y mantenga pulsada ${n}.`,
     stored: n => `Asignado a ${n}.`,
     storedOnly: n => `Asignado a ${n} por ahora: no se pudo guardar.`,
     stoArm: 'Ahora pulse la variable a la que asignar.',
@@ -1452,6 +1455,7 @@ I18N.fr = {
     signTime: 'La notation par signe vaut pour l’arc (°). C’est un temps.',
     regEmpty: n => `${n} est vide. Maintenez ${n}, ou appuyez sur sto puis ${n}, pour stocker.`,
     regEmptyAfter: (n, op) => `${n} est vide. Tapez le nombre qui suit ${op}, puis maintenez ${n} pour le stocker.`,
+    regEmptySign: (n, u) => `${n} est vide. Choisissez d’abord le signe (appuyez sur ${u} jusqu’à le voir), puis maintenez ${n}.`,
     stored: n => `Stocké dans ${n}.`,
     storedOnly: n => `Stocké dans ${n} pour l’instant : non enregistré.`,
     stoArm: 'Touchez maintenant la variable où stocker.',
@@ -1656,6 +1660,7 @@ I18N.de = {
     signTime: 'Die Zeichenschreibweise gilt für Bogenwerte (°). Das ist eine Zeit.',
     regEmpty: n => `${n} ist leer. ${n} gedrückt halten, oder sto und dann ${n}, um zu speichern.`,
     regEmptyAfter: (n, op) => `${n} ist leer. Zahl nach ${op} eingeben, dann ${n} gedrückt halten, um sie zu speichern.`,
+    regEmptySign: (n, u) => `${n} ist leer. Erst das Zeichen wählen (${u}, bis es erscheint), dann ${n} halten.`,
     stored: n => `In ${n} gespeichert.`,
     storedOnly: n => `Nur vorläufig in ${n}: nicht gesichert.`,
     stoArm: 'Jetzt die Variable antippen, in die gespeichert wird.',
@@ -1860,6 +1865,7 @@ I18N.zh = {
     signTime: '星座记法只用于角度（°）。这是一个时间。',
     regEmpty: n => `${n} 是空的。长按 ${n}，或按 sto 再按 ${n}，即可存入。`,
     regEmptyAfter: (n, op) => `${n} 是空的。先输入 ${op} 后面的数，再长按 ${n} 存入。`,
+    regEmptySign: (n, u) => `${n} 是空的。先选择星座（按 ${u} 直到它出现），再长按 ${n} 存入。`,
     stored: n => `已存入 ${n}。`,
     storedOnly: n => `已暂时存入 ${n}：无法保存。`,
     stoArm: '现在点要存入的变量。',
@@ -2064,6 +2070,7 @@ I18N.ja = {
     signTime: 'サイン表記は角度（°）用です。これは時間です。',
     regEmpty: n => `${n} は空です。${n} を長押しするか、sto のあと ${n} を押して登録します。`,
     regEmptyAfter: (n, op) => `${n} は空です。${op} のあとの数を入力してから、${n} を長押しして登録します。`,
+    regEmptySign: (n, u) => `${n} は空です。先に ${u} でサインを選び、${n} を長押しします。`,
     stored: n => `${n} に登録しました。`,
     storedOnly: n => `${n} に一時的に登録しました。保存できません。`,
     stoArm: '登録先のメモリーを押してください。',
@@ -2894,7 +2901,10 @@ function signKey(){
 function recall(n){
   const v = S.regs[n];
   // with an operation waiting for its number, the display is that empty slot: the number comes before the store
-  if (!v) return refuse(S.pending && !S.right && !(S.entry && S.entry.touched) ? M().regEmptyAfter(n, S.pending.op) : M().regEmpty(n));
+  // in sign entry the value is not one until its sign is chosen, so a store would refuse: the sign comes first
+  const e = S.entry;
+  if (!v && e && e.k === 'sex' && e.sign && e.sg == null && e.touched) return refuse(M().regEmptySign(n, unitLabel(ARC)));
+  if (!v) return refuse(S.pending && !S.right && !(e && e.touched) ? M().regEmptyAfter(n, S.pending.op) : M().regEmpty(n));
   const c = copy(v);
   setVal(c);
   addTape(`${n} → ${fmtV(c)}`, [], c, 'reg');

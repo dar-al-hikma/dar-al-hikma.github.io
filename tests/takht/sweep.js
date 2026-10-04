@@ -94,6 +94,13 @@ const go = (...seqs) => { P.S.wrap = true; seqs.forEach(keys); return refused() 
 P.S.wrap = false; keys('AC 30 cos * 240 u tan ='); const half = P.S.val; let nh = 0, badH = [];   // wrap off: the products run past 360°
 for (let s = 1; s < 1296000; s += 2){ nh++; const got = P.evaluate0('×', P.sex(s, 'arc'), half).val.sec; if (got !== (3 * s + 1) / 2) badH.push(`${s}″ × 1.5 = ${got}″`); }
 check(`the 1.5 that cos 30° × tan 240° shows, × every odd second to 360° (${nh}): the half rounds away from zero`, badH.length, 0, badH.slice(0, 5).join(' | '));
+// PR #22 review, R22-2: the sum snap. cos 240° is exactly −1/2, so 1 + cos 240° is exactly 1/2; its binary value is 0.49999999999999956,
+// at the band's edge, and is held as 0.5 only by the snap where the sum is made: × every odd second s gives (s + 1)/2
+P.S.wrap = false; keys('AC 240 cos + 1 ='); const sumHalf = P.S.val; const badS = [];
+for (let s = 1; s < 1296000; s += 2){ const got = P.evaluate0('×', P.sex(s, 'arc'), sumHalf).val.sec; if (got !== (s + 1) / 2) badS.push(`${s}″ × (1 + cos 240°) = ${got}″`); }
+check('1 + cos 240° (exactly 1/2) is held as 0.5, and × every odd second to 360° (648000) rounds the half away from zero', [sumHalf.v, badS.length], [0.5, 0], badS.slice(0, 3).join(' | '));
+// … and the trig snap: sin 30° (binary 0.49999999999999994) is held as the 0.5 it shows
+keys('AC 30 sin'); check('sin 30° is held as 0.5, the half it shows', P.S.val.v, 0.5);
 // S7-4's guard: quotients that are 1 in exact arithmetic (sin a ÷ cos(90° − a), cos a ÷ sin(90° − a)) land up to about
 // 1,800 ulps past 1; sin⁻¹ must keep taking them as 1, whatever is decided about values deliberately past it
 const dmsKeys = x => `${Math.floor(x / 3600)} u ${Math.floor(x % 3600 / 60)} u ${x % 60}`;

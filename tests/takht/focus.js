@@ -92,6 +92,23 @@ const H = require('./h'); const { press, view, fresh, check, summary, dms, S } =
     await page.keyboard.press('7'); await page.mouse.up(); await page.waitForTimeout(50); const v13 = await view(page);
     check('mouse hold on x, a hardware 7, then the release: 7 stays and x adds only its store line', [v13.val, v13.n - n13, v13.last].join('|'), [dms(S(7)), 1, '8° 00′ 00″ → x'].join('|'));
     check('  no errors', errs.join('|'), ''); await page.context().close(); }
+  // PR #22 review (P22-1, R22-1): the hold's own release click is the one after its pointer is up, wherever it comes up.
+  // Enter or Space on the focused key while the pointer is still down is that key's press, and the later release is swallowed
+  { const { page, errs } = await H.open({ browser, viewport: { width: 1024, height: 768 } }); const cdp = await page.context().newCDPSession(page);
+    const at = async sel => { const r = await page.locator(sel).boundingBox(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; };
+    const mouse = (type, p, buttons) => cdp.send('Input.dispatchMouseEvent', { type, x: p.x, y: p.y, button: 'left', buttons, clickCount: 1 });
+    const hold = async (sel, keyDuring, releaseAt) => { const p = await at(sel); await page.focus(sel); await mouse('mouseMoved', p, 0); await mouse('mousePressed', p, 1);
+      await page.waitForTimeout(800); for (const k of keyDuring) await page.keyboard.press(k); await mouse('mouseReleased', releaseAt || p, 0); await page.waitForTimeout(80); };
+    await fresh(page); await page.evaluate(() => { window.takht.state.regs.x = null; }); await press(page, 'AC 8');
+    await hold('[data-k="reg:x"]', ['Enter', '7']); let v = await view(page);
+    check('mouse hold on focused x, Enter, 7, release: Enter recalls x, and 7 stays', [v.val, v.last].join('|'), [dms(S(7)), 'x → 8° 00′ 00″'].join('|'));
+    await fresh(page); await press(page, 'AC 5 + 3'); await hold('#kC', [' ', '7']); v = await view(page);
+    check('mouse hold on focused C, Space, 7, release: 7 stays and C is not armed by the release', [v.val, await page.evaluate(() => window.takht.state.cArmed)].join('|'), [dms(S(7)), false].join('|'));
+    await fresh(page); await page.evaluate(() => { window.takht.state.regs.x = null; }); await press(page, 'AC 8'); const x = await at('[data-k="reg:x"]');
+    await hold('[data-k="reg:x"]', [], { x: x.x, y: 5 }); await page.waitForTimeout(1200); await page.keyboard.press('7');
+    await page.focus('[data-k="reg:x"]'); await page.keyboard.press('Enter'); v = await view(page);
+    check('mouse hold on x released off the key with no move seen, 7, then Enter on the focused x recalls 8°', v.val, dms(S(8)));
+    check('  no errors', errs.join('|'), ''); await page.context().close(); }
   // on a phone Help starts under the display, so the value stays in sight; the Tab trap, Escape and focus return as before (U-5)
   for (const [w, h] of [[320,568],[350,600],[360,560],[375,553],[390,664],[390,844]]) { const { page, errs } = await H.open({ browser, viewport: { width: w, height: h }, touch: true }); const tag = `${w}×${h}`;
     await press(page, 'AC M:arc 5 + 3'); await page.click('.helpbtn'); await page.waitForTimeout(350);

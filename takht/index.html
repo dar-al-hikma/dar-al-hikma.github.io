@@ -3149,11 +3149,15 @@ window.matchMedia('(max-width:600px)').addEventListener('change', unsheetTape);
 // held: the key whose hold has fired, until its own release click arrives, which is not a press. Nothing here depends on
 // how soon that click follows the release (touch clicks carry detail 0, and engines time them differently): held is
 // cleared by that click, by a release that leaves no click on the key, by the next press, by a key once the holding
-// pointer (heldId) is up, or a second after that release. A key typed while it is still down stays: the release to come
-// is still the hold's own, and swallowing it keeps the key's digit, not the store's or the clear's value
+// pointer (heldId) is up, or a second after that release. The release click comes only after that pointer is up, wherever
+// it comes up: a click while it is still down (Enter or Space on the focused key) is a press, and a key typed meanwhile
+// stays, because the release to come is still the hold's own and is swallowed
 let holdTimer = 0, held = null, heldId = null, heldDown = false, heldTimer = 0;
 const unhold = () => { held = null; heldDown = false; clearTimeout(heldTimer); };
 document.addEventListener('keydown', () => { if (held && !heldDown) unhold(); }, true);   // a keyboard press is never taken for a hold's click
+document.addEventListener('pointerup', ev => {
+  if (held && heldDown && ev.pointerId === heldId){ heldDown = false; clearTimeout(heldTimer); heldTimer = setTimeout(unhold, 1000); }
+}, true);
 document.querySelectorAll('[data-k]').forEach(b => {
   const k = b.dataset.k;
   const holdable = k.startsWith('reg:') || k === 'C';
@@ -3171,7 +3175,7 @@ document.querySelectorAll('[data-k]').forEach(b => {
       }, HOLD_MS);
     }
   });
-  b.addEventListener('pointerup', ev => { clearTimeout(holdTimer); if (held === b && ev.pointerId === heldId){ heldDown = false; clearTimeout(heldTimer); heldTimer = setTimeout(unhold, 1000); } });
+  b.addEventListener('pointerup', () => clearTimeout(holdTimer));
   // a pan (pointercancel), or a pointer dragged off with its button still down, leaves no click on this key; a lifted
   // finger's pointerleave (buttons 0) comes before its click, so it leaves the hold to that click
   b.addEventListener('pointercancel', () => { clearTimeout(holdTimer); if (held === b) unhold(); });
@@ -3181,7 +3185,7 @@ document.querySelectorAll('[data-k]').forEach(b => {
     clearTimeout(holdTimer);
     // a clicked calculator key takes the keyboard back from a history line or control that kept focus
     const a = document.activeElement; if (a && a !== document.body && a !== b) a.blur();
-    if (held === b){ unhold(); return; }   // the hold's own release click
+    if (held === b && !heldDown){ unhold(); return; }   // the hold's own release click, after its pointer is up
     press(k);
   });
 });

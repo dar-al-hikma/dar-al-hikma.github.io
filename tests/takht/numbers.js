@@ -20,7 +20,7 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC dec 0.123456 * 0.654321 =');  check('0.123456 × 0.654321 = 0.080779853376', v.sval.dx, '0.080779853376');
   v = await run(page, 'AC dec 999999999999 * 999999999999 ='); check('24-digit product kept exactly', v.sval.dx + '|' + v.val, '999999999998000000000001|9.999…×1023');
   v = await run(page, '* 999999999999 =');              check('a product past 30 digits falls back to binary', v.sval.dx == null && isFinite(v.sval.v), true);
-  v = await run(page, 'AC dec 0.7 / 3 =');              check('division is binary: 0.7 ÷ 3', v.val + '|' + (v.sval.dx == null), '0.2333333…|true');
+  v = await run(page, 'AC dec 0.7 / 3 =');              check('division keeps a fraction, not digits: 0.7 ÷ 3 = 7/30', v.val + '|' + (v.sval.dx == null) + '|' + JSON.stringify(v.sval.rq), '0.2333333…|true|[7,30]');
   v = await run(page, 'AC dec 2 / 3 =');                check('2 ÷ 3 = 0.6666666…', v.val, '0.6666666…');
   v = await run(page, 'AC dec 1 / 3 * 3 =');            check('1 ÷ 3 × 3 = 1', v.val, '1');
   v = await run(page, 'AC M:time 15 u 55 / 24 u = * 3 ='); check('a computed number × a typed one is binary', v.sval.dx == null, true);
@@ -120,6 +120,8 @@ const H = require('./h'); const { run, press, fresh, wrap, dms, hms, S, check, s
   v = await run(page, 'AC 30 cos * 240 u tan = >x AC @x * 0 u 0 u 3 ='); check('  stored, recalled, × 3″ = 5″', v.val, dms(5));
   v = await run(page, 'AC 30 cos * 240 u tan = * 7 = dec'); check('  × 7 then dec = 10° 30′ 00″', v.val, dms(S(10, 30)));
   v = await run(page, 'AC 0 u 0 u 3 * 1.4999999 =');      check('  control: typed 1.4999999 × 3″ = 4″ (exact, below the half)', v.val, dms(4));
+  // PR #22 review, R22-2: a binary sum shown as a half is held as that half: 1 + cos 240° is exactly 1/2, so × 11″ is 5.5″ → 6″
+  v = await run(page, 'AC 240 cos + 1 = * 0 u 0 u 11 ='); check('1 + cos 240° × 0° 00′ 11″ = 6″ (5.5″ rounds away from zero)', v.val + '|' + v.note, dms(6) + '|rounded from 0° 00′ 05.5″');
   // round 7, S7-4: sin⁻¹ and cos⁻¹ take binary noise just past ±1 as ±1, typed values past 1 are refused; whatever is decided, these hold
   v = await run(page, 'AC dec 1.0000001 asin');           check('sin⁻¹ of a typed 1.0000001 is refused', v.msgBad, true);
   v = await run(page, 'AC dec 1 asin');                   check('sin⁻¹ 1 = 90°', v.val, dms(S(90)));

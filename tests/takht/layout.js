@@ -91,5 +91,36 @@ async function measure(page, exempt) { return page.evaluate((exempt) => {
       return { lines: Math.round(m.height / parseFloat(getComputedStyle(document.querySelector('#msg')).lineHeight)), below: m.top >= t.bottom - 0.5, valBelow: v.top >= m.bottom - 0.5 }; });
     check(`1024×768 ${lang} ${size} %: a ${r.lines}-line refusal stays below the top row and above the value`, [r.below, r.valBelow, errs.join('|')].join('|'), 'true|true|');
     await page.context().close(); }
+  // F2: on a phone at large text a long refusal makes the display taller; the key rows keep their 42 px floor and the page
+  // scrolls, so no key reaches under the history handle and a tap on its caption opens history (review 2 of site PR #22)
+  { const { page } = await H.open({ browser, viewport: { width: 320, height: 568 } });
+    const r = await page.evaluate(() => { const rows = document.querySelectorAll('.keys .row'), row = getComputedStyle(rows[0]), keys = document.querySelector('.keys:not(.pad)');
+      const need = rows.length * parseFloat(row.minHeight) + (rows.length - 1) * parseFloat(getComputedStyle(keys).rowGap); return { rows: rows.length, need, floor: parseFloat(getComputedStyle(keys).minHeight) }; });
+    check(`the key block's floor holds the ${r.rows} rows in the markup at 42 px, less at most half a gap`, r.need - r.floor >= 0 && r.need - r.floor <= 3, true, JSON.stringify(r));
+    await page.context().close(); }
+  for (const [w, h, lang, size] of [[320, 568, 'en', 150], [320, 568, 'en', 200], [320, 568, 'fr', 150], [320, 568, 'fr', 200], [375, 553, 'ja', 200], [568, 320, 'es', 200]]) {
+    const { page, errs } = await H.open({ browser, viewport: { width: w, height: h }, lang });
+    await page.evaluate(sz => { document.documentElement.style.fontSize = sz + '%'; }, size); await H.fresh(page);
+    // where the page scrolls, a student scrolls to the handle; then the caption's centre is clicked for real
+    const tap = async () => { await page.evaluate(() => document.querySelector('#tapeHandle').scrollIntoView({ block: 'end' })); await page.waitForTimeout(50);
+      const g = await page.evaluate(() => { const hd = document.querySelector('#tapeHandle').getBoundingClientRect(), cap = document.querySelector('#tapeHandle b').getBoundingClientRect();
+        const keys = [...document.querySelectorAll('.keys [data-k]')].map(e => e.getBoundingClientRect()).filter(b => b.width), msg = document.querySelector('#msg');
+        return { past: Math.round((Math.max(...keys.map(b => b.bottom)) - hd.top) * 10) / 10, lines: Math.round(msg.getBoundingClientRect().height / parseFloat(getComputedStyle(msg).lineHeight)),
+          x: cap.left + cap.width / 2, y: cap.top + cap.height / 2 }; });
+      const before = await H.view(page); await page.mouse.click(g.x, g.y); await page.waitForTimeout(350); const after = await H.view(page);
+      const open = await page.evaluate(() => document.querySelector('#tape').classList.contains('open'));
+      await page.keyboard.press('Escape'); await page.waitForTimeout(400);
+      return { past: g.past, lines: g.lines, open, same: before.val === after.val && before.pending === after.pending, val: before.val + ' → ' + after.val }; };
+    for (const k of ['.', '5', '+', '3', 'unit']) await page.click(`[data-k="${k}"]`); await page.waitForTimeout(450);
+    const a = await tap();
+    // the tallest message the language has, every template filled with a long stand-in, shown as a refusal is
+    await page.evaluate(l => { const m = document.querySelector('#msg'), T = window.takht.I18N[l].m || {}, E = window.takht.I18N.en.m; let best = '', bh = 0;
+      for (const k of Object.keys(E)) { const f = T[k] || E[k], t = String(typeof f === 'function' ? f('RAMC', 'RAMC', true) : f);
+        m.innerHTML = t; m.className = 'msg show bad'; const hh = m.getBoundingClientRect().height; if (hh > bh) { bh = hh; best = t; } }
+      m.innerHTML = best; }, lang);
+    const b = await tap();
+    check(`${w}×${h} ${lang} ${size} %: after a ${a.lines}-line refusal and with a ${b.lines}-line message, no key under the history handle and a tap on its caption opens history, the display unchanged`,
+      [a.past <= 0.5, a.open, a.same, b.past <= 0.5, b.open, b.same, errs.join('|')].join('|'), 'true|true|true|true|true|true|', JSON.stringify({ a, b }));
+    await page.context().close(); }
   summary(); await browser.close();
 })();

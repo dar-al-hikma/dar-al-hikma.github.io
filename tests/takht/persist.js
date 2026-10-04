@@ -19,11 +19,14 @@ const H = require('./h'); const { press, view, check, summary, dms, S } = H;
   let o = await withStore(null, null); await press(o.p, 'AC M:time 13 u 55 u 12 / 24 u = >ratio AC @ratio n >x'); await o.p.reload(); await o.p.waitForFunction(() => window.takht);
   await press(o.p, 'AC M:arc 0 u 0 u 25 * @ratio ='); v = await view(o.p); check('a computed ratio stored, reloaded and recalled: 25″ × 29/50 = 15″', v.val, dms(15));
   await press(o.p, 'AC M:arc 0 u 0 u 25 * @x ='); v = await view(o.p); check('  its negation too: 25″ × −29/50 = −15″', v.val + '|' + o.errs.join(), dms(-15) + '|'); await o.c.close();
+  // S7-8: a typed number negated by ± is still typed after a reload: = turns it into ° ′ ″
+  o = await withStore(null, null); await press(o.p, 'AC M:arc dec 23.4367 >x AC @x n >LST'); await o.p.reload(); await o.p.waitForFunction(() => window.takht);
+  await press(o.p, 'AC M:arc @LST ='); v = await view(o.p); check('typed 23.4367, ±, stored, reloaded, recalled, = gives −23° 26′ 12″', [v.regs.LST && v.regs.LST.txt, v.val, o.errs.join()].join('|'), '-23.4367|' + dms(-S(23, 26, 12)) + '|'); await o.c.close();
   // numbers whose stored forms disagree are dropped: the display would show one and the arithmetic use another
   o = await withStore(JSON.stringify({ ratio: { k: 'dec', v: 0.5, txt: '0.5', dx: '0.75' }, x: { k: 'dec', v: 0.5, txt: '0.5', dx: '0' }, LST: { k: 'dec', v: 0.5, txt: '0.25' },
     RAMC: { k: 'dec', v: 0.5, rq: [1, 3] }, OE: { k: 'dec', v: 0.5, rq: [1, 0] }, φ: { k: 'dec', v: 0.5, rq: '1/2' } }), null);
   v = await view(o.p); check('inconsistent txt, dx and rq are dropped: the registers read empty', JSON.stringify([v.regs.ratio, v.regs.x, v.regs.LST, v.regs.RAMC, v.regs.φ, v.regs.OE]), JSON.stringify([null, null, null, null, null, null]));
-  await press(o.p, 'AC 1 * @ratio'); v = await view(o.p); check('  1° × the dropped ratio is refused as empty, not 0° 45′', v.msg, 'ratio is empty. Hold ratio, or press sto then ratio, to store the display.');
+  await press(o.p, 'AC 1 * @ratio'); v = await view(o.p); check('  1° × the dropped ratio is refused as empty, not 0° 45′', v.msg, 'ratio is empty. Type the number after ×, then hold ratio to store it.');
   await press(o.p, 'AC 1 / @x ='); v = await view(o.p); check('  1° ÷ the dropped dx "0" throws nothing', v.pending + '|' + o.errs.join(), dms(S(1)) + ' ÷|'); await o.c.close();
   o = await withStore(JSON.stringify({ x: { k: 'sex', sec: 36e9, mode: 'arc' }, LST: { k: 'sex', sec: -36e9, mode: 'time' }, RAMC: { k: 'sex', sec: 1e300, mode: 'arc' }, φ: { k: 'sex', sec: 36e9 - 1, mode: 'arc' } }), null);
   v = await view(o.p); check('seconds of 10,000,000° or more are dropped; just under is kept', JSON.stringify([v.regs.x, v.regs.LST, v.regs.RAMC, v.regs.φ && v.regs.φ.sec]) + '|' + o.errs.join(), JSON.stringify([null, null, null, 36e9 - 1]) + '|'); await o.c.close();

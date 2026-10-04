@@ -92,7 +92,7 @@
   .calc{background:#0A0F1B;border:1px solid var(--line-soft);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
   .display{
     background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;
-    padding:9px 14px 8px;display:flex;flex-direction:column;height:166px;min-width:0;position:relative;
+    padding:9px 14px 8px;display:flex;flex-direction:column;min-height:166px;min-width:0;position:relative;
   }
   .dtop{display:flex;align-items:center;gap:8px;min-height:32px}
   .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
@@ -118,8 +118,11 @@
   }
   .helpbtn:hover{color:var(--brass);border-color:var(--brass)}
   .dmain{flex:1;display:flex;flex-direction:column;justify-content:flex-end;min-height:0;min-width:0}
-  /* the pending operation and the message share the two lines above the value; a message covers the operation while it shows */
-  .dline{position:relative;min-height:calc(2 * .84rem * 1.35);display:flex;flex-direction:column;justify-content:flex-end;min-width:0}
+  /* the pending operation and the message share the two lines above the value; a message covers the operation while it shows.
+     They share one grid cell, so a message that needs a third line at a large text setting makes the display taller
+     rather than covering the °/h segment and the chips */
+  .dline{position:relative;min-height:calc(2 * .84rem * 1.35);display:grid;align-items:end;min-width:0}
+  .dline > .pending,.dline > .msg{grid-area:1/1}
   .pending{font-family:var(--f-mono);font-size:15px;color:var(--muted);text-align:right;min-height:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .val{
     font-family:var(--f-mono);font-size:40px;line-height:1.2;text-align:right;white-space:nowrap;overflow:hidden;
@@ -134,7 +137,7 @@
   .val sup,.pending sup{font-size:.55em;vertical-align:.8em;line-height:0}
   .val.shake{animation:shake .32s ease}
   @keyframes shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
-  .msg{position:absolute;left:0;right:0;bottom:0;font-size:.84rem;line-height:1.35;text-align:right;color:var(--muted);background:var(--panel);opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s .4s;pointer-events:none}
+  .msg{font-size:.84rem;line-height:1.35;text-align:right;color:var(--muted);background:var(--panel);opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s .4s;pointer-events:none}
   .msg.show{opacity:1;visibility:visible;transition:opacity .08s ease}
   .msg.bad{color:var(--madder)}
 
@@ -246,12 +249,7 @@
       height:100%;border:0;border-radius:0;background:var(--void);gap:6px;
       padding:calc(env(safe-area-inset-top) + 8px) calc(env(safe-area-inset-right) + 10px) 0 calc(env(safe-area-inset-left) + 10px);
     }
-    .display{flex:0 0 auto;height:auto;min-height:150px;padding:8px 12px 6px}
-    /* the message shares one grid cell with the pending line, so a message that needs a third line at a large
-       text setting makes the display taller rather than covering the °/h segment and the chips */
-    .dline{display:grid;align-items:end}
-    .dline > .pending,.dline > .msg{grid-area:1/1}
-    .msg{position:static}
+    .display{flex:0 0 auto;min-height:150px;padding:8px 12px 6px}
     .keys{flex:1 1 auto}
     .row{height:auto;flex:1 1 var(--key-h);min-height:42px}
     .pad{flex:6.75 1 auto}
@@ -756,7 +754,7 @@ I18N.en = {
     rSouth: 'Southern births, by the table',
     rSouthNote: 'Look up the new ST and work as usual, then press <b>+180</b> on the MC and on the ASC: both take the opposite sign.',
     rAscDirect: 'Direct ASC',
-    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC (more than the MC, less than MC + 180°). Past the polar circles the ASC can jump by 180°: if the result equals the MC, or lies exactly opposite it, to the second, decide by sign instead. Work <b>OE sin × φ tan × RAMC sin + OE cos =</b> and note the sign of the answer, then repeat step 3 and press <b>+180</b> only if that sign is the sign of <b>x</b>. At the northern polar circle (latitude 90° minus <b>OE</b>) with RAMC 270°, or the southern one with RAMC 90°, the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For latitudes past the table\'s 60°, or without a table. Store <b>φ</b> first; type a southern latitude with <b>±</b>. Press <b>+180</b> unless the result lies within the 180° that follow the MC, counting on through 0° Aries: after an MC of 300°, that is from 300° round to 120°. Past the polar circles the ASC can jump by 180°: if the result equals the MC, or lies exactly opposite it, to the second, decide by sign instead. Work <b>OE sin × φ tan × RAMC sin + OE cos =</b> and note the sign of the answer, then repeat step 3 and press <b>+180</b> only if that sign is the sign of <b>x</b>. At the northern polar circle (latitude 90° minus <b>OE</b>) with RAMC 270°, or the southern one with RAMC 90°, the ecliptic lies along the horizon and there is no single Ascendant, whatever step 3 gives. If step 3 refuses to divide by zero, the ASC is 90° or 270°: the one within the 180° after the MC. The lesson\'s chart gives 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Signed values',
     rSignedNote: 'With wrap on, a result stays signed if any value in it was negative; times always wrap. For declinations and latitudes, tap <b>wrap</b> on the display to turn it off. <b>+</b> 360 brings a negative longitude into the circle.',
     hRegs: 'Registers',
@@ -796,7 +794,7 @@ I18N.en = {
     minRange: time => `Minutes run 0–59. Sixty is a whole ${time ? 'hour' : 'degree'}.`,
     secRange: 'Seconds run 0–59. Sixty is a whole minute.',
     onePoint: 'One decimal point is enough.',
-    wholeNumbers: (u, i) => (i < 2 ? `For the ${i ? 'seconds' : 'minutes'}, press ${u}.` : 'Minutes and seconds are whole numbers.') + ' For a decimal, press dec first.',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `For the ${i ? 'seconds' : 'minutes'}, press ${u}.` : 'Minutes and seconds are whole numbers.') + (sign ? ' For a decimal, turn sign off, then press dec.' : ' For a decimal, press dec first.'),
     decNoUnits: (u = '° ′ ″', k = '=') => `A decimal has no ${u}. Press ${k} to turn it into ${u}.`,
     decOn: (u = '° ′ ″') => `dec is on, so you are typing a decimal. Press dec to type ${u}.`,
     wasSeconds: 'That was the seconds. Press = or an operation.',
@@ -840,6 +838,7 @@ I18N.en = {
     stayDec: op => `The number after ${op} stays a plain decimal.`,
     signTime: 'Sign notation is for arc (°). This is a time.',
     regEmpty: n => `${n} is empty. Hold ${n}, or press sto then ${n}, to store the display.`,
+    regEmptyAfter: (n, op) => `${n} is empty. Type the number after ${op}, then hold ${n} to store it.`,
     stored: n => `Stored in ${n}.`,
     storedOnly: n => `Stored in ${n} for now: it could not be saved.`,
     stoArm: 'Now tap the register to store in.',
@@ -915,7 +914,7 @@ I18N.nb = {
     enter1: 'Skriv gradene, trykk på <span class="kc m">° ′ ″</span>, skriv minuttene, trykk på den igjen, skriv sekundene: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> er 23° 26′ 12″. Det du utelater, blir 00.',
     enter2: 'Trykk på <span class="kc m">°</span> eller <span class="kc m">h</span> øverst til venstre for å skrive bue eller tid. I tid står det <span class="kc m">h m s</span> på enhetstasten, og 15:55:00 skrives <b>15 h m s 55</b>.',
     enter3: 'Minutter og sekunder går fra 0 til 59; Takhten nekter 60 eller mer i stedet for å regne det om for deg. Gradene går opp til 360, timene opp til 24.',
-    enter4: '<span class="kc">±</span> bytter fortegn på verdien. For et desimaltall, trykk på <span class="kc">dec</span> først; <span class="kc o">=</span> gjør et innskrevet desimaltall om til ° ′ ″ eller h m s, etter de valgte enhetene. Etter <span class="kc o">×</span> og <span class="kc o">÷</span> skriver du et vanlig tall; trykk på <span class="kc m">° ′ ″</span> eller <span class="kc m">h m s</span> for å dele på en vinkel eller en tid i stedet. Du skriver alltid med punktum; resultatene vises med komma.',
+    enter4: '<span class="kc">±</span> bytter fortegn på verdien. For et desimaltall, trykk på <span class="kc">dec</span> først; <span class="kc o">=</span> gjør et innskrevet desimaltall om til ° ′ ″ eller h m s, etter de valgte enhetene. Etter <span class="kc o">×</span> og <span class="kc o">÷</span> skriver du et vanlig tall; trykk på <span class="kc m">° ′ ″</span> eller <span class="kc m">h m s</span> for å dele på en vinkel eller en tid i stedet.',
     enter5: 'Med <span class="kc">sign</span> på skriver du gradene innenfor tegnet (0–29), minuttene og sekundene, og trykker så på <span class="kc m">° ′ ″</span> igjen til tegnet vises; <span class="kc o">=</span> gir den absolutte lengden.',
     hRecipes: 'Oppskrifter',
     recipesIntro: 'Dette er tastene du skal trykke. Takhten kjører dem ikke for deg.',
@@ -959,7 +958,7 @@ I18N.nb = {
     rSouth: 'Sørlige halvkule, med tabellen <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Slå opp den nye ST-en og regn som vanlig, og trykk så på <b>+180</b> for MC og for AC: begge får motsatt tegn.',
     rAscDirect: 'AC regnet direkte <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC (mer enn MC, mindre enn MC + 180°). På breddegrader høyere enn polarsirklenes kan AC hoppe 180°: er svaret likt MC, eller rett motsatt, på sekundet, avgjør du med fortegnet i stedet. Regn ut <b>OE sin × φ tan × RAMC sin + OE cos =</b> og noter fortegnet på svaret. Deretter gjentar du trinn 3 og trykker på <b>+180</b> bare hvis fortegnet er det samme som for <b>x</b>. Ved RAMC 270° på den nordlige polarsirkelen (breddegrad 90° minus <b>OE</b>), eller RAMC 90° på den sørlige, faller ekliptikken sammen med horisonten. Da finnes det ingen entydig ascendant, uansett hva trinn 3 gir. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'For breddegrader over tabellens 60°, eller uten tabell. Lagre <b>φ</b> først; skriv en sørlig breddegrad med <b>±</b>. Trykk på <b>+180</b> hvis svaret ikke ligger innenfor de 180° som følger etter MC, regnet videre gjennom 0° Væren: etter en MC på 300° er det fra 300° rundt til 120°. På breddegrader høyere enn polarsirklenes kan AC hoppe 180°: er svaret likt MC, eller rett motsatt, på sekundet, avgjør du med fortegnet i stedet. Regn ut <b>OE sin × φ tan × RAMC sin + OE cos =</b> og noter fortegnet på svaret. Deretter gjentar du trinn 3 og trykker på <b>+180</b> bare hvis fortegnet er det samme som for <b>x</b>. Ved RAMC 270° på den nordlige polarsirkelen (breddegrad 90° minus <b>OE</b>), eller RAMC 90° på den sørlige, faller ekliptikken sammen med horisonten. Da finnes det ingen entydig ascendant, uansett hva trinn 3 gir. Nekter trinn 3 å dele på null, er AC 90° eller 270°: den som ligger innenfor de 180° etter MC. Leksjonens horoskop gir 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Verdier med fortegn',
     rSignedNote: 'Med reduksjon på beholder et resultat fortegnet hvis en av verdiene i det var negativ; tider reduseres alltid. For deklinasjoner og breddegrader, trykk på <b>reduksjon</b> i skjermen for å slå den av. <b>+</b> 360 bringer en negativ lengde inn i sirkelen.',
     hRegs: 'Variabler',
@@ -999,7 +998,7 @@ I18N.nb = {
     minRange: time => `Minutter går fra 0 til 59. Seksti er en hel ${time ? 'time' : 'grad'}.`,
     secRange: 'Sekunder går fra 0 til 59. Seksti er et helt minutt.',
     onePoint: 'Ett desimaltegn er nok.',
-    wholeNumbers: (u, i) => (i < 2 ? `Trykk på ${u} for ${i ? 'sekundene' : 'minuttene'}.` : 'Minutter og sekunder er hele tall.') + ' For et desimaltall, trykk på dec først.',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `Trykk på ${u} for ${i ? 'sekundene' : 'minuttene'}.` : 'Minutter og sekunder er hele tall.') + (sign ? ' For et desimaltall, slå av sign og trykk så på dec.' : ' For et desimaltall, trykk på dec først.'),
     decNoUnits: (u = '° ′ ″', k = '=') => `Et desimaltall har ikke ${u}. Trykk på ${k} for å gjøre det om til ${u}.`,
     decOn: (u = '° ′ ″') => `dec er på: du skriver et desimaltall. Trykk på dec for å skrive ${u}.`,
     wasSeconds: 'Det var sekundene. Trykk på = eller en regneart.',
@@ -1043,6 +1042,7 @@ I18N.nb = {
     stayDec: op => `Tallet etter ${op} forblir et vanlig desimaltall.`,
     signTime: 'Tegnnotasjon er for bue (°). Dette er en tid.',
     regEmpty: n => `${n} er tom. Hold inne ${n}, eller trykk på sto og så ${n}, for å lagre.`,
+    regEmptyAfter: (n, op) => `${n} er tom. Skriv tallet etter ${op}, og hold så inne ${n} for å lagre det.`,
     stored: n => `Lagret i ${n}.`,
     storedOnly: n => `Lagret i ${n} bare for nå: kunne ikke lagres.`,
     stoArm: 'Trykk nå på variabelen du vil lagre i.',
@@ -1119,7 +1119,7 @@ I18N.es = {
     enter1: 'Escriba los grados, pulse <span class="kc m">° ′ ″</span>, escriba los minutos, vuelva a pulsar esa tecla y escriba los segundos: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> es 23° 26′ 12″. Lo que omita vale 00.',
     enter2: 'Pulse <span class="kc m">°</span> o <span class="kc m">h</span> arriba a la izquierda para escribir arco o tiempo. En tiempo la tecla de unidades muestra <span class="kc m">h m s</span>, y 15:55:00 se escribe <b>15 h m s 55</b>.',
     enter3: 'Los minutos y los segundos van de 0 a 59; el takht rechaza 60 o más en lugar de hacer el acarreo por usted. Los grados llegan hasta 360 y las horas hasta 24.',
-    enter4: '<span class="kc">±</span> cambia el signo de un valor. Para un decimal, pulse antes <span class="kc">dec</span>; <span class="kc o">=</span> convierte un decimal escrito en ° ′ ″ o h m s, según las unidades seleccionadas. Después de <span class="kc o">×</span> y <span class="kc o">÷</span> se escribe un número simple; pulse <span class="kc m">° ′ ″</span> o <span class="kc m">h m s</span> para dividir por un ángulo o por un tiempo. Los números se escriben siempre con punto; los resultados se muestran con coma.',
+    enter4: '<span class="kc">±</span> cambia el signo de un valor. Para un decimal, pulse antes <span class="kc">dec</span>; <span class="kc o">=</span> convierte un decimal escrito en ° ′ ″ o h m s, según las unidades seleccionadas. Después de <span class="kc o">×</span> y <span class="kc o">÷</span> se escribe un número simple; pulse <span class="kc m">° ′ ″</span> o <span class="kc m">h m s</span> para dividir por un ángulo o por un tiempo.',
     enter5: 'Con <span class="kc">sign</span> activado, escriba los grados dentro del signo (0–29), los minutos y los segundos, y pulse <span class="kc m">° ′ ″</span> de nuevo hasta que aparezca el signo; <span class="kc o">=</span> da la longitud absoluta.',
     hRecipes: 'Procedimientos',
     recipesIntro: 'Estas son las teclas que hay que pulsar. El takht no las ejecuta por usted.',
@@ -1163,7 +1163,7 @@ I18N.es = {
     rSouth: 'Hemisferio sur, con la tabla <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Busque el nuevo TS y calcule como siempre; después pulse <b>+180</b> sobre el MC y sobre el ASC: ambos toman el signo opuesto.',
     rAscDirect: 'ASC por cálculo directo <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Asigne antes la latitud a <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC (más que el MC, menos que MC + 180°). Más allá de los círculos polares el ASC puede saltar 180°: si el resultado coincide al segundo con el MC, o con su opuesto exacto, el MC no decide: decida por el signo. Calcule <b>OE sen × φ tan × RAMC sen + OE cos =</b> y anote el signo del resultado. Después repita el paso 3 y pulse <b>+180</b> solo si ese signo es el de <b>x</b>. En el círculo polar ártico (latitud 90° menos <b>OE</b>) con una ARMC de 270°, o en el antártico con una ARMC de 90°, la eclíptica coincide con el horizonte y no hay un Ascendente único, dé lo que dé el paso 3. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Para latitudes por encima de los 60° de la tabla, o sin tabla. Asigne antes la latitud a <b>φ</b>; una latitud sur se escribe con <b>±</b>. Pulse <b>+180</b> salvo que el resultado caiga en los 180° que siguen al MC, contando a través de 0° de Aries: tras un MC de 300°, van de 300° a 120°, dando la vuelta. Más allá de los círculos polares el ASC puede saltar 180°: si el resultado coincide al segundo con el MC, o con su opuesto exacto, el MC no decide: decida por el signo. Calcule <b>OE sen × φ tan × RAMC sen + OE cos =</b> y anote el signo del resultado. Después repita el paso 3 y pulse <b>+180</b> solo si ese signo es el de <b>x</b>. En el círculo polar ártico (latitud 90° menos <b>OE</b>) con una ARMC de 270°, o en el antártico con una ARMC de 90°, la eclíptica coincide con el horizonte y no hay un Ascendente único, dé lo que dé el paso 3. Si el paso 3 rechaza la división entre cero, el ASC es 90° o 270°: el que cae en los 180° que siguen al MC. La carta de la lección da 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valores con signo',
     rSignedNote: 'Con la reducción activada, un resultado conserva el signo si alguno de sus valores era negativo; los tiempos se reducen siempre. Para declinaciones y latitudes, pulse <b>reducir</b> en la pantalla para desactivarla. <b>+</b> 360 lleva una longitud negativa al círculo.',
     hRegs: 'Variables',
@@ -1203,7 +1203,7 @@ I18N.es = {
     minRange: time => `Los minutos van de 0 a 59. Sesenta es ${time ? 'una hora entera' : 'un grado entero'}.`,
     secRange: 'Los segundos van de 0 a 59. Sesenta es un minuto entero.',
     onePoint: 'Basta con un separador decimal.',
-    wholeNumbers: (u, i) => (i < 2 ? `Pulse ${u} para los ${i ? 'segundos' : 'minutos'}.` : 'Los minutos y los segundos son números enteros.') + ' Para un decimal, pulse antes dec.',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `Pulse ${u} para los ${i ? 'segundos' : 'minutos'}.` : 'Los minutos y los segundos son números enteros.') + (sign ? ' Para un decimal, desactive sign y luego pulse dec.' : ' Para un decimal, pulse antes dec.'),
     decNoUnits: (u = '° ′ ″', k = '=') => `Un decimal no tiene ${u}. Pulse ${k} para convertirlo en ${u}.`,
     decOn: (u = '° ′ ″') => `dec está activo: usted escribe un decimal. Pulse dec para escribir ${u}.`,
     wasSeconds: 'Eso eran los segundos. Pulse = o una operación.',
@@ -1247,6 +1247,7 @@ I18N.es = {
     stayDec: op => `El número después de ${op} sigue siendo un decimal simple.`,
     signTime: 'La notación por signos es para arco (°). Esto es un tiempo.',
     regEmpty: n => `${n} está vacía. Mantenga pulsada ${n}, o pulse sto y luego ${n}, para asignarle un valor.`,
+    regEmptyAfter: (n, op) => `${n} está vacía. Escriba el número que va después de ${op} y mantenga pulsada ${n} para asignárselo.`,
     stored: n => `Asignado a ${n}.`,
     storedOnly: n => `Asignado a ${n} por ahora: no se pudo guardar.`,
     stoArm: 'Ahora pulse la variable a la que asignar.',
@@ -1322,7 +1323,7 @@ I18N.fr = {
     enter1: 'Tapez les degrés, appuyez sur <span class="kc m">° ′ ″</span>, tapez les minutes, appuyez de nouveau, tapez les secondes : <b>23 ° ′ ″ 26 ° ′ ″ 12</b> donne 23° 26′ 12″. Ce que vous omettez vaut 00.',
     enter2: 'Touchez <span class="kc m">°</span> ou <span class="kc m">h</span> en haut à gauche pour saisir un arc ou un temps. En temps, la touche d’unité affiche <span class="kc m">h m s</span>, et 15:55:00 se tape <b>15 h m s 55</b>.',
     enter3: 'Minutes et secondes vont de 0 à 59 ; le Takht refuse 60 ou plus au lieu de faire la retenue à votre place. Les degrés vont jusqu’à 360 et les heures jusqu’à 24.',
-    enter4: '<span class="kc">±</span> inverse le signe de la valeur. Pour un décimal, appuyez d’abord sur <span class="kc">dec</span> ; <span class="kc o">=</span> convertit un décimal saisi en ° ′ ″ ou h m s, selon les unités choisies. Après <span class="kc o">×</span> et <span class="kc o">÷</span> vient un nombre simple ; appuyez sur <span class="kc m">° ′ ″</span> ou <span class="kc m">h m s</span> pour diviser plutôt par un angle ou par un temps. La saisie se fait toujours avec un point ; les résultats s’affichent avec une virgule.',
+    enter4: '<span class="kc">±</span> inverse le signe de la valeur. Pour un décimal, appuyez d’abord sur <span class="kc">dec</span> ; <span class="kc o">=</span> convertit un décimal saisi en ° ′ ″ ou h m s, selon les unités choisies. Après <span class="kc o">×</span> et <span class="kc o">÷</span> vient un nombre simple ; appuyez sur <span class="kc m">° ′ ″</span> ou <span class="kc m">h m s</span> pour diviser plutôt par un angle ou par un temps.',
     enter5: 'Avec <span class="kc">sign</span> actif, tapez les degrés dans le signe (0–29), les minutes et les secondes, puis appuyez de nouveau sur <span class="kc m">° ′ ″</span> jusqu’à voir le signe ; <span class="kc o">=</span> donne la longitude absolue.',
     hRecipes: 'Recettes',
     recipesIntro: 'Voici les touches à presser. Le Takht ne les exécute pas à votre place.',
@@ -1366,7 +1367,7 @@ I18N.fr = {
     rSouth: 'Hémisphère sud, avec la table <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Cherchez le nouveau TS et calculez comme d’habitude, puis appuyez sur <b>+180</b> pour le MC et pour l’ASC : tous deux prennent le signe opposé.',
     rAscDirect: 'ASC par le calcul direct <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC (plus que le MC, moins que MC + 180°). Au-delà des cercles polaires, l’ASC peut sauter de 180° : si le résultat est égal au MC, ou exactement opposé, à la seconde près, décidez plutôt par le signe. Calculez <b>OE sin × φ tan × RAMC sin + OE cos =</b> et notez le signe du résultat, puis refaites l’étape 3 et appuyez sur <b>+180</b> seulement si ce signe est celui de <b>x</b>. Sur le cercle polaire arctique (latitude 90° moins <b>OE</b>) avec une ARMC de 270°, ou sur le cercle polaire antarctique avec une ARMC de 90°, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Pour les latitudes au-delà des 60° de la table, ou sans table. Stockez d’abord <b>φ</b> ; une latitude sud se saisit avec <b>±</b>. Appuyez sur <b>+180</b> sauf si le résultat tombe dans les 180° qui suivent le MC, en comptant au-delà de 0° du Bélier : après un MC de 300°, ils vont de 300° à 120°, en faisant le tour. Au-delà des cercles polaires, l’ASC peut sauter de 180° : si le résultat est égal au MC, ou exactement opposé, à la seconde près, décidez plutôt par le signe. Calculez <b>OE sin × φ tan × RAMC sin + OE cos =</b> et notez le signe du résultat, puis refaites l’étape 3 et appuyez sur <b>+180</b> seulement si ce signe est celui de <b>x</b>. Sur le cercle polaire arctique (latitude 90° moins <b>OE</b>) avec une ARMC de 270°, ou sur le cercle polaire antarctique avec une ARMC de 90°, l’écliptique se confond avec l’horizon et il n’y a pas d’ascendant unique, quoi que donne l’étape 3. Si l’étape 3 refuse de diviser par zéro, l’ASC vaut 90° ou 270° : celui qui tombe dans les 180° suivant le MC. Le thème de la leçon donne 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Valeurs signées',
     rSignedNote: 'Quand les résultats sont ramenés, un résultat reste signé si l’une de ses valeurs était négative ; les temps sont toujours ramenés. Pour les déclinaisons et les latitudes, touchez <b>ramené</b> sur l’affichage pour désactiver la réduction. <b>+</b> 360 ramène une longitude négative dans le cercle.',
     hRegs: 'Variables',
@@ -1406,7 +1407,7 @@ I18N.fr = {
     minRange: time => `Les minutes vont de 0 à 59. Soixante font ${time ? 'une heure' : 'un degré'}.`,
     secRange: 'Les secondes vont de 0 à 59. Soixante font une minute.',
     onePoint: 'Un seul séparateur décimal suffit.',
-    wholeNumbers: (u, i) => (i < 2 ? `${u} passe aux ${i ? 'secondes' : 'minutes'}.` : 'Minutes et secondes sont entières.') + ' Pour un décimal, appuyez d’abord sur dec.',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `${u} passe aux ${i ? 'secondes' : 'minutes'}.` : 'Minutes et secondes sont entières.') + (sign ? ' Pour un décimal, désactivez sign, puis appuyez sur dec.' : ' Pour un décimal, appuyez d’abord sur dec.'),
     decNoUnits: (u = '° ′ ″', k = '=') => `Un décimal n’a pas de ${u}. ${k} le convertit en ${u}.`,
     decOn: (u = '° ′ ″') => `dec est actif : vous tapez un décimal. Appuyez de nouveau sur dec pour saisir en ${u}.`,
     wasSeconds: 'C’étaient les secondes. Appuyez sur = ou une opération.',
@@ -1450,6 +1451,7 @@ I18N.fr = {
     stayDec: op => `Le nombre après ${op} reste un décimal simple.`,
     signTime: 'La notation par signe vaut pour l’arc (°). C’est un temps.',
     regEmpty: n => `${n} est vide. Maintenez ${n}, ou appuyez sur sto puis ${n}, pour stocker.`,
+    regEmptyAfter: (n, op) => `${n} est vide. Tapez le nombre qui suit ${op}, puis maintenez ${n} pour le stocker.`,
     stored: n => `Stocké dans ${n}.`,
     storedOnly: n => `Stocké dans ${n} pour l’instant : non enregistré.`,
     stoArm: 'Touchez maintenant la variable où stocker.',
@@ -1525,7 +1527,7 @@ I18N.de = {
     enter1: 'Grad eintippen, <span class="kc m">° ′ ″</span> drücken, Minuten eintippen, noch einmal drücken, Sekunden eintippen: <b>23 ° ′ ″ 26 ° ′ ″ 12</b> ist 23° 26′ 12″. Was Sie weglassen, ist 00.',
     enter2: 'Tippen Sie oben links <span class="kc m">°</span> oder <span class="kc m">h</span> an, um einen Bogen oder eine Zeit einzugeben. Im Zeitmodus zeigt die Einheitentaste <span class="kc m">h m s</span>, und 15:55:00 wird als <b>15 h m s 55</b> eingetippt.',
     enter3: 'Minuten und Sekunden reichen von 0 bis 59; das Takht lehnt 60 oder mehr ab, statt den Übertrag für Sie vorzunehmen. Grad reichen bis 360, Stunden bis 24.',
-    enter4: '<span class="kc">±</span> wechselt das Vorzeichen eines Werts. Für eine Dezimalzahl zuerst <span class="kc">dec</span> drücken; <span class="kc o">=</span> macht aus einer eingetippten Dezimalzahl ° ′ ″ oder h m s, je nach gewählten Einheiten. Nach <span class="kc o">×</span> und <span class="kc o">÷</span> folgt eine einfache Zahl; drücken Sie <span class="kc m">° ′ ″</span> oder <span class="kc m">h m s</span>, um stattdessen durch einen Winkel oder eine Zeit zu teilen. Eingegeben wird immer mit Punkt; Ergebnisse erscheinen mit Komma.',
+    enter4: '<span class="kc">±</span> wechselt das Vorzeichen eines Werts. Für eine Dezimalzahl zuerst <span class="kc">dec</span> drücken; <span class="kc o">=</span> macht aus einer eingetippten Dezimalzahl ° ′ ″ oder h m s, je nach gewählten Einheiten. Nach <span class="kc o">×</span> und <span class="kc o">÷</span> folgt eine einfache Zahl; drücken Sie <span class="kc m">° ′ ″</span> oder <span class="kc m">h m s</span>, um stattdessen durch einen Winkel oder eine Zeit zu teilen.',
     enter5: 'Mit <span class="kc">sign</span> an: Grad im Zeichen (0–29), Minuten und Sekunden eintippen, dann <span class="kc m">° ′ ″</span> drücken, bis das Zeichen erscheint; <span class="kc o">=</span> ergibt die absolute Länge.',
     hRecipes: 'Rechenwege',
     recipesIntro: 'Das sind die Tasten, die Sie drücken. Das Takht führt sie nicht für Sie aus.',
@@ -1569,7 +1571,7 @@ I18N.de = {
     rSouth: 'Südhalbkugel, mit der Tabelle <span class="gloss" lang="en">(southern hemisphere births)</span>',
     rSouthNote: 'Die neue Sternzeit nachschlagen und wie gewohnt rechnen, dann <b>+180</b> auf MC und AC anwenden: beide bekommen das gegenüberliegende Zeichen.',
     rAscDirect: 'AC direkt berechnet <span class="gloss" lang="en">(direct calculation)</span>',
-    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf das MC folgen (mehr als das MC, weniger als MC + 180°). Jenseits der Polarkreise kann der AC um 180° springen: Stimmt das Ergebnis auf die Sekunde mit dem MC überein oder liegt ihm genau gegenüber, entscheidet stattdessen das Vorzeichen. <b>OE sin × φ tan × RAMC sin + OE cos =</b> rechnen und das Vorzeichen des Ergebnisses notieren. Dann Schritt 3 wiederholen und <b>+180</b> nur drücken, wenn dieses Vorzeichen dem von <b>x</b> gleicht. Bei RAMC 270° am nördlichen Polarkreis (Breite 90° minus <b>OE</b>) oder RAMC 90° am südlichen Polarkreis fällt die Ekliptik mit dem Horizont zusammen. Dann gibt es keinen eindeutigen Aszendenten, unabhängig vom Ergebnis in Schritt 3. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
+    rAscNote: 'Für Breiten jenseits der 60° der Tabelle oder ohne Tabelle. Zuerst <b>φ</b> speichern; eine südliche Breite mit <b>±</b> eingeben. <b>+180</b> drücken, außer das Ergebnis liegt in den 180°, die auf das MC folgen, über 0° Widder hinweg gezählt: Nach einem MC von 300° reichen sie von 300° herum bis 120°. Jenseits der Polarkreise kann der AC um 180° springen: Stimmt das Ergebnis auf die Sekunde mit dem MC überein oder liegt ihm genau gegenüber, entscheidet stattdessen das Vorzeichen. <b>OE sin × φ tan × RAMC sin + OE cos =</b> rechnen und das Vorzeichen des Ergebnisses notieren. Dann Schritt 3 wiederholen und <b>+180</b> nur drücken, wenn dieses Vorzeichen dem von <b>x</b> gleicht. Bei RAMC 270° am nördlichen Polarkreis (Breite 90° minus <b>OE</b>) oder RAMC 90° am südlichen Polarkreis fällt die Ekliptik mit dem Horizont zusammen. Dann gibt es keinen eindeutigen Aszendenten, unabhängig vom Ergebnis in Schritt 3. Lehnt Schritt 3 die Division durch null ab, ist der AC 90° oder 270°: derjenige in den 180° nach dem MC. Das Horoskop der Lektion ergibt 20° 18′ 54″ <span class="glyph">♓︎</span>.',
     rSigned: 'Werte mit Vorzeichen',
     rSignedNote: 'Mit Reduktion bleibt ein Ergebnis vorzeichenbehaftet, wenn einer seiner Werte negativ war; Zeiten werden immer reduziert. Für Deklinationen und Breiten tippen Sie <b>Reduktion</b> in der Anzeige an, um sie auszuschalten. <b>+</b> 360 bringt eine negative Länge in den Kreis.',
     hRegs: 'Variablen',
@@ -1609,7 +1611,7 @@ I18N.de = {
     minRange: time => `Minuten reichen von 0 bis 59. Sechzig sind ${time ? 'eine Stunde' : 'ein Grad'}.`,
     secRange: 'Sekunden reichen von 0 bis 59. Sechzig sind eine Minute.',
     onePoint: 'Ein Dezimaltrennzeichen genügt.',
-    wholeNumbers: (u, i) => (i < 2 ? `${u} für die ${i ? 'Sekunden' : 'Minuten'}.` : 'Minuten und Sekunden sind ganze Zahlen.') + ' Für Dezimalzahlen zuerst dec.',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `${u} für die ${i ? 'Sekunden' : 'Minuten'}.` : 'Minuten und Sekunden sind ganze Zahlen.') + (sign ? ' Für Dezimalzahlen sign ausschalten, dann dec.' : ' Für Dezimalzahlen zuerst dec.'),
     decNoUnits: (u = '° ′ ″', k = '=') => `Eine Dezimalzahl hat keine ${u}. ${k} wandelt sie in ${u} um.`,
     decOn: (u = '° ′ ″') => `dec ist an: Sie tippen eine Dezimalzahl. dec erneut für ${u}.`,
     wasSeconds: 'Das waren die Sekunden. Weiter mit = oder einer Rechenart.',
@@ -1653,6 +1655,7 @@ I18N.de = {
     stayDec: op => `Die Zahl nach ${op} bleibt eine einfache Dezimalzahl.`,
     signTime: 'Die Zeichenschreibweise gilt für Bogenwerte (°). Das ist eine Zeit.',
     regEmpty: n => `${n} ist leer. ${n} gedrückt halten, oder sto und dann ${n}, um zu speichern.`,
+    regEmptyAfter: (n, op) => `${n} ist leer. Zahl nach ${op} eingeben, dann ${n} gedrückt halten, um sie zu speichern.`,
     stored: n => `In ${n} gespeichert.`,
     storedOnly: n => `Nur vorläufig in ${n}: nicht gesichert.`,
     stoArm: 'Jetzt die Variable antippen, in die gespeichert wird.',
@@ -1772,7 +1775,7 @@ I18N.zh = {
     rSouth: '南半球，查表<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '查新的恒星时，照常计算，然后对 MC 和 ASC 各按一次 <b>+180</b>：两者都取对宫星座。',
     rAscDirect: '直接计算 ASC<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内（大于 MC，小于 MC + 180°），否则按 <b>+180</b>。纬度高于极圈时，ASC 可能跳变 180°：如果结果精确到秒与 MC 相同，或与之恰好相对，就改用正负号判断。计算 <b>OE sin × φ tan × RAMC sin + OE cos =</b>，记下结果的正负号，然后重做第 3 步，只有当该正负号与 <b>x</b> 的正负号相同时才按 <b>+180</b>。位于北极圈上（纬度为 90° 减 <b>OE</b>）且 RAMC 为 270°，或位于南极圈上且 RAMC 为 90° 时，黄道与地平圈重合；无论第 3 步得出什么，都没有唯一的上升点。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
+    rAscNote: '适用于超出表中 60° 的纬度，或手头没有表时。先把纬度存入 <b>φ</b>；南纬用 <b>±</b> 输入。除非结果落在 MC 之后的 180° 以内（越过白羊座 0° 继续数：MC 为 300° 时，就是从 300° 绕过 0° 到 120°），否则按 <b>+180</b>。纬度高于极圈时，ASC 可能跳变 180°：如果结果精确到秒与 MC 相同，或与之恰好相对，就改用正负号判断。计算 <b>OE sin × φ tan × RAMC sin + OE cos =</b>，记下结果的正负号，然后重做第 3 步，只有当该正负号与 <b>x</b> 的正负号相同时才按 <b>+180</b>。位于北极圈上（纬度为 90° 减 <b>OE</b>）且 RAMC 为 270°，或位于南极圈上且 RAMC 为 90° 时，黄道与地平圈重合；无论第 3 步得出什么，都没有唯一的上升点。如果第 3 步拒绝除以零，ASC 就是 90° 或 270°：取落在 MC 之后 180° 以内的那一个。课文中的星盘得 20° 18′ 54″ <span class="glyph">♓︎</span>。',
     rSigned: '带正负号的值',
     rSignedNote: '开启化归时，只要参与运算的值有一个是负数，结果就保留正负号；时间总是化归。计算赤纬和纬度时，点显示屏上的 <b>化归</b> 把它关掉。<b>+</b> 360 把负的黄经带回圆周之内。',
     hRegs: '变量',
@@ -1812,7 +1815,7 @@ I18N.zh = {
     minRange: time => `分只能是 0–59。满六十分即为 1 ${time ? '小时' : '度'}。`,
     secRange: '秒只能是 0–59。满六十秒即为 1 分。',
     onePoint: '一个小数点就够了。',
-    wholeNumbers: (u, i) => (i < 2 ? `按 ${u} 输入${i ? '秒' : '分'}。` : '分和秒都是整数。') + '要输入小数，先按 dec。',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `按 ${u} 输入${i ? '秒' : '分'}。` : '分和秒都是整数。') + (sign ? '要输入小数，先关闭 sign，再按 dec。' : '要输入小数，先按 dec。'),
     decNoUnits: (u = '° ′ ″', k = '=') => `小数没有 ${u}。按 ${k} 把它化为 ${u}。`,
     decOn: (u = '° ′ ″') => `dec 已开启，你输入的是小数。按 dec 改为输入 ${u}。`,
     wasSeconds: '这已经是秒了。请按 = 或运算键。',
@@ -1856,6 +1859,7 @@ I18N.zh = {
     stayDec: op => `${op} 后面的数保持为普通小数。`,
     signTime: '星座记法只用于角度（°）。这是一个时间。',
     regEmpty: n => `${n} 是空的。长按 ${n}，或按 sto 再按 ${n}，即可存入。`,
+    regEmptyAfter: (n, op) => `${n} 是空的。先输入 ${op} 后面的数，再长按 ${n} 存入。`,
     stored: n => `已存入 ${n}。`,
     storedOnly: n => `已暂时存入 ${n}：无法保存。`,
     stoArm: '现在点要存入的变量。',
@@ -1975,7 +1979,7 @@ I18N.ja = {
     rSouth: '南半球・表を使う場合<span class="gloss" lang="en">（southern hemisphere births）</span>',
     rSouthNote: '新しい恒星時で表を引き、いつもどおり計算してから、MC と ASC にそれぞれ <b>+180</b> を押します。どちらも反対側のサインになります。',
     rAscDirect: 'ASC を直接計算<span class="gloss" lang="en">（direct calculation）</span>',
-    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲（MC より大きく、MC + 180° より小さい）になければ <b>+180</b> を押します。緯度が極圏より高いと ASC は 180° 跳ぶことがあります。答えが秒まで MC と同じか、ちょうど反対のときは、MC ではなく符号で決めます。<b>OE sin × φ tan × RAMC sin + OE cos =</b> を計算して、その値の符号を控えます。次に手順 3 をもう一度行い、控えた符号が <b>x</b> の符号と同じときだけ <b>+180</b> を押します。北極圏の境界（緯度 90° − <b>OE</b>）で RAMC が 270°、または南極圏の境界で RAMC が 90° のときは、黄道が地平圏と重なり、手順 3 の結果にかかわらず ASC は一つに定まりません。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。教本のチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
+    rAscNote: '表の 60° を超える緯度や、表がないときに使います。先に <b>φ</b> を登録し、南緯は <b>±</b> で入力します。答えが MC に続く 180° の範囲（牡羊座 0° をまたいで数え、MC が 300° なら 300° から 0° を回って 120° まで）になければ <b>+180</b> を押します。緯度が極圏より高いと ASC は 180° 跳ぶことがあります。答えが秒まで MC と同じか、ちょうど反対のときは、MC ではなく符号で決めます。<b>OE sin × φ tan × RAMC sin + OE cos =</b> を計算して、その値の符号を控えます。次に手順 3 をもう一度行い、控えた符号が <b>x</b> の符号と同じときだけ <b>+180</b> を押します。北極圏の境界（緯度 90° − <b>OE</b>）で RAMC が 270°、または南極圏の境界で RAMC が 90° のときは、黄道が地平圏と重なり、手順 3 の結果にかかわらず ASC は一つに定まりません。手順 3 で 0 による割り算が拒否されたら、ASC は 90° か 270° で、MC に続く 180° の範囲にある方です。教本のチャートでは 20° 18′ 54″ <span class="glyph">♓︎</span> です。',
     rSigned: '符号つきの値',
     rSignedNote: '範囲補正がオンでも、計算に負の値が含まれていれば結果は符号つきのままです。時間は常に補正されます。赤緯や緯度を扱うときは、表示の <b>範囲補正</b> を押してオフにします。<b>+</b> 360 で負の黄経を円の中に戻せます。',
     hRegs: '変数メモリー',
@@ -2015,7 +2019,7 @@ I18N.ja = {
     minRange: time => `分は 0〜59 です。60 分で 1 ${time ? '時間' : '度'}です。`,
     secRange: '秒は 0〜59 です。60 秒でちょうど 1 分になります。',
     onePoint: '小数点は 1 つしか入力できません。',
-    wholeNumbers: (u, i) => (i < 2 ? `${u} を押して${i ? '秒' : '分'}へ進みます。` : '分と秒は整数です。') + '小数は先に dec を押します。',
+    wholeNumbers: (u, i, sign) => (i < 2 ? `${u} を押して${i ? '秒' : '分'}へ進みます。` : '分と秒は整数です。') + (sign ? '小数は sign をオフにしてから dec を押します。' : '小数は先に dec を押します。'),
     decNoUnits: (u = '° ′ ″', k = '=') => `小数に ${u} はありません。${k} で ${u} に変わります。`,
     decOn: (u = '° ′ ″') => `dec がオンなので小数を入力中です。dec を押すと ${u} に戻ります。`,
     wasSeconds: 'いまのは秒です。= か演算キーを押します。',
@@ -2059,6 +2063,7 @@ I18N.ja = {
     stayDec: op => `${op} のあとの数は普通の小数のままです。`,
     signTime: 'サイン表記は角度（°）用です。これは時間です。',
     regEmpty: n => `${n} は空です。${n} を長押しするか、sto のあと ${n} を押して登録します。`,
+    regEmptyAfter: (n, op) => `${n} は空です。${op} のあとの数を入力してから、${n} を長押しして登録します。`,
     stored: n => `${n} に登録しました。`,
     storedOnly: n => `${n} に一時的に登録しました。保存できません。`,
     stoArm: '登録先のメモリーを押してください。',
@@ -2185,6 +2190,8 @@ const isInt = x => Number.isInteger(x) || (Math.round(x) !== 0 && Math.abs(x - M
 // four steps of binary precision relative to the value) decides the display, the note and the rounding, so
 // 45″ × cos 120° (−22.49999999999999″) is noted −22.5″ and comes to −23″, and 1″ × sin 30° comes to 1″. Typed digits
 // and ratios never come here (dxScale and rqScale round them exactly), so the band only ever absorbs binary noise.
+// A binary number is snapped where it is made (a sum, a product or quotient of two numbers, a trig result), so the
+// number held is the half the display shows and every later step uses it: cos 30° × tan 240° is held as 1.5.
 const snapHalf = x => { const a = Math.abs(x), h = Math.floor(a) + 0.5; return (a < h && +truncFixed(a, 2) === h) ? (x < 0 ? -h : h) : x; };
 // half away from zero
 const roundSec = x => { const a = Math.abs(snapHalf(x)), f = Math.floor(a), r = a - f >= 0.5 ? f + 1 : f; return x < 0 ? -r : r; };
@@ -2439,7 +2446,9 @@ const decToSec = v => v.dx != null ? dxScale(3600, v.dx, false) : v.rq ? rqScale
 let msgTimer = 0;
 let liveHandled = false, lastEditingState = '';
 function writeLive(text){ $('#live').textContent = text; liveHandled = true; }
+let said = null;   // the last message of the key being pressed, so press can keep a sto cancellation beside it
 function say(text, bad){
+  said = {text, bad: !!bad};
   const m = $('#msg');
   m.className = 'msg show' + (bad ? ' bad' : '');
   m.innerHTML = supHTML(text);
@@ -2505,7 +2514,7 @@ function setVal(v){
 /*@endcalc*/
 function digit(ch){
   let e = S.entry;
-  if (!e) e = S.entry = newEntry(expectedKind());
+  if (!e){ e = S.entry = newEntry(expectedKind()); if (S.pending) S.right = false; }
   if (e.k === 'dec'){
     if (e.t.replace(/\D/g, '').length >= 12) return refuse(M().manyDigits);
     e.t = (e.t === '0' ? '' : e.t) + ch; e.touched = true; return;
@@ -2536,10 +2545,11 @@ function point(){
     e.t = (e.t === '' ? '0' : e.t) + '.'; e.touched = true; return;
   }
   const loneZero = e && e.k === 'sex' && e.i === 0 && e.f[0] === '0';   // 0.5 as on a pocket calculator
-  if (e && hasTyped(e) && !loneZero) return refuse(M().wholeNumbers(unitLabel(), e.i));   // 23. mid-entry stays refused
+  if (e && hasTyped(e) && !loneZero) return refuse(M().wholeNumbers(unitLabel(), e.i, e.sign));   // 23. mid-entry stays refused
   // a point before any digit starts a decimal, as on a pocket calculator: . 5 sin⁻¹ gives 30°
   const neg = !!(e && e.neg);
   S.entry = newEntry('dec'); S.entry.t = '0.'; S.entry.touched = true; S.entry.neg = neg;
+  if (S.pending && !e) S.right = false;
 }
 function unitKey(){
   let e = S.entry;
@@ -2595,9 +2605,10 @@ function negKey(){
     if (e.k === 'sex' && e.sign) return refuse(M().negSign);
     e.neg = !e.neg; e.touched = hasTyped(e) || e.neg; return;
   }
-  // a value on the display changes sign as itself, even when it is 0; an empty display holds an entry, as after C
+  // a value on the display changes sign as itself, even when it is 0; an empty display holds an entry, as after C.
+  // A typed number stays typed (= still turns it into ° ′ ″), as it does when ± comes during the typing
   const v = S.val;
-  const out = v.k === 'sex' ? sex(-v.sec || 0, v.mode) : dec(-v.v || 0, null, v.dx != null ? dxNeg(v.dx) : null);
+  const out = v.k === 'sex' ? sex(-v.sec || 0, v.mode) : dec(-v.v || 0, v.txt != null ? dxNeg(v.txt) : null, v.dx != null ? dxNeg(v.dx) : null);
   if (v.k === 'dec' && v.rq) out.rq = [-v.rq[0] || 0, v.rq[1]];
   setVal(out);
   addTape(`${MINUS}(${fmtOperand(v)}) = ${fmtV(out)}`, [], out);
@@ -2680,7 +2691,7 @@ function evaluate0(op, a, b){
       if (a.dx != null && b.dx != null){ const dx = dxAdd(a.dx, b.dx, op === '−'), v = parseFloat(dx);
         if (v === 0 && /[1-9]/.test(dx)) return refuse(M().tooSmall);   // a non-zero sum too small for a double is refused, as for × and ÷
         return {val: dec(v, null, dx), notes: []}; }
-      return {val: dec(op === '+' ? a.v + b.v : a.v - b.v), notes: []};
+      return {val: dec(snapHalf(op === '+' ? a.v + b.v : a.v - b.v)), notes: []};
     }
     // the decimal on the right can still be turned by dec; one already on the left of the operation cannot
     // dec turns the decimal into the selected units; if those are not the left value's, the units come first
@@ -2696,7 +2707,7 @@ function evaluate0(op, a, b){
   }
   if (a.k === 'dec' && b.k === 'dec'){
     const dx = op === '×' && a.dx != null && b.dx != null ? dxMul(a.dx, b.dx) : null;
-    const val = dx != null ? dec(parseFloat(dx), null, dx) : exactProduct(a, b, op === '÷') || dec(op === '×' ? a.v*b.v : a.v/b.v);
+    const val = dx != null ? dec(parseFloat(dx), null, dx) : exactProduct(a, b, op === '÷') || dec(snapHalf(op === '×' ? a.v*b.v : a.v/b.v));
     if (val.v === 0 && a.v !== 0 && b.v !== 0) return refuse(M().tooSmall);   // nothing non-zero becomes 0
     return {val, notes: []};
   }
@@ -2823,7 +2834,7 @@ const U = {
     const r0 = v.sec % CIRC;   // whole turns off, exact in seconds; an angle within one turn is worked as it is
     if (name === 'tan' && Math.abs(r0) % (180*3600) === 90*3600) return refuse(M().tanInf);
     const rad = r0/3600*Math.PI/180;
-    const y = clean(Math[name](rad));
+    const y = snapHalf(clean(Math[name](rad)));
     return {val: dec(y), line: `${keyLabel(name)} ${fmtOperand(v)} = ${fmtNum(y)}`, notes: []};
   };
 });
@@ -2882,7 +2893,8 @@ function signKey(){
 // ---------- registers ----------
 function recall(n){
   const v = S.regs[n];
-  if (!v) return refuse(M().regEmpty(n));
+  // with an operation waiting for its number, the display is that empty slot: the number comes before the store
+  if (!v) return refuse(S.pending && !S.right && !(S.entry && S.entry.touched) ? M().regEmptyAfter(n, S.pending.op) : M().regEmpty(n));
   const c = copy(v);
   setVal(c);
   addTape(`${n} → ${fmtV(c)}`, [], c, 'reg');
@@ -2932,7 +2944,7 @@ function tapeRecall(i){
   say(M().broughtBack(fmtV(l.result)));
   const li = document.querySelector(`.tl[data-i="${i}"]`);
   if (li){ li.classList.add('flash'); setTimeout(() => li.classList.remove('flash'), 450); }
-  if (isPhone()) setTimeout(() => closeSheets(true), 160);
+  if (isPhone()){ clearTimeout(tapeClose); tapeClose = setTimeout(() => closeSheets(true), 160); }
   render();
 }
 
@@ -3045,7 +3057,9 @@ function press(k){
   // an armed sto waits while the entry it will store is being edited (digits, ° ′ ″, ., ±, ⌫: the fix a refused store
   // asks for); an operation, =, C, a unit, dec, sign or a one-value key cancels it, and says so
   const edits = /^[0-9]$/.test(k) || ['unit', '.', 'neg', 'bs'].includes(k);
-  if (S.sto && k !== 'sto' && !edits && !k.startsWith('reg:') && !k.startsWith('store:')){ S.sto = false; say(M().stoCancel); }
+  const cancels = S.sto && k !== 'sto' && !edits && !k.startsWith('reg:') && !k.startsWith('store:');
+  if (cancels) S.sto = false;
+  said = null;
   if (/^[0-9]$/.test(k)) digit(k);
   else if (k.startsWith('reg:')){ const n = k.slice(4); if (S.sto) store(n); else recall(n); }
   else if (k.startsWith('store:')) store(k.slice(6));
@@ -3065,12 +3079,18 @@ function press(k){
     case 'sto': S.sto = !S.sto; say(S.sto ? M().stoArm : M().stoCancel); break;
     case 'help': openHelp(); break;
   }
+  // the cancellation stands before the key's own message on one line; a refusal keeps its reason alone
+  if (cancels && !(said && said.bad)){ const c = M().stoCancel; say(said ? c + (/。$/.test(c) ? '' : ' ') + said.text : c); }
   render();
 }
 
 const isPhone = () => window.matchMedia('(max-width:600px)').matches;
 let opener = null;
+// a tapped history line closes its sheet a moment later; a sheet opened or closed before then cancels that, and
+// sheetGen tells a close's delayed release whether another sheet has opened since
+let tapeClose = 0, sheetGen = 0;
 function openSheet(el, first, behind){
+  clearTimeout(tapeClose); sheetGen++;
   opener = document.activeElement;
   el.classList.add('open'); $('#scrim').classList.add('show');
   behind.inert = true;
@@ -3084,16 +3104,22 @@ function openTape(){
 // on a phone the sheet starts under the display, where that leaves it 300 px or more (not in landscape)
 function helpTop(){ const b = Math.round($('.display').getBoundingClientRect().bottom + 6);
   $('#help').style.setProperty('--top', b > 0 && innerHeight - b >= 300 ? b + 'px' : '12vh'); }
-function openHelp(){ helpTop(); $('#scrim').classList.add('lite'); openSheet($('#help'), $('#helpClose'), $('.page')); opener = $('.helpbtn'); }
+// while Help is open it follows the display: a message from inside it (wrap, another tab, the language) can grow it
+let helpWatch = null;
+function openHelp(){ helpTop(); $('#scrim').classList.add('lite'); openSheet($('#help'), $('#helpClose'), $('.page')); opener = $('.helpbtn');
+  if (window.ResizeObserver){ helpWatch = helpWatch || new ResizeObserver(() => { if ($('#help').classList.contains('open')) helpTop(); }); helpWatch.observe($('.display')); } }
 // hold: after a tapped history line the keys stay inert until the sheet has slid away, so a second tap
 // does not land on the key that comes out from under it
 function closeSheets(hold){
-  const was = sheetOpen(), op = opener;
+  clearTimeout(tapeClose);
+  const was = sheetOpen(), op = opener, gen = sheetGen;
   $('#tape').classList.remove('open'); $('#help').classList.remove('open'); $('#scrim').classList.remove('show', 'lite');
   $('#tape').removeAttribute('role'); $('#tape').removeAttribute('aria-modal');
   $('#tapeHandle').setAttribute('aria-expanded', 'false');
   $('.page').inert = false; opener = null;
-  const done = () => { $('.calc').inert = false; if (was && op && op.focus && op !== document.body) op.focus({preventScroll:true}); };
+  if (helpWatch) helpWatch.disconnect();
+  const done = () => { if (gen !== sheetGen) return;
+    $('.calc').inert = false; if (was && op && op.focus && op !== document.body) op.focus({preventScroll:true}); };
   // the slide takes .24 s; the hold runs past it to about .6 s after the tap, the window of a second tap
   if (hold === true) setTimeout(done, 440); else done();
 }
@@ -3122,10 +3148,12 @@ window.matchMedia('(max-width:600px)').addEventListener('change', unsheetTape);
 // keys: clicks, and holds for registers and C
 // held: the key whose hold has fired, until its own release click arrives, which is not a press. Nothing here depends on
 // how soon that click follows the release (touch clicks carry detail 0, and engines time them differently): held is
-// cleared by that click, by a release that leaves no click on the key, by the next press or key, or after a second
-let holdTimer = 0, held = null, heldTimer = 0;
-const unhold = () => { held = null; clearTimeout(heldTimer); };
-document.addEventListener('keydown', () => { if (held) unhold(); }, true);   // a keyboard press is never taken for a hold's click
+// cleared by that click, by a release that leaves no click on the key, by the next press, by a key once the holding
+// pointer (heldId) is up, or a second after that release. A key typed while it is still down stays: the release to come
+// is still the hold's own, and swallowing it keeps the key's digit, not the store's or the clear's value
+let holdTimer = 0, held = null, heldId = null, heldDown = false, heldTimer = 0;
+const unhold = () => { held = null; heldDown = false; clearTimeout(heldTimer); };
+document.addEventListener('keydown', () => { if (held && !heldDown) unhold(); }, true);   // a keyboard press is never taken for a hold's click
 document.querySelectorAll('[data-k]').forEach(b => {
   const k = b.dataset.k;
   const holdable = k.startsWith('reg:') || k === 'C';
@@ -3134,15 +3162,16 @@ document.querySelectorAll('[data-k]').forEach(b => {
     ev.preventDefault(); // keep focus off the keys, so Enter and Space stay calculator keys
     unhold();
     if (holdable){
+      const id = ev.pointerId;
       clearTimeout(holdTimer);
       holdTimer = setTimeout(() => {
-        held = b;
+        held = b; heldId = id; heldDown = true;
         if (navigator.vibrate) try { navigator.vibrate(12); } catch (e) {}
         press(k === 'C' ? 'AC' : 'store:' + k.slice(4));
       }, HOLD_MS);
     }
   });
-  b.addEventListener('pointerup', () => { clearTimeout(holdTimer); if (held === b){ clearTimeout(heldTimer); heldTimer = setTimeout(unhold, 1000); } });
+  b.addEventListener('pointerup', ev => { clearTimeout(holdTimer); if (held === b && ev.pointerId === heldId){ heldDown = false; clearTimeout(heldTimer); heldTimer = setTimeout(unhold, 1000); } });
   // a pan (pointercancel), or a pointer dragged off with its button still down, leaves no click on this key; a lifted
   // finger's pointerleave (buttons 0) comes before its click, so it leaves the hold to that click
   b.addEventListener('pointercancel', () => { clearTimeout(holdTimer); if (held === b) unhold(); });

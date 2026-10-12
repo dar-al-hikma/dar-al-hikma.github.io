@@ -81,6 +81,9 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
   A piece's manifest carries an explicit `id` of its own path (`"/reckoner/"`,
   say); the Takht's `"./"` resolves to the site root and is kept only because
   installed copies already carry it.
+- **A tab icon in the page.** Each page links its own small SVG icon as a `data:` URI in its
+  head: a mark in brass, with steel where it helps, on a `--void` tile with rounded corners.
+  Like the fonts, it needs no network.
 - **Transliteration goes in the display face.** IBM Plex has no `Ḥ ḥ ṣ ʿ ʾ`;
   EB Garamond does. Set any transliterated name in `var(--f-display)` so the
   whole phrase comes from one font.

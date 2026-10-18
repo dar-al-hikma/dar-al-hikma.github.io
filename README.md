@@ -1,6 +1,7 @@
 # Dār al-Ḥikma — دار الحكمة
 
-Small self-contained pieces, published at **<https://dar-al-hikma.github.io>**.
+Small self-contained pieces for students of Ben Dykes' *Traditional Natal Astrology Course*,
+made by one of them, published at **<https://dar-al-hikma.github.io>**.
 
 Each piece is one HTML file, with its fonts, styles and code inside it. No build
 step, no bundler, no framework, no tracking. Save one to disk and it still works.

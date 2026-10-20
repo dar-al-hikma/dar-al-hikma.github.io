@@ -1,6 +1,6 @@
 # Dār al-Ḥikma — دار الحكمة
 
-Small self-contained pieces for students of Ben Dykes' *Traditional Natal Astrology Course*,
+Small self-contained pieces for students of traditional astrology,
 made by one of them, published at **<https://dar-al-hikma.github.io>**.
 
 Each piece is one HTML file, with its fonts, styles and code inside it. No build
@@ -93,7 +93,7 @@ Slugs are lowercase and hyphenated; the folder name is the URL.
   to English. The choice is shared across the shelf under `localStorage["dah.lang"]`;
   until the reader makes one, the shelf and the pieces follow the browser's language.
   A term reads the same in every piece: [GLOSSARY.md](GLOSSARY.md) gives each
-  language's rendering, following the English of Dykes's course.
+  language's rendering.
 - **Dark palette**, shared across the shelf and the pieces:
   `--void:#070A12` · `--vellum:#EAE3D2` · `--brass:#E3AA3E` · `--steel:#7FB6E0`;
   secondary text `--muted-2:#7F879C`, at least 4.5:1 on the panels

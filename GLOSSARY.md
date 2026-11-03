@@ -170,6 +170,11 @@ language.
   **nb** Jadāwil *(proposed)* · **es** los jadāwil *(proposed)* · **fr** les Jadāwil *(proposed)* · **de** die Jadāwil *(proposed)* · **zh** Jadāwil 数表（行文作 Jadāwil） *(proposed)* · **ja** ジャダーウィル（数表） *(proposed)*
   *Not:* ja: `ジャダウィル`
 
+## K
+
+- **Khizāna, al-.** Arabic *al-khizāna*, the closed press or store-room of a library, where books were kept back from the open shelves; the gate to the shelf's pieces opened by a passphrase. Written *al-Khizāna*, lower-case *al-*, with الخزانة beside it.
+  **nb** al-Khizāna *(proposed)* · **es** al-Khizāna *(proposed)* · **fr** al-Khizāna *(proposed)* · **de** al-Khizāna *(proposed)* · **zh** al-Khizāna 书柜 *(proposed)* · **ja** アル・ヒザーナ（書庫） *(proposed)*
+
 ## L
 
 - **Latitude (ecliptic).** A planet's distance north or south of the ecliptic.

@@ -43,7 +43,7 @@ const code = f => read(f).replace(/^\s*var I18N = .*$/m, '').replace(/<link rel=
     for (const f of [`${LIVE}/index.html`, ...items.map(i => `${LIVE}/${i}/index.html`)]) {
       const h = read(f);
       check(`${f} is marked noindex`, /<meta name="robots" content="noindex, nofollow/.test(h));
-      check(`${f} holds ciphertext, not a page`, /<title>al-Khizāna<\/title>/.test(h) && (h.match(/<script>/g) || []).length === 1);
+      check(`${f} holds ciphertext, not a page`, /<title>al-Khizāna<\/title>/.test(h) && (h.match(/<script\b/gi) || []).length === 1);
     }
     check('the gate runs the same code as the fixture', code(`${LIVE}/index.html`) === code(`${FIX}/index.html`));
     for (const i of items) check(`${i} runs the same code as the fixture's item`, code(`${LIVE}/${i}/index.html`) === code(`${FIX}/a1/index.html`));

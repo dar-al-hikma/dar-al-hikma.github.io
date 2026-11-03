@@ -19,7 +19,7 @@ Deutsch, 简体中文 and 日本語.
 | [The Takht](https://dar-al-hikma.github.io/takht/) (تخت) | The calculator beside the three books |
 | [The Jadāwil](https://dar-al-hikma.github.io/jadawil/) (جداول) | The tables of a zīj, beside the Takht |
 | [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses |
-| [al-Khizāna](https://dar-al-hikma.github.io/khizana/) (الخزانة) | The closed press behind the shelf: pieces kept back, opened by a passphrase |
+| [al-Khizāna](https://dar-al-hikma.github.io/khizana/) (الخزانة) | The locked cabinet behind the shelf: pieces kept back, opened by a passphrase |
 
 ## Layout
 

@@ -1,6 +1,6 @@
 # al-Khizāna tests
 
-Checks for `khizana/`, the locked cabinet behind the shelf. Its pages hold only ciphertext, and the keys are never in this repository, so the live pages are tested locked (no key, a wrong key, a wrong passphrase). Everything that opens is tested on `fixture/`: a gate and an item made by the same encryptor with the keys in `fixture-keys.json`, which are published on purpose and open nothing else. The suite first checks that the live pages and the fixture run the same code. About forty checks; under a minute.
+Checks for `khizana/`, the collection the shelf opens by a passphrase. Its pages hold only ciphertext, and the keys are never in this repository, so the live pages are tested locked (no key, a wrong key, a wrong passphrase). Everything that opens is tested on `fixture/`: a gate and an item made by the same encryptor with the keys in `fixture-keys.json`, which are published on purpose and open nothing else. The suite first checks that the live pages and the fixture run the same code. About forty checks; under a minute.
 
 ## Running
 

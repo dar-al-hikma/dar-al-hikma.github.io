@@ -172,7 +172,7 @@ language.
 
 ## K
 
-- **Khizāna, al-.** Arabic *al-khizāna*, the locked cabinet or store-room of a library, where books were kept back from the open shelves; the gate to the shelf's pieces opened by a passphrase. Written *al-Khizāna*, lower-case *al-*, with الخزانة beside it.
+- **Khizāna, al-.** Arabic *al-khizāna*, the locked store-room of a library, where books were kept back from the open shelves; the gate to the shelf's collection opened by a passphrase. Written *al-Khizāna*, lower-case *al-*, with الخزانة beside it.
   **nb** al-Khizāna *(proposed)* · **es** al-Khizāna *(proposed)* · **fr** al-Khizāna *(proposed)* · **de** al-Khizāna *(proposed)* · **zh** al-Khizāna 书柜 *(proposed)* · **ja** アル・ヒザーナ（書庫） *(proposed)*
 
 ## L

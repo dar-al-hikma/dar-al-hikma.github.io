@@ -45,6 +45,7 @@ const PAGES = {
   'sayyids-orrery': ['sayyids-orrery/index.html', l => [new RegExp(`I18N\\.${l}\\s*=\\s*\\{`)]],
   'takht': ['takht/index.html', l => [new RegExp(`I18N\\.${l}\\s*=\\s*\\{`)]],
   'jadawil': ['jadawil/index.html', l => [new RegExp(`I18N\\.${l}\\s*=\\s*\\{`)]],
+  'khizana': ['khizana/index.html', l => [new RegExp(`"${l}":\\{`)]],
   'sayyids-sphere': ['sayyids-sphere/index.html', l => [new RegExp(`TX\\.${l}\\s*=\\s*\\{`), l === 'nb' ? /var STEP_NB\s*=\s*\[/ : new RegExp(`STEP_TX\\.${l}\\s*=\\s*\\[`)]],
 };
 const clean = s => s.replace(/<span class=\\?["']gloss\\?["'][^>]*>[\s\S]*?<\/span>/g, ' ').replace(/<[^>]+>/g, ' ');

@@ -16,7 +16,9 @@ function check(group, name, ok, detail) {
 async function group(name, fn) { try { await fn(name); } catch (e) { check(name, 'the group ran to the end', false, e.stack || e); } }
 
 // the pieces the shelf lists: their own titles are what the shelf must show
-const PIECES = ['sayyids-sphere', 'sayyids-orrery', 'reckoner', 'takht', 'jadawil', 'between-the-lines'];
+const PIECES = ['sayyids-sphere', 'sayyids-orrery', 'reckoner', 'takht', 'jadawil', 'between-the-lines', 'khizana'];
+// strings that are rightly the same as the English: a name kept in transliteration, and German's own word for a passphrase
+const SAME = { nb: ['khizana.name'], es: ['khizana.name'], fr: ['khizana.name'], de: ['khizana.name', 'tag.Passphrase'] };
 const tagsOf = s => (s.match(/<\/?[a-z][^>]*>/gi) || []).map(t => t.replace(/\s.*?(\/?)>$/, '$1>')).sort().join('');
 
 (async () => {
@@ -37,7 +39,7 @@ const tagsOf = s => (s.match(/<\/?[a-z][^>]*>/gi) || []).map(t => t.replace(/\s.
     for (const l of LANGS.slice(1)) {
       const T = (I18N || {})[l] || {}, keys = Object.keys(EN);
       const missing = keys.filter(k => !T[k] || !String(T[k]).trim()), extra = Object.keys(T).filter(k => !(k in EN));
-      const same = keys.filter(k => T[k] === EN[k]);
+      const same = keys.filter(k => T[k] === EN[k] && !(SAME[l] || []).includes(k));
       const html = keys.filter(k => T[k] && tagsOf(T[k]) !== tagsOf(EN[k]));
       const code = keys.filter(k => /undefined|NaN|\$\{|&[a-z]+;/.test(T[k] || ''));
       check(G, `${l}: every string translated, none empty, none unknown`, !missing.length && !extra.length, `missing ${missing} extra ${extra}`);

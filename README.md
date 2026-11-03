@@ -19,6 +19,7 @@ Deutsch, 简体中文 and 日本語.
 | [The Takht](https://dar-al-hikma.github.io/takht/) (تخت) | The calculator beside the three books |
 | [The Jadāwil](https://dar-al-hikma.github.io/jadawil/) (جداول) | The tables of a zīj, beside the Takht |
 | [Between the Lines](https://dar-al-hikma.github.io/between-the-lines/) | Interpolation in a table of houses |
+| [al-Khizāna](https://dar-al-hikma.github.io/khizana/) (الخزانة) | The closed press behind the shelf: pieces kept back, opened by a passphrase |
 
 ## Layout
 
@@ -50,6 +51,7 @@ appears anywhere. GitHub runs a suite on every pull request that touches its pag
 | [`tests/sayyids-orrery/`](tests/sayyids-orrery/) | 15 seconds |
 | [`tests/reckoner/`](tests/reckoner/) | 20 seconds |
 | [`tests/between-the-lines/`](tests/between-the-lines/) | 40 minutes |
+| [`tests/khizana/`](tests/khizana/) | under a minute |
 | [`tests/shelf/`](tests/shelf/) | a minute |
 | [`tests/glossary/`](tests/glossary/) | under a second |
 

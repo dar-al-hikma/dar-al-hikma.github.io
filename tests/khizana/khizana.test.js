@@ -74,7 +74,8 @@ const code = f => read(f).replace(/^\s*var I18N = .*$/m, '').replace(/<link rel=
       check('fixture: the item opens, replaces its shell, runs its script and leaves the address', s.title === 'Fixture page' && s.ran && s.ran.ran === 'yes' && !s.href.includes('#') && s.mode === 'CSS1Compat' && !s.shell, JSON.stringify(s));
       await t.page.reload(); await t.page.waitForTimeout(800);
       check('fixture: a reload in the tab opens it again', (await t.page.title()) === 'Fixture page');
-      await t.page.goto(F); await isOpen(t.page); await t.page.check('#remember');
+      await t.page.goto(F); await isOpen(t.page); await t.page.click('#forget');
+      await t.page.check('#remember'); await t.page.fill('#pass', K.passphrase); await t.page.click('#openBtn'); await isOpen(t.page);
       check('fixture: remembered, the keys are kept on the device', (await keys(t.page, 'localStorage')).length === 2);
       const u = await tab(t.ctx); await u.page.goto(F);
       check('fixture: a new tab then opens without a key', await isOpen(u.page));

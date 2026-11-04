@@ -80,7 +80,10 @@
   body.cjk .piece .sub{font-style:normal}
   .leave{display:grid;gap:.9rem;justify-items:start;border-top:1px solid var(--line-soft);padding-top:1.6rem}
   .leave .hint{max-width:40ch}
-  .leave button{font-family:var(--f-display);font-size:1.05rem;font-style:italic;font-weight:500;letter-spacing:.02em;text-transform:none}
+  /* a wink, not a confirmation: small, quiet, brass only on hover */
+  .leave button{font-family:var(--f-display);font-size:.8rem;font-style:italic;font-weight:500;letter-spacing:.02em;text-transform:none;
+    padding:.28rem .7rem;border-color:var(--line);color:var(--muted)}
+  .leave button:hover{border-color:var(--brass);color:var(--brass)}
   body.cjk .leave button{font-style:normal}
 </style>
 </head>
@@ -118,6 +121,7 @@
       </div>
       <p class="hint" data-i18n="hint">Five words. Spaces, hyphens and capitals don’t matter.</p>
       <label class="check"><input id="show" type="checkbox"> <span data-i18n="show">Show</span></label>
+      <label class="check"><input id="remember" type="checkbox"> <span data-i18n="remember">Remember on this device</span></label>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </form>
     <noscript><p class="lede">This collection needs JavaScript.</p></noscript>
@@ -128,7 +132,6 @@
     <h2 data-i18n="inpress">In the collection</h2>
     <ul class="shelf" id="list"></ul>
     <div class="leave">
-      <label class="check"><input id="remember" type="checkbox"> <span data-i18n="remember">Remember on this device</span></label>
       <button id="forget" type="button" aria-describedby="forgetNote" data-i18n="forget">Mischief managed</button>
       <p class="hint" id="forgetNote" data-i18n="forget.note">Closes the collection and forgets it on this device.</p>
     </div>
@@ -254,9 +257,8 @@ var KZ = (function () {
   function openWith(masterB64u) {
     return KZ.aesKey(KZ.fromB64(masterB64u)).then(function (k) { return KZ.open(k, GATE.list.iv, GATE.list.ct, GATE.list.aad); }).then(function (b) {
       LIST = JSON.parse(new TextDecoder().decode(b)); MASTER = masterB64u;
-      keep(remembered());
+      keep(remembered() || $('remember').checked); // the box is ticked, or not, at the passphrase
       render();
-      $('remember').checked = remembered();
       $('locked').hidden = true; $('opened').hidden = false; status(null);
     });
   }
@@ -273,9 +275,6 @@ var KZ = (function () {
     $('openBtn').disabled = true; status('opening');
     fromPassphrase(pass).then(openWith).then(function () { $('pass').value = ''; }, function () { status('wrong', true); })
       .then(function () { $('openBtn').disabled = false; });
-  });
-  $('remember').addEventListener('change', function () {
-    if ($('remember').checked) keep(true); else forget('localStorage');
   });
   $('forget').addEventListener('click', function () {
     forget('localStorage'); forget('sessionStorage');
